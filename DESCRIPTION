@@ -1,0 +1,40 @@
+Package: ToCS
+Title: Toxicokinetic Chemical Simulator
+Version: 0.0.0.9000
+Authors@R: 
+    person("Kristen", "Windoloski", , "kawindoloski@gmail.com", role = c("aut", "cre"))
+Description: A graphical user interface that utilizes the EPA's high-throughput 
+            toxicokinetics 'httk' R package to generate toxicokinetic ADME 
+            (absorption, distribution, metabolism, excretion) simulations, steady 
+            state concentrations, and common toxicokinetic (TK) parameters as well 
+            as perform in vitro in vivo extrapolation (IVIVE) for user-selected 
+            chemicals. Users select from the four main outputs described above, 
+            and then select all the input parameters and preferences. Once ready, 
+            they hit a 'run simulation' button and are able to download any 
+            outputted plots, tables, or input data.
+License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
+    license
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+Depends:
+    httk (>= 2.4.0)
+Imports: 
+    bslib,
+    cowplot,
+    DescTools,
+    dplyr,
+    forcats,
+    ggplot2,
+    gridExtra,
+    htmltools,
+    magrittr,
+    purrr,
+    scales,
+    shiny,
+    shinyjs,
+    stats
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr

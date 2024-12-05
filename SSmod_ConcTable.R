@@ -1,0 +1,59 @@
+
+###################################
+# UI - SS CONCENTRATION TABLE
+###################################
+
+SS_ConcTable_ui <- function(id){
+
+  htmltools::tagList(shiny::uiOutput(shiny::NS(id,"downloadSStable_cond")),
+                     shiny::uiOutput(shiny::NS(id,"downloadSStable_pars")),
+                     shiny::tableOutput(shiny::NS(id,"SStable")),
+                     shiny::textOutput(shiny::NS(id,"SStableCaption"))
+  )
+}
+
+###################################
+# SERVER - SS CONCENTRATION TABLE
+###################################
+
+SS_ConcTable_server <- function(id, ss_args){
+
+  shiny::moduleServer(id, function(input, output, session) {
+
+    #--- Reactive set to be used
+    sol <- shiny::reactive({ss_args()[[1]]})
+    pars <- shiny::reactive({ss_args()[[2]]})
+    runsim <- shiny::reactive({pars()[["runsim"]]})
+
+    #--- Outputs a table of the SS concentrations
+    output$SStable <- shiny::renderTable({
+      sol()[[1]]}, digits = 4, display = rep("fg", 3))
+
+    #--- Outputs table caption
+    output$SStableCaption <- shiny::renderText({
+      shiny::req(sol(), runsim())
+      paste("Table 1: Table of the long-term constant infusion (steady state) concentrations (",
+            pars()[["modelSSout_units"]], ") for the selected compounds. Compounds are arranged in ascending
+            order of their concentration values.", sep = "")})
+
+    #--- Creates download button
+    output$downloadSStable_cond <- shiny::renderUI({
+      shiny::req(sol(), runsim())
+      downloadButton(session$ns("downloadSS"), "Download Table 1")})
+
+    #--- Downloads SS table
+    output$downloadSS <- shiny::downloadHandler(
+      filename = function(){paste("SteadyStateData-",Sys.Date(),".csv", sep = "")},
+      content = function(file){write.csv(sol()[[1]], file)})
+
+    #--- Creates download button
+    output$downloadSStable_pars <- shiny::renderUI({
+      shiny::req(sol(), runsim())
+      downloadButton(session$ns("downloadSSpars"), "Download Simulation Parameters")})
+
+    #--- Downloads SS simulation parameters
+    output$downloadSSpars <- shiny::downloadHandler(
+      filename = function(){paste("SteadyStatePars-",Sys.Date(),".csv", sep = "")},
+      content = function(file){write.csv(sol()[[3]], file)})
+  })
+}
