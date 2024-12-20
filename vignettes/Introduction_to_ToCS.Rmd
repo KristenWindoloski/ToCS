@@ -56,6 +56,7 @@ The *General Parameters* tab acts as a home page for the GUI. The *Instructions*
   - Calculates the elimination rate, volume of distribution, and partition coefficients of the selected chemicals
   
 The module selected above then determines the available user selections in the remaining tabs as well as the layout of the output in the *Run Simulation* tab. Before moving on to the next page, the user must also specify the species they wish to simulate (choosing from human, rat, mouse, rabbit, or dog) and whether to substitute human in vitro data if animal in vitro data is not available within httk (though the animal's physiology will still be used). If the user selects *Human*, then the selection you make for the second drop down in the *Species* card will not make a difference, but you must select one. Once the user has selected options for all three drop down menus, then proceed to the *Model Specifications* tab.
+
 <br/><br/>
 
 ![The opening interface to the ToCS app.](GUI_Introduction_GenParsPage.png){width="100%"}

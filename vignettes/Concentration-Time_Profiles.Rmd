@@ -1,5 +1,7 @@
 ---
 title: "Concentration-Time Profile Simulation Examples"
+author: "Kristen Windoloski"
+date: "December 17, 2024"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Concentration-Time_Profiles}
@@ -10,11 +12,13 @@ vignette: >
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  message = FALSE,
+  warning = FALSE
 )
 ```
 
-If you have not read the *Introduction to the ToCS App* vignette, it is highly recommended to do so in order to get a general idea of the app's layout and obtain a detailed description of common features across all output modules. Users should also review the README file to set up the ToCS app if it is being loaded through your local R or RStudio application. This vignette assumes that you have access the ToCS app GUI already.
+If you have not already read the *Introduction to the ToCS App* vignette, it is highly recommended to do so in order to get a general idea of the app's layout and obtain a detailed description of common user inputs across all output modules. Users should also review the README file to set up the ToCS app if it is being loaded through your local R or RStudio application. This vignette assumes that you have access the ToCS app GUI already.
 
 ### Introduction
 
@@ -27,49 +31,55 @@ ToCS()
 
 This will open a pop up window with the app in it. If you're accessing ToCS on the web, then open the webpage. Your screen should look like this:
 
+<br/><br/>
+
 ![The opening interface to the ToCS app.](GUI_Introduction_GenParsPage.png){width="100%"}
+
+<br/><br/>
 
 # Example 1
 
-For this example, let's say we want to run a simulation that outputs concentration-time profiles for humans with 3 compounds: Abamectin, Ibuprofen, and .
+Let's say we want to run a simulation that outputs human concentration-time profiles over the course of one day for four compounds: Abamectin (CAS: 71751-41-2), Bisphenol-A (CAS: 80-05-7), Cyanazine (CAS: 21725-46-2), and Dimethoate (CAS: 60-51-5). The simulation will be for a single 5 mg/kg oral exposure of each compound and use the PBTK model without including in silico generated parameters.
 
 ### General Parameters Tab
 
-Since our main output we want is concentration-time profiles, we select *Concentration-time profiles* from the middle drop down menu. We select *Human* species and, while it does not matter in this scenario what we select for the second drop down in the *Species* card since we selected human species, we select *Yes* to use human in vitro data. You could also select *No* for human in vitro data as well and you should get the same output regardless. Thus, the first tab should look like the page below.
-
-<br/><br/>
-
-![The opening interface to the ToCS app.](GUI_CTP_GenParsPage.png){width="100%"}
-
-<br/><br/>
+Since the main output we want is concentration-time profiles, we select *Concentration-time profiles* from the drop down menu under the *Output* card. Under the *Species* card, we select *Human* species and, while it does not matter in this scenario what we select for the second drop down since we selected human species, we select *Yes* to use human in vitro data. We could also select *No* for human in vitro data as well and get the same output. Thus, the first tab should look like the page below.
 
 Now, we move on to the *Model Specifications* tab.
 
-### Model Specifications Tab
+<br/><br/>
 
-On the *Dosing* card, we leave the first two drop down menus as their default values. For the dosing frequency, we select *Single Dose* from the drop down menu. This prompts the appearance of a textbox where we can input the number of mg/kg to be administered. We change its value to 5 since we want a single 5 mg/kg dose administered. On the *Model* card, we select *pbtk* for the pbtk model on the *model* drop down menu. Since we do not want to use in silico generated parameters for this simulation, we select *No* for the second drop down menu under the *Model* card. Finally, since we only want to run our simulation for 1 day, we edit the bottom box in the *Model* card to be 1 instead of 10. Now the *Model Specifications* tab is completed and should look like the image below, so we can proceed to the *Compound Selection* tab.
+![A completed opening interface to the ToCS app.](GUI_CTP_GenParsPage.png){width="100%"}
 
 <br/><br/>
 
-![The model specifications tab for the pbtk model with a single oral dose of 1 mg/kg.](GUI_CTP_ModelSpecEx1.png){width="100%"}
+
+
+### Model Specifications Tab
+
+On the *Dosing* card, we leave the first two drop down menus as their default values. For the dosing frequency, we select *Single Dose* from the drop down menu. This prompts the appearance of a textbox where we can input the number of mg/kg to be administered. We change its value to 5 since we want a single 5 mg/kg exposure. On the *Model* card, we select *pbtk* for the pbtk model on the first drop down menu. Since we do not want to use in silico generated parameters for this simulation, we select *No* for the second drop down menu under the *Model* card. Finally, since we only want to run our simulation for one day, we edit the bottom box in the *Model* card to be 1 instead of the default value of 10. Now the *Model Specifications* tab is completed and should look like the image below, so we can proceed to the *Compound Selection* tab.
+
+<br/><br/>
+
+![The completed model specifications tab for the pbtk model with a single oral dose of 5 mg/kg.](GUI_CTP_ModelSpecEx1.png){width="100%"}
 
 <br/><br/>
 
 ### Compound Selection Tab
 
-Since we are looking for to simulate four compounds (Abamectin, bisphenol-a, cyanazine, and dimethoate), we try searching the preloaded compounds in the center column to see if the program is able to simulate those chemicals with the current data in httk. To see the preloaded compounds available, click on the empty box in the center column. We can see already from the drop down menu in the image below that Abamectin is available, so click that compound. 
+Since we want to simulate four compounds (abamectin, bisphenol-a, cyanazine, and dimethoate), we try searching the drop down menu under the *Preloaded Compounds* card to see if the program is able to simulate those chemicals with the current data in httk. To see the available compounds, click on the empty box in the center column. We can see already from the drop down menu in the image below that Abamectin is available, so we click that compound. Remember that the user can search for a compound by either its CAS number or chemical name.
 
 <br/><br/>
 
-![The opening interface to the ToCS app.](GUI_CTP_CompoundSelectEx1.png){width="100%"}
+![The compound selection tab's list of available preloaded compounds based on previous user selections.](GUI_CTP_CompoundSelectEx1.png){width="100%"}
 
 <br/><br/>
 
-By either scrolling or typing in the textbox, the names of the other three compounds are also available in the preloaded compounds list, so we select those. Then, we hit the *Load Compounds* button in the left column as shown in the image below before proceeding to the next tab.
+By either scrolling or typing in the textbox, we see that the names of the other three compounds are also available, so we select those. Since all of the compounds we need are available, we do not need to upload a CSV file under the *Uploaded Compounds* card and leave it untouched. So, we hit the *Load Compounds* button under the *Instructions* card as shown in the image below before proceeding to the next tab. 
 
 <br/><br/>
 
-![The opening interface to the ToCS app.](GUI_CTP_CompoundSelectEx1_Pic2.png){width="100%"}
+![The completed compound selection card for example 1.](GUI_CTP_CompoundSelectEx1_Pic2.png){width="100%"}
 
 <br/><br/>
 
@@ -80,15 +90,15 @@ For simplicity of this example, we will leave all selections and inputs on this 
 
 ### Run Simulation Tab
 
-All input selections are complete and the correct compounds appear under the *Selected Compounds* card. Therefore, we hit the *Run Simulation* button on the left side so ToCS can compute the solution. The output will appear in the *Results* window when complete.
+All input selections are complete and the correct compounds appear under the *Selected Compounds* card, as shown in the image below. Therefore, we hit the *Run Simulation* button under the *Actions* card so ToCS can compute the solution. The output will appear in the *Results* window when complete. Depending on the number of compounds selected to simulate, the results may take several seconds to populate.
 
 <br/><br/>
 
-![The opening interface to the ToCS app.](GUI_CTP_RunSimEx1_1.png){width="100%"}
+![The run simulations tab appearance before the "Run Simulation" button under the *Actions* card is clicked.](GUI_CTP_RunSimEx1_1.png){width="100%"}
 
 <br/><br/>
 
-The first drop down in the *Results* card shows the user the complete time course curves of all selected chemicals in all model compartments with the chemicals overlaying each other. The user has the option to download this plot figure by clicking *Download Figure 1*.
+The image below shows the first drop down in the *Results* card once the simulation is complete. The user sees the complete time course curves of all four chemicals in all model compartments overlaying each other. The legend for the figure is located in the bottom right corner, and a figure description describing the y-axis of each subplot is located below the figure. The user also has the option to download this figure by clicking *Download Figure 1*.
 
 <br/><br/>
 
@@ -96,7 +106,7 @@ The first drop down in the *Results* card shows the user the complete time cours
 
 <br/><br/>
 
-The second drop down in the *Results* card shows the user the same plots as seen in the drop down above, but with each compound on a separate plot. The user has the option to download all individual plots as a zip file.
+The second drop down in the *Results* card, as seen below, shows the user the same plots as seen in the first drop down tab but with each compound on a separate plot. The user has the option to download all individual plots as a zip file. A figure caption is also located under the very last plot in this tab.
 
 <br/><br/>
 
@@ -104,7 +114,7 @@ The second drop down in the *Results* card shows the user the same plots as seen
 
 <br/><br/>
 
-The third drop down in the *Results* card allows the user to download the time course simulation data that was used to generate the plots in the two drop downs above. The user can also download all of the inputted simulation parameters as well as the chemical data used in the simulations.
+The third drop down in the *Results* card allows the user to download the time course simulation data that was used to generate the plots in the two drop downs above. The user can also download all of the inputted simulation parameters as well as the chemical data used in the simulations. The interface with these two download buttons in shown below.
 
 <br/><br/>
 
@@ -112,42 +122,189 @@ The third drop down in the *Results* card allows the user to download the time c
 
 <br/><br/>
 
-Opening the bottom drop down in the *Results* card shows a toxicokinetic summary including the Tmax, Cmax, and AUC of all simulated compounds within each model compartment. The table is available for download if the user clicks *Download Table 1*.
+Opening the bottom drop down in the *Results* card shows a toxicokinetic summary including the Tmax (time to maximal concentration), Cmax (maximal concentration), and AUC (area under the curve) of all simulated compounds within each model compartment. The table is available for download if the user clicks *Download Table 1*.
 
 <br/><br/>
 
-![The TK Summary drop down results.](GUI_CTP_RunSimEx1_5.png){width="100%"}
+![The toxicokinetic (TK) summary drop down table.](GUI_CTP_RunSimEx1_5.png){width="100%"}
 
 <br/><br/>
 
-If we wanted to run another simulation, we would click *Reset Session*, which would clear all parameter inputs and bring us back to the *General Parameters* tab.
+If we wanted to run another simulation, we would click the *Reset Session* button under the *Actions* button, which would clear all parameter inputs and simulations and return the interface to the *General Parameters* tab.
 
-<!-- # Example 2 -->
+<br/><br/>
 
-<!-- ### General Parameters Tab -->
 
-<!-- As with example 1, we select *Concentration-time profiles* as the desired output. However this time, we select *Rat* species. Now this time, let's say we only want to use rat in vitro data instead of using human in vitro data for compounds missing rat data. Thus, we select *No* for the second drop down menu. The first tab should look like the page below. -->
 
-<!-- ![The opening interface to the ToCS app.](GUI_CTP_GenParsPageEx2.png){width="100%"} -->
+# Example 2
 
-<!-- ### Model Specifications Tab -->
+Let's say we want to run a simulation that outputs rat concentration-time profiles over the course of three days for five compounds: Valproic Acid (CAS: 99-66-1), Benzoic Acid (CAS: 65-85-0), Ethanol (CAS: 64-17-5), Titanium Dioxide (CAS: 13463-67-7), and Advantame (CAS: 714229-20-6). The simulation will be for three oral exposures a day every eight hours of 2 mg/kg each for each compound. We will use the 3-compartment model without including in silico generated parameters.
 
-<!-- ![The opening interface to the ToCS app.](GUI_CTP_ModelSpecEx2.png){width="100%"} -->
+### General Parameters Tab
 
-<!-- ### Compound Selection Tab -->
+As with example 1, we select *Concentration-time profiles* as the desired output under the *Output* card. This time, however, we select *Rat* species for the first drop down under the *Species* card. Let's say that, in this example, we only want to use rat in vitro data instead of using human in vitro data for compounds missing rat data. Thus, we select *No* for the second drop down menu under the *Species* card. The first tab should now look like the page below.
 
-<!-- ![The opening interface to the ToCS app.](GUI_CTP_CompoundSelectEx2.png){width="100%"} -->
+<br/><br/>
 
-<!-- ### Advanced (Optional) Parameters Tab -->
+![The opening interface to the ToCS app for example 2.](GUI_CTP_GenParsPageEx2.png){width="100%"}
 
-<!-- ### Run Simulation Tab -->
+<br/><br/>
 
-<!-- ## Example 3 -->
+### Model Specifications Tab
 
-<!-- ### Model Specifications Tab -->
+On the *Dosing* card, we again leave the first two drop down menus at their default selections. For the dosing frequency (third) drop down menu, we select *Multiple Doses*. A fourth drop down menu will then appear asking whether we want the multiple doses to be evenly distributed throughout the day. Since we want to administer a 2 mg/kg dose every 8 hours, we select *Yes* from the drop down menu. Finally, two additional user options appear. The first one asks the user to specify the amount of chemical exposure per administration, and so we enter 2 into the box. The second one is a slider that has the user specify the frequency of the dose, and so we move the slider to 8 hours.
 
-<!-- ### Compound Selection Tab -->
+On the *Model* card, we select *3compartment* model under the first drop down menu. For the second drop down menu, we select *No* since we do not want to use in silico generated parameters. Finally, we enter *3* in the final box under the *Model* card since we want to runt the simulation for three days. Therefore, the final interface of the *Model Specifications* tab should look like the image below.
 
-<!-- ### Advanced (Optional) Parameters Tab -->
+![The opening interface to the ToCS app.](GUI_CTP_ModelSpecEx2.png){width="100%"}
 
-<!-- ### Run Simulation Tab -->
+### Compound Selection Tab
+
+We first try to search for the compounds we desire to simulate through the drop down menu under the *Preloaded Compounds* card. Typing in the chemical names or CAS numbers shows that three of the five desired chemicals (valproic acid, benzoic acid, ethanol) are present on the preloaded compounds list and two chemicals are not (titanium dioxide and advantame). Therefore, we select valproic acid, benzoic acid, and ethanol on the *Preloaded Compounds* card and will have to upload the remaining two compounds under the *Uploaded Compounds* card. To get the chemical information for titanium dioxide and advantame into the program, we copy the SampleCSV file in the *Uploaded Compound File Folder* under the *Instructions* card and enter the appropriate chemical information for each compound. See the *Introduction to ToCS* vignette for more information on upload instructions. For the purpose of this example, we use fake chemical data and upload the following csv file by clicking *Browse* under the *Uploaded Compounds* card.
+
+<br/><br/>
+
+```{r echo = FALSE, results='asis'}
+library(knitr)
+library(kableExtra)
+SampleChemsToUpload <- read.csv("CSV_CTPvignette.csv")
+kable(SampleChemsToUpload, caption = "A csv file with chemical information for titanium dioxide and advantame. Data other than the chemical identifiers and molecular weight (MW) are fictional.") %>%    kable_styling() %>%
+  scroll_box(width = "100%")
+```
+
+<br/><br/>
+
+Once we have the three compounds selected under the *Preloaded Compounds* card and the two compounds uploaded under the *Uploaded Compounds* card (with the csv file name CSV_CTPvignette.csv), we then hit the *Load Compounds* button and proceed to the next tab. The final *Compound Selection* tab should look like the image below.
+
+<br/><br/>
+
+![The completed compound selection tab for example 2.](GUI_CTP_CompSelectEx2.png){width="100%"}
+
+<br/><br/>
+
+### Advanced (Optional) Parameters Tab
+
+Suppose that we want to customize parameters other than just the basic simulation information needed. For this example, let's say we want to change the starting amount of each compound in the gut lumen and gut to be 10 umol instead of 0 umol. Thus, we would select the *Yes, enter my own initial amounts* under the first drop down menu in the *Model Conditions* card. Then, an additional seven text boxes would appear under this drop down. Since we only want to change the amounts in the gut lumen and gut, we change the first two text boxes to be 10 instead of 0. There are no other changes we want to make, so we leave the remaining selections as is and proceed to the final tab, *Run Simulation*. The completed advanced parameters page should look like the image below.
+
+<br/><br/>
+
+![The completed advanced parameters tab for example 2.](GUI_CTP_AdvParEx2.png){width="100%"}
+
+<br/><br/>
+
+### Run Simulation Tab
+
+Now that we've filled out all simulation information and the correct compounds appear under the *Selected Compounds* card as shown in the image below, we are ready to run the simulation. Thus, we click the *Run Simulation* button under the *Actions* card.
+
+<br/><br/>
+
+![The run simulation tab before the simulation is run for example 2.](GUI_CTP_RunSimEx2_1.png){width="100%"}
+
+<br/><br/>
+
+The image of the completed simulation is shown below. The first tab illustrates the time course plots of all five compounds for each model compartment. The user has the option to download the plot by clicking *Download Figure 1*.
+
+<br/><br/>
+
+![The multi-curve time course plot for example 2.](GUI_CTP_RunSimEx2_2.png){width="100%"}
+
+<br/><br/>
+
+The second the individual plots by clicking the *Download Individual Compound Plots* button, where all the plots will download within a zip file.
+
+<br/><br/>
+
+![The individual time course plots for example 2.](GUI_CTP_RunSimEx2_3.png){width="100%"}
+
+<br/><br/>
+
+The final image below shows the user's option to download the simulation results as well as the simulation parameters used to generate the solution. The fourth drop down tab shows a table of simulation summary statistics for each compound in each model compartment. The user has the option to download the table by clicking the *Download Table 1*.
+
+<br/><br/>
+
+![The time course data download and TK summary data tabs for example 2.](GUI_CTP_RunSimEx2_4.png){width="100%"}
+
+<br/><br/>
+
+As with Example 1, we suggest that the user clicks the *Reset Session* button under the *Actions* card if the user wishes to run a new simulation.
+
+
+## Example 3
+
+Let's say we want to run a simulation that outputs rat concentration-time profiles for two days for three compounds: Docusate sodium (CAS: 577-11-7), Phenol (CAS: 108-95-2), and Potassium Benzoate (CAS: 582-25-2). The simulation will be for three oral exposures a day, but the exposures will happen at hours 0, 6, and 12 every day and will be 1 mg/kg each at hours 0 and 6 and 0.2 mg/kg at hour 12. We will use the 1-compartment model and include in silico generated parameters. We would like the output at every hour during the simulation.
+
+### General Parameters Tab
+
+As with the previous examples, we select *Concentration-time profiles* as the desired output under the *Output* card. As with example 2, we select *Rat* species for the first drop down under the *Species* card. Now since we are okay with substituting human in vitro data for compounds missing rat data, we select *Yes* for the second drop down menu under the *Species* card. The first tab should now look like the page below.
+
+<br/><br/>
+
+![The completed model specifications tab for example 3.](GUI_CTP_GenParsEx3.png){width="100%"}
+
+<br/><br/>
+
+### Model Specifications Tab
+
+Under the *Dosing* card, we keep the first two drop downs on their default values. Under the third drop down, we select *Multiple Doses* since we want to give three doses per day. Then, since the doses we want to give are not evenly distributed throughout the day, we select *No* for the resulting drop down menu. Finally, a fifth box appears where we will enter our dosing regime. We enter all of the times we want to administer the compounds first, then list the amount of compound at each dosing time directly after. Since we want to administer the compounds at hours 0, 6, and 12 each day for two days, the first part of the list we enter is *0, 0.25, 0.5, 1, 1.25, 1.5*. Then, the second part of the list is comprised of the dosing amounts, which are 1 mg/kg for the first two doses of the day and then 0.2 mg/kg for the last dose of each day, so we enter *1, 1, 0.2, 1, 1, 0.2* as the second part of the list.
+
+Under the *Model* card, we select *1compartment* for the first drop down menu. For the second drop down menu, we select *Yes* since we want to include in silico generated parameters into the compound list. Finally, we enter *2* into the last box under the *Model* card since we want to run the simulation for two days. The completed *Model Specification* card should appear the same as the image below.
+
+<br/><br/>
+
+![The completed model specifications tab for example 3.](GUI_CTP_ModelSpecEx3.png){width="100%"}
+
+<br/><br/>
+
+### Compound Selection Tab
+
+Because we are loading all in silico generated parameters into ToCS, the *Preloaded Compounds* card will take a few moments to load. When it loads, we can type in the compound name or CAS number for each compound into the search bar and select all three compounds. Then, we click the *Load Compounds* button under the *Instructions* card. The completed *Compound Selection* tab should look like the image below.
+
+<br/><br/>
+
+![The completed compound selection tab for example 3.](GUI_CTP_CompSelectEx3.png){width="100%"}
+
+<br/><br/>
+
+Note that if under the *General Parameters* tab we selected *No* for using human in vitro data in place of missing rat in vitro data, then docusate sodium and potassium benzoate would not be available for simulation since they do not have rat in vitro data.
+
+### Advanced (Optional) Parameters Tab
+
+Since we want to customize the times that the solution is outputted, we add a list of output times (in days) to the textbox under the *Output Specification* card on the right of the page. Each time should be separated by a comma, and we can enter times as either whole numbers, decimals, or fractions. Since there are no other customizations we want to make, the completed *Advanced Parameters* tab should look like the image below.
+
+<br/><br/>
+
+![The completed advanced parameters tab for example 3.](GUI_CTP_AdvParsEx3.png){width="100%"}
+<!-- 0,1/24,2/24,3/24,4/24,5/24,0.25,7/24,8/24,9/24,10/24,11/24,0.5,13/24,14/24,15/24,16/24,17/24,0.75,19/24,20/24,21/24,22/24,23/24,1,25/24,26/24,27/24,28/24,29/24,1.25,31/24,32/24,33/24,34/24,35/24,1.5,37/24,38/24,39/24,40/24,41/24,1.75,43/24,44/24,45/24,46/24,47/24,2 -->
+
+<!-- 0,0.25,0.5,1,1.25,1.5,1,1,0.2,1,1,0.2 -->
+
+<br/><br/>
+
+
+### Run Simulation Tab
+
+Now that all previous tabs are completed and the three compounds we want to simulate are shown under the *Selected Compounds* card, we hit *Run Simulation* under the *Actions* card. When the simulation is complete, it should show the image below. This shows all three simulated compounds overlaying each other for each model compartment with the solution plotted for the times we specified on the previous tab (every hour). The user has the option to download the figure by clicking the *Download Figure 1* button at the top of the drop down menu.
+
+<br/><br/>
+
+![The multi-curve time course plot tab results for example 3.](GUI_CTP_RunSimEx3_2.png){width="100%"}
+
+<br/><br/>
+
+Below, we see the results for the individual time course plots drop down menu. The user has the option to download all indvidual plots as a zip file by clicking the *Download Individual Time Course Plots* button.
+
+<br/><br/>
+
+![The individual time course plots tab results for example 3.](GUI_CTP_RunSimEx3_3.png){width="100%"}
+
+<br/><br/>
+
+The two final tabs shown in the image below give the user the options to download the outputted simulation data, the simulation parameters, and a toxicokinetic summary including Tmax, Cmax, and AUC data for each compound within each model compartment.
+
+<br/><br/>
+
+![The time course data and TK summary data tab results for example 3.](GUI_CTP_RunSimEx3_4.png){width="100%"}
+
+<br/><br/>
+
+As with previous examples, we suggest that the user clicks the *Reset Session* button under the *Actions* card if the user wishes to run a new simulation.
