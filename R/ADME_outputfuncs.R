@@ -205,7 +205,7 @@ modsol <- function(pars){
   # Get row, column, and page dimensions for arrays used to store solutions
   n <- nrow(pars[["CompoundList"]])
 
-  print(typeof(pars[["initvals"]]))
+  print(pars)
 
   # --- Solve model for each compound
   for (i in (1:n)) {
@@ -311,7 +311,12 @@ modsol <- function(pars){
                         overwrite.invivo = pars[["caco_overwriteinvivo"]],
                         keepit100 = pars[["caco_keep100"]])
 
-  chemdata <- httk::chem.physical_and_invitro.data[httk::chem.physical_and_invitro.data$Compound %in% pars[["CompoundList"]][,1],]
+  print(pars[["CompoundList"]][,1])
+
+  chemdata <- chem.physical_and_invitro.data[chem.physical_and_invitro.data$Compound %in% pars[["CompoundList"]][,1],]
+  chemdata <- chemdata[order(match(chemdata$Compound,pars_df$chem.name)),]
+  print(chemdata$Compound)
+
   pars_df <-cbind(pars_df,chemdata)
 
   # --- Create list with all outputs

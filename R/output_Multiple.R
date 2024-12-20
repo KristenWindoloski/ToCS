@@ -78,7 +78,7 @@ UpdatePars <- function(pars){
   #----- GENERAL PARAMETERS
   #---------------------------
 
-  if (pars[["defaulttoHuman"]] == "Yes, use human values"){
+  if (pars[["defaulttoHuman"]] == "Yes"){
     pars[["defaulttoHuman"]] <- TRUE
   }
   else{
@@ -101,9 +101,9 @@ UpdatePars <- function(pars){
   pars[["dosinginfo"]] <- DosingPar(pars[["dosenum"]],
                                     pars[["initdose"]],
                                     pars[["multdose"]],
-                                    pars[["multdosetime"]],
-                                    pars[["multdoseamount"]],
-                                    pars[["multdoseodd"]])
+                                    pars[["mult_dosetime"]],
+                                    pars[["mult_doseamount"]],
+                                    pars[["multdose_odd"]])
 
   # --- RETURN IVIVE SAMPLES
   if (pars[["returnsamples"]] == "Only return a specified dose quantile (default)"){
@@ -218,7 +218,10 @@ UpdatePars <- function(pars){
     out_times <- seq(13*7, 40*7, signif(1/(96), round(-log10(1e-4)-1))) #only runs weeks 13-40 of gestation
   }
   else{
-    out_times <- as.numeric(unlist(strsplit(pars[["returntimes"]],",")))
+    v1 <- unlist(strsplit(pars[["returntimes"]],","))
+    out_times <- sapply(v1, function(x) eval(parse(text = x)))
+    print(out_times)
+    # out_times <- as.numeric(unlist(strsplit(pars[["returntimes"]],",")))
   }
   pars[["returntimes"]] <- unique(c(out_times,pars[["simtime"]]))
 
@@ -237,12 +240,11 @@ UpdatePars <- function(pars){
 
 InitVals_Par <- function(model,ICopts,pars){
 
-  print(pars)
   if (model == "1compartment") {
 
     CompNames <- c("Agutlumen","Acompartment","Ametabolized","AUC")
     if(ICopts == "Yes, enter my own initial amounts"){
-      InitVals <- stats::setNames(c(pars[24:27]), CompNames)}
+      InitVals <- stats::setNames(unlist(pars[24:27]), CompNames)}
     else{
       InitVals <- stats::setNames(rep(0,4), CompNames)}
   }
@@ -253,7 +255,7 @@ InitVals_Par <- function(model,ICopts,pars){
 
     CompNames <- c("Aintestine","Aportven","Aliver","Asyscomp","Ametabolized","Atubules","AUC")
     if (ICopts == "Yes, enter my own initial amounts"){
-      InitVals <- stats::setNames(c(pars[28:34]), CompNames)}
+      InitVals <- stats::setNames(unlist(pars[28:34]), CompNames)}
     else{
       InitVals <- stats::setNames(rep(0,7), CompNames)}
   }
@@ -261,7 +263,7 @@ InitVals_Par <- function(model,ICopts,pars){
 
     CompNames <- c("Agutlumen","Agut","Aliver","Aven","Alung","Aart","Arest","Akidney","Atubules","Ametabolized","AUC")
     if (ICopts == "Yes, enter my own initial amounts"){
-      InitVals <- stats::setNames(c(pars[35:45]), CompNames)}
+      InitVals <- stats::setNames(unlist(pars[35:45]), CompNames)}
     else {
       InitVals <- stats::setNames(rep(0,11), CompNames)}
   }
@@ -270,7 +272,7 @@ InitVals_Par <- function(model,ICopts,pars){
     CompNames <- c("Agutlumen", "Agut", "Aliver", "Aven", "Alung", "Aart", "Aadipose", "Arest", "Akidney", "Atubules", "Ametabolized", "AUC", "fAUC", "Athyroid",
                    "Aplacenta", "Afgut", "Aflung", "Afliver", "Afven", "Afart", "Afrest", "Afthyroid", "Afkidney", "Afbrain")
     if (ICopts == "Yes, enter my own initial amounts"){
-      InitVals <- stats::setNames(c(pars[46:68]), CompNames)}
+      InitVals <- stats::setNames(unlist(pars[46:68]), CompNames)}
     else{
       InitVals <- stats::setNames(rep(0,24), CompNames)}
   }

@@ -169,7 +169,7 @@ getCASnums <- function(func,species,model,defaulttohuman){
                                 model = model,
                                 default.to.human = defaulttohuman)
 
-  if (func == "Parameter calculations"){
+  if (func == "Parameter calculations" || (func == "Steady state concentrations" && model == "1compartment")){
     CASnums_3compss <- httk::get_cheminfo(species = species,
                                           model = "3compartmentss",
                                           default.to.human = defaulttohuman)

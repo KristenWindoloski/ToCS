@@ -96,7 +96,7 @@ StorePars_PC <- function(pars){
                         minimum.Funbound.plasma = pars[["min_fub"]],
                         alpha = pars[["AlphaPar"]])
 
-  chemdata <- httk::chem.physical_and_invitro.data[httk::chem.physical_and_invitro.data$Compound %in% pars[["CompoundList"]][,1],]
+  chemdata <- chem.physical_and_invitro.data[chem.physical_and_invitro.data$Compound %in% pars[["CompoundList"]][,1],]
   pars_df <-cbind(pars_df,chemdata)
 }
 

@@ -110,7 +110,7 @@ StorePars_SS <- function(pars){
                     minimum.Funbound.plasma = pars[["min_fub"]],
                     regression = pars[["regression"]])
 
-  chemdata <- httk::chem.physical_and_invitro.data[httk::chem.physical_and_invitro.data$Compound %in% pars[["CompoundList"]][,1],]
+  chemdata <- chem.physical_and_invitro.data[chem.physical_and_invitro.data$Compound %in% pars[["CompoundList"]][,1],]
   out <-cbind(out,chemdata)
 }
 
