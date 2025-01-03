@@ -9,10 +9,12 @@ IVIVEsol <- function(pars){
   # --- PROCESS BIOACTIVE CONCENTRATIONS FILE
   file <- pars[["BioactiveFile"]]
   bioactive <- read.csv(file$datapath)
+  print(bioactive)
 
   # --- REARRANGE ROWS OF BIOACTIVE FILE TO BE IN SAME ORDER AS COMPOUNDS FILE
     # --- CONVERT BIOACTIVE CONCENTRATION IF HONDA1 IS SELECTED
   bioactive_conc <- bioactive[match(pars[["CompoundList"]][,1], bioactive$ChemicalName),]
+  print(bioactive_conc)
   bioactive_conc <- ConvertBioactive(pars,bioactive_conc)
 
   # --- EXTRACT DIMENSIONS NEEDED FOR SOLUTION
@@ -21,20 +23,21 @@ IVIVEsol <- function(pars){
   # --- SET OUTPUT TYPE AND SIZE: DATA FRAME (return.samples = FALSE) OR ARRAY (return.samples = TRUE)
   if (pars[["returnsamples"]] == FALSE){
 
-    sol <- data.frame(CompoundName = pars[["CompoundList"]][,1], AED = rep(0,n))
+    sol <- data.frame(CompoundName = pars[["CompoundList"]][,1], OED = rep(0,n))
   }
   else if (pars[["returnsamples"]] == TRUE) {
 
     # --- CREATE ARRAY WITH 1ST ROW BEING 5TH DOSE OED AND 3-END ROWS BEING SAMPLES
     sol <- array(data = rep(0,n*(pars[["samples"]]+2)),
                  dim = c(pars[["samples"]]+2,n))
-    dimnames(sol) <- list(c("AED_5","Samples",seq(1,pars[["samples"]])),
+    dimnames(sol) <- list(c("OED_5","Samples",seq(1,pars[["samples"]])),
                           pars[["CompoundList"]][,1])
   }
 
-  # --- Generate AED solution for each chemical
+  # --- Generate OED solution for each chemical
   for (i in 1:n) {
 
+    print(bioactive_conc)
     OED <- CalcOED(i,pars,bioactive_conc)
 
     if (pars[["returnsamples"]] == FALSE){
@@ -47,6 +50,7 @@ IVIVEsol <- function(pars){
       sol[1,i] <- signif(bioactive_conc[i,3]/q, digits = 4)
       sol[2,i] <- NA
       sol[seq(3,pars[["samples"]]+2),i] <- OED
+      print(sol)
     }
   }
 
@@ -85,8 +89,7 @@ CalcOED <- function(i,pars,bioactive_df){
                                   parameterize.arg.list = list(default.to.human = pars[["defaulttoHuman"]],
                                                                minimum.Funbound.plasma = pars[["min_fub"]],
                                                                regression = pars[["regression"]]),
-                                  samples = pars[["samples"]],
-                                  suppress.messages = TRUE)
+                                  samples = pars[["samples"]])
 }
 
 ConvertBioactive <- function(pars,bioactive_df){
@@ -167,15 +170,15 @@ log10breaks_IVIVE <- function(ydata) {
 }
 
 ######################################################
-# --- CREATE SCATTER PLOT OF AED VALUES
+# --- CREATE SCATTER PLOT OF OED VALUES
 ######################################################
 
 IVIVEplotting <- function(OED_data,BioactiveConc,pars,logscale){
 
   # --- SET PLOT LABEL NAMES
   plt_labels <- IVIVEplot_labels(pars)
-  y_exp <- plt_labels[[1]]
-  title_exp <- plt_labels[[2]]
+  y_exp <- plt_labels[[2]]
+  title_exp <- plt_labels[[1]]
 
   if (pars[["returnsamples"]] == FALSE){
 
@@ -184,38 +187,44 @@ IVIVEplotting <- function(OED_data,BioactiveConc,pars,logscale){
     OED_data$CompoundName <- factor(OED_data$CompoundName, levels = OED_data$CompoundName)
 
     # --- PLOT SCATTER PLOT OF ALL OED VALUES
-    plt <- ggplot2::ggplot(OED_data, aes(x = CompoundName, y = OED)) +
+    plt <- ggplot2::ggplot(OED_data, ggplot2::aes(x = CompoundName, y = OED)) +
       ggplot2::geom_point(size = 4) +
       ggplot2::labs(x = "Compounds", y = y_exp, title = title_exp) +
       ggplot2::theme_bw(base_size = 18) +
-      ggplot2::theme(axis.text.x = element_text(angle = 45, hjust = 0.5, vjust = 0.5),
-                     plot.title = element_text(hjust = 0.5))
+      ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 0.5, vjust = 0.5),
+                     plot.title = ggplot2::element_text(hjust = 0.5))
 
   }
   else if (pars[["returnsamples"]] == TRUE){
 
-    # --- CREATE DATA FRAME FOR AED SAMPLES TO PLOT
+    # --- CREATE DATA FRAME FOR OED SAMPLES TO PLOT
     plt_df_list <- Plotdf_Prep(OED_data,pars)
     OEDSamples_df <- plt_df_list[[1]]
     Q5_OED_df <- plt_df_list[[2]]
 
-    # --- PLOT AED SAMPLES
-    plt <- ggplot2::ggplot(OEDSamples_df, aes(x = CompoundName, y = OED)) +
+    # --- PLOT OED SAMPLES
+    plt <- ggplot2::ggplot(OEDSamples_df, ggplot2::aes(x = CompoundName, y = OED)) +
       ggplot2::geom_boxplot() +
-      ggplot2::geom_point(data = Q5_OED_df, aes(x = CompoundName, y = OED), color = 'red', size = 4)+
+      ggplot2::geom_point(data = Q5_OED_df, ggplot2::aes(x = CompoundName, y = OED), color = 'red', size = 4)+
       ggplot2::labs(x = "Compounds", y = y_exp, title = title_exp) +
       ggplot2::theme_bw(base_size = 18) +
-      ggplot2::theme(axis.text.x = element_text(angle = 45, hjust = 0.5, vjust = 0.5),
-                     plot.title = element_text(hjust = 0.5))
+      ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 0.5, vjust = 0.5),
+                     plot.title = ggplot2::element_text(hjust = 0.5))
   }
 
   # --- PLOT Y-AXIS ON LOG SCALE IF DESIRED
   if (logscale == TRUE){
+
+    if (pars[["returnsamples"]] == TRUE){
+      break_seq <- log10breaks_IVIVE(OEDSamples_df$OED)
+    }
+    else{
       break_seq <- log10breaks_IVIVE(OED_data$OED)
-      plt <- plt +
-        ggplot2::scale_y_log10(breaks = break_seq,
+    }
+     plt <- plt +
+       ggplot2::scale_y_log10(breaks = break_seq,
                                labels = scales::trans_format("log10", scales::math_format(10^.x))) +
-        ggplot2::annotation_logticks(sides = "l")
+       ggplot2::annotation_logticks(sides = "l")
   }
   return(plt)
 }
