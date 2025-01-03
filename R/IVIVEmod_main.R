@@ -10,8 +10,8 @@ IVIVE_ui <- function(id) {
   # 2) IVIVE AED DOSE PLOT WITH DOWNLOAD FIGURE OPTION
   ####################################################################################
 
-  bslib::accordion(bslib::accordion_panel("Administered Equivalent Dose Table", IVIVE_Table_ui(shiny::NS(id,"IVIVE_table"))),
-                   bslib::accordion_panel("Administered Equivalent Dose Plot", IVIVE_Plot_ui(shiny::NS(id,"IVIVE_plot")))
+  bslib::accordion(bslib::accordion_panel("Oral Equivalent Dose Table", IVIVE_Table_ui(shiny::NS(id,"IVIVE_table"))),
+                   bslib::accordion_panel("Oral Equivalent Dose Plot", IVIVE_Plot_ui(shiny::NS(id,"IVIVE_plot")))
   )
 
 }
