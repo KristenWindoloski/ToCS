@@ -6,7 +6,7 @@
 ADME_TKTable_ui <- function(id){
 
   htmltools::tagList(shiny::uiOutput(shiny::NS(id,"downloadtk_cond")),
-                     shiny::tableOutput(shiny::NS(id,"tksummary")),
+                     DT::DTOutput(shiny::NS(id,"tksummary")),
                      shiny::textOutput(shiny::NS(id,"tksummaryCaption"))
   )
 }
@@ -25,8 +25,8 @@ ADME_TKTable_server <- function(id,adme_args){
     runsim <- shiny::reactive({pars()[["runsim"]]})
 
     #--- Outputs table of TK summary data
-    output$tksummary <- shiny::renderTable({
-      sol()[[2]]}, digits = 4, rownames = TRUE)
+    output$tksummary <- DT::renderDT({
+      sol()[[2]]}, options = list(scrollX = TRUE, scrollY = TRUE))
 
     #--- Outputs caption of table
     output$tksummaryCaption <- shiny::renderText({

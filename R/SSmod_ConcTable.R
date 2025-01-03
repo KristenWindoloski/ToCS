@@ -7,7 +7,7 @@ SS_ConcTable_ui <- function(id){
 
   htmltools::tagList(shiny::uiOutput(shiny::NS(id,"downloadSStable_cond")),
                      shiny::uiOutput(shiny::NS(id,"downloadSStable_pars")),
-                     shiny::tableOutput(shiny::NS(id,"SStable")),
+                     DT::DTOutput(shiny::NS(id,"SStable")),
                      shiny::textOutput(shiny::NS(id,"SStableCaption"))
   )
 }
@@ -26,8 +26,8 @@ SS_ConcTable_server <- function(id, ss_args){
     runsim <- shiny::reactive({pars()[["runsim"]]})
 
     #--- Outputs a table of the SS concentrations
-    output$SStable <- shiny::renderTable({
-      sol()[[1]]}, digits = 4, display = rep("fg", 3))
+    output$SStable <- DT::renderDT({
+      sol()[[1]]}, options = list(scrollX = TRUE, scrollY = TRUE))
 
     #--- Outputs table caption
     output$SStableCaption <- shiny::renderText({

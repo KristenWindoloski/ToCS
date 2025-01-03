@@ -6,7 +6,7 @@
 SS_DayTable_ui <- function(id){
 
   htmltools::tagList(shiny::uiOutput(shiny::NS(id,"downloadSSDaytable_cond")),
-                     shiny::tableOutput(shiny::NS(id,"SSDaytable")),
+                     DT::DTOutput(shiny::NS(id,"SSDaytable")),
                      shiny::textOutput(shiny::NS(id,"SSDaytableCaption"))
   )
 }
@@ -25,8 +25,8 @@ SS_DayTable_server <- function(id, ss_args){
     runsim <- shiny::reactive({pars()[["runsim"]]})
 
     #--- Outputs table of the day were SS is reached
-    output$SSDaytable <- shiny::renderTable({
-      sol()[[2]]}, digits = 4, display = rep("fg", 6))
+    output$SSDaytable <- DT::renderDT({
+      sol()[[2]]}, options = list(scrollX = TRUE, scrollY = TRUE))
 
     #--- Outputs the table caption
     output$SSDaytableCaption <- shiny::renderText({

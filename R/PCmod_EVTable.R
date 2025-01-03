@@ -1,5 +1,4 @@
 
-
 #######################################
 # UI - PC ELIM RATE AND VDIST TABLE
 #######################################
@@ -7,7 +6,7 @@
 PC_EVTable_ui <- function(id){
 
   htmltools::tagList(shiny::uiOutput(shiny::NS(id,"downloadPartable_cond")),
-          shiny::tableOutput(shiny::NS(id,"Partable")),
+          DT::DTOutput(shiny::NS(id,"Partable")),
           shiny::textOutput(shiny::NS(id,"PartableCaption"))
   )
 }
@@ -26,14 +25,15 @@ PC_EVTable_server <- function(id, pc_args){
     runsim <- shiny::reactive({pars()[["runsim"]]})
 
     #--- Outputs table of elimination rate/volume of distribution
-    output$Partable <- shiny::renderTable({
-      sol()[[1]]}, digits = 4, display = rep("fg", 4), rownames = TRUE)
+    output$Partable <- DT::renderDT({
+        sol()[[1]]}, options = list(scrollX = TRUE))
 
     #--- Outputs table caption
     output$PartableCaption <- shiny::renderText({
       shiny::req(runsim(),sol())
-      "Table 1: Table of estimated elimination rates (1/h) and volumes of
-      distribution (L/kg BW) for all selected compounds. Compounds are listed
+      "Table 1: Table of estimated elimination rates (1/h), volumes of
+      distribution (L/kg BW), half lifes (h), and total plasma clearances
+      (L/h/kg BW) for all selected compounds. Compounds are listed
       in ascending order of the elimination rate."})
 
     #--- Creates table download button

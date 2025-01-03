@@ -6,7 +6,7 @@
 PC_PCTable_ui <- function(id){
 
   htmltools::tagList(shiny::uiOutput(shiny::NS(id,"downloadPCtable_cond")),
-                     shiny::tableOutput(shiny::NS(id,"PCtable")),
+                     DT::DTOutput(shiny::NS(id,"PCtable")),
                      shiny::textOutput(shiny::NS(id,"PCtableCaption"))
   )
 }
@@ -25,8 +25,11 @@ PC_PCTable_server <- function(id,pc_args){
     runsim <- shiny::reactive({pars()[["runsim"]]})
 
     #--- Outputs table of partition coefficients
-    output$PCtable<- shiny::renderTable({
-      sol()[[2]]}, digits = 4, display = rep("fg", 16), rownames = TRUE)
+    # output$PCtable<- shiny::renderTable({
+    #   sol()[[2]]}, digits = 4, display = rep("fg", 16), rownames = TRUE)
+
+    output$PCtable<- DT::renderDT({
+      sol()[[2]]}, options = list(scrollX = TRUE))
 
     #--- Outputs partition coefficient table caption
     output$PCtableCaption <- shiny::renderText({
