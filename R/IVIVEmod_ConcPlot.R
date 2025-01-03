@@ -25,31 +25,30 @@ IVIVE_Plot_server <- function(id,ivive_args){
     logscale <- shiny::reactive({ivive_args()[[3]]})
     runsim <- shiny::reactive({pars()[["runsim"]]})
 
-    #--- Generates plot of AED values
+    #--- Generates plot of OED values
     IVIVEplt <- shiny::reactive({IVIVEplotting(sol()[[1]],
                                                sol()[[2]],
                                                pars(),
                                                logscale())})
 
-    #--- Outputs plot of AED values
+    #--- Outputs plot of OED values
     output$IVIVEPlot <- shiny::renderPlot({IVIVEplt()})
 
     #--- Outputs plot caption
     output$IVIVEPlotCaption <- shiny::renderText({
       shiny::req(sol(),runsim())
       if (ncol(sol()[[1]])>2){
-        paste("Figure 1: Boxplots of", pars()[["samples"]], "administered equivalent dose
-              (AED) samples for each selected compound. The black dots represent outliers
-              and the red dots indicate the 5th dose percentile (95th concentration
-              percentile) for each compound. Compounds are arranged in ascending
-              order of their median AED value. If a sample for a specific compound
-              produced an 'NA' value, that sample for that compound was omitted
-              from quantile calculation and this figure.")
+        paste("Figure 1: Boxplots of", pars()[["samples"]], "oral equivalent dose
+              (OED) samples for each selected compound. The black dots represent outliers
+              and the red dots indicate the 5th quantile OED for each compound. Compounds
+              are arranged in ascending order of their median OED value. If a sample for
+              a specific compound produced an 'NA' value, that sample for that compound
+              was omitted from quantile calculation and this figure.")
       }
       else{
-        "Figure 1: Plot of the estimated administered equivalent dose (AED) for
+        "Figure 1: Plot of the estimated oral equivalent dose (OED) for
         each selected compound. Compounds are arranged in ascending order of
-        their AED values."
+        their OED values."
       }})
 
     #--- Creates download button
@@ -57,7 +56,7 @@ IVIVE_Plot_server <- function(id,ivive_args){
       shiny::req(sol(),runsim())
       shiny::downloadButton(session$ns("downloadIVIVEplot"), "Download Figure 1")})
 
-    #--- Downloads AED plot
+    #--- Downloads OED plot
     output$downloadIVIVEplot <- shiny::downloadHandler(
       filename = function() {paste("IVIVEplot", Sys.Date(), ".jpg", sep="")},
       content = function(file){

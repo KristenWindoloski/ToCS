@@ -25,21 +25,20 @@ ParNames <- function(){
 ###################################
 
 Instructions_GenPars <- function(){
-  htmltools::tagList(shiny::helpText("Fill out the prompts on each of the above tabs. Then,
+  htmltools::tagList(shiny::helpText("Fill out the prompts on each of the above tabs moving left to right. Then,
                     click the 'Run Simulation' tab to run the simulation or reset
                     all selections."),
-                     shiny::helpText("ToCS provides four toxicokinetic outputs:
+                     shiny::helpText("ToCS provides four toxicokinetic (TK) outputs:
                    1) Concentration-time profiles, which returns chemical concentrations in bodily compartments over time,
-                   2) Steady state concentrations, which returns steady state concentrations in bodily compartments from an oral infusion,
+                   2) Steady state (SS) concentrations, which returns SS concentrations in bodily compartments from an oral infusion,
                    3) In vitro in vivo extrapolation (IVIVE), which returns oral equivalent doses to in vitro bioactive concentrations,
-                   4) Parameter calculations, which returns elimination rates, volumes of distribution, and tissue to unbound plasma partition coefficients."),
+                   4) Parameter calculations, which returns elimination rates, volumes of distribution, tissue to unbound plasma
+                      partition coefficients, half-lifes, and total plasma clearances."),
                      shiny::helpText("This application uses the U.S. EPA's R package 'httk'. For more information on
-                    'httk', please refer to the publication:
-                    Robert G. Pearce, R. Woodrow Setzer, Cory L. Strope, Nisha S.
-                    Sipes, John F. Wambaugh (2017). httk: R Package for High-Throughput
-                    Toxicokinetics. Journal of Statistical Software,79(4), 1-25.
-                    doi:10.18637/jss.v079.i04"),
-                     shiny::helpText("For additional guidance on using this software, please refer to the User Guide. To report issues or suggestions for improvement, visit the GitHub page."),)
+                    'httk', refer to https://doi.org/10.18637/jss.v079.i04 and/or https://cran.r-project.org/web/packages/httk"),
+                     shiny::helpText("For additional guidance on ToCS, please refer to the vignettes
+                                     (https://github.com/KristenWindoloski/ToCS/tree/main/vignettes). To report issues or suggestions
+                                     for improvement, visit https://github.com/KristenWindoloski/ToCS/issues."))
 }
 
 Instructions_CompSelect_Part1 <- function(){
@@ -683,9 +682,9 @@ selectInput_ReturnSamps <- function(id){
 
 numericInput_Quantile <- function(id){
   shiny::numericInput(id,
-               label = "Enter the concentration quantile (as a decimal).
-                        Selecting the 95th concentration quantile will output
-                        the 5th dose quantile.",
+               label = "Enter the steady state concentration quantile (as a decimal)
+                        to be used in the OED calculation. Selecting the 95th
+                        concentration quantile will output the 5th OED quantile.",
                value = 0.95,
                min = 0,
                max = 1,
@@ -705,7 +704,7 @@ selectInput_HondaCond <- function(id){
               label = "Select an IVIVE assumption to implement. For any input
                       nominal bioactive concentration in vitro, the Honda1
                       assumption is recommended. Leave on 'NULL' if no
-                      assumptions are to be applied. See the user guide for the
+                      assumptions are to be applied. See the 'IVIVE Simulation Examples' vignette for the
                       description of the below assumption categories.",
               choices = list("NULL",
                              "Honda1",
