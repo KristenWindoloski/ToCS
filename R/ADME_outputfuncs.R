@@ -205,8 +205,6 @@ modsol <- function(pars){
   # Get row, column, and page dimensions for arrays used to store solutions
   n <- nrow(pars[["CompoundList"]])
 
-  print(pars)
-
   # --- Solve model for each compound
   for (i in (1:n)) {
 
@@ -260,8 +258,19 @@ modsol <- function(pars){
   }
   # --- Assign row, column, and page names to the arrays
   columns <- colnames(modsolution)
-  dimnames(sol) <- list(c(), columns, pars[["CompoundList"]][,1])
-  dimnames(tk_sum_array) <- list(c(columns[2:length(columns)]),c("Tmax","MaxValue","AUC"), pars[["CompoundList"]][,1])
+  compartmentnames <- columns[2:length(columns)]
+  compoundnames <- pars[["CompoundList"]][,1]
+  dimnames(sol) <- list(c(), columns, compoundnames)
+  statnames <- c("Tmax","MaxValue","AUC")
+  dimnames(tk_sum_array) <- list(c(compartmentnames),statnames,compoundnames)
+
+  # --- Rearrange TK summary array to be 2D data frame
+  combdim <- list(outer(statnames,compoundnames, paste))
+  mat_colnames <- gsub(" ", ".",combdim[[1]])
+  dim_tk <- dim(tk_sum_array)
+  tk_sum_array <- matrix(tk_sum_array,dim_tk[1],dim_tk[2]*dim_tk[3])
+  dimnames(tk_sum_array) <- list(compartmentnames,mat_colnames)
+
 
   if (!is.null(pars[["dosinginfo"]]$initial.dose)){
     initial.dose <- pars[["dosinginfo"]]$initial.dose
@@ -311,11 +320,8 @@ modsol <- function(pars){
                         overwrite.invivo = pars[["caco_overwriteinvivo"]],
                         keepit100 = pars[["caco_keep100"]])
 
-  print(pars[["CompoundList"]][,1])
-
   chemdata <- chem.physical_and_invitro.data[chem.physical_and_invitro.data$Compound %in% pars[["CompoundList"]][,1],]
   chemdata <- chemdata[order(match(chemdata$Compound,pars_df$chem.name)),]
-  print(chemdata$Compound)
 
   pars_df <-cbind(pars_df,chemdata)
 
