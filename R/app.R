@@ -1,6 +1,6 @@
 
 # --- Created by Kristen Windoloski
-# --- Last Updated: December 4, 2024
+# --- Last Updated: January 2, 2025
 # --- Description: A graphical user interface that utilizes the EPA's
 #                  high-throughput toxicokinetics 'httk' R package to generate
 #                  toxicokinetic ADME (absorption, distribution, metabolism,
@@ -177,14 +177,16 @@ ToCS <- function(...){
                                                                     selectInput_rb2p("rb2p")),
                                             shiny::conditionalPanel(condition = "input.func == 'In vitro in vivo extrapolation (IVIVE)' && input.runCompounds>0",
                                                                     numericInput_Samples("samples"),
-                                                                    shiny::conditionalPanel(condition = "input.tissueIVIVE == 'NULL'",
+                                                                    shiny::conditionalPanel(condition = "input.HondaIVIVE == 'NULL' && input.tissueIVIVE == 'NULL'",
                                                                                             selectInput_Bioactive("bioactiveIVIVE"))),
                                             shiny::conditionalPanel(condition = "input.func == 'Parameter calculations' && input.runCompounds>0",
                                                                     numericInput_ClintPval("Clint_Pval"),
                                                                     numericInput_Alpha("AlphaPar")),
                                             shiny::conditionalPanel(condition = "input.func != 'Select' && input.func != 'Steady state concentrations' && input.runCompounds>0",
                                                                     numericInput_MinFub("min_fub")),
-                                            selectInput_RestrictClear("restrict_clear"),
+                                            shiny::conditionalPanel(condition = "(input.func == 'In vitro in vivo extrapolation (IVIVE)' && input.HondaIVIVE == 'NULL' && input.runCompounds>0) ||
+                                                                                 (input.func != 'In vitro in vivo extrapolation (IVIVE)' && input.runCompounds>0)",
+                                                                    selectInput_RestrictClear("restrict_clear")),
                                             selectInput_AdjFub("adj_fub"),
                                             selectInput_Regression("regression")),
 
@@ -226,9 +228,10 @@ ToCS <- function(...){
                                                                                      selectInput_Tissue("tissueSS"))),
                                             shiny::conditionalPanel(condition = "input.func == 'In vitro in vivo extrapolation (IVIVE)' && input.runCompounds>0",
                                                                     selectInput_IVIVEoutunits("modelIVIVEout_units"),
-                                                                    selectInput_OutConc("output_concIVIVE"),
-                                                                    shiny::conditionalPanel(condition = "input.modelIVIVE !== 'Select' && input.modelIVIVE !== '3compartmentss'",
-                                                                                     selectInput_Tissue("tissueIVIVE"))),
+                                                                    shiny::conditionalPanel(condition = "input.HondaIVIVE == 'NULL'",
+                                                                                            selectInput_OutConc("output_concIVIVE")),
+                                                                    shiny::conditionalPanel(condition = "input.modelIVIVE !== '3compartmentss' && (input.output_concIVIVE == 'tissue' || input.HondaIVIVE == 'Honda4')",
+                                                                                            selectInput_Tissue("tissueIVIVE"))),
                                             shiny::conditionalPanel(condition = "input.func == 'Parameter calculations' && input.runCompounds>0",
                                                                     shiny::helpText("No options for this category."))),
                                 col_widths = c(3,3,3,3))),
@@ -313,9 +316,9 @@ ToCS <- function(...){
     output$PreloadedComps <- shiny::renderUI({
 
       if (input$spec != "Select" && input$func != "Select" && input$insilicopars != "Select" && input$model != "Select"){
-        if (input$func == "In vitro in vivo extrapolation" && input$HondaIVIVE == "Honda1"){
+        if (input$func == "In vitro in vivo extrapolation (IVIVE)" && input$HondaIVIVE == "Honda1"){
           htmltools::tagList(numericInput_FSBf("FSBf"),
-                         PreloadCompsInput(input$func,input$spec,input$defaulttoHuman,input$insilicopars,input$model,input$HondaIVIVE))
+                             PreloadCompsInput(input$func,input$spec,input$defaulttoHuman,input$insilicopars,input$model,input$HondaIVIVE))
         }
         else {
           PreloadCompsInput(input$func,input$spec,input$defaulttoHuman,input$insilicopars,input$model,input$HondaIVIVE)
