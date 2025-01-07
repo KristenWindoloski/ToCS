@@ -28,7 +28,7 @@ PC_EVPlot_server <- function(id,pc_args){
     #--- Generates elimination/volume of distribution plots
     ElimVdistPlots <- shiny::reactive({
       plot1 <- plotPar(sol()[[1]],pars(),logscale())
-      gridExtra::grid.arrange(grobs = plot1, nrow = 1)})
+      gridExtra::grid.arrange(grobs = plot1, nrow = 2)})
 
     #--- Outputs elimination/volume of distribution plots
     output$ParPlot <- shiny::renderPlot({
@@ -37,10 +37,10 @@ PC_EVPlot_server <- function(id,pc_args){
     #--- Outputs caption of the elimination/volume of distribution plots
     output$ParPlotCaption <- shiny::renderText({
       shiny::req(runsim(), sol())
-      "Figure 1: Plots of the estimated (a) elimination rate (1/h) and
-      (b) volume of distribution (L/kg BW) for all selected compounds.
-      Compounds are listed in ascending order in each plot based on their
-      parameter values."})
+      "Figure 1: Plots of the estimated elimination rate (1/h), volume of
+      distribution (L/kg BW), half life (h), and total plasma clearance
+      (L/h/kg BW) for all selected compounds. Compounds are listed in
+      ascending order in each plot based on their parameter values."})
 
     #--- Creates download plot button
     output$downloadParplot_cond <- shiny::renderUI({
