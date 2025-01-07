@@ -1,7 +1,7 @@
 ---
 title: "Steady State Concentration Simulation Examples"
 author: "Kristen Windoloski"
-date: "December 18, 2024"
+date: "January 7, 2025"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Steady_State_Concentrations}
@@ -18,18 +18,13 @@ knitr::opts_chunk$set(
 )
 ```
 
-If you have not already read the *Introduction to the ToCS App* vignette, it is highly recommended to do so in order to get a general idea of the app's layout and obtain a detailed description of common user inputs across all output modules. Users should also review the README file to set up the ToCS app if it is being loaded through your local R or RStudio application. This vignette assumes that you have access the ToCS app GUI already.
+If you have not already read the *Introduction to the ToCS App* vignette, it is highly recommended to do so to get a general idea of the app's layout and obtain a detailed description of common user inputs across all output modules. Users should also review the README file on the ToCS GitHub page (github.com/KristenWindoloski/ToCS) to setup ToCS if they have not accessed the app yet. This vignette assumes that you have access the ToCS app GUI already.
 
-### Introduction
+<br/><br/>
 
-This vignette provides two examples that use the ToCS app to generate steady state concentrations, each example with different parameters selected. To begin, open the app by typing the following two lines in the R command line if opening ToCS on your local computer from R or RStudio:
+# Introduction
 
-```{r, eval = FALSE}
-devtools::load_all(.)
-ToCS()
-```
-
-This will open a pop up window with the app in it. If you're accessing ToCS on the web, then open the webpage. Your screen should look like this:
+This vignette provides two examples that use the ToCS app to generate steady state concentrations, each example with different parameters selected. To begin, open the app by using any of the methods described in the README file. You have correctly accessed the app if your screen looks like the image below.
 
 <br/><br/>
 
@@ -39,11 +34,11 @@ This will open a pop up window with the app in it. If you're accessing ToCS on t
 
 ## Example 1
 
-In this example, let's say we want to generate human steady state concentrations in whole body plasma for a constant daily dose of 1 mg/kg BW using the PBTK model with in silico generated parameters available. We do not have specific chemicals in mind, so we will just select chemicals from the preloaded list of chemicals.
+In this example, let's say we want to generate human steady state concentrations in whole body plasma. We want to use a constant daily dose of 1 mg/kg BW with the PBTK model and make compounds with only in silico generated parameters (hepatic clearance, fraction unbound in plasma) also available for selection. We do not have specific chemicals in mind, so we will just select chemicals from the preloaded list of chemicals.
 
 ### General Parameters Tab
 
-Under the *Output* card, we select *Steady state concentrations* since that is the type of simulation we want to run. Under the *Species* card, we select *Human* for the first drop down menu and *No* for the second drop down menu since we want human steady state concentrations and are not running animal simulation. As with the *Concentration-Time Profile* vignette, we could have selected *No* for the second drop down menu under the *Species* card and it would not make a difference in the simulation results. The completed *General Parameters* card is shown in the image below.
+Under the *Output* card, we select *Steady state concentrations* since that is the type of simulation we want to run. Under the *Species* card, we select *Human* for the first drop down menu and *Yes* for the second drop down menu. As with the *Concentration-Time Profile* vignette, we could have selected *No* for the second drop down menu under the *Species* card and it would not make a difference in the simulation results since our simulation was already for humans. The completed *General Parameters* card is shown in the image below.
 
 <br/><br/>
 
@@ -53,7 +48,7 @@ Under the *Output* card, we select *Steady state concentrations* since that is t
 
 ### Model Specifications Tab
 
-Under the *Dosing* card, we leave the total daily dose as its default value of 1 mg/kg BW. Under the *Model* card, we select *pbtk* under the first drop down to use the pbtk model. For the second drop down, we select *Yes* since we want to include compounds with only in silico generated parameters into the selection availability on the next page. Thus, the completed model specifications tab should look like the image below.
+Under the *Dosing* card, we leave the total daily dose as its default value of 1 mg/kg BW. Under the *Model* card, we select *pbtk* for the first drop down to use the pbtk model. For the second drop down, we select *Yes* since we want to include compounds with only in silico generated parameters into the selection availability on the next page. Thus, the completed model specifications tab should look like the image below.
 
 <br/><br/>
 
@@ -131,7 +126,7 @@ The second drop down tab contains a table with the numerical values of the stead
 
 <br/><br/>
 
-The final drop down tab under the *Results* card contains a table of steady state characteristics for each of the compounds. The simulation that generates this table determines the number of days it takes for the compound to come within a certain percentage of analytical steady state value from the table in the tab above (CssDay column), the average concentration on the last day of the simulation (AvgConc column), the ratio of the average concentration to the analytical steady state concentration (RatioAvgAnalytical), and the maximal concentration of the simulation (MaxConc column). The user can download this table by clicking the *Download Table 2* button at the top of the tab. The table should look like that in the image below.
+The final drop down tab under the *Results* card contains a table of steady state characteristics for each of the compounds. The simulation that generates this table determines the number of days (CssDay) it takes for the compound to come within a certain percentage of analytical steady state value from the table in the tab above, the average concentration on the last day of the simulation (AvgConc), the ratio of the average concentration to the analytical steady state concentration (RatioAvgAnalytical), and the maximal concentration of the simulation (MaxConc). The user can download this table by clicking the *Download Table 2* button at the top of the tab. The table should look like that in the image below.
 
 <br/><br/>
 
@@ -139,11 +134,11 @@ The final drop down tab under the *Results* card contains a table of steady stat
 
 <br/><br/>
 
-If the user want to run a new simulation, we suggest clicking the *Reset Session* button under the *Actions* card, which will reset all parameter values and return the user to the starting interface.
+If the user wanted to run a new simulation, we suggest clicking the *Reset Session* button under the *Actions* card, which will reset all parameter values and return the user to the starting interface.
 
 ## Example 2
 
-In this example, let's say we want to generate human steady state concentrations in liver blood for a constant daily dose of 2 mg/kg BW using the 1compartment model without in silico generated parameters. Suppose we want to generate these concentrations for the following compounds: Valproic Acid (CAS: 99-66-1), Endosulfan (CAS: 115-29-7), Abamectin (CAS: 71751-41-2), Titanium Dioxide (CAS: 13463-67-7), and Advantame (CAS: 714229-20-6).
+In this example, let's say we want to generate human steady state blood concentrations in the liver for a constant daily dose of 2 mg/kg BW using the 1compartment model without in silico generated parameters for hepatic clearance, fraction unbound in plasma, and caco-2 permeability. Suppose we want to generate these concentrations for the following compounds: Valproic Acid (CAS: 99-66-1), Endosulfan (CAS: 115-29-7), Abamectin (CAS: 71751-41-2), Titanium Dioxide (CAS: 13463-67-7), and Advantame (CAS: 714229-20-6).
 
 ### General Parameters Tab
 
@@ -157,7 +152,7 @@ We select the same parameters for each of the drop downs on the *General Paramet
 
 ### Model Specifications Tab
 
-Under the *Dosing* card, we enter *2* into the text box for the 2 mg/kg BW dose. Under the *Model* card, we select *1compartment* for the simulation model with the first drop down menu. For the second drop down, we select *No* since we do not want to include compounds that use in silico hepatic clearance or fraction unbound in plasma. The completed *Model Specifications* card should look like the image below.
+Under the *Dosing* card, we enter *2* into the text box for the 2 mg/kg BW dose. Under the *Model* card, we select *1compartment* for the simulation model with the first drop down menu. For the second drop down, we select *No* since we do not want to include compounds that use in silico parameters in place of missing in vitro parameters. The completed *Model Specifications* card should look like the image below.
 
 <br/><br/>
 
@@ -191,7 +186,7 @@ Once we have the three compounds selected under the *Preloaded Compounds* card a
 
 ### Advanced (Optional) Parameters Tab
 
-Since we want the steady state concentrations in the liver blood, we customize the second and third drop down menus under the *Output Specification* cards to be *blood* and *liver*, respectively. There are no other customizations we want to make on this page, so the final *Advanced Parameters* page should look like the image below.
+Since we want the steady state blood concentrations in the liver, we customize the second and third drop down menus under the *Output Specification* cards to be *blood* and *liver*, respectively. There are no other customizations we want to make on this page, so the final *Advanced Parameters* page should look like the image below.
 
 <br/><br/>
 
@@ -209,7 +204,7 @@ Now that all user selections have been made and all selected compounds appear un
 
 <br/><br/>
 
-Now, given that the outputted plot doesn't provide much visual information since four of the five compound steady state concentrations are significantly smaller than the largest one, we alter this figure by checking the bottom box under the *Actions* card which will change the y-axis to a log10 scale as shown in the image below. This new plot provides a much clearer visual as to the steady state concentration value for each of the compounds. Note that the log10 scale checkbox can be checked before the user hits the *Run Simulation* button as well.
+Now, given that the outputted plot doesn't provide much visual information since four of the five compound steady state concentrations are significantly smaller than the largest one, we alter this figure by checking the bottom box under the *Actions* card, which will change the y-axis to a log10 scale as shown in the image below. This new plot provides a much clearer visual as to the steady state concentration value for each of the compounds. Note that the log10 scale checkbox can be checked before the user hits the *Run Simulation* button as well.
 
 <br/><br/>
 
