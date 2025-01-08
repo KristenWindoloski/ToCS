@@ -383,8 +383,9 @@ GUI. It is strongly recommended to consult them before running a
 simulation. Each remaining vignette works through several examples for
 each output module. To view the vignettes prior to ToCS being available
 on CRAN or when using the online application, visit the GitHub page
-(github.com/KristenWindoloski/ToCS/tree/main/vignettes) and click any of
-the PDF vignette files. Once the ToCS package is available in CRAN, type
+(<https://github.com/KristenWindoloski/ToCS/tree/main/vignettes>) and
+click any of the PDF vignette files. Once the ToCS package is available
+in CRAN, type
 
 ``` r
 vignette(package = "ToCS")
