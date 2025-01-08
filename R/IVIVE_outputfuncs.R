@@ -9,12 +9,10 @@ IVIVEsol <- function(pars){
   # --- PROCESS BIOACTIVE CONCENTRATIONS FILE
   file <- pars[["BioactiveFile"]]
   bioactive <- read.csv(file$datapath)
-  print(bioactive)
 
   # --- REARRANGE ROWS OF BIOACTIVE FILE TO BE IN SAME ORDER AS COMPOUNDS FILE
     # --- CONVERT BIOACTIVE CONCENTRATION IF HONDA1 IS SELECTED
   bioactive_conc <- bioactive[match(pars[["CompoundList"]][,1], bioactive$ChemicalName),]
-  print(bioactive_conc)
   bioactive_conc <- ConvertBioactive(pars,bioactive_conc)
 
   # --- EXTRACT DIMENSIONS NEEDED FOR SOLUTION
@@ -50,7 +48,6 @@ IVIVEsol <- function(pars){
       sol[1,i] <- signif(bioactive_conc[i,3]/q, digits = 4)
       sol[2,i] <- NA
       sol[seq(3,pars[["samples"]]+2),i] <- OED
-      print(sol)
     }
   }
 
