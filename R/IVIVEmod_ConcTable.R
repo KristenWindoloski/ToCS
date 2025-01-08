@@ -35,8 +35,8 @@ IVIVE_Table_server <- function(id,ivive_args){
       if (ncol(sol()[[1]])>2){
         paste("Table 1: Table of", pars()[["samples"]], "IVIVE oral equivalent
               dose (OED) samples (", pars()[["modelIVIVEout_units"]], ") for each
-              selected compound. OED_5 represents the 5th percentile dose concentration
-              (95th percentile steady state concentration).")
+              selected compound. OED_5 represents the 5th OED quantile
+              (using the 95th quantile steady state concentration).")
       }
       else{
         paste("Table 1: Table of the IVIVE oral equivalent doses (OED)
