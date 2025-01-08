@@ -126,7 +126,7 @@ Opening the bottom drop down in the *Results* card shows a toxicokinetic summary
 
 <br/><br/>
 
-If we wanted to run another simulation, we would click the *Reset Session* button under the *Actions* button, which would clear all parameter inputs and simulations and return the interface to the *General Parameters* tab.
+If we wanted to run another simulation, we would click the *Reset Session* button under the *Actions* card, which would clear all parameter inputs and simulations and return the interface to the *General Parameters* tab.
 
 <br/><br/>
 
