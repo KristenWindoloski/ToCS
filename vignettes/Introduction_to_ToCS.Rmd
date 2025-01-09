@@ -1,7 +1,7 @@
 ---
 title: "Introduction to the ToCS App"
 author: "Kristen Windoloski"
-date: "January 7, 2025"
+date: "January 9, 2025"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Introduction_to_ToCS}
@@ -61,7 +61,7 @@ The module selected above then determines the available user selections in the r
 
 <br/><br/>
 
-![The opening interface to the ToCS app.](GUI_Introduction_GenParsPage.png){width="100%"}
+![The opening interface to the ToCS app.](Introduction to ToCS Vignette Images/GUI_Introduction_GenParsPage.png){width="100%"}
 
 <br/><br/>
 
@@ -87,7 +87,7 @@ For a more in depth look at each model, the user should review the httk document
 Once all selections have been made for this tab, move on to the *Compound Selection* tab.
 <br/><br/>
 
-![A sample view of the Model Specifications tab.](GUI_Introduction_ModelSpecPage.png){width="100%"}
+![A sample view of the Model Specifications tab.](Introduction to ToCS Vignette Images/GUI_Introduction_ModelSpecPage.png){width="100%"}
 
 <br/><br/>
 
@@ -97,7 +97,7 @@ The layout for this tab (shown in the image below) primarily looks the same for 
 
 <br/><br/>
 
-![A sample view of the Compound Selection tab.](GUI_Introduction_CompoundSelectPage.png){width="100%"}
+![A sample view of the Compound Selection tab.](Introduction to ToCS Vignette Images/GUI_Introduction_CompoundSelectPage.png){width="100%"}
 
 <br/><br/>
 
@@ -108,7 +108,7 @@ In the *Uploaded Compounds* card, users may upload chemicals that are not availa
 ```{r echo = FALSE, results='asis'}
 library(knitr)
 library(kableExtra)
-SampleChemsToUpload <- read.csv("SampleCSV.csv")
+SampleChemsToUpload <- read.csv("Sample CSV Files/SampleCSV.csv")
 kable(SampleChemsToUpload, caption = "A sample csv file to upload to the GUI to simulate chemicals not already in httk.") %>%    kable_styling() %>%
   scroll_box(width = "100%")
 ```
@@ -131,7 +131,7 @@ Once the user has either selected compounds under the *Preloaded Compounds* card
 
 <br/><br/>
 
-![A second sample view of the Compound Selection tab once all compounds are chosen for simulation.](GUI_Introduction_CompoundSelectPage2.png){width="100%"}
+![A second sample view of the Compound Selection tab once all compounds are chosen for simulation.](Introduction to ToCS Vignette Images/GUI_Introduction_CompoundSelectPage2.png){width="100%"}
 
 <br/><br/>
 
@@ -141,7 +141,7 @@ Users may customize any available drop downs, sliders, or text boxes on this tab
 
 <br/><br/>
 
-![A sample view of the Advanced Parameters tab.](GUI_Introduction_AdvancedParsPage.png){width="100%"}
+![A sample view of the Advanced Parameters tab.](Introduction to ToCS Vignette Images/GUI_Introduction_AdvancedParsPage.png){width="100%"}
 
 <br/><br/>
 
@@ -151,7 +151,7 @@ This is the final tab and the one where the user gets to view the output of thei
 
 <br/><br/>
 
-![A sample view of the Run Simulation tab prior to simulation results being generated.](GUI_Introduction_RunSimPage2.png){width="100%"}
+![A sample view of the Run Simulation tab prior to simulation results being generated.](Introduction to ToCS Vignette Images/GUI_Introduction_RunSimPage2.png){width="100%"}
 
 <br/><br/>
 
@@ -161,7 +161,7 @@ Also in the *Run Simulation* tab is a *Reset Session* button under the *Actions*
 
 <br/><br/>
 
-![A second sample view of the Run Simulation tab with all output tabs closed.](GUI_Introduction_RunSimPage.png){width="100%"}
+![A second sample view of the Run Simulation tab with all output tabs closed.](Introduction to ToCS Vignette Images/GUI_Introduction_RunSimPage.png){width="100%"}
 
 <br/><br/>
 

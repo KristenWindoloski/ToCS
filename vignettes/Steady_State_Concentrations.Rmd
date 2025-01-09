@@ -1,7 +1,7 @@
 ---
 title: "Steady State Concentration Simulation Examples"
 author: "Kristen Windoloski"
-date: "January 7, 2025"
+date: "January 9, 2025"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Steady_State_Concentrations}
@@ -28,7 +28,7 @@ This vignette provides two examples that use the ToCS app to generate steady sta
 
 <br/><br/>
 
-![The opening interface to the ToCS app for example 1.](GUI_Introduction_GenParsPage.png){width="100%"}
+![The opening interface to the ToCS app for example 1.](Introduction to ToCS Vignette Images/GUI_Introduction_GenParsPage.png){width="100%"}
 
 <br/><br/>
 
@@ -42,7 +42,7 @@ Under the *Output* card, we select *Steady state concentrations* since that is t
 
 <br/><br/>
 
-![The completed General Parameters tab for example 1.](GUI_SS_GenParsEx1.png){width="100%"}
+![The completed General Parameters tab for example 1.](Steady State Concentration Vignette Images/Example1/GUI_SS_GenParsEx1.png){width="100%"}
 
 <br/><br/>
 
@@ -52,7 +52,7 @@ Under the *Dosing* card, we leave the total daily dose as its default value of 1
 
 <br/><br/>
 
-![The completed model specifications tab for example 1.](GUI_SS_ModelSpecEx1.png){width="100%"}
+![The completed model specifications tab for example 1.](Steady State Concentration Vignette Images/Example1/GUI_SS_ModelSpecEx1.png){width="100%"}
 
 <br/><br/>
 
@@ -78,7 +78,7 @@ Note that if we selected *No* on the previous *Model Specifications* tab for usi
 
 <br/><br/>
 
-![The completed compound selection tab for example 1.](GUI_SS_CompSelectionEx1.png){width="100%"}
+![The completed compound selection tab for example 1.](Steady State Concentration Vignette Images/Example1/GUI_SS_CompSelectionEx1.png){width="100%"}
 
 <br/><br/>
 
@@ -88,7 +88,7 @@ Since we want to output steady state concentrations for whole body plasma, we le
 
 <br/><br/>
 
-![The edited Advanced Parameters tab for example 1.](GUI_SS_AdvParsEx1.png){width="100%"}
+![The edited Advanced Parameters tab for example 1.](Steady State Concentration Vignette Images/Example1/GUI_SS_AdvParsEx1.png){width="100%"}
 
 <br/><br/>
 
@@ -98,7 +98,7 @@ Now that we've completed all selections and the compounds we selected appear und
 
 <br/><br/>
 
-![The completed compound selection tab for example 1 showing all selected compounds.](GUI_SS_RunSimEx1_1.png){width="100%"}
+![The completed compound selection tab for example 1 showing all selected compounds.](Steady State Concentration Vignette Images/Example1/GUI_SS_RunSimEx1_1.png){width="100%"}
 
 <br/><br/>
 
@@ -106,7 +106,7 @@ The image below shows what the *Run Simulation* tab should look like once the si
 
 <br/><br/>
 
-![The run simulation tab with the steady state concentration plot results for example 1.](GUI_SS_RunSimEx1_2.png){width="100%"}
+![The run simulation tab with the steady state concentration plot results for example 1.](Steady State Concentration Vignette Images/Example1/GUI_SS_RunSimEx1_2.png){width="100%"}
 
 <br/><br/>
 
@@ -114,7 +114,7 @@ If the user wants to see the steady state concentrations plot with a log10 y-axi
 
 <br/><br/>
 
-![The run simulation tab with the steady state concentration plot results with log10 y-scale for example 1.](GUI_SS_RunSimEx1_3.png){width="100%"}
+![The run simulation tab with the steady state concentration plot results with log10 y-scale for example 1.](Steady State Concentration Vignette Images/Example1/GUI_SS_RunSimEx1_3.png){width="100%"}
 
 <br/><br/>
 
@@ -122,7 +122,7 @@ The second drop down tab contains a table with the numerical values of the stead
 
 <br/><br/>
 
-![The run simulation tab with the steady state concentrations table results for example 1.](GUI_SS_RunSimEx1_4.png){width="100%"}
+![The run simulation tab with the steady state concentrations table results for example 1.](Steady State Concentration Vignette Images/Example1/GUI_SS_RunSimEx1_4.png){width="100%"}
 
 <br/><br/>
 
@@ -130,7 +130,7 @@ The final drop down tab under the *Results* card contains a table of steady stat
 
 <br/><br/>
 
-![The run simulation tab with the days to steady state table results for example 1.](GUI_SS_RunSimEx1_5.png){width="100%"}
+![The run simulation tab with the days to steady state table results for example 1.](Steady State Concentration Vignette Images/Example1/GUI_SS_RunSimEx1_5.png){width="100%"}
 
 <br/><br/>
 
@@ -146,7 +146,7 @@ We select the same parameters for each of the drop downs on the *General Paramet
 
 <br/><br/>
 
-![The completed general parameters tab for example 2.](GUI_SS_GenParsEx1.png){width="100%"}
+![The completed general parameters tab for example 2.](Steady State Concentration Vignette Images/Example1/GUI_SS_GenParsEx1.png){width="100%"}
 
 <br/><br/>
 
@@ -156,7 +156,7 @@ Under the *Dosing* card, we enter *2* into the text box for the 2 mg/kg BW dose.
 
 <br/><br/>
 
-![The completed model specifications tab for example 2.](GUI_SS_ModelSpecEx2.png){width="100%"}
+![The completed model specifications tab for example 2.](Steady State Concentration Vignette Images/Example2/GUI_SS_ModelSpecEx2.png){width="100%"}
 
 <br/><br/>
 
@@ -169,7 +169,7 @@ In the drop down menu under the *Preloaded Compounds* card, we search for all fi
 ```{r echo = FALSE, results='asis'}
 library(knitr)
 library(kableExtra)
-SampleChemsToUpload <- read.csv("CSV_SSvignette.csv")
+SampleChemsToUpload <- read.csv("Sample CSV Files/CSV_SSvignette.csv")
 kable(SampleChemsToUpload, caption = "A csv file with chemical information for titanium dioxide and advantame. Data other than the chemical identifiers and molecular weight (MW) are fictional.") %>%    kable_styling() %>%
   scroll_box(width = "100%")
 ```
@@ -180,7 +180,7 @@ Once we have the three compounds selected under the *Preloaded Compounds* card a
 
 <br/><br/>
 
-![The completed compound selection tab for example 2.](GUI_SS_CompSelectionEx2.png){width="100%"}
+![The completed compound selection tab for example 2.](Steady State Concentration Vignette Images/Example2/GUI_SS_CompSelectionEx2.png){width="100%"}
 
 <br/><br/>
 
@@ -190,7 +190,7 @@ Since we want the steady state blood concentrations in the liver, we customize t
 
 <br/><br/>
 
-![The completed advanced parameters tab for example 2.](GUI_SS_AdvParsEx2.png){width="100%"}
+![The completed advanced parameters tab for example 2.](Steady State Concentration Vignette Images/Example2/GUI_SS_AdvParsEx2.png){width="100%"}
 
 <br/><br/>
 
@@ -200,7 +200,7 @@ Now that all user selections have been made and all selected compounds appear un
 
 <br/><br/>
 
-![The steady state concentration plot with a linear axis for example 2.](GUI_SS_RunSimEx2_2.png){width="100%"}
+![The steady state concentration plot with a linear axis for example 2.](Steady State Concentration Vignette Images/Example2/GUI_SS_RunSimEx2_2.png){width="100%"}
 
 <br/><br/>
 
@@ -208,7 +208,7 @@ Now, given that the outputted plot doesn't provide much visual information since
 
 <br/><br/>
 
-![The steady state concentration plot with a log10 y-axis for example 2.](GUI_SS_RunSimEx2_3.png){width="100%"}
+![The steady state concentration plot with a log10 y-axis for example 2.](Steady State Concentration Vignette Images/Example2/GUI_SS_RunSimEx2_3.png){width="100%"}
 
 <br/><br/>
 
@@ -216,7 +216,7 @@ The second drop down tab under the *Results* card shows a table of the steady st
 
 <br/><br/>
 
-![The steady state concentrations table for example 2.](GUI_SS_RunSimEx2_4.png){width="100%"}
+![The steady state concentrations table for example 2.](Steady State Concentration Vignette Images/Example2/GUI_SS_RunSimEx2_4.png){width="100%"}
 
 <br/><br/>
 
@@ -224,7 +224,7 @@ The final tab under the *Results* card shows steady state characteristics for ea
 
 <br/><br/>
 
-![The days to steady state table for example 2.](GUI_SS_RunSimEx2_5.png){width="100%"}
+![The days to steady state table for example 2.](Steady State Concentration Vignette Images/Example2/GUI_SS_RunSimEx2_5.png){width="100%"}
 
 <br/><br/>
 
