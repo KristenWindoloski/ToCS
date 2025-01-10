@@ -26,6 +26,8 @@ IVIVE_server <- function(id,pars,runsim,logscale) {
 
     out <- shiny::eventReactive(runsim(),{
 
+      shiny::showModal(shiny::modalDialog(title = "System Running",
+                                          "Computing solution. Plots and tables will update once completed. Please wait..."))
       validate_text_IVIVE(pars())
       sol <- IVIVEsol(pars())
     })
