@@ -315,14 +315,18 @@ ToCS <- function(...){
 
     output$PreloadedComps <- shiny::renderUI({
 
+
       if (input$spec != "Select" && input$func != "Select" && input$insilicopars != "Select" && input$model != "Select"){
         if (input$func == "In vitro in vivo extrapolation (IVIVE)" && input$HondaIVIVE == "Honda1"){
           htmltools::tagList(numericInput_FSBf("FSBf"),
+                             shiny::showModal(shiny::modalDialog(title = "System Running",
+                                                                 "Compiling chemical list. The Preloaded Compounds card will update once completed. Please wait...")),
                              PreloadCompsInput(input$func,input$spec,input$defaulttoHuman,input$insilicopars,input$model,input$HondaIVIVE))
         }
         else {
-          compout <- PreloadCompsInput(input$func,input$spec,input$defaulttoHuman,input$insilicopars,input$model,input$HondaIVIVE)
-
+          htmltools::tagList(shiny::showModal(shiny::modalDialog(title = "System Running",
+                                                                 "Compiling chemical list. The Preloaded Compounds card will update once completed. Please wait...")),
+                             PreloadCompsInput(input$func,input$spec,input$defaulttoHuman,input$insilicopars,input$model,input$HondaIVIVE))
         }
       }
     })
@@ -331,6 +335,10 @@ ToCS <- function(...){
     # COMPILES LIST OF ALL COMPOUNDS TO RUN
     ##########################################################################
 
+    shiny::observeEvent(input$runCompounds,{
+      shiny::showModal(shiny::modalDialog("Compounds are being loaded into the system. Please click 'Dismiss' and proceed to the next tab."))
+    })
+
     CompLst <- shiny::eventReactive(input$runCompounds,{
 
       #--- OUTPUT ERROR WARNINGS IF NEEDED VARIABLES ARE MISSING
@@ -338,8 +346,9 @@ ToCS <- function(...){
       names(pars) <- c("func","spec","defaulttoHuman","runCompounds","model")
       validate_text_Common(pars,"Yes")
 
-      #--- COMPILES A LIST OF ALL LIKE VARIABLES (DEFAULT HUMAN AND ALL COMPOUNDS)
-      CompoundList(input$httkPreloadComps,input$httkPreloadComps_Honda,input$file1)})
+      #--- COMPILES A LIST OF ALL COMPOUNDS
+      CompoundList(input$httkPreloadComps,input$httkPreloadComps_Honda,input$file1)
+      })
 
     output$comptext <- shiny::renderTable({CompLst()})
 
