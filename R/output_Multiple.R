@@ -37,8 +37,7 @@ CompoundList <- function(preload_comp, preload_comp_Honda1, uploaded_comps){
   else{
 
     # Load in uploaded compounds
-    file <- uploaded_comps
-    compounds_file <- read.csv(file$datapath)
+    compounds_file <- read.csv(uploaded_comps$datapath)
 
     # Set as data frames to combine rows later
     preload_df <- data.frame(Selected_Compounds = compounds_preload)
@@ -49,11 +48,16 @@ CompoundList <- function(preload_comp, preload_comp_Honda1, uploaded_comps){
 
     for (i in 1:n) {
       compounds_file[i,3] <- httk::CAS.checksum(compounds_file[i,2])
+      if (compounds_file[i,2] %in% chem.physical_and_invitro.data$CAS){
+        index <- which(chem.physical_and_invitro.data$CAS == compounds_file[i,2])
+        chem.physical_and_invitro.data[index,] <- compounds_file[i,]
+      }
+      else{
+        chem.physical_and_invitro.data <- rbind(chem.physical_and_invitro.data, compounds_file[i,])
+      }
+      # Assigns to the user's global environment - do NOT think this will work if app is on the web
+      assign('chem.physical_and_invitro.data',chem.physical_and_invitro.data,envir=.GlobalEnv)
     }
-
-    # Assigns to the user's global environment - do NOT think this will work if app is on the web
-    chem.physical_and_invitro.data <- rbind(httk::chem.physical_and_invitro.data, compounds_file)
-    assign('chem.physical_and_invitro.data',chem.physical_and_invitro.data,envir=.GlobalEnv)
 
     # Add uploaded compound names to any preloaded compounds
     df_compounds <- rbind(preload_df,upload_df)
