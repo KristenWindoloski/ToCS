@@ -153,7 +153,8 @@ screen should look like the image below.
 <br/><br/>
 
 <figure>
-<img src="vignettes/GUI_Introduction_GenParsPage.png"
+<img
+src="vignettes/Introduction%20to%20ToCS%20Vignette%20Images/GUI_Introduction_GenParsPage.png"
 style="width:100.0%" alt="The opening interface to the ToCS app." />
 <figcaption aria-hidden="true">The opening interface to the ToCS
 app.</figcaption>
@@ -194,7 +195,9 @@ the same output. Thus, the first tab should look like the page below.
 <br/><br/>
 
 <figure>
-<img src="vignettes/GUI_CTP_GenParsPage.png" style="width:100.0%"
+<img
+src="vignettes/Concentration-Time%20Profile%20Vignette%20Images/Example1/GUI_CTP_GenParsPage.png"
+style="width:100.0%"
 alt="A completed opening interface to the ToCS app." />
 <figcaption aria-hidden="true">A completed opening interface to the ToCS
 app.</figcaption>
@@ -222,7 +225,9 @@ like the image below, so we can proceed to the *Compound Selection* tab.
 <br/><br/>
 
 <figure>
-<img src="vignettes/GUI_CTP_ModelSpecEx1.png" style="width:100.0%"
+<img
+src="vignettes/Concentration-Time%20Profile%20Vignette%20Images/Example1/GUI_CTP_ModelSpecEx1.png"
+style="width:100.0%"
 alt="The completed model specifications tab for the pbtk model with a single oral dose of 5 mg/kg." />
 <figcaption aria-hidden="true">The completed model specifications tab
 for the pbtk model with a single oral dose of 5 mg/kg.</figcaption>
@@ -244,7 +249,9 @@ for a compound by either its CAS number or chemical name.
 <br/><br/>
 
 <figure>
-<img src="vignettes/GUI_CTP_CompoundSelectEx1.png" style="width:100.0%"
+<img
+src="vignettes/Concentration-Time%20Profile%20Vignette%20Images/Example1/GUI_CTP_CompoundSelectEx1.png"
+style="width:100.0%"
 alt="The compound selection tab’s list of available preloaded compounds based on previous user selections." />
 <figcaption aria-hidden="true">The compound selection tab’s list of
 available preloaded compounds based on previous user
@@ -263,7 +270,8 @@ shown in the image below before proceeding to the next tab.
 <br/><br/>
 
 <figure>
-<img src="vignettes/GUI_CTP_CompoundSelectEx1_Pic2.png"
+<img
+src="vignettes/Concentration-Time%20Profile%20Vignette%20Images/Example1/GUI_CTP_CompoundSelectEx1_Pic2.png"
 style="width:100.0%"
 alt="The completed compound selection card for example 1." />
 <figcaption aria-hidden="true">The completed compound selection card for
@@ -289,7 +297,9 @@ simulate, the results may take several seconds to populate.
 <br/><br/>
 
 <figure>
-<img src="vignettes/GUI_CTP_RunSimEx1_1.png" style="width:100.0%"
+<img
+src="vignettes/Concentration-Time%20Profile%20Vignette%20Images/Example1/GUI_CTP_RunSimEx1_1.png"
+style="width:100.0%"
 alt="The run simulations tab appearance before the “Run Simulation” button under the Actions card is clicked." />
 <figcaption aria-hidden="true">The run simulations tab appearance before
 the “Run Simulation” button under the <em>Actions</em> card is
@@ -309,7 +319,9 @@ by clicking *Download Figure 1*.
 <br/><br/>
 
 <figure>
-<img src="vignettes/GUI_CTP_RunSimEx1_2.png" style="width:100.0%"
+<img
+src="vignettes/Concentration-Time%20Profile%20Vignette%20Images/Example1/GUI_CTP_RunSimEx1_2.png"
+style="width:100.0%"
 alt="The multi-curve plot output and download option for example 1." />
 <figcaption aria-hidden="true">The multi-curve plot output and download
 option for example 1.</figcaption>
@@ -326,7 +338,9 @@ the very last plot in this tab.
 <br/><br/>
 
 <figure>
-<img src="vignettes/GUI_CTP_RunSimEx1_3.png" style="width:100.0%"
+<img
+src="vignettes/Concentration-Time%20Profile%20Vignette%20Images/Example1/GUI_CTP_RunSimEx1_3.png"
+style="width:100.0%"
 alt="The individual plots output and download option for example 1." />
 <figcaption aria-hidden="true">The individual plots output and download
 option for example 1.</figcaption>
@@ -344,7 +358,9 @@ below.
 <br/><br/>
 
 <figure>
-<img src="vignettes/GUI_CTP_RunSimEx1_4.png" style="width:100.0%"
+<img
+src="vignettes/Concentration-Time%20Profile%20Vignette%20Images/Example1/GUI_CTP_RunSimEx1_4.png"
+style="width:100.0%"
 alt="The simulation data download feature for example 1." />
 <figcaption aria-hidden="true">The simulation data download feature for
 example 1.</figcaption>
@@ -361,7 +377,9 @@ download if the user clicks *Download Table 1*.
 <br/><br/>
 
 <figure>
-<img src="vignettes/GUI_CTP_RunSimEx1_5.png" style="width:100.0%"
+<img
+src="vignettes/Concentration-Time%20Profile%20Vignette%20Images/Example1/GUI_CTP_RunSimEx1_5.png"
+style="width:100.0%"
 alt="The toxicokinetic (TK) summary drop down table for example 1." />
 <figcaption aria-hidden="true">The toxicokinetic (TK) summary drop down
 table for example 1.</figcaption>
