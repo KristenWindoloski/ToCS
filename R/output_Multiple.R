@@ -217,17 +217,23 @@ UpdatePars <- function(pars){
   # --- OUTPUT TIMES
   if (pars[["returntimes"]] == "" && pars[["model"]] != 'fetal_pbtk'){
     out_times <- seq(0, pars[["simtime"]], signif(1/(96), round(-log10(1e-4)-1))) #output approx every 15 minutes
+    out_times <- unique(c(out_times,pars[["simtime"]]))
   }
   else if (pars[["returntimes"]] == "" && pars[["model"]] == 'fetal_pbtk'){
-    out_times <- seq(13*7, 40*7, signif(1/(96), round(-log10(1e-4)-1))) #only runs weeks 13-40 of gestation
+    end_time <- min(c(280,91+pars[["simtime"]]))
+    out_times <- seq(91,end_time,1) #only runs weeks 13-40 of gestation
   }
   else{
     v1 <- unlist(strsplit(pars[["returntimes"]],","))
     out_times <- sapply(v1, function(x) eval(parse(text = x)))
-    print(out_times)
-    # out_times <- as.numeric(unlist(strsplit(pars[["returntimes"]],",")))
+    if (pars[["model"]] == 'fetal_pbtk'){
+      out_times <- unique(sort(c(out_times,min(out_times)+pars[["simtime"]])))
+    }
+    else{
+      out_times <- unique(sort(c(out_times,pars[["simtime"]])))
+    }
   }
-  pars[["returntimes"]] <- unique(c(out_times,pars[["simtime"]]))
+  pars[["returntimes"]] <- out_times
 
   # --- SS TISSUE OUTPUT
   if (pars[["tissueSS"]] == "NULL"){

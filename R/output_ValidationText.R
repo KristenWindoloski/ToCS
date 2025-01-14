@@ -75,10 +75,15 @@ validate_text_ADME <- function(pars){
       )
     }
 
-    if (pars[["runsim"]]>0 && pars[["model"]] == 'fetal_pbtk' && pars[["returntimes"]] != ''){
-      shiny::validate(
-        shiny::need(pars[["returntimes"]][1] >= 13*7, label = "A beginning output time of 13 weeks (91 days) or later")
-      )
+    if (pars[["runsim"]]>0 && pars[["model"]] == 'fetal_pbtk'){
+      if (length(pars[["returntimes"]])>0){
+        mintime <- min(pars[["returntimes"]])
+        if (mintime < 91){
+          shiny::validate(
+            shiny::need(pars[["returntimes"]][1] >= 13*7, label = "A beginning output time of 13 weeks (91 days) or later")
+            )
+        }
+      }
     }
 }
 
