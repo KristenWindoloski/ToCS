@@ -256,6 +256,7 @@ modsol <- function(pars){
     tk_sum_array[,,i] <- apply(as.matrix(df_tksum[,2:4]), 2, as.numeric)
 
   }
+
   # --- Assign row, column, and page names to the arrays
   columns <- colnames(modsolution)
   compartmentnames <- columns[2:length(columns)]

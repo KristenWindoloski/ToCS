@@ -1,6 +1,6 @@
 
 # --- Created by Kristen Windoloski
-# --- Last Updated: January 13, 2025
+# --- Last Updated: January 14, 2025
 # --- Description: A graphical user interface that utilizes the EPA's
 #                  high-throughput toxicokinetics 'httk' R package to generate
 #                  toxicokinetic ADME (absorption, distribution, metabolism,
@@ -121,7 +121,7 @@ ToCS <- function(...){
     # GENERATES THE MODEL CARD OUTPUT
     ##########################################################################
 
-    output$Model <- shiny::renderUI({Model_Input(input$func)})
+    output$Model <- shiny::renderUI({Model_Input(input$func,input$spec)})
 
     ##########################################################################
     # GENERATES THE PRELOADED COMPOUNDS OUTPUT
@@ -134,12 +134,16 @@ ToCS <- function(...){
         if (input$func == "In vitro in vivo extrapolation (IVIVE)" && input$HondaIVIVE == "Honda1"){
           htmltools::tagList(numericInput_FSBf("FSBf"),
                              shiny::showModal(shiny::modalDialog(title = "System Running",
-                                                                 "Compiling chemical list. The Preloaded Compounds card will update once completed. Please wait...")),
+                                                                 "Compiling chemical list. The Preloaded Compounds card will update once completed, and
+                                                                 may take a moment if loading compounds with in silico parameters.
+                                                                 You may click the 'Dismiss' button.")),
                              PreloadCompsInput(input$func,input$spec,input$defaulttoHuman,input$insilicopars,input$model,input$HondaIVIVE))
         }
         else {
           htmltools::tagList(shiny::showModal(shiny::modalDialog(title = "System Running",
-                                                                 "Compiling chemical list. The Preloaded Compounds card will update once completed. Please wait...")),
+                                                                 "Compiling chemical list. The Preloaded Compounds card will update once completed, and
+                                                                 may take a moment if loading compounds with in silico parameters.
+                                                                 You may click the 'Dismiss' button.")),
                              PreloadCompsInput(input$func,input$spec,input$defaulttoHuman,input$insilicopars,input$model,input$HondaIVIVE))
         }
       }
@@ -150,7 +154,7 @@ ToCS <- function(...){
     ##########################################################################
 
     shiny::observeEvent(input$runCompounds,{
-      shiny::showModal(shiny::modalDialog("Compounds are being loaded into the system. Please click 'Dismiss' and proceed to the next tab."))
+      shiny::showModal(shiny::modalDialog("Compounds are loading into the system. Click 'Dismiss' and proceed to the next tab."))
     })
 
     CompLst <- shiny::eventReactive(input$runCompounds,{

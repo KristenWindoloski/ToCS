@@ -198,6 +198,7 @@ getPiped <- function(CASnums,honda){
       piped <- paste(chemlist$CAS, chemlist$Compound, sep = ", ")
     }
   }
+
   return(piped)
 }
 
@@ -296,11 +297,16 @@ textInput_DoseMatrix <- function(id){
 # MODEL PARAMETERS
 ###################################
 
-Model_Input <- function(func){
+Model_Input <- function(func,spec){
 
 
   if (func == "Concentration-time profiles"){
-    choice_lst <- list("Select","1compartment","3compartment","pbtk","fetal_pbtk")
+    if (spec == "Human"){
+      choice_lst <- list("Select","1compartment","3compartment","pbtk","fetal_pbtk")
+    }
+    else{
+      choice_lst <- list("Select","1compartment","3compartment","pbtk")
+    }
   }
   else if (func == "Steady state concentrations" || func == "In vitro in vivo extrapolation (IVIVE)"){
     choice_lst = list("Select","3compartmentss","1compartment","3compartment","pbtk")
