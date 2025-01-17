@@ -1,23 +1,9 @@
 
 ######################################################
-# --- DETERMINE LOG BREAKS IN ADME PLOTS
-######################################################
-
-log10breaks_ADME <- function(ydata) {
-
-  x <- ydata[ydata > 0]
-
-  bottom <- floor(log10(min(x)))
-  top <- ceiling(log10(max(x)))
-
-  10^(seq(bottom, top, 2))
-}
-
-######################################################
 # --- PLOT ALL ADME COMPOUND CURVES ON ONE PLOT
 ######################################################
 
-plottingfunc_all <- function(sol_array, logscale){
+plottingfunc_all <- function(sol_array){
 
   # --- Set needed variables; subtracted 1 from num_states because 'time' is one of the columns
   cn <- dimnames(sol_array)[2]
@@ -58,14 +44,6 @@ plottingfunc_all <- function(sol_array, logscale){
       ggplot2::labs(x = "Time (Days)", y = col_names[i+1]) +
       ggplot2::theme_bw() +
       ggplot2::guides(col = ggplot2::guide_legend(ncol = 2))
-
-    if (logscale == TRUE){
-      break_seq <- log10breaks_ADME(compartment_df$Yvalues)
-      plt_lst[[i]] <- plt_lst[[i]] +
-        ggplot2::scale_y_log10(breaks = break_seq,
-                               labels = scales::trans_format("log10", scales::math_format(10^.x))) +
-        ggplot2::annotation_logticks(sides = "l")
-    }
   }
 
   # --- Extract color pattern data frame for individual compound plots
@@ -90,7 +68,7 @@ plottingfunc_all <- function(sol_array, logscale){
 # --- PLOT ALL ADME COMPOUND CURVES ON INDIVIDUAL PLOTS
 ########################################################
 
-plottingfunc_individual <- function(sol_array, plt_colors, logscale){
+plottingfunc_individual <- function(sol_array, plt_colors){
 
   # --- Set needed variables; subtracted 1 from num_states because 'time' is
   # --- one of the columns
@@ -125,15 +103,6 @@ plottingfunc_individual <- function(sol_array, plt_colors, logscale){
         ggplot2::labs(x = "Time (Days)", y = col_names[j+1]) +
         ggplot2::theme_bw() +
         ggplot2::scale_linetype("Compound")
-
-      # --- change y-axis to log10 scale if wanted
-      if (logscale == TRUE){
-        break_seq <- log10breaks_ADME(compound_compartment_df$Ydata)
-        individ_plt_lst[[j]] <- individ_plt_lst[[j]] +
-          ggplot2::scale_y_log10(breaks = break_seq,
-                        labels = scales::trans_format("log10", scales::math_format(10^.x))) +
-          ggplot2::annotation_logticks(sides = "l")
-      }
     }
 
     # --- Save legend to plot later

@@ -22,13 +22,12 @@ ADME_MultPlt_server <- function(id, adme_args){
     #--- Set reactives to be used
     sol <- shiny::reactive({adme_args()[[1]]})
     pars <- shiny::reactive({adme_args()[[2]]})
-    logscale <- shiny::reactive({pars()[["logscale"]]})
     runsim <- shiny::reactive({pars()[["runsim"]]})
     model <- shiny::reactive({pars()[["model"]]})
 
     #--- Generates plotting list and colors for plots
     allplt_out <- shiny::reactive({
-      plottingfunc_all(sol()[[1]],logscale())})
+      plottingfunc_all(sol()[[1]])})
 
     #--- Arranges multiple plots on one grid
     ADME1plots <- shiny::reactive({

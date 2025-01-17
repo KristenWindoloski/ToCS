@@ -23,18 +23,17 @@ ADME_IndPlt_server <- function(id,adme_args){
     #--- Set reactives to be used
     sol <- shiny::reactive({adme_args()[[1]]})
     pars <- shiny::reactive({adme_args()[[2]]})
-    logscale <- shiny::reactive({pars()[["logscale"]]})
     runsim <- shiny::reactive({pars()[["runsim"]]})
     model <- shiny::reactive({pars()[["model"]]})
 
     #--- Generates color list for plots to match ADME_MultPlt_server colors
     allplt_out <- shiny::reactive({
-      plottingfunc_all(sol()[[1]],logscale())})
+      plottingfunc_all(sol()[[1]])})
 
     #--- Generates master plotting list where each entry corresponds to a compound
     #--- Each entry is a list of subplots for that compound
     ADME2plots_list <- shiny::reactive({
-      plottingfunc_individual(sol()[[1]], allplt_out()[[2]], logscale())})
+      plottingfunc_individual(sol()[[1]], allplt_out()[[2]])})
 
     #--- Returns the number of plots to be generated (= to num of compounds)
     num_ADMEplots <- shiny::reactive({
