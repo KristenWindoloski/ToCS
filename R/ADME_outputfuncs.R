@@ -36,7 +36,7 @@ Set_Plot_Legend_Color <- function(plt_lst,n_states){
   plt_lst[[n_states+1]] <- cowplot::get_plot_component(plt_lst[[1]],"guide-box",return_all = TRUE)[[1]]
 
   # --- Remove legend from current plots
-  for (j in 1:num_states) {
+  for (j in 1:n_states) {
     plt_lst[[j]] <- plt_lst[[j]] + ggplot2::theme(legend.position = "none")
   }
 
@@ -55,7 +55,7 @@ plottingfunc_all <- function(sol_array){
   compound_names <- dn[[1]]
 
   # --- Create empty list to be filled with number of plots (each plot will have multiple curves on it)
-  plt_lst = vector('list', num_states + 1)
+  plt_lst = vector('list', (num_states+1))
 
   # --- Generate plots for each compartment
   for (i in 1:num_states) {
@@ -200,7 +200,7 @@ modsol <- function(pars){
   # --- Solve model for each compound
   for (i in (1:n)) {
 
-    modsolution <- Run_ADME_Model(pars)
+    modsolution <- Run_ADME_Model(i,pars)
 
     #--- Set sizes of output arrays
     if (i==1){
@@ -215,11 +215,11 @@ modsol <- function(pars){
   }
 
   # --- Assign row, column, and page names to the arrays
-  arr_out <- AssignArrayNames(modsolution,sol,pars)
+  arr_out <- AssignArrayNames(sol,tk_sum_array,pars)
   sol <- arr_out[[1]]
 
   # --- Rearrange TK summary array to be 2D data frame
-  tk_sum_array <- Rearr_TKSumArray(arr_out[[2]])
+  tk_sum_array <- Rearr_TKSumArray(sol,arr_out[[2]],pars)
 
   # --- Generate simulation parameters data frame
   pars_df <- StorePars_ADME(pars)
@@ -228,7 +228,7 @@ modsol <- function(pars){
   out_list <- list(sol,tk_sum_array,pars_df)
 }
 
-Run_ADME_Model <- function(pars){
+Run_ADME_Model <- function(i,pars){
 
   out <- httk::solve_model(chem.name = pars[["CompoundList"]][i,1],
                            route = pars[["doseroute"]],
@@ -271,7 +271,7 @@ SetArraySize <- function(modelsol,n){
   out <- list(sol,tk_sum_array)
 }
 
-AssignArrayNames <- function(sol,pars){
+AssignArrayNames <- function(sol,tk_sum_array,pars){
 
   columns <- colnames(sol)
   compartmentnames <- columns[2:length(columns)]
@@ -284,8 +284,10 @@ AssignArrayNames <- function(sol,pars){
   out <- list(sol,tk_sum_array)
 }
 
-Rearr_TKSumArray <- function(tk_sum_array){
+Rearr_TKSumArray <- function(sol,tk_sum_array,pars){
 
+  columns <- colnames(sol)
+  compartmentnames <- columns[2:length(columns)]
   statnames <- c("Tmax","MaxValue","AUC")
   compoundnames <- pars[["CompoundList"]][,1]
 
@@ -363,5 +365,5 @@ StorePars_ADME <- function(pars){
                         keepit100 = pars[["caco_keep100"]])
 
   # --- Bind parameter and chemical data
-  out <- Bind_Chem_Data(pars,pard_df)
+  out <- Bind_Chem_Data(pars,pars_df)
 }
