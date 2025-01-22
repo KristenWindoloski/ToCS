@@ -78,11 +78,13 @@ plottingfunc_all <- function(sol_array){
 # --- PLOT ALL ADME COMPOUND CURVES ON INDIVIDUAL PLOTS
 ########################################################
 
-Create_Individ_Subplot <- function(comp_sol,compound_names,plt_colors,col_names){
+Create_Individ_Subplot <- function(i,j,comp_sol,compound_names,plt_colors,col_names){
 
+  # --- Create data frame with plotting data for compound i
   compound_compartment_df <- data.frame(Time = comp_sol[,1],
                                         Ydata = comp_sol[,j+1])
 
+  # --- Create plot
   outplot <- ggplot2::ggplot(compound_compartment_df, ggplot2::aes(Time, Ydata, lty = compound_names[i])) +
     ggplot2::geom_line(linewidth=1, color = plt_colors[i,1]) +
     ggplot2::labs(x = "Time (Days)", y = col_names[j+1]) +
@@ -131,7 +133,7 @@ plottingfunc_individual <- function(sol_array, plt_colors){
 
     # --- Fill the list with each subplot for compound i
     for (j in 1:num_states) {
-      individ_plt_lst[[j]] <- Create_Individ_Subplot(comp_sol,compound_names,plt_colors,col_names)
+      individ_plt_lst[[j]] <- Create_Individ_Subplot(i,j,comp_sol,compound_names,plt_colors,col_names)
     }
 
     # --- Set legend and final plot for compound i
@@ -215,7 +217,7 @@ modsol <- function(pars){
   }
 
   # --- Assign row, column, and page names to the arrays
-  arr_out <- AssignArrayNames(sol,tk_sum_array,pars)
+  arr_out <- AssignArrayNames(sol,modsolution,tk_sum_array,pars)
   sol <- arr_out[[1]]
 
   # --- Rearrange TK summary array to be 2D data frame
@@ -271,14 +273,16 @@ SetArraySize <- function(modelsol,n){
   out <- list(sol,tk_sum_array)
 }
 
-AssignArrayNames <- function(sol,tk_sum_array,pars){
+AssignArrayNames <- function(sol,modsol,tk_sum_array,pars){
 
-  columns <- colnames(sol)
+  # --- Extract compound and compartment names
+  columns <- colnames(modsol)
   compartmentnames <- columns[2:length(columns)]
   compoundnames <- pars[["CompoundList"]][,1]
-
-  dimnames(sol) <- list(c(), columns, compoundnames)
   statnames <- c("Tmax","MaxValue","AUC")
+
+  # --- Assign dimension names
+  dimnames(sol) <- list(c(), columns, compoundnames)
   dimnames(tk_sum_array) <- list(c(compartmentnames),statnames,compoundnames)
 
   out <- list(sol,tk_sum_array)
@@ -286,11 +290,13 @@ AssignArrayNames <- function(sol,tk_sum_array,pars){
 
 Rearr_TKSumArray <- function(sol,tk_sum_array,pars){
 
+  # --- Extract compound and compartment names
   columns <- colnames(sol)
   compartmentnames <- columns[2:length(columns)]
   statnames <- c("Tmax","MaxValue","AUC")
   compoundnames <- pars[["CompoundList"]][,1]
 
+  # --- Rearrange as a matrix and assign dimension names
   combdim <- list(outer(statnames,compoundnames, paste))
   mat_colnames <- gsub(" ", ".",combdim[[1]])
   dim_tk <- dim(tk_sum_array)
@@ -302,6 +308,7 @@ Rearr_TKSumArray <- function(sol,tk_sum_array,pars){
 
 Dosing_Output <- function(pars){
 
+  # --- Set values for dosing output (must have "NULL" instead of NULL)
   if (!is.null(pars[["dosinginfo"]]$initial.dose)){
     initial.dose <- pars[["dosinginfo"]]$initial.dose
     doses.per.day <- "NULL"
@@ -326,6 +333,7 @@ Dosing_Output <- function(pars){
 
 Bind_Chem_Data <- function(pars,pars_df){
 
+  # --- Combine parameter and chemical data into one data frame
   chemdata <- chem.physical_and_invitro.data[chem.physical_and_invitro.data$Compound %in% pars[["CompoundList"]][,1],]
   chemdata <- chemdata[order(match(chemdata$Compound,pars_df$chem.name)),]
   pars_df <- cbind(pars_df,chemdata)
