@@ -149,11 +149,7 @@ scat_plot <- function(sol,pars,logscale){
           plot.title = ggplot2::element_text(hjust = 0.5))
 
   if (logscale == TRUE){
-    break_seq <- log10breaks_SS(sol$SteadyState)
-    plt <- plt +
-      ggplot2::scale_y_log10(breaks = break_seq,
-                    labels = scales::trans_format("log10", scales::math_format(10^.x))) +
-      ggplot2::annotation_logticks(sides = "l")
+    plt <- plot_logscale(plt,sol$SteadyState)
   }
   return(plt)
 }

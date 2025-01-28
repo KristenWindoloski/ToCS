@@ -256,6 +256,19 @@ Run_ADME_Model <- function(i,pars){
                                                                              Caco2.Fgut = pars[["caco_fgut"]],
                                                                              overwrite.invivo = pars[["caco_overwriteinvivo"]],
                                                                              keepit100 = pars[["caco_keep100"]])))
+
+  out <- RemoveCols(out,pars[["model"]])
+}
+
+RemoveCols <- function(sol,model){
+
+  if (model == "fetal_pbtk"){
+    index <- which(colnames(sol) == "Qthyroid")
+  }
+  else {
+    index <- which(colnames(sol) == "AUC")
+  }
+  sol <- sol[,1:index]
 }
 
 SetArraySize <- function(modelsol,n){
@@ -375,3 +388,4 @@ StorePars_ADME <- function(pars){
   # --- Bind parameter and chemical data
   out <- Bind_Chem_Data(pars,pars_df)
 }
+

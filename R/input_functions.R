@@ -7,7 +7,7 @@
 ParNames <- function(){
 
   GenPars <- c("func","spec","defaulttoHuman")
-  CompoundSelectPars <- c("runCompounds","HondaIVIVE","FSBf","httkPreloadComps","httkPreloadComps_Honda","file1")
+  CompoundSelectPars <- c("runCompounds","HondaIVIVE","FSBf","httkPreloadComps","httkPreloadComps_Honda","file1","insilicopars")
   ModelSpecifPars <- c("doseroute","doseunits","dosenum","initdose","multdose","mult_doseamount","mult_dosetime","multdose_odd","dailydose",
                        "model","simtime","BioactiveFile","returnsamples","quantile")
   ModelConditionPars <- c("init_cond_opts",unlist(names_ICs()[[1]]),"samples","bioactiveIVIVE",
@@ -42,7 +42,7 @@ Instructions_GenPars <- function(){
 }
 
 Instructions_CompSelect_Part1 <- function(){
-  htmltools::h6(shiny::strong("You must choose at least one compound from the preloaded compounds,
+    htmltools::h6(shiny::strong("You must choose at least one compound from the preloaded compounds,
             upload a CSV file with data for at least one compound not included
             in the preloaded compounds, or both."))
 }
@@ -159,10 +159,6 @@ PreloadCompsInput <- function(func,species,defaulthuman,insilico,model,honda){
 }
 
 getCASnums <- function(func,species,model,defaulttohuman){
-
-  if (func == "Parameter calculations"){
-    model <- "schmitt"
-  }
 
   CASnums <- httk::get_cheminfo(species = species,
                                 model = model,
@@ -321,7 +317,7 @@ Model_Input <- function(func,spec){
 
   if (func != "Select"){
     if (func == "Parameter calculations"){
-      shiny::selectInput("model",label = label_txt,choices = list("None"),selected = "None")
+      shiny::selectInput("model",label = label_txt,choices = list("Select","Schmitt"),selected = "Select")
     }
     else{
       shiny::selectInput("model",label = label_txt,choices = choice_lst,selected = "Select")

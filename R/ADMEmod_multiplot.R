@@ -35,6 +35,7 @@ ADME_MultPlt_server <- function(id, adme_args){
 
     #--- Outputs plot
     output$ADME1plots <- shiny::renderPlot({
+      shiny::req(runsim(),sol())
       ADME1plots()})
 
     #--- Outputs plot caption

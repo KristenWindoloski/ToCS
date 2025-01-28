@@ -75,9 +75,9 @@ MS_Model <- function(){
 #### INSTRUCTIONS CARD
 CS_Instructions <- function(){
   bslib::card(bslib::card_header("INSTRUCTIONS"),
-              shiny::conditionalPanel(condition = "input.httkPreloadComps == '' && output.fileUploaded == false && input.insilicopars != 'Select'",
+              shiny::conditionalPanel(condition = "input.httkPreloadComps == '' && output.fileUploaded == false && input.model != 'Select' && input.insilicopars != 'Select'",
                                       Instructions_CompSelect_Part1()),
-              shiny::conditionalPanel(condition = "(input.httkPreloadComps != '' || output.fileUploaded == true) && input.insilicopars != 'Select'",
+              shiny::conditionalPanel(condition = "(input.httkPreloadComps != '' || output.fileUploaded == true) && input.model != 'Select' && input.insilicopars != 'Select'",
                                       Instructions_CompSelect_Part2(),
                                       shiny::actionButton("runCompounds", label = "Load Compounds")),
               Instructions_CompSelect_Part3(),
@@ -203,5 +203,35 @@ RS_Results <- function(){
               shiny::conditionalPanel(condition = "input.func == 'Steady state concentrations'", SS_ui("SS_AllOut")),
               shiny::conditionalPanel(condition = "input.func == 'In vitro in vivo extrapolation (IVIVE)'", IVIVE_ui("IVIVE_AllOut")),
               shiny::conditionalPanel(condition = "input.func == 'Parameter calculations'", PC_ui("IP_AllOut")))
+}
+
+
+
+
+
+#######################################
+# SERVER
+#######################################
+
+
+UpdateFunc <- function(session){
+
+    updateSelectInput(session = session, inputId = 'model', selected = "Select")
+    updateSelectInput(session = session, inputId = 'insilicopars', selected = "Select")
+    updateSelectInput(session = session, inputId = 'httkPreloadComps', selected = "")
+    updateSelectInput(session = session, inputId = 'httkPreloadComps_Honda', selected = "")
+}
+
+UpdateSpec <- function(session){
+
+  updateSelectInput(session = session, inputId = 'model', selected = "Select")
+  updateSelectInput(session = session, inputId = 'httkPreloadComps', selected = "")
+  updateSelectInput(session = session, inputId = 'httkPreloadComps_Honda', selected = "")
+}
+
+UpdateComps <- function(session){
+
+  updateSelectInput(session = session, inputId = 'httkPreloadComps', selected = "")
+  updateSelectInput(session = session, inputId = 'httkPreloadComps_Honda', selected = "")
 }
 

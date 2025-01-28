@@ -1,6 +1,6 @@
 
 # --- Created by Kristen Windoloski
-# --- Last Updated: January 14, 2025
+# --- Last Updated: January 28, 2025
 # --- Description: A graphical user interface that utilizes the EPA's
 #                  high-throughput toxicokinetics 'httk' R package to generate
 #                  toxicokinetic ADME (absorption, distribution, metabolism,
@@ -147,6 +147,11 @@ ToCS <- function(...){
                              PreloadCompsInput(input$func,input$spec,input$defaulttoHuman,input$insilicopars,input$model,input$HondaIVIVE))
         }
       }
+      else{
+        shiny::showModal(shiny::modalDialog(title = "Missing Parameters",
+                                            "Click the 'Dismiss' button and return to the 'General Parameters' and 'Model Specifications'
+                                            tabs to select any missing parameters. Then return to this tab."))
+      }
     })
 
     ##########################################################################
@@ -154,27 +159,43 @@ ToCS <- function(...){
     ##########################################################################
 
     shiny::observeEvent(input$runCompounds,{
-      shiny::showModal(shiny::modalDialog("Compounds are loading into the system. Click 'Dismiss' and proceed to the next tab."))
+      shiny::showModal(shiny::modalDialog("Compounds are loading into the system.
+                                          Click 'Dismiss' and proceed to the next tab."))
     })
 
-    CompLst <- shiny::eventReactive(input$runCompounds,{
-
-      #--- OUTPUT ERROR WARNINGS IF NEEDED VARIABLES ARE MISSING
-      pars <- list(input$func,input$spec,input$defaulttoHuman,input$runCompounds,input$model)
-      names(pars) <- c("func","spec","defaulttoHuman","runCompounds","model")
-      validate_text_Common(pars,"Yes")
+    CompLst <- shiny::reactive({
 
       #--- COMPILES A LIST OF ALL COMPOUNDS
       CompoundList(input$httkPreloadComps,input$httkPreloadComps_Honda,input$file1)
       })
 
-    output$comptext <- shiny::renderTable({CompLst()})
+    output$comptext <- shiny::renderTable({
+
+      #--- OUTPUT ERROR WARNINGS IF NEEDED VARIABLES ARE MISSING
+      pars <- list(input$func,input$spec,input$defaulttoHuman,input$runCompounds,input$model,
+                   input$insilicopars,input$httkPreloadComps,input$httkPreloadComps_Honda,input$file1)
+      names(pars) <- c("func","spec","defaulttoHuman","runCompounds","model",
+                       "insilicopars","httkPreloadComps","httkPreloadComps_Honda","file1")
+      validate_text_Common(pars)
+
+      CompLst()
+      })
+
+    ##########################################################################
+    # RESET INPUT VARIABLES IF USER CHANGES VARIABLES AFTER SIMULATION
+    ##########################################################################
+
+    shiny::observeEvent(input$func,{UpdateFunc(session)})
+    shiny::observeEvent(input$spec,{UpdateSpec(session)})
+    shiny::observeEvent(input$defaulttoHuman,{UpdateComps(session)})
+    shiny::observeEvent(input$model,{UpdateComps(session)})
+    shiny::observeEvent(input$insilicopars,{UpdateComps(session)})
 
     ##########################################################################
     # GATHER ALL INPUT VARIABLES
     ##########################################################################
 
-    AllInputs <- shiny::reactive({
+    AllInputs <- shiny::eventReactive(input$runsim,{
 
       CompilePars <- function(VarName){
         eval(parse(text = paste("input$",VarName,sep = "")))
@@ -192,17 +213,29 @@ ToCS <- function(...){
     # PARAMETER CALCULATIONS (PLOTS, TABLES)
     ##########################################################################
 
-    shiny::conditionalPanel(condition = "input.func == 'Concentration-time profiles'",
-                            ADME_server("ADME_AllOut",AllInputs,shiny::reactive(input$runsim)))
+    shiny::observeEvent(input$runsim,{
 
-    shiny::conditionalPanel(condition = "input.func == 'Steady state concentrations'",
-                            SS_server("SS_AllOut",AllInputs,shiny::reactive(input$runsim),shiny::reactive(input$logscale)))
+      # shiny::showModal(shiny::modalDialog(title = "Error: Missing Parameter(s)", "Click the 'Dismiss' button and view the message(s)
+      #                                     under the 'Selected Compounds' and/or 'Results' card to identify missing parameters.
+      #                                     Required parameters were not selected."))
 
-    shiny::conditionalPanel(condition = "input.func == 'In vitro in vivo extrapolation (IVIVE)'",
-                            IVIVE_server("IVIVE_AllOut",AllInputs,shiny::reactive(input$runsim),shiny::reactive(input$logscale)))
+      shiny::showModal(shiny::modalDialog(title = "System Running", "Computing solution - this may take a moment.
+                                          Plots and tables will update once completed.
+                                          You may click the 'Dismiss' button."))
 
-    shiny::conditionalPanel(condition = "input.func == 'Parameter calculations'",
-                            PC_server("IP_AllOut",AllInputs,shiny::reactive(input$runsim),shiny::reactive(input$logscale)))
+      if (input$func == "Concentration-time profiles"){
+        ADME_server("ADME_AllOut",AllInputs,shiny::reactive(input$runsim))
+      }
+      else if (input$func == "Steady state concentrations"){
+        SS_server("SS_AllOut",AllInputs,shiny::reactive(input$runsim),shiny::reactive(input$logscale))
+      }
+      else if (input$func == "In vitro in vivo extrapolation (IVIVE)"){
+        IVIVE_server("IVIVE_AllOut",AllInputs,shiny::reactive(input$runsim),shiny::reactive(input$logscale))
+      }
+      else if (input$func == "Parameter calculations"){
+        PC_server("IP_AllOut",AllInputs,shiny::reactive(input$runsim),shiny::reactive(input$logscale))
+      }
+    })
   }
 
   ####################################################################################

@@ -35,7 +35,6 @@ IVIVEsol <- function(pars){
   # --- Generate OED solution for each chemical
   for (i in 1:n) {
 
-    print(bioactive_conc)
     OED <- CalcOED(i,pars,bioactive_conc)
 
     if (pars[["returnsamples"]] == FALSE){
@@ -220,7 +219,8 @@ IVIVEplotting <- function(OED_data,BioactiveConc,pars,logscale){
     }
      plt <- plt +
        ggplot2::scale_y_log10(breaks = break_seq,
-                               labels = scales::trans_format("log10", scales::math_format(10^.x))) +
+                              labels = scales::trans_format("log10", scales::math_format(10^.x)),
+                              limit = c(min(break_seq),max(break_seq))) +
        ggplot2::annotation_logticks(sides = "l")
   }
   return(plt)

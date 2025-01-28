@@ -25,6 +25,7 @@ ADME_TCData_server <- function(id,adme_args){
     #--- Creates download button
     output$downloadADME_data <- shiny::renderUI({
       shiny::req(sol(),runsim())
+      validate_text_ADME(pars())
       shiny::downloadButton(session$ns("downloadADME"), "Download ADME Time Course Data")})
 
     #--- Downloads time-course simulation data

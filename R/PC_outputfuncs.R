@@ -144,6 +144,20 @@ log10breaks_Par <- function(ydata) {
 # --- GENERATE PLOT WITH ELIM RATE AND VDIST
 ##################################################
 
+plot_logscale <- function(plt,sol_vec){
+
+  break_seq <- log10breaks_Par(sol_vec)
+
+  plt <- plt +
+    ggplot2::scale_y_log10(breaks = break_seq,
+                           labels = scales::trans_format("log10", scales::math_format(10^.x)),
+                           limits = c(min(break_seq),max(break_seq))) +
+    ggplot2::annotation_logticks(sides = "l")
+
+  return(plt)
+}
+
+
 plotPar <- function(soldata,pars,logscale){
 
   df_elim <- dplyr::select(soldata, CompoundName, EliminationRate)
@@ -168,11 +182,7 @@ plotPar <- function(soldata,pars,logscale){
     ggplot2::theme_bw(base_size = 18) +
     ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 0.5, vjust = 0.5))
   if (logscale == TRUE){
-    break_seq <- log10breaks_Par(df_elim$EliminationRate)
-    plt_lst[[1]] <- plt_lst[[1]] +
-      ggplot2::scale_y_log10(breaks = break_seq,
-                    labels = scales::trans_format("log10", scales::math_format(10^.x))) +
-      ggplot2::annotation_logticks(sides = "l")
+    plt_lst[[1]] <- plot_logscale(plt_lst[[1]],df_elim$EliminationRate)
   }
 
   plt_lst[[2]] <- ggplot2::ggplot(df_vdist, ggplot2::aes(CompoundName, VolumeOfDistribution)) +
@@ -181,11 +191,7 @@ plotPar <- function(soldata,pars,logscale){
     ggplot2::theme_bw(base_size = 18) +
     ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 0.5, vjust = 0.5))
   if (logscale == TRUE){
-    break_seq <- log10breaks_Par(df_vdist$VolumeOfDistribution)
-    plt_lst[[2]] <- plt_lst[[2]] +
-      ggplot2::scale_y_log10(breaks = break_seq,
-                    labels = scales::trans_format("log10", scales::math_format(10^.x))) +
-      ggplot2::annotation_logticks(sides = "l")
+    plt_lst[[2]] <- plot_logscale(plt_lst[[2]],df_vdist$VolumeOfDistribution)
   }
 
   plt_lst[[3]] <- ggplot2::ggplot(df_halflife, ggplot2::aes(CompoundName, HalfLife)) +
@@ -194,11 +200,7 @@ plotPar <- function(soldata,pars,logscale){
     ggplot2::theme_bw(base_size = 18) +
     ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 0.5, vjust = 0.5))
   if (logscale == TRUE){
-    break_seq <- log10breaks_Par(df_halflife$HalfLife)
-    plt_lst[[3]] <- plt_lst[[3]] +
-      ggplot2::scale_y_log10(breaks = break_seq,
-                             labels = scales::trans_format("log10", scales::math_format(10^.x))) +
-      ggplot2::annotation_logticks(sides = "l")
+    plt_lst[[3]] <- plot_logscale(plt_lst[[3]],df_halflife$HalfLife)
   }
 
   plt_lst[[4]] <- ggplot2::ggplot(df_TotalClearance, ggplot2::aes(CompoundName, TotalClearance)) +
@@ -207,11 +209,7 @@ plotPar <- function(soldata,pars,logscale){
     ggplot2::theme_bw(base_size = 18) +
     ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 0.5, vjust = 0.5))
   if (logscale == TRUE){
-    break_seq <- log10breaks_Par(df_TotalClearance$TotalClearance)
-    plt_lst[[4]] <- plt_lst[[4]] +
-      ggplot2::scale_y_log10(breaks = break_seq,
-                             labels = scales::trans_format("log10", scales::math_format(10^.x))) +
-      ggplot2::annotation_logticks(sides = "l")
+    plt_lst[[4]] <- plot_logscale(plt_lst[[4]],df_TotalClearance$TotalClearance)
   }
 
   return(plt_lst)
@@ -241,11 +239,7 @@ plotPCs <- function(soldata,pars,logscale){
       ggplot2::theme_bw() +
       ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 0.5, vjust = 0.5))
     if (logscale == TRUE){
-      break_seq <- log10breaks_Par(tissue_df$TissuePC)
-      plt_lst[[i]] <- plt_lst[[i]] +
-        ggplot2::scale_y_log10(breaks = break_seq,
-                      labels = scales::trans_format("log10", scales::math_format(10^.x))) +
-        ggplot2::annotation_logticks(sides = "l")
+      plt_lst[[i]] <- plot_logscale(plt_lst[[i]],tissue_df$TissuePC)
     }
   }
 

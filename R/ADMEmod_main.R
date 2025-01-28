@@ -29,9 +29,6 @@ ADME_server <- function(id,pars,runsim) {
 
     adme_out <- shiny::eventReactive(runsim(),{
 
-      shiny::showModal(shiny::modalDialog(title = "System Running",
-                                          "Computing solution - this may take a moment. Plots and tables will update once completed.
-                                          You may click the 'Dismiss' button."))
       validate_text_ADME(pars())
       sol <- modsol(pars())
       out <- list(sol,pars())
