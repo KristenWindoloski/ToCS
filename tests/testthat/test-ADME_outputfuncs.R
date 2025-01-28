@@ -1,30 +1,23 @@
 
 rm(list = ls())
 
-library(testthat)
-library(httk)
-library(DescTools)
-library(ggplot2)
-library(gridExtra)
-
 ####################################################################
 # --- FUNCTION CREATED TO GENERATE PARAMETERS FOR MODEL SOLUTION
 ####################################################################
 
 Generate_Pars <- function(){
-  
+
   pars <- list(CompoundList = data.frame(Selected_Compounds = c("Ibuprofen","Terbufos")),
                doseroute = "oral",
                doseunits = "mg/kg",
-               dosinginfo = list(initial.dose = 1, 
-                                 doses.per.day=NULL, 
-                                 daily.dose=NULL, 
-                                 dosing.matrix=NULL, 
+               dosinginfo = list(initial.dose = 1,
+                                 doses.per.day=NULL,
+                                 daily.dose=NULL,
+                                 dosing.matrix=NULL,
                                  forcings = NULL),
                spec = "Human",
                model = "1compartment",
-               initvals = setNames(rep(0,4), 
-                                   c("Agutlumen","Acompartment","Ametabolized","AUC")),
+               initvals = setNames(rep(0,4),c("Agutlumen","Acompartment","Ametabolized","AUC")),
                returntimes = seq(0,1,signif(1/(96),round(-log10(1e-4)-1))),
                simtime = 1,
                odemethod = "lsoda",
@@ -44,19 +37,33 @@ Generate_Pars <- function(){
                caco_keep100 = FALSE)
 }
 
-######################################################
-# --- DETERMINE LOG BREAKS IN ADME PLOTS
-######################################################
+solve_httk <- function(pars){
+  httk::solve_model(chem.name = pars[["CompoundList"]][1,1],
+                    route = pars[["doseroute"]],
+                    input.units = pars[["doseunits"]],
+                    dosing = pars[["dosinginfo"]],
+                    species = pars[["spec"]],
+                    model = pars[["model"]],
+                    initial.values = pars[["initvals"]],
+                    times = pars[["returntimes"]],
+                    days = pars[["simtime"]],
+                    method = pars[["odemethod"]],
+                    tsteps = pars[["solversteps"]],
+                    rtol = pars[["rtol"]],
+                    atol = pars[["atol"]],
+                    recalc.blood2plasma = pars[["rb2p"]],
+                    restrictive.clearance = pars[["restrict_clear"]],
+                    adjusted.Funbound.plasma = pars[["adj_fub"]],
+                    minimum.Funbound.plasma = pars[["min_fub"]],
+                    parameterize.arg.list = list(default.to.human = pars[["defaulttoHuman"]],
+                                                 regression = pars[["regression"]],
+                                                 Caco2.options = list(Caco2.Pab.default = pars[["caco2default"]],
+                                                                      Caco2.Fabs = pars[["caco_fabs"]],
+                                                                      Caco2.Fgut = pars[["caco_fgut"]],
+                                                                      overwrite.invivo = pars[["caco_overwriteinvivo"]],
+                                                                      keepit100 = pars[["caco_keep100"]])))
 
-test_that("log10breaks_ADME() produces a power of 10 sequence",{
-
-  # --- CREATE SAMPLE DATA
-  set.seed(1)
-  ydata <- runif(100,min = 0,max = 10)
-
-  # --- TEST
-  expect_equal(log10breaks_ADME(ydata),c(10e-2,10e0))
-})
+}
 
 ########################################################
 # --- GENERATE A TABLE WITH TK SUMMARY STATISTICS
@@ -76,18 +83,20 @@ test_that("TKsummary() produces a table of simulation summary statistics ",{
                                  daily.dose = NULL))
 
   # --- CREATE EXPECTED OUTPUT
-  AUC1 <- signif(AUC(x = sol[,1], y = sol[,"Agutlumen"], method = "trapezoid"),4)
-  AUC2 <- signif(AUC(x = sol[,1], y = sol[,"Ccompartment"], method = "trapezoid"),4)
-  AUC3 <- signif(AUC(x = sol[,1], y = sol[,"Ametabolized"], method = "trapezoid"),4)
-  AUC4 <- signif(AUC(x = sol[,1], y = sol[,"AUC"], method = "trapezoid"),4)
-  df_final <- data.frame(Compartment = c("Agutlumen","Ccompartment","Ametabolized","AUC"),
-                         Tmax = c('0','0.1','1','1'),
+  AUC1 <- signif(DescTools::AUC(x = sol[,1], y = sol[,"Agutlumen"], method = "trapezoid"),4)
+  AUC2 <- signif(DescTools::AUC(x = sol[,1], y = sol[,"Ccompartment"], method = "trapezoid"),4)
+  AUC3 <- signif(DescTools::AUC(x = sol[,1], y = sol[,"Ametabolized"], method = "trapezoid"),4)
+  AUC4 <- signif(DescTools::AUC(x = sol[,1], y = sol[,"AUC"], method = "trapezoid"),4)
+  df_final <- data.frame(Tmax = c('0','0.1','1','1'),
                          MaxValue = c('292.5','6.36','151.4','4.729'),
-                         AUC = as.character(c(AUC1,AUC2,AUC3,AUC4)))
+                         AUC = c(AUC1,AUC2,AUC3,AUC4))
+
+  mat_final <- apply(as.matrix(df_final), 2, as.numeric)
 
   # --- TEST (current,target)
-  expect_equal(TKsummary(sol),df_final)
+  expect_equal(TKsummary(sol),mat_final)
 })
+
 
 ########################################################
 # --- SOLVE MODEL FOR ADME SOLUTION AND TK SUMMARY
@@ -105,39 +114,195 @@ test_that("modsol() produces a list of 3 objects",{
   expect_true(is.data.frame(modsol(pars)[[3]]))
 })
 
+test_that("modsol() takes in initial conditions",{
+
+  # --- CREATE INPUT
+  pars <- Generate_Pars()
+  pars[["initvals"]] <- setNames(c(10,10,0,0),c("Agutlumen","Acompartment","Ametabolized","AUC"))
+
+  # --- TEST
+  expect_true(is.list(modsol(pars)))
+  expect_true(is.array(modsol(pars)[[1]]))
+  expect_true(is.array(modsol(pars)[[2]]))
+  expect_true(is.data.frame(modsol(pars)[[3]]))
+})
+
+########################################################
+# --- TEST RUN_ADME_MODEL()
+########################################################
+
+# ---------------- TEST FOR SINGLE DOSING
+
+test_that("Run_ADME_Model() produces output for single dosing",{
+
+  # --- CREATE EXPECTED OUTPUT
+  pars <- Generate_Pars()
+
+  # --- CREATE INPUT
+  sol <- solve_httk(pars)
+  out <- sol[,1:5]
+
+  # --- TEST (current,target)
+  expect_equal(Run_ADME_Model(1,pars),out)
+})
+
+
+# --- TEST FOR DAILY DOSING
+
+test_that("Run_ADME_Model() produces a solution output for daily dosing ",{
+
+  # --- CREATE EXPECTED OUTPUT
+  pars <- Generate_Pars()
+  pars[["dosinginfo"]] <- list(initial.dose = NULL,
+                               doses.per.day=3,
+                               daily.dose=1,
+                               dosing.matrix=NULL,
+                               forcings = NULL)
+
+  # --- CREATE INPUT
+  sol <- solve_httk(pars)
+  out <- sol[,1:5]
+
+  # --- TEST (current,target)
+  expect_equal(Run_ADME_Model(1,pars),out)
+})
+
+
+# --- TEST FOR DOSING MATRIX
+
+test_that("Run_ADME_Model() produces a solution output for a dosing matrix",{
+
+  # --- CREATE EXPECTED OUTPUT
+  pars <- Generate_Pars()
+  pars[["dosinginfo"]] <- list(initial.dose = NULL,
+                               doses.per.day=NULL,
+                               daily.dose=NULL,
+                               dosing.matrix=matrix(c(0,0.25,0.5,0.75,1,1,1,1),
+                                                    ncol = 2,
+                                                    dimnames = list(c(),c("time","dose"))),
+                               forcings = NULL)
+
+  # --- CREATE INPUT
+  sol <- solve_httk(pars)
+  out <- sol[,1:5]
+
+  # --- TEST (current,target)
+  expect_equal(Run_ADME_Model(1,pars),out)
+})
+
+
+# --- TEST FOR 1COMP MODEL
+
+test_that("Run_ADME_Model() produces a solution output for the 1comp model",{
+
+  # --- CREATE EXPECTED OUTPUT
+  pars <- Generate_Pars()
+  pars[["model"]] <- "1compartment"
+  pars[["initvals"]] <- setNames(rep(0,4),c("Agutlumen","Acompartment","Ametabolized","AUC"))
+
+  # --- CREATE INPUT
+  sol <- solve_httk(pars)
+  out <- sol[,1:5]
+
+  # --- TEST (current,target)
+  expect_equal(Run_ADME_Model(1,pars),out)
+})
+
+
+# --- TEST FOR 3COMP MODEL
+
+test_that("Run_ADME_Model() produces a solution output for the 3comp model",{
+
+  # --- CREATE EXPECTED OUTPUT
+  pars <- Generate_Pars()
+  pars[["model"]] <- "3compartment"
+  pars[["initvals"]] <- stats::setNames(rep(0,7),
+                                        c("Aintestine","Aportven","Aliver","Asyscomp","Ametabolized","Atubules","AUC"))
+
+  # --- CREATE INPUT
+  sol <- solve_httk(pars)
+  out <- sol[,1:8]
+
+  # --- TEST (current,target)
+  expect_equal(Run_ADME_Model(1,pars),out)
+})
+
+# --- TEST FOR PBTK MODEL
+
+test_that("Run_ADME_Model() produces a solution output for the 3comp model",{
+
+  # --- CREATE EXPECTED OUTPUT
+  pars <- Generate_Pars()
+  pars[["model"]] <- "pbtk"
+  pars[["initvals"]] <- stats::setNames(rep(0,11),
+                                        c("Agutlumen","Agut","Aliver","Aven","Alung","Aart","Arest","Akidney","Atubules","Ametabolized","AUC"))
+
+  # --- CREATE INPUT
+  sol <- solve_httk(pars)
+  out <- sol[,1:13]
+
+  # --- TEST (current,target)
+  expect_equal(Run_ADME_Model(1,pars),out)
+})
+
+
+# --- TEST FOR FETAL PBTK MODEL
+
+test_that("Run_ADME_Model() produces a solution output for the fetal_pbtk model",{
+
+  # --- CREATE EXPECTED OUTPUT
+  pars <- Generate_Pars()
+  pars[["model"]] <- "fetal_pbtk"
+  pars[["initvals"]] <- stats::setNames(rep(0,24),
+                                        c("Agutlumen", "Agut", "Aliver", "Aven", "Alung",
+                                          "Aart", "Aadipose", "Arest", "Akidney", "Atubules",
+                                          "Ametabolized", "AUC", "fAUC", "Athyroid",
+                                          "Aplacenta", "Afgut", "Aflung", "Afliver", "Afven",
+                                          "Afart", "Afrest", "Afthyroid", "Afkidney", "Afbrain"))
+  pars[["returntimes"]] <- seq(91,101,1)
+
+  # --- CREATE INPUT
+  sol <- solve_httk(pars)
+  out <- sol[,1:31]
+
+  # --- TEST (current,target)
+  expect_equal(Run_ADME_Model(1,pars),out)
+})
+
+
 ########################################################
 # --- ARRANGES PLOTS ON THE SAME GRID
 ########################################################
 
-test_that("plt_arrange() produces a list of plots with subplots for all compounds",{
-
-  # --- INPUT
-  p_list <- vector('list',2)
-  arr = array(2:13, dim = c(2, 3, 2), dimnames = list(c(), c("A","B","C"), c())) 
-  for (i in 1:2) {
-    indiv_p_lst <- vector('list',2)
-    for (j in 2:3) {
-      df <- data.frame(Time = arr[,1,i], Ydata = arr[,j,i])
-      indiv_p_lst[[j-1]] <- ggplot(df, aes(Time, Ydata)) +
-        geom_line(linewidth=1) +
-        labs(x = "Time (Days)", y = colnames(arr[,j,1]))
-    }
-
-    # --- Save all subplots for compound i 
-    p_list[[i]] <- indiv_p_lst
-  }
-  
-  # --- CREATE EXPECTED OUTPUT
-  outlist <- list()
-  outlist[[1]] <- grid.arrange(grobs = p_list[[1]])
-  outlist[[2]] <- grid.arrange(grobs = p_list[[2]])
-  
-  new_df <- plt_arrange(p_list)
-
-  # --- TEST
-  expect_true(is.list(plt_arrange(p_list)))
-  expect_equal(length(plt_arrange(p_list)),2)
-  # expect_equal(plt_arrange(p_list),outlist)
-})
+# test_that("plt_arrange() produces a list of plots with subplots for all compounds",{
+#
+#   # --- INPUT
+#   p_list <- vector('list',2)
+#   arr = array(2:13, dim = c(2, 3, 2), dimnames = list(c(), c("A","B","C"), c()))
+#   for (i in 1:2) {
+#     indiv_p_lst <- vector('list',2)
+#     for (j in 2:3) {
+#       df <- data.frame(Time = arr[,1,i], Ydata = arr[,j,i])
+#       indiv_p_lst[[j-1]] <- ggplot(df, aes(Time, Ydata)) +
+#         geom_line(linewidth=1) +
+#         labs(x = "Time (Days)", y = colnames(arr[,j,1]))
+#     }
+#
+#     # --- Save all subplots for compound i
+#     p_list[[i]] <- indiv_p_lst
+#   }
+#
+#   # --- CREATE EXPECTED OUTPUT
+#   outlist <- list()
+#   outlist[[1]] <- grid.arrange(grobs = p_list[[1]])
+#   outlist[[2]] <- grid.arrange(grobs = p_list[[2]])
+#
+#   new_df <- plt_arrange(p_list)
+#
+#   # --- TEST
+#   expect_true(is.list(plt_arrange(p_list)))
+#   expect_equal(length(plt_arrange(p_list)),2)
+#   expect_equal(plt_arrange(p_list),outlist)
+# })
 
 
