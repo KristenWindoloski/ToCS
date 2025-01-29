@@ -21,6 +21,7 @@ caption_text <- function(func, model){
 
 validate_text_Common <- function(pars){
 
+
   if (pars[["func"]] == 'Select'){
     shiny::validate(
       shiny::need(pars[["func"]] != 'Select',
@@ -42,8 +43,9 @@ validate_text_Common <- function(pars){
   if (pars[["model"]] == 'Select'){
     shiny::validate(
       shiny::need(pars[["model"]] != 'Select',
-                  message = paste("Return to the 'Model Specifications' tab and select the desired model for this simulation."))
-      )
+                  message = paste(""))
+                  #message = paste("Return to the 'Model Specifications' tab and select the desired model for this simulation."))
+    )
   }
   if (pars[["insilicopars"]] == 'Select'){
     shiny::validate(
@@ -107,6 +109,8 @@ validate_text_ADME <- function(pars){
         }
       }
     }
+
+
 }
 
 validate_text_SS <- function(pars){
@@ -137,31 +141,5 @@ validate_text_IVIVE <- function(pars){
 
 validate_text_Pars <- function(pars){
 
-  if (pars[["func"]] == 'Select'){
-    shiny::validate(
-      shiny::need(pars[["func"]] != 'Select',
-                  message = paste("Return to the 'General Parameters' tab and select the desired output module for this simulation."))
-    )
-  }
-  if (pars[["spec"]] == 'Select'){
-    shiny::validate(
-      shiny::need(pars[["spec"]] != 'Select',
-                  message = paste("Return to the 'General Parameters' tab and select the desired species for this simulation."))
-    )
-  }
-  if (pars[["defaulttoHuman"]] == 'Select'){
-    shiny::validate(
-      shiny::need(pars[["defaulttoHuman"]] != 'Select',
-                  message = paste("Return to the 'General Parameters' tab and select the desired default to human preference for this simulation."))
-    )
-  }
-  if (pars[["runCompounds"]]==0){
-    shiny::validate(
-      shiny::need(pars[["runCompounds"]]>0,
-                  message = paste("Return to the 'Compound Selection' tab and click the 'Load Compounds' button."))
-    )
-  }
-
-
-
+  validate_text_Common(pars)
 }
