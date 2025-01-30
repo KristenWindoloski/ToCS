@@ -28,7 +28,7 @@ SS_server <- function(id,pars,runsim,logscale) {
 
     out <- shiny::eventReactive(runsim(),{
 
-      validate_text_SS(pars())
+      validate_text_Common(pars())
       SS_sol(pars())
     })
     ss_out <- shiny::reactive({list(out(),pars(),logscale())})

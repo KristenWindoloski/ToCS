@@ -33,10 +33,7 @@ PC_server <- function(id,pars,runsim,logscale) {
 
     out <- shiny::eventReactive(runsim(),{
 
-      shiny::showModal(shiny::modalDialog(title = "System Running",
-                                          "Computing solution - this may take a moment. Plots and tables will update once completed.
-                                          You may click the 'Dismiss' button."))
-      validate_text_Pars(pars())
+      validate_text_Common(pars())
       Parsol(pars())
     })
 

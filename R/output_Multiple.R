@@ -85,7 +85,7 @@ UpdatePars <- function(pars){
   if (pars[["defaulttoHuman"]] == "Yes"){
     pars[["defaulttoHuman"]] <- TRUE
   }
-  else{
+  else if (pars[["defaulttoHuman"]] == "No"){
     pars[["defaulttoHuman"]] <- FALSE
   }
 
@@ -113,7 +113,7 @@ UpdatePars <- function(pars){
   if (pars[["returnsamples"]] == "Only return a specified dose quantile (default)"){
     pars[["returnsamples"]] <- FALSE
   }
-  else{
+  else if (pars[["returnsamples"]] == "Return all OED samples (will also return the 5th dose quantile)"){
     pars[["returnsamples"]] <- TRUE
   }
 
@@ -312,4 +312,14 @@ DosingPar <- function(dosenum,initdose,multdose,multdosetime,multdoseamount,mult
                                                           dimnames = list(c(),c("time","dose"))),
                                    forcings = NULL)}}
 }
+
+Notify_Computing <- function(){
+  shiny::showNotification("Computing solution - this may take a moment. Plots and tables will be updated once completed.", type = "message", duration = NULL)
+}
+
+Notify_ParError <- function(){
+  shiny::showNotification("Invalid Inputs: Check all previous tabs for missing or invalid parameters. Changing some parameters such as the output, species,
+                                  and model will result in other parameters (such as selected compounds) needing to be reselected.", type = "error", duration = NULL)
+}
+
 

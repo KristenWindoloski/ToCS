@@ -39,20 +39,18 @@ ToCS <- function(...){
   }
 
   fetal_cond <- function(value,input,message = "The 'Human' species must be selected to run the fetal_pbtk model"){
-    print(value)
-    print(input$spec)
     if (value == "fetal_pbtk" && input$spec != "Human") message
   }
 
-  # returntimes_cond <- function(value,input,message = "A beginning output time of 91 days (13 weeks) or later must be entered"){
-  #   if (input$model == "fetal_pbtk" && length(value)>0){
-  #     v1 <- unlist(strsplit(value,","))
-  #     out_times <- sapply(v1, function(x) eval(parse(text = x)))
-  #     if (min(out_times)<91){
-  #       message
-  #       }
-  #   }
-  # }
+  returntimes_cond <- function(value,input,message = "A beginning output time of 91 days (13 weeks) or later must be entered"){
+    if (input$model == "fetal_pbtk" && length(value)>0){
+      v1 <- unlist(strsplit(value,","))
+      out_times <- sapply(v1, function(x) eval(parse(text = x)))
+      if (min(out_times)<91){
+        message
+        }
+    }
+  }
 
 
   ##########################################################################
@@ -248,20 +246,27 @@ ToCS <- function(...){
     iv_common$add_rule("insilicopars", shinyvalidate::sv_not_equal("Select"))
     iv_common$add_rule("httkPreloadComps", not_null, input)
     iv_common$add_rule("runCompounds", shinyvalidate::sv_not_equal(0))
-    iv_common$enable()
 
     iv_adme <- shinyvalidate::InputValidator$new()
     iv_adme$add_rule("dosenum", shinyvalidate::sv_not_equal("Select"))
     iv_adme$add_rule("multdose", multdose_Select, input)
     iv_adme$add_rule("multdose_odd", multdose_odd, input)
     iv_adme$add_rule("model", fetal_cond, input)
-    # iv_adme$add_rule("returntimes", returntimes_cond, input)
-    iv_adme$enable()
+    iv_adme$add_rule("returntimes", returntimes_cond, input)
+
+    parent_adme_iv <- shinyvalidate::InputValidator$new()
+    parent_adme_iv$add_validator(iv_common)
+    parent_adme_iv$add_validator(iv_adme)
+    parent_adme_iv$enable()
 
     iv_ivive <- shinyvalidate::InputValidator$new()
     iv_ivive$add_rule("BioactiveFile", shinyvalidate::sv_required())
     iv_ivive$add_rule("returnsamples", shinyvalidate::sv_not_equal("Select"))
-    iv_ivive$enable()
+
+    parent_ivive_iv <- shinyvalidate::InputValidator$new()
+    parent_ivive_iv$add_validator(iv_common)
+    parent_ivive_iv$add_validator(iv_ivive)
+    parent_ivive_iv$enable()
 
     ##########################################################################
     # ADME TIME COURSE OUTPUTS (PLOTS, SIMULATION DATA, TK SUMMARY STATS)
@@ -272,92 +277,50 @@ ToCS <- function(...){
 
     shiny::observeEvent(input$runsim,{
 
-
       if (input$func == "Concentration-time profiles"){
-        if (iv_common$is_valid()){
-          shiny::showNotification("Computing solution - this may take a moment. Plots and tables will be updated once completed.", type = "message", duration = NULL)
+        if (parent_adme_iv$is_valid()){
+          Notify_Computing()
           ADME_server("ADME_AllOut",AllInputs,shiny::reactive(input$runsim))
         }
         else {
-          shiny::showNotification("Invalid Inputs: Check all previous tabs for missing or invalid parameters.", type = "error", duration = NULL)
+          Notify_ParError()
           ADME_server("ADME_AllOut",AllInputs,shiny::reactive(input$runsim))
-          req(iv_common$is_valid(),iv_adme$is.valid())
+          req(parent_adme_iv$is_valid())
         }
       }
       else if (input$func == "Steady state concentrations"){
-        if (iv_common$is.valid()){
-          shiny::showNotification("Computing solution - this may take a moment. Plots and tables will be updated once completed.", type = "message", duration = NULL)
+        if (iv_common$is_valid()){
+          Notify_Computing()
           SS_server("SS_AllOut",AllInputs,shiny::reactive(input$runsim),shiny::reactive(input$logscale))
         }
         else {
-          shiny::showNotification("Invalid Inputs: Check all previous tabs for missing or invalid parameters.", type = "error", duration = NULL)
+          Notify_ParError()
           SS_server("SS_AllOut",AllInputs,shiny::reactive(input$runsim),shiny::reactive(input$logscale))
           req(iv_common$is_valid())
         }
       }
       else if (input$func == "In vitro in vivo extrapolation (IVIVE)"){
-        if (iv_common$is.valid() && iv_ivive$is.valid()){
-          shiny::showNotification("Computing solution - this may take a moment. Plots and tables will be updated once completed.", type = "message", duration = NULL)
+        if (parent_ivive_iv$is_valid()){
+          Notify_Computing()
           IVIVE_server("IVIVE_AllOut",AllInputs,shiny::reactive(input$runsim),shiny::reactive(input$logscale))
         }
         else {
-          shiny::showNotification("Invalid Inputs: Check all previous tabs for missing or invalid parameters.", type = "error", duration = NULL)
+          Notify_ParError()
           IVIVE_server("IVIVE_AllOut",AllInputs,shiny::reactive(input$runsim),shiny::reactive(input$logscale))
-          req(iv_common$is_valid(),iv_ivive$is.valid())
+          req(parent_ivive_iv$is_valid())
         }
       }
       else if (input$func == "Parameter calculations"){
         if (iv_common$is_valid()){
-          shiny::showNotification("Computing solution - this may take a moment. Plots and tables will be updated once completed.", type = "message", duration = NULL)
+          Notify_Computing()
           PC_server("IP_AllOut",AllInputs,shiny::reactive(input$runsim),shiny::reactive(input$logscale))
         }
         else{
-          shiny::showNotification("Invalid Inputs: Check all previous tabs for missing or invalid parameters.", type = "error", duration = NULL)
+          Notify_ParError()
           PC_server("IP_AllOut",AllInputs,shiny::reactive(input$runsim),shiny::reactive(input$logscale))
           req(iv_common$is_valid())
         }
-
       }
-
-
-
-
-
-      # if (iv$is_valid()){
-      #   shiny::showNotification("Computing solution - this may take a moment. Plots and tables will be updated once completed.",
-      #                           type = "message",
-      #                           duration = NULL)
-      #   if (input$func == "Concentration-time profiles"){
-      #   ADME_server("ADME_AllOut",AllInputs,shiny::reactive(input$runsim))
-      # }
-      #   else if (input$func == "Steady state concentrations"){
-      #   SS_server("SS_AllOut",AllInputs,shiny::reactive(input$runsim),shiny::reactive(input$logscale))
-      # }
-      #   else if (input$func == "In vitro in vivo extrapolation (IVIVE)"){
-      #   IVIVE_server("IVIVE_AllOut",AllInputs,shiny::reactive(input$runsim),shiny::reactive(input$logscale))
-      # }
-      #   else if (input$func == "Parameter calculations"){
-      #   PC_server("IP_AllOut",AllInputs,shiny::reactive(input$runsim),shiny::reactive(input$logscale))
-      # }
-      # }
-      # else{
-      #   # shiny::showNotification("Error: Return to the previous tabs and check for missing or invalid parameters.", type = "error")
-      #   if (input$func == "Concentration-time profiles"){
-      #     ADME_server("ADME_AllOut",AllInputs,shiny::reactive(input$runsim))
-      #   }
-      #   else if (input$func == "Steady state concentrations"){
-      #     SS_server("SS_AllOut",AllInputs,shiny::reactive(input$runsim),shiny::reactive(input$logscale))
-      #   }
-      #   else if (input$func == "In vitro in vivo extrapolation (IVIVE)"){
-      #     IVIVE_server("IVIVE_AllOut",AllInputs,shiny::reactive(input$runsim),shiny::reactive(input$logscale))
-      #   }
-      #   else if (input$func == "Parameter calculations"){
-      #     PC_server("IP_AllOut",AllInputs,shiny::reactive(input$runsim),shiny::reactive(input$logscale))
-      #   }
-      #   req(iv$is_valid())
-      # }
-
-
     })
   }
 
