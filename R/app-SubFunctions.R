@@ -77,10 +77,7 @@ CS_Instructions <- function(){
   bslib::card(bslib::card_header("INSTRUCTIONS"),
               shiny::conditionalPanel(condition = "input.httkPreloadComps == '' && output.fileUploaded == false && input.model != 'Select' && input.insilicopars != 'Select'",
                                       Instructions_CompSelect_Part1()),
-              shiny::conditionalPanel(condition = "(input.httkPreloadComps != '' || output.fileUploaded == true) && input.model != 'Select' && input.insilicopars != 'Select'",
-                                      Instructions_CompSelect_Part2(),
-                                      shiny::actionButton("runCompounds", label = "Load Compounds")),
-              Instructions_CompSelect_Part3(),
+              Instructions_CompSelect_Part2(),
               shiny::a("Uploaded Compound File Folder", target="_blank", href="UploadedCompoundDetailsFolder.zip"))
 }
 
@@ -106,7 +103,7 @@ CS_UploadedCompounds <- function(){
 #### MODEL CONDITIONS CARD
 AP_ModelConditions <- function(ic_names,ic_comps){
   bslib::card(bslib::card_header("MODEL CONDITIONS"),
-              shiny::conditionalPanel(condition = "input.func == 'Concentration-time profiles' && input.runCompounds>0",
+              shiny::conditionalPanel(condition = "input.func == 'Concentration-time profiles'",
                                       selectInput_InitialCondCustom("init_cond_opts"),
                                       shiny::conditionalPanel(condition = "input.init_cond_opts == 'Yes, enter my own initial amounts' && input.model == '1compartment'",
                                                               purrr::map2(ic_names[[1]],ic_comps[[1]], numericInput_ICvalue)),
@@ -117,17 +114,17 @@ AP_ModelConditions <- function(ic_names,ic_comps){
                                       shiny::conditionalPanel(condition = "input.init_cond_opts == 'Yes, enter my own initial amounts' && input.model == 'fetal_pbtk'",
                                                               purrr::map2(ic_names[[4]],ic_comps[[4]], numericInput_ICvalue)),
                                       selectInput_rb2p("rb2p")),
-              shiny::conditionalPanel(condition = "input.func == 'In vitro in vivo extrapolation (IVIVE)' && input.runCompounds>0",
+              shiny::conditionalPanel(condition = "input.func == 'In vitro in vivo extrapolation (IVIVE)'",
                                       numericInput_Samples("samples"),
                                       shiny::conditionalPanel(condition = "input.HondaIVIVE == 'NULL' && input.tissueIVIVE == 'NULL'",
                                                               selectInput_Bioactive("bioactiveIVIVE"))),
-              shiny::conditionalPanel(condition = "input.func == 'Parameter calculations' && input.runCompounds>0",
+              shiny::conditionalPanel(condition = "input.func == 'Parameter calculations'",
                                       numericInput_ClintPval("Clint_Pval"),
                                       numericInput_Alpha("AlphaPar")),
-              shiny::conditionalPanel(condition = "input.func != 'Select' && input.func != 'Steady state concentrations' && input.runCompounds>0",
+              shiny::conditionalPanel(condition = "input.func != 'Select' && input.func != 'Steady state concentrations'",
                                       numericInput_MinFub("min_fub")),
-              shiny::conditionalPanel(condition = "(input.func == 'In vitro in vivo extrapolation (IVIVE)' && input.HondaIVIVE == 'NULL' && input.runCompounds>0) ||
-                                                                                 (input.func != 'In vitro in vivo extrapolation (IVIVE)' && input.runCompounds>0)",
+              shiny::conditionalPanel(condition = "(input.func == 'In vitro in vivo extrapolation (IVIVE)' && input.HondaIVIVE == 'NULL') ||
+                                                                                 (input.func != 'In vitro in vivo extrapolation (IVIVE)')",
                                       selectInput_RestrictClear("restrict_clear")),
               selectInput_AdjFub("adj_fub"),
               selectInput_Regression("regression"))
@@ -136,42 +133,42 @@ AP_ModelConditions <- function(ic_names,ic_comps){
 #### MODEL SOLVER CARD
 AP_ModelSolver <- function(){
   bslib::card(bslib::card_header("MODEL SOLVER"),
-              shiny::conditionalPanel(condition = "input.func == 'Concentration-time profiles' && input.runCompounds>0",
+              shiny::conditionalPanel(condition = "input.func == 'Concentration-time profiles'",
                                       selectInput_ODEmethod("odemethod"),
                                       numericInput_SolSteps("solversteps"),
                                       sliderInput_RTol("rtol"),
                                       sliderInput_ATol("atol")),
-              shiny::conditionalPanel(condition = "input.func != 'Select' && input.func != 'Concentration-time profiles' && input.runCompounds>0",
+              shiny::conditionalPanel(condition = "input.func != 'Select' && input.func != 'Concentration-time profiles'",
                                       shiny::helpText("No options for this category.")))
 }
 
 #### BIOAVAILABILITY CARD
 AP_Bioavailability <- function(){
   bslib::card(bslib::card_header("BIOAVAILABILITY"),
-              shiny::conditionalPanel(condition = "input.func != 'Select' && input.func != 'Parameter calculations' && input.runCompounds>0",
+              shiny::conditionalPanel(condition = "input.func != 'Select' && input.func != 'Parameter calculations'",
                                       numericInput_CacoDefault("caco2default"), selectInput_Fabs("caco_fabs"), selectInput_Fgut("caco_fgut"),
                                       selectInput_Overwrite("caco_overwriteinvivo"), selectInput_Keep100("caco_keep100")),
-              shiny::conditionalPanel(condition = "input.func == 'Parameter calculations' && input.runCompounds>0",
+              shiny::conditionalPanel(condition = "input.func == 'Parameter calculations'",
                                       shiny::helpText("No options for this category.")))
 }
 
 #### OUTPUT SPECIFICATION CARD
 AP_OutputSpecification <- function(){
   bslib::card(bslib::card_header("OUTPUT SPECIFICATION"),
-              shiny::conditionalPanel(condition = "input.func == 'Concentration-time profiles' && input.runCompounds>0",
+              shiny::conditionalPanel(condition = "input.func == 'Concentration-time profiles'",
                                       textInput_OutputTimes("returntimes")),
-              shiny::conditionalPanel(condition = "input.func == 'Steady state concentrations' && input.runCompounds>0",
+              shiny::conditionalPanel(condition = "input.func == 'Steady state concentrations'",
                                       selectInput_SSoutunits("modelSSout_units"),
                                       selectInput_OutConc("output_concSS"),
                                       shiny::conditionalPanel(condition = "input.modelSS !== 'Select' && input.modelSS !== '3compartmentss'",
                                                               selectInput_Tissue("tissueSS"))),
-              shiny::conditionalPanel(condition = "input.func == 'In vitro in vivo extrapolation (IVIVE)' && input.runCompounds>0",
+              shiny::conditionalPanel(condition = "input.func == 'In vitro in vivo extrapolation (IVIVE)'",
                                       selectInput_IVIVEoutunits("modelIVIVEout_units"),
                                       shiny::conditionalPanel(condition = "input.HondaIVIVE == 'NULL'",
                                                               selectInput_OutConc("output_concIVIVE")),
                                       shiny::conditionalPanel(condition = "input.modelIVIVE !== '3compartmentss' && (input.output_concIVIVE == 'tissue' || input.HondaIVIVE == 'Honda4')",
                                                               selectInput_Tissue("tissueIVIVE"))),
-              shiny::conditionalPanel(condition = "input.func == 'Parameter calculations' && input.runCompounds>0",
+              shiny::conditionalPanel(condition = "input.func == 'Parameter calculations'",
                                       shiny::helpText("No options for this category.")))
 }
 
@@ -213,6 +210,31 @@ RS_Results <- function(){
 # SERVER
 #######################################
 
+PreloadComps_UI <- function(func,spec,defaulthuman,model,insilicopars,honda){
+
+  if (spec != "Select" && func != "Select" && insilicopars != "Select" && model != "Select" && defaulthuman != "Select"){
+    if (func == "In vitro in vivo extrapolation (IVIVE)" && honda == "Honda1"){
+      htmltools::tagList(numericInput_FSBf("FSBf"),
+                         shiny::showModal(shiny::modalDialog(title = "System Running",
+                                                             "Compiling chemical list. The Preloaded Compounds card will update once completed, and
+                                                              may take a moment if loading compounds with in silico parameters.
+                                                              You may click the 'Dismiss' button.")),
+                         PreloadCompsInput(func,spec,defaulthuman,insilicopars,model,honda))
+    }
+    else {
+      htmltools::tagList(shiny::showModal(shiny::modalDialog(title = "System Running",
+                                                             "Compiling chemical list. The Preloaded Compounds card will update once completed, and
+                                                              may take a moment if loading compounds with in silico parameters.
+                                                              You may click the 'Dismiss' button.")),
+                         PreloadCompsInput(func,spec,defaulthuman,insilicopars,model,honda))
+    }
+  }
+  else{
+    shiny::showModal(shiny::modalDialog(title = "Missing Parameters",
+                                        "Click the 'Dismiss' button and return to the 'General Parameters' and 'Model Specifications'
+                                        tabs to select any missing parameters. Then return to this tab."))
+  }
+}
 
 UpdateFunc <- function(session){
 

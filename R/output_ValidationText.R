@@ -57,12 +57,6 @@ validate_text_Common <- function(pars){
                       message = paste(""))
           )
   }
-  if (pars[["runCompounds"]]==0){
-    shiny::validate(
-      shiny::need(pars[["runCompounds"]]>0,
-                  message = paste(""))
-    )
-  }
 }
 
 validate_text_ADME <- function(pars){

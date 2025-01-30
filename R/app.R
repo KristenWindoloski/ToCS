@@ -157,39 +157,13 @@ ToCS <- function(...){
 
     output$PreloadedComps <- shiny::renderUI({
 
-
-      if (input$spec != "Select" && input$func != "Select" && input$insilicopars != "Select" && input$model != "Select"){
-        if (input$func == "In vitro in vivo extrapolation (IVIVE)" && input$HondaIVIVE == "Honda1"){
-          htmltools::tagList(numericInput_FSBf("FSBf"),
-                             shiny::showModal(shiny::modalDialog(title = "System Running",
-                                                                 "Compiling chemical list. The Preloaded Compounds card will update once completed, and
-                                                                 may take a moment if loading compounds with in silico parameters.
-                                                                 You may click the 'Dismiss' button.")),
-                             PreloadCompsInput(input$func,input$spec,input$defaulttoHuman,input$insilicopars,input$model,input$HondaIVIVE))
-        }
-        else {
-          htmltools::tagList(shiny::showModal(shiny::modalDialog(title = "System Running",
-                                                                 "Compiling chemical list. The Preloaded Compounds card will update once completed, and
-                                                                 may take a moment if loading compounds with in silico parameters.
-                                                                 You may click the 'Dismiss' button.")),
-                             PreloadCompsInput(input$func,input$spec,input$defaulttoHuman,input$insilicopars,input$model,input$HondaIVIVE))
-        }
-      }
-      else{
-        shiny::showModal(shiny::modalDialog(title = "Missing Parameters",
-                                            "Click the 'Dismiss' button and return to the 'General Parameters' and 'Model Specifications'
-                                            tabs to select any missing parameters. Then return to this tab."))
-      }
+      PreloadComps_UI(input$func,input$spec,input$defaulttoHuman,
+                      input$model,input$insilicopars,input$HondaIVIVE)
     })
 
     ##########################################################################
     # COMPILES LIST OF ALL COMPOUNDS TO RUN
     ##########################################################################
-
-    shiny::observeEvent(input$runCompounds,{
-      shiny::showModal(shiny::modalDialog("Compounds are loading into the system.
-                                          Click 'Dismiss' and proceed to the next tab."))
-    })
 
     CompLst <- shiny::reactive({
 
@@ -200,10 +174,10 @@ ToCS <- function(...){
     output$comptext <- shiny::renderTable({
 
       #--- OUTPUT ERROR WARNINGS IF NEEDED VARIABLES ARE MISSING
-      pars <- list(input$func,input$spec,input$defaulttoHuman,input$runCompounds,input$model,
-                   input$insilicopars,input$httkPreloadComps,input$httkPreloadComps_Honda,input$file1)
-      names(pars) <- c("func","spec","defaulttoHuman","runCompounds","model",
-                       "insilicopars","httkPreloadComps","httkPreloadComps_Honda","file1")
+      pars <- list(input$func,input$spec,input$defaulttoHuman,input$model,input$insilicopars,
+                   input$httkPreloadComps,input$httkPreloadComps_Honda,input$file1)
+      names(pars) <- c("func","spec","defaulttoHuman","model","insilicopars",
+                       "httkPreloadComps","httkPreloadComps_Honda","file1")
       validate_text_Common(pars)
 
       CompLst()
@@ -245,7 +219,6 @@ ToCS <- function(...){
     iv_common$add_rule("model", shinyvalidate::sv_not_equal("Select"))
     iv_common$add_rule("insilicopars", shinyvalidate::sv_not_equal("Select"))
     iv_common$add_rule("httkPreloadComps", not_null, input)
-    iv_common$add_rule("runCompounds", shinyvalidate::sv_not_equal(0))
 
     iv_adme <- shinyvalidate::InputValidator$new()
     iv_adme$add_rule("dosenum", shinyvalidate::sv_not_equal("Select"))

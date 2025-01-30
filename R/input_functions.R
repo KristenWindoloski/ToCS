@@ -7,7 +7,7 @@
 ParNames <- function(){
 
   GenPars <- c("func","spec","defaulttoHuman")
-  CompoundSelectPars <- c("runCompounds","HondaIVIVE","FSBf","httkPreloadComps","httkPreloadComps_Honda","file1","insilicopars")
+  CompoundSelectPars <- c("HondaIVIVE","FSBf","httkPreloadComps","httkPreloadComps_Honda","file1","insilicopars")
   ModelSpecifPars <- c("doseroute","doseunits","dosenum","initdose","multdose","mult_doseamount","mult_dosetime","multdose_odd","dailydose",
                        "model","simtime","BioactiveFile","returnsamples","quantile")
   ModelConditionPars <- c("init_cond_opts",unlist(names_ICs()[[1]]),"samples","bioactiveIVIVE",
@@ -48,10 +48,6 @@ Instructions_CompSelect_Part1 <- function(){
 }
 
 Instructions_CompSelect_Part2 <- function(){
-  htmltools::h6(shiny::strong("Once you have chosen all compounds to analyze, click 'Load Compounds'."))
-}
-
-Instructions_CompSelect_Part3 <- function(){
   shiny::helpText("Below is a downloadable folder containing information on upload file formatting if compounds to be analyzed are not included in the preloaded compounds list.
             The uploaded file must be formatted exactly how the 'SampleCSV' file is structured (keeping columns even if there is no data). The header descriptions of
             the CSV and the minimal data inputs required for the CSV are in the 'DataDescriptions' and 'RequiredData' PDFs, respectively.")
