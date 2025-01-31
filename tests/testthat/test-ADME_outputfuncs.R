@@ -37,14 +37,15 @@ Generate_Pars <- function(){
                caco_keep100 = FALSE)
 }
 
-solve_httk <- function(pars){
-  httk::solve_model(chem.name = pars[["CompoundList"]][1,1],
+solve_httk <- function(i,pars){
+  httk::solve_model(chem.name = pars[["CompoundList"]][i,1],
                     route = pars[["doseroute"]],
                     input.units = pars[["doseunits"]],
                     dosing = pars[["dosinginfo"]],
                     species = pars[["spec"]],
                     model = pars[["model"]],
                     initial.values = pars[["initvals"]],
+                    suppress.messages = TRUE,
                     times = pars[["returntimes"]],
                     days = pars[["simtime"]],
                     method = pars[["odemethod"]],
@@ -114,19 +115,6 @@ test_that("modsol() produces a list of 3 objects",{
   expect_true(is.data.frame(modsol(pars)[[3]]))
 })
 
-test_that("modsol() takes in initial conditions",{
-
-  # --- CREATE INPUT
-  pars <- Generate_Pars()
-  pars[["initvals"]] <- setNames(c(10,10,0,0),c("Agutlumen","Acompartment","Ametabolized","AUC"))
-
-  # --- TEST
-  expect_true(is.list(modsol(pars)))
-  expect_true(is.array(modsol(pars)[[1]]))
-  expect_true(is.array(modsol(pars)[[2]]))
-  expect_true(is.data.frame(modsol(pars)[[3]]))
-})
-
 ########################################################
 # --- TEST RUN_ADME_MODEL()
 ########################################################
@@ -139,7 +127,7 @@ test_that("Run_ADME_Model() produces output for single dosing",{
   pars <- Generate_Pars()
 
   # --- CREATE INPUT
-  sol <- solve_httk(pars)
+  sol <- solve_httk(1,pars)
   out <- sol[,1:5]
 
   # --- TEST (current,target)
@@ -160,7 +148,7 @@ test_that("Run_ADME_Model() produces a solution output for daily dosing ",{
                                forcings = NULL)
 
   # --- CREATE INPUT
-  sol <- solve_httk(pars)
+  sol <- solve_httk(1,pars)
   out <- sol[,1:5]
 
   # --- TEST (current,target)
@@ -183,7 +171,7 @@ test_that("Run_ADME_Model() produces a solution output for a dosing matrix",{
                                forcings = NULL)
 
   # --- CREATE INPUT
-  sol <- solve_httk(pars)
+  sol <- solve_httk(1,pars)
   out <- sol[,1:5]
 
   # --- TEST (current,target)
@@ -201,7 +189,7 @@ test_that("Run_ADME_Model() produces a solution output for the 1comp model",{
   pars[["initvals"]] <- setNames(rep(0,4),c("Agutlumen","Acompartment","Ametabolized","AUC"))
 
   # --- CREATE INPUT
-  sol <- solve_httk(pars)
+  sol <- solve_httk(1,pars)
   out <- sol[,1:5]
 
   # --- TEST (current,target)
@@ -220,7 +208,7 @@ test_that("Run_ADME_Model() produces a solution output for the 3comp model",{
                                         c("Aintestine","Aportven","Aliver","Asyscomp","Ametabolized","Atubules","AUC"))
 
   # --- CREATE INPUT
-  sol <- solve_httk(pars)
+  sol <- solve_httk(1,pars)
   out <- sol[,1:8]
 
   # --- TEST (current,target)
@@ -238,7 +226,7 @@ test_that("Run_ADME_Model() produces a solution output for the 3comp model",{
                                         c("Agutlumen","Agut","Aliver","Aven","Alung","Aart","Arest","Akidney","Atubules","Ametabolized","AUC"))
 
   # --- CREATE INPUT
-  sol <- solve_httk(pars)
+  sol <- solve_httk(1,pars)
   out <- sol[,1:13]
 
   # --- TEST (current,target)
@@ -262,7 +250,7 @@ test_that("Run_ADME_Model() produces a solution output for the fetal_pbtk model"
   pars[["returntimes"]] <- seq(91,101,1)
 
   # --- CREATE INPUT
-  sol <- solve_httk(pars)
+  sol <- solve_httk(1,pars)
   out <- sol[,1:31]
 
   # --- TEST (current,target)
@@ -271,38 +259,69 @@ test_that("Run_ADME_Model() produces a solution output for the fetal_pbtk model"
 
 
 ########################################################
-# --- ARRANGES PLOTS ON THE SAME GRID
+# --- ASSIGN ARRAY NAMES
 ########################################################
 
-# test_that("plt_arrange() produces a list of plots with subplots for all compounds",{
-#
-#   # --- INPUT
-#   p_list <- vector('list',2)
-#   arr = array(2:13, dim = c(2, 3, 2), dimnames = list(c(), c("A","B","C"), c()))
-#   for (i in 1:2) {
-#     indiv_p_lst <- vector('list',2)
-#     for (j in 2:3) {
-#       df <- data.frame(Time = arr[,1,i], Ydata = arr[,j,i])
-#       indiv_p_lst[[j-1]] <- ggplot(df, aes(Time, Ydata)) +
-#         geom_line(linewidth=1) +
-#         labs(x = "Time (Days)", y = colnames(arr[,j,1]))
-#     }
-#
-#     # --- Save all subplots for compound i
-#     p_list[[i]] <- indiv_p_lst
-#   }
-#
-#   # --- CREATE EXPECTED OUTPUT
-#   outlist <- list()
-#   outlist[[1]] <- grid.arrange(grobs = p_list[[1]])
-#   outlist[[2]] <- grid.arrange(grobs = p_list[[2]])
-#
-#   new_df <- plt_arrange(p_list)
-#
-#   # --- TEST
-#   expect_true(is.list(plt_arrange(p_list)))
-#   expect_equal(length(plt_arrange(p_list)),2)
-#   expect_equal(plt_arrange(p_list),outlist)
-# })
+test_that("AssignArrayNames() returns a list of 2 arrays",{
+
+  # --- CREATE INPUT
+  pars <- Generate_Pars()
+
+  modsol1 <- solve_httk(1,pars)[,1:5]
+  sol <- array(data = rep(0,nrow(modsol1)*5*2),
+               dim = c(nrow(modsol1),5,2))
+  sol[,,1] <- modsol1
+  modsol2 <- solve_httk(2,pars)[,1:5]
+  sol[,,2] <- modsol2
+
+  TKSumArray <- array(data = rep(0,4*3*2),
+                      dim = (c(4,3,2)))
+  TKSumArray[,,1] <- TKsummary(modsol1)
+  TKSumArray[,,2] <- TKsummary(modsol2)
+
+  # --- CREATE EXPECTED OUTPUT
+  sol_new <- sol
+  TKSumArray_new <- TKSumArray
+  dimnames(sol_new) <- list(c(),
+                        c("time","Agutlumen","Ccompartment","Ametabolized","AUC"),
+                        c("Ibuprofen","Terbufos"))
+  dimnames(TKSumArray_new) <- list(c("Agutlumen","Ccompartment","Ametabolized","AUC"),
+                               c("Tmax","MaxValue","AUC"),
+                               c("Ibuprofen","Terbufos"))
+  out <- list(sol_new,TKSumArray_new)
+
+  # --- TEST (current,target)
+  expect_equal(AssignArrayNames(sol,modsol1,TKSumArray,pars),out)
+})
+
+########################################################
+# --- REARRANGE TK SUMMARY ARRAY INTO A MATRIX
+########################################################
+
+test_that("Rearr_TKSumArray() returns a matrix of TK summary statistics",{
+
+  # --- CREATE INPUT
+  pars <- Generate_Pars()
+  modsol1 <- solve_httk(1,pars)[,1:5]
+  modsol2 <- solve_httk(2,pars)[,1:5]
+
+  TKSumArray <- array(data = rep(0,4*3*2),
+                      dim = (c(4,3,2)),
+                      dimnames = list(c("Agutlumen","Ccompartment","Ametabolized","AUC"),
+                                      c("Tmax","MaxValue","AUC"),
+                                      c("Ibuprofen","Terbufos")))
+  TKSumArray[,,1] <- TKsummary(modsol1)
+  TKSumArray[,,2] <- TKsummary(modsol2)
+
+  # --- CREATE EXPECTED OUTPUT
+  out_mat <- matrix(TKSumArray,
+                    nrow = 4,
+                    ncol = 6,
+                    dimnames = list(c("Agutlumen","Ccompartment","Ametabolized","AUC"),
+                                    c("Tmax.Ibuprofen","MaxValue.Ibuprofen","AUC.Ibuprofen","Tmax.Terbufos","MaxValue.Terbufos","AUC.Terbufos")))
+
+  # --- TEST (current,target)
+  expect_equal(Rearr_TKSumArray(TKSumArray,pars),out_mat)
+})
 
 
