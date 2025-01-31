@@ -221,7 +221,7 @@ modsol <- function(pars){
   sol <- arr_out[[1]]
 
   # --- Rearrange TK summary array to be 2D data frame
-  tk_sum_array <- Rearr_TKSumArray(sol,arr_out[[2]],pars)
+  tk_sum_array <- Rearr_TKSumArray(arr_out[[2]],pars)
 
   # --- Generate simulation parameters data frame
   pars_df <- StorePars_ADME(pars)
@@ -301,11 +301,10 @@ AssignArrayNames <- function(sol,modsol,tk_sum_array,pars){
   out <- list(sol,tk_sum_array)
 }
 
-Rearr_TKSumArray <- function(sol,tk_sum_array,pars){
+Rearr_TKSumArray <- function(tk_sum_array,pars){
 
   # --- Extract compound and compartment names
-  columns <- colnames(sol)
-  compartmentnames <- columns[2:length(columns)]
+  compartmentnames <- rownames(tk_sum_array)
   statnames <- c("Tmax","MaxValue","AUC")
   compoundnames <- pars[["CompoundList"]][,1]
 
@@ -314,7 +313,7 @@ Rearr_TKSumArray <- function(sol,tk_sum_array,pars){
   mat_colnames <- gsub(" ", ".",combdim[[1]])
   dim_tk <- dim(tk_sum_array)
   tk_sum_array <- matrix(tk_sum_array,dim_tk[1],dim_tk[2]*dim_tk[3])
-  dimnames(tk_sum_array) <- list(compartmentnames,mat_colnames)
+  dimnames(tk_sum_array) <- list(compartmentnames,c(mat_colnames))
 
   return(tk_sum_array)
 }
