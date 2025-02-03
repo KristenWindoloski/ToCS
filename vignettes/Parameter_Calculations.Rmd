@@ -1,7 +1,7 @@
 ---
 title: "Parameter Calculations Examples"
 author: "Kristen Windoloski"
-date: "January 9, 2025"
+date: "February 3, 2025"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Parameter_Calculations}
@@ -85,7 +85,7 @@ kable(SampleChemsToUpload, caption = "A csv file with chemical information for a
 
 <br/><br/>
 
-Now that all simulation chemicals are uploaded, we click the *Load Compounds* button to load the compounds into the program. The final *Compound Selection* tab should look like the image below.
+Now that all simulation chemicals are uploaded, the final *Compound Selection* tab should look like the image below.
 
 <br/><br/>
 
@@ -205,7 +205,7 @@ We select five compounds from the drop down menu under the *Preloaded Compounds*
   - Propylparaben (CAS: 94-13-3)
   - Zoxamide (CAS: 156052-68-5)
   
-Then, since there are no additional compounds we want to simulate, we click the *Load Compounds* button and advance to the next tab. The completed *Compound Selection* page should look like the image below.
+Then, since there are no additional compounds we want to simulate, we advance to the next tab. The completed *Compound Selection* page should look like the image below.
 
 <br/><br/>
 

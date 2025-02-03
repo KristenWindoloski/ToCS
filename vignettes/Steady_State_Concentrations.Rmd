@@ -1,7 +1,7 @@
 ---
 title: "Steady State Concentration Simulation Examples"
 author: "Kristen Windoloski"
-date: "January 9, 2025"
+date: "February 3, 2025"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Steady_State_Concentrations}
@@ -71,7 +71,7 @@ Since we selected to load in silico generated parameters, the *Preloaded Compoun
   - Thiabendazole (CAS: 148-79-8)
   - Tribufos (CAS: 78-48-8)
   
-We leave the *Uploaded Compounds* card as is, and click on the *Load Compounds* button under the *Instructions* card to continue onto the next tab. The completed *Compound Selection* tab should look like the image below.
+We leave the *Uploaded Compounds* card as is, and the completed *Compound Selection* tab should look like the image below.
 
 Note that if we selected *No* on the previous *Model Specifications* tab for using in silico generated parameters then captan, hexanedioic acid, isoborneol, and sodium cyclamate would not be available for simulation under the *Preloaded Compounds* card (i.e. these compounds use in silico generated parameters instead of human in vitro data).
 
@@ -176,7 +176,7 @@ kable(SampleChemsToUpload, caption = "A csv file with chemical information for t
 
 <br/><br/>
 
-Once we have the three compounds selected under the *Preloaded Compounds* card and the two compounds uploaded under the *Uploaded Compounds* card (with the csv file name CSV_SSvignette.csv), we then hit the *Load Compounds* button and proceed to the next tab. The final *Compound Selection* tab should look like the image below.
+Once we have the three compounds selected under the *Preloaded Compounds* card and the two compounds uploaded under the *Uploaded Compounds* card (with the csv file name CSV_SSvignette.csv), we then proceed to the next tab. The final *Compound Selection* tab should look like the image below.
 
 <br/><br/>
 

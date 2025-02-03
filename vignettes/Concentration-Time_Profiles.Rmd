@@ -1,7 +1,7 @@
 ---
 title: "Concentration-Time Profile Simulation Examples"
 author: "Kristen Windoloski"
-date: "January 15, 2025"
+date: "February 3, 2025"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Concentration-Time_Profiles}
@@ -41,7 +41,6 @@ Before jumping into several examples, we define the output states that users wil
   - Ccompartment = Plasma concentration of chemical in main absorption compartment
   - Ametabolized = Amount of chemical metabolized by the main compartment
   - AUC = Area under the curve of the plasma concentration
-  - Acompartment = Plasma amount of chemical in main absorption compartment
 - 3compartment
   - Aintestine = Amount of chemical in the intestine
   - Cliver =  Concentration of chemical in the liver
@@ -50,9 +49,6 @@ Before jumping into several examples, we define the output states that users wil
   - Atubules = Amount of chemical excreted by the systemic compartment through the tubules
   - Ametabolized = Amount of chemical metabolized by the liver
   - AUC = Area under the curve of plasma concentration
-  - Aportven = Amount of chemical in the portal vein
-  - Aliver = Amount of chemical in the liver
-  - Asyscomp = Amount of chemical in the systemic compartment
 - pbtk
   - Agutlumen = Amount of chemical in the gut lumen
   - Cgut = Concentration of chemical in the gut
@@ -66,19 +62,11 @@ Before jumping into several examples, we define the output states that users wil
   - Atubules = Amount of chemical excreted by the kidney through the tubules
   - Ametabolized = Amount of chemical metabolized by the liver
   - AUC = Area under the curve of plasma concentration
-  - Agut = Amount of chemical in gut
-  - Aliver = Amount of chemical in liver
-  - Aven = Amount of chemical in veins
-  - Alung = Amount of chemical in lung 
-  - Aart = Amount of chemical in arteries
-  - Arest = Amount of chemical in rest of body
-  - Akidney = Amount of chemical in kidney
 - fetal_pbtk
   - All outputs in the pbtk model for maternal concentrations and amounts plus:
   - Cadipose = Concentration of chemical in adipose tissue
   - Rblood2plasma = Dynamic maternal ratio of blood to plasma (unitless)
   - fAUC = Fetal area under the curve of the fetal plasma concentration
-  - Aplacenta = Amount of chemical in placenta
   - Cplacenta = Concentration of chemical in placenta
   - Cfliver = Concentration of chemical in fetal liver
   - Cfven = Concentration of chemical in fetal veins
@@ -93,17 +81,6 @@ Before jumping into several examples, we define the output states that users wil
   - Rfblood2plasma = Dynamic fetal ratio of blood to plasma (unitless)
   - Qcardiac = Amount of blood flowing from cardiac tissue (L/day)
   - Qthyroid = Amount of blood flowing from thyroid tissue (L/day)
-  - Aadipose = Amount of chemical in maternal adipose tissue
-  - Athyroid = Amount of chemical in maternal thyroid
-  - Afgut = Amount of chemical in fetal gut
-  - Aflung = Amount of chemical in fetal lung
-  - Afliver = Amount of chemical in fetal liver
-  - Afven = Amount of chemical in fetal veins
-  - Afart = Amount of chemical in fetal arteries
-  - Afrest = Amount of chemical in fetal rest of body
-  - Afthyroid = Amount of chemical in fetal thyroid
-  - Afkidney = Amount of chemical in fetal kidney
-  - Afbrain = Amount of chemical in fetal brain
   
 Amount outputs have units of umol, while concentration outputs are in uM. The area under the curve outputs have units uM*days. Any other units are specified above when defined. The user can also check the figure captions for units. If the user wants further details on the models and their formulations, they are encouraged to check out the httk documentation (https://cran.r-project.org/web/packages/httk/index.html).
 
@@ -148,7 +125,7 @@ Since we want to simulate four compounds (abamectin, bisphenol-a, cyanazine, and
 
 <br/><br/>
 
-By either scrolling or typing in the textbox, we see that the names of the other three compounds are also available, so we select those. Since all of the compounds we need are available, we do not need to upload a CSV file under the *Uploaded Compounds* card and leave it untouched. So, we hit the *Load Compounds* button under the *Instructions* card as shown in the image below before proceeding to the next tab. 
+By either scrolling or typing in the textbox, we see that the names of the other three compounds are also available, so we select those. Since all of the compounds we need are available, we do not need to upload a CSV file under the *Uploaded Compounds* card and leave it untouched. Then, we proceed to the next tab. 
 
 <br/><br/>
 
@@ -247,7 +224,7 @@ kable(SampleChemsToUpload, caption = "A csv file with chemical information for t
 
 <br/><br/>
 
-Once we have the three compounds selected under the *Preloaded Compounds* card and the two compounds uploaded under the *Uploaded Compounds* card (with the csv file name CSV_CTPvignette.csv), we then hit the *Load Compounds* button and proceed to the next tab. The final *Compound Selection* tab should look like the image below.
+Once we have the three compounds selected under the *Preloaded Compounds* card and the two compounds uploaded under the *Uploaded Compounds* card (with the csv file name CSV_CTPvignette.csv), we then proceed to the next tab. The final *Compound Selection* tab should look like the image below.
 
 <br/><br/>
 
@@ -334,7 +311,7 @@ Under the *Model* card, we select *1compartment* for the first drop down menu. F
 
 ### Compound Selection Tab
 
-Because we are loading all in silico generated parameters into ToCS, the *Preloaded Compounds* card will take a few moments to load. When it does, we can type in the compound name or CAS number for each compound into the search bar and select all three compounds. Then, we click the *Load Compounds* button under the *Instructions* card. The completed *Compound Selection* tab should look like the image below.
+Because we are loading all in silico generated parameters into ToCS, the *Preloaded Compounds* card will take a few moments to load. When it does, we can type in the compound name or CAS number for each compound into the search bar and select all three compounds. The completed *Compound Selection* tab should look like the image below.
 
 <br/><br/>
 

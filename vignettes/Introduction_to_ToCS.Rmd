@@ -1,7 +1,7 @@
 ---
 title: "Introduction to the ToCS App"
 author: "Kristen Windoloski"
-date: "January 9, 2025"
+date: "February 3, 2025"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Introduction_to_ToCS}
@@ -93,7 +93,7 @@ Once all selections have been made for this tab, move on to the *Compound Select
 
 ### Compound Selection Tab
 
-The layout for this tab (shown in the image below) primarily looks the same for all modules and includes two cards that correspond to the user declaring the compounds to simulate. At least one compound MUST be selected. The *Preloaded Compounds* card contains a drop down list of chemicals that are already present in httk and have enough data to run simulations. The user will not need to upload any data to simulate compounds that appear in this list. The drop down list is displayed in the format of "CASRN, Compound Name", and the user can search the list using either chemical identifier (though searching by CASRN is recommended since compounds can have multiple names). To select a compound, just click on it in the drop down list. Multiple compounds may be selected. Note that only a portion of the compound list will be initially visible during scrolling due to the size of the list, but the application will check the entire list if the user searches a chemical identifier. 
+The layout for this tab (shown in the image below) primarily looks the same for all modules and includes two cards that correspond to the user declaring the compounds to simulate. At least one compound MUST be selected. The *Preloaded Compounds* card contains a drop down list of chemicals that are already present in httk and have enough data to run the desired simulations. The user will not need to upload any data to simulate compounds that appear in this list. The drop down list is displayed in the format of "CASRN, Compound Name", and the user can search the list using either chemical identifier (though searching by CASRN is recommended since compounds can have multiple names). To select a compound, just click on it in the drop down list. Multiple compounds may be selected. Note that only a portion of the compound list will be initially visible during scrolling due to the size of the list, but the application will check the entire list if the user searches a chemical identifier. 
 
 <br/><br/>
 
@@ -127,7 +127,7 @@ While not all columns of the csv file must contain data, the following columns M
 
 This information can be found in the *RequiredData.pdf* file in the *Uploaded Compounds File Folder*. All definitions of the columns in the SampleCSV.csv file can be found in the *DataDescriptions.pdf* in the same folder. 
 
-Once the user has either selected compounds under the *Preloaded Compounds* card or uploaded compounds under the *Uploaded Compounds* card (or both!), the user must hit the *Load Compounds* button under the *Instructions* card (the button highlighted in the picture below). This will load the compounds into the system. No simulation will run unless the user hits this button. Then, the user may proceed to the next tab, *Advanced (Optional) Parameters*, if they desire OR they may skip to the *Run Simulation* tab. Let's say for this example that we are not going to simulate the chemicals in the SampleCSV.csv, so we omit its upload and the *Compound Selection* tab should look like the image below.
+Once the user has either selected compounds under the *Preloaded Compounds* card or uploaded compounds under the *Uploaded Compounds* card (or both!), they may proceed to the next tab, *Advanced (Optional) Parameters*, if they desire OR they may skip to the *Run Simulation* tab. Let's say for this example that we are not going to simulate the chemicals in the SampleCSV.csv, so we omit its upload and the *Compound Selection* tab should look like the image below.
 
 <br/><br/>
 
@@ -147,11 +147,11 @@ Users may customize any available drop downs, sliders, or text boxes on this tab
 
 ### Run Simulation Tab
 
-This is the final tab and the one where the user gets to view the output of their simulation. Below is a sample initial view of the tab before the user runs the simulation. The user should see all of their selected chemicals under the *Selected Compounds* card. If there are chemicals missing, return to the *Compound Selection* tab, select the missing chemicals, and hit the *Load Compounds* button again. The newly selected chemicals should now appear under the *Run Simulation* tab. When the user is ready to run the simulation, press the *Run Simulation* button under the *Actions* tab. Depending on the module chosen and the number of chemicals selected, the results may take a few seconds to generate. When they appear, they populate the *Results* card. For this example, the first drop down labeled *Multi-Curve Time Course Plot*, as shown in the image below, is automatically opened and the user can view the result once the simulation is finished.
+This is the final tab and the one where the user gets to view the output of their simulation. Below is a sample initial view of the tab before the user runs the simulation. The user should see all of their selected chemicals under the *Selected Compounds* card. If there are chemicals missing, return to the *Compound Selection* tab and select the missing chemicals. The newly selected chemicals should now appear under the *Run Simulation* tab. When the user is ready to run the simulation, press the *Run Simulation* button under the *Actions* tab. Depending on the module chosen and the number of chemicals selected, the results may take a few seconds to generate. When they appear, they populate the *Results* card. For this example, the first drop down labeled *Multi-Curve Time Course Plot*, as shown in the image below, is automatically opened and the user can view the result once the simulation is finished.
 
 <br/><br/>
 
-![A sample view of the Run Simulation tab prior to simulation results being generated.](Introduction to ToCS Vignette Images/GUI_Introduction_RunSimPage2.png){width="100%"}
+![A sample view of the Run Simulation tab prior to simulation results being generated.](Introduction to ToCS Vignette Images/GUI_Introduction_RunSimPage.png){width="100%"}
 
 <br/><br/>
 
@@ -161,7 +161,7 @@ Also in the *Run Simulation* tab is a *Reset Session* button under the *Actions*
 
 <br/><br/>
 
-![A second sample view of the Run Simulation tab with all output tabs closed.](Introduction to ToCS Vignette Images/GUI_Introduction_RunSimPage.png){width="100%"}
+![A second sample view of the Run Simulation tab with all output tabs closed.](Introduction to ToCS Vignette Images/GUI_Introduction_RunSimPage2.png){width="100%"}
 
 <br/><br/>
 

@@ -1,7 +1,7 @@
 ---
 title: "IVIVE Simulation Examples"
 author: "Kristen Windoloski"
-date: "January 9, 2025"
+date: "February 3, 2025"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{IVIVE}
@@ -101,7 +101,7 @@ Different from the other modules and vignettes, the first drop down menu under t
     - Treats the total specified tissue concentration in vivo as bioactive
     - Treats the nominal concentration in vitro as bioactive
 
-For more details, see the EPA's httk documentation and/or the following publication https://doi.org/10.1371/journal.pone.0217564. Since we want to use the unbound (free) concentration in vitro as bioactive instead of the nominal concentration, we select the *Honda1* assumption for the first drop down menu. This then results in a new box below asking the user to specify the fraction fetal bovine serum. We apply the assumption that it is 0.1 for the bioactivity assays for our selected compounds and leave the box at *0.1*. Another box below also appears and contains a list of preloaded compounds that we can select from. We search for the same eight compounds that we uploaded bioactivity data for and see that they are all present in the preloaded list. Thus, we select those compounds, ignore the *Uploaded Compounds* card, and click the *Load Compounds* button under the *Instructions* card. The completed *Compound Selection* tab should look like the images below.
+For more details, see the EPA's httk documentation and/or the following publication https://doi.org/10.1371/journal.pone.0217564. Since we want to use the unbound (free) concentration in vitro as bioactive instead of the nominal concentration, we select the *Honda1* assumption for the first drop down menu. This then results in a new box below asking the user to specify the fraction fetal bovine serum. We apply the assumption that it is 0.1 for the bioactivity assays for our selected compounds and leave the box at *0.1*. Another box below also appears and contains a list of preloaded compounds that we can select from. We search for the same eight compounds that we uploaded bioactivity data for and see that they are all present in the preloaded list. Thus, we select those compounds and ignore the *Uploaded Compounds* card. The completed *Compound Selection* tab should look like the images below.
 
 <br/><br/>
 
@@ -189,7 +189,7 @@ Then, the fourth drop down menu asks the user whether they want to return a sing
 
 ### Compound Selection Tab
 
-As with the first example, the first drop down menu under the *Preloaded Compounds* card has the user select a set of simulations assumptions to implement. See example 1 above for descriptions of the assumptions. Since we want to use the nominal concentration in vitro as bioactive and restrictive clearance (protein binding taking into account in liver clearance), we select NULL for the first drop down menu (note that we could have also selected Honda3 for the same result). This then results in a new box below containing a list of preloaded compounds that we can select from. We search for the same ten compounds that we uploaded bioactivity data for and see that they are all present in the preloaded list. Thus, we select those compounds, ignore the *Uploaded Compounds* card, and click the *Load Compounds* button under the *Instructions* card. The completed *Compound Selection* tab should look like the images below.
+As with the first example, the first drop down menu under the *Preloaded Compounds* card has the user select a set of simulations assumptions to implement. See example 1 above for descriptions of the assumptions. Since we want to use the nominal concentration in vitro as bioactive and restrictive clearance (protein binding taking into account in liver clearance), we select NULL for the first drop down menu (note that we could have also selected Honda3 for the same result). This then results in a new box below containing a list of preloaded compounds that we can select from. We search for the same ten compounds that we uploaded bioactivity data for and see that they are all present in the preloaded list. Thus, we select those compounds and ignore the *Uploaded Compounds* card. The completed *Compound Selection* tab should look like the images below.
 
 <br/><br/>
 
@@ -279,7 +279,7 @@ Then, the fourth drop down menu asks the user whether they want to return a sing
 
 ### Compound Selection Tab
 
-As with the first example, the first drop down menu under the *Preloaded Compounds* card has the user select a set of simulations assumptions to implement. See example 1 for descriptions of the assumptions. As with example 2, we will select NULL for the first drop down menu since we wanted to use 1) the nominal in vitro concentration as bioactive, 2) restrictive clearance, and 3) liver tissue as bioactive in vivo. This then results in a new box below containing a list of preloaded compounds that we can select from. We search for the same eight compounds that we uploaded bioactivity data for and see that they are all present in the preloaded list. Thus, we select those compounds, ignore the *Uploaded Compounds* card, and click the *Load Compounds* button under the *Instructions* card. The completed *Compound Selection* tab should look like the images below.
+As with the first example, the first drop down menu under the *Preloaded Compounds* card has the user select a set of simulations assumptions to implement. See example 1 for descriptions of the assumptions. As with example 2, we will select NULL for the first drop down menu since we wanted to use 1) the nominal in vitro concentration as bioactive, 2) restrictive clearance, and 3) liver tissue as bioactive in vivo. This then results in a new box below containing a list of preloaded compounds that we can select from. We search for the same eight compounds that we uploaded bioactivity data for and see that they are all present in the preloaded list. Thus, we select those compounds and ignore the *Uploaded Compounds* card. The completed *Compound Selection* tab should look like the images below.
 
 <br/><br/>
 
