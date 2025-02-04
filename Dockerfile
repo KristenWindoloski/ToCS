@@ -19,15 +19,35 @@ RUN apt-get update && apt-get install -y \
     libxt-dev \
     libtiff-dev \
     libjpeg-dev \
+    git \
+    pandoc \
+    pandoc-citeproc \
     build-essential \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Install remotes to facilitate package installation
-RUN R -e "install.packages('remotes', repos='https://cloud.r-project.org/')"
+# Install remotes and devtools for package development
+RUN R -e "install.packages(c('remotes', 'devtools'), repos='https://cloud.r-project.org/')"
 
-# Install httk and dependencies
-RUN R -e "remotes::install_github('USEPA/httk')"
+# Install httk from CRAN
+RUN R -e "install.packages('httk', repos='https://cloud.r-project.org/')"
+
+# Install required CRAN dependencies
+RUN R -e "install.packages(c( \
+    'bslib', 'cowplot', 'DescTools', 'dplyr', 'forcats', 'ggplot2', 'gridExtra', \
+    'htmltools', 'magrittr', 'purrr', 'scales', 'shiny', 'shinyjs', 'stats', \
+    'knitr', 'rmarkdown' \
+  ), repos='https://cloud.r-project.org/')"
+
+# Clone the ToCS repository from GitHub
+WORKDIR /usr/local/src
+RUN git clone https://github.com/KristenWindoloski/ToCS.git
+
+# Set working directory inside the container
+WORKDIR /usr/local/src/ToCS
+
+# Set default command to load the package upon startup
+CMD ["R", "-e", "devtools::load_all('.')"]
 
 # Set default command to launch R
 CMD ["R"]
