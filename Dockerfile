@@ -27,7 +27,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Install remotes and devtools for package development
-RUN R -e "install.packages(c('remotes', 'devtools'), repos='https://cloud.r-project.org/')"
+RUN R -e "install.packages(c('remotes', 'devtools', 'shiny', 'shinyjs'), repos='https://cloud.r-project.org/')"
 
 # Install httk from CRAN
 RUN R -e "install.packages('httk', repos='https://cloud.r-project.org/')"
@@ -46,8 +46,12 @@ RUN git clone https://github.com/KristenWindoloski/ToCS.git
 # Set working directory inside the container
 WORKDIR /usr/local/src/ToCS
 
-# Set default command to load the package upon startup
-CMD ["R", "-e", "devtools::load_all('.')"]
+# Expose the Shiny port
+EXPOSE 3838
+
+# Set default command to ensure the GUI is externally accessible
+CMD ["R", "-e", "devtools::load_all('.'); options(shiny.host='0.0.0.0', shiny.port=3838); ToCS()"]
+
 
 # Set default command to launch R
 CMD ["R"]
