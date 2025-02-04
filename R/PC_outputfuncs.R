@@ -23,8 +23,7 @@ Parsol <- function(pars){
   df2 <- data.frame(CompoundName = pars[["CompoundList"]][,1])
   df2 <- cbind(df2,df2_1)
 
-  # --- For each compound, find the elimination rate, volume of distribution,
-  # --- and partition coefficients
+  # --- For each compound, find all five metrics
 
   for (i in 1:n) {
 
@@ -35,20 +34,11 @@ Parsol <- function(pars){
     df2[i,2:14] <- CalcPCs(pars,i)
   }
 
-  # --- Arrange first data frame based on elimination rate
-  df1_rearr <- dplyr::arrange(df1, EliminationRate)
-  df1_rearr$CompoundName <- factor(df1_rearr$CompoundName, levels = df1_rearr$CompoundName)
-
-  # --- Arrange second data frame based on median partition coefficient value for each compound
-  df2$RowMedian <- apply(df2[,2:14], 1, median)
-  df2_rearr <- dplyr::arrange(df2, RowMedian)
-  df2_rearr$CompoundName <- factor(df2_rearr$CompoundName, levels = df2_rearr$CompoundName)
-
   # --- Create a data frame to store all simulation parameters
   pars_df <- StorePars_PC(pars)
 
   # --- Store output as a list
-  out_list <- list(df1_rearr, df2_rearr,pars_df)
+  out_list <- list(df1,df2,pars_df)
 }
 
 CalcElimRate <- function(pars,i){
@@ -60,8 +50,7 @@ CalcElimRate <- function(pars,i){
                                     adjusted.Funbound.plasma = pars[["adj_fub"]],
                                     regression = pars[["regression"]],
                                     clint.pvalue.threshold = pars[["Clint_Pval"]],
-                                    minimum.Funbound.plasma = pars[["min_fub"]],
-                                    suppress.messages = TRUE)
+                                    minimum.Funbound.plasma = pars[["min_fub"]])
 }
 
 CalcVdist <- function(pars,i){
@@ -71,15 +60,13 @@ CalcVdist <- function(pars,i){
              species = pars[["spec"]],
              adjusted.Funbound.plasma = pars[["adj_fub"]],
              regression = pars[["regression"]],
-             minimum.Funbound.plasma = pars[["min_fub"]],
-             suppress.messages = TRUE)
+             minimum.Funbound.plasma = pars[["min_fub"]])
 }
 
 CalcHalfLife <- function(pars,i){
 
   HL <- httk::calc_half_life(chem.name = pars[["CompoundList"]][i,1],
                              species = pars[["spec"]],
-                             suppress.messages = TRUE,
                              default.to.human = pars[["defaulttoHuman"]],
                              restrictive.clearance = pars[["restrict_clear"]],
                              adjusted.Funbound.plasma = pars[["adj_fub"]],
@@ -92,7 +79,6 @@ CalcClearance <- function(pars,i){
 
   TotClear <- httk::calc_total_clearance(chem.name = pars[["CompoundList"]][i,1],
                                          species = pars[["spec"]],
-                                         suppress.messages = TRUE,
                                          default.to.human = pars[["defaulttoHuman"]],
                                          restrictive.clearance = pars[["restrict_clear"]],
                                          adjusted.Funbound.plasma = pars[["adj_fub"]])
@@ -106,8 +92,7 @@ CalcPCs <- function(pars,i){
                                alpha = pars[["AlphaPar"]],
                                adjusted.Funbound.plasma = pars[["adj_fub"]],
                                regression = pars[["regression"]],
-                               minimum.Funbound.plasma = pars[["min_fub"]],
-                               suppress.messages = TRUE)
+                               minimum.Funbound.plasma = pars[["min_fub"]])
 }
 
 StorePars_PC <- function(pars){
@@ -124,38 +109,13 @@ StorePars_PC <- function(pars){
                         alpha = pars[["AlphaPar"]])
 
   chemdata <- chem.physical_and_invitro.data[chem.physical_and_invitro.data$Compound %in% pars[["CompoundList"]][,1],]
+  chemdata <- chemdata[order(match(chemdata$Compound,pars_df$chem.name)),]
   pars_df <-cbind(pars_df,chemdata)
-}
-
-###########################################
-# --- DETERMINE LOG BREAKS IN PLOTS
-###########################################
-
-log10breaks_Par <- function(ydata) {
-
-  x <- ydata[ydata > 0]
-
-  bottom <- floor(log10(min(x)))
-  top <- ceiling(log10(max(x)))
-  10^(seq(bottom, top))
 }
 
 ##################################################
 # --- GENERATE PLOT WITH ELIM RATE AND VDIST
 ##################################################
-
-plot_logscale <- function(plt,sol_vec){
-
-  break_seq <- log10breaks_Par(sol_vec)
-
-  plt <- plt +
-    ggplot2::scale_y_log10(breaks = break_seq,
-                           labels = scales::trans_format("log10", scales::math_format(10^.x)),
-                           limits = c(min(break_seq),max(break_seq))) +
-    ggplot2::annotation_logticks(sides = "l")
-
-  return(plt)
-}
 
 
 plotPar <- function(soldata,pars,logscale){

@@ -148,21 +148,9 @@ StorePars_IVIVE <- function(pars,bioactive_df){
                         minimum.Funbound.plasma = pars[["min_fub"]],
                         regression = pars[["regression"]])
   chemdata <- httk::chem.physical_and_invitro.data[httk::chem.physical_and_invitro.data$Compound %in% pars[["CompoundList"]][,1],]
+  chemdata <- chemdata[order(match(chemdata$Compound,pars_df$chem.name)),]
   pars_df <-cbind(pars_df,chemdata)
 
-}
-
-######################################################
-# --- DETERMINE LOG BREAKS IN SS PLOTS
-######################################################
-
-log10breaks_IVIVE <- function(ydata) {
-
-  x <- ydata[ydata > 0]
-
-  bottom <- floor(log10(min(x)))
-  top <- ceiling(log10(max(x)))
-  10^(seq(bottom, top))
 }
 
 ######################################################
@@ -212,10 +200,10 @@ IVIVEplotting <- function(OED_data,BioactiveConc,pars,logscale){
   if (logscale == TRUE){
 
     if (pars[["returnsamples"]] == TRUE){
-      break_seq <- log10breaks_IVIVE(OEDSamples_df$OED)
+      break_seq <- log10breaks(OEDSamples_df$OED)
     }
     else{
-      break_seq <- log10breaks_IVIVE(OED_data$OED)
+      break_seq <- log10breaks(OED_data$OED)
     }
      plt <- plt +
        ggplot2::scale_y_log10(breaks = break_seq,

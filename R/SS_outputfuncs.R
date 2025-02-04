@@ -38,7 +38,7 @@ SS_sol <- function(pars){
   pars_df <- StorePars_SS(pars)
 
   # --- Create list with both outputs (plot list and sol array)
-  out_list <- list(sol_ascend, css_char_ascend,pars_df)
+  out_list <- list(sol_ascend,css_char_ascend,pars_df)
 }
 
 CalcAnalyticCss <- function(pars,i){
@@ -111,20 +111,8 @@ StorePars_SS <- function(pars){
                     regression = pars[["regression"]])
 
   chemdata <- chem.physical_and_invitro.data[chem.physical_and_invitro.data$Compound %in% pars[["CompoundList"]][,1],]
+  chemdata <- chemdata[order(match(chemdata$Compound,out$chem.name)),]
   out <-cbind(out,chemdata)
-}
-
-######################################################
-# --- DETERMINE LOG BREAKS IN SS PLOTS
-######################################################
-
-log10breaks_SS <- function(ydata) {
-
-  x <- ydata[ydata > 0]
-
-  bottom <- floor(log10(min(x)))
-  top <- ceiling(log10(max(x)))
-  10^(seq(bottom, top))
 }
 
 ######################################################

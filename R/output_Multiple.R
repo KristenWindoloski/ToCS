@@ -75,7 +75,6 @@ CompoundList <- function(preload_comp, preload_comp_Honda1, uploaded_comps){
 #--- (ONLY UPDATE PARAMETERS WHOSE VALUE NEEDS TO BE CHANGED)
 ################################################################
 
-
 UpdatePars <- function(pars){
 
   #---------------------------
@@ -215,25 +214,7 @@ UpdatePars <- function(pars){
   #------------------------------------
 
   # --- OUTPUT TIMES
-  if (pars[["returntimes"]] == "" && pars[["model"]] != 'fetal_pbtk'){
-    out_times <- seq(0, pars[["simtime"]], signif(1/(96), round(-log10(1e-4)-1))) #output approx every 15 minutes
-    out_times <- unique(c(out_times,pars[["simtime"]]))
-  }
-  else if (pars[["returntimes"]] == "" && pars[["model"]] == 'fetal_pbtk'){
-    end_time <- min(c(280,91+pars[["simtime"]]))
-    out_times <- seq(91,end_time,1) #only runs weeks 13-40 of gestation
-  }
-  else{
-    v1 <- unlist(strsplit(pars[["returntimes"]],","))
-    out_times <- sapply(v1, function(x) eval(parse(text = x)))
-    if (pars[["model"]] == 'fetal_pbtk'){
-      out_times <- unique(sort(c(out_times,min(out_times)+pars[["simtime"]])))
-    }
-    else{
-      out_times <- unique(sort(c(out_times,pars[["simtime"]])))
-    }
-  }
-  pars[["returntimes"]] <- out_times
+  pars[["returntimes"]] <- OutputTimes_Par(pars)
 
   # --- SS TISSUE OUTPUT
   if (pars[["tissueSS"]] == "NULL"){
@@ -313,6 +294,33 @@ DosingPar <- function(dosenum,initdose,multdose,multdosetime,multdoseamount,mult
                                    forcings = NULL)}}
 }
 
+OutputTimes_Par <- function(pars){
+
+  if (pars[["returntimes"]] == "" && pars[["model"]] != 'fetal_pbtk'){
+    out_times <- seq(0, pars[["simtime"]], signif(1/(96), round(-log10(1e-4)-1))) #output approx every 15 minutes
+    out_times <- unique(c(out_times,pars[["simtime"]]))
+  }
+  else if (pars[["returntimes"]] == "" && pars[["model"]] == 'fetal_pbtk'){
+    end_time <- min(c(280,91+pars[["simtime"]]))
+    out_times <- seq(91,end_time,1) #only runs weeks 13-40 of gestation
+  }
+  else{
+    v1 <- unlist(strsplit(pars[["returntimes"]],","))
+    out_times <- sapply(v1, function(x) eval(parse(text = x)))
+    if (pars[["model"]] == 'fetal_pbtk'){
+      out_times <- unique(sort(c(out_times,min(out_times)+pars[["simtime"]])))
+    }
+    else{
+      out_times <- unique(sort(c(out_times,pars[["simtime"]])))
+    }
+  }
+}
+
+
+################################################################
+#--- POP-UP USER NOTIFICATIONS FROM RUNSIM BUTTON
+################################################################
+
 Notify_Computing <- function(){
   shiny::showNotification("Computing solution - this may take a moment. Plots and tables will be updated once completed.", type = "message", duration = NULL)
 }
@@ -321,5 +329,36 @@ Notify_ParError <- function(){
   shiny::showNotification("Invalid Inputs: Check all previous tabs for missing or invalid parameters. Changing some parameters such as the output, species,
                                   and model will result in other parameters (such as selected compounds) needing to be reselected.", type = "error", duration = NULL)
 }
+
+
+################################################################
+#--- LOG PLOT FUNCTIONS FOR SS, IVIVE, AND PC MODULES
+################################################################
+
+# --- FUNCTION TO DETERMINE Y-AXIS RANGE IN LOG SCALE
+log10breaks <- function(ydata) {
+
+  x <- ydata[ydata > 0]
+
+  bottom <- floor(log10(min(x)))
+  top <- ceiling(log10(max(x)))
+  10^(seq(bottom, top))
+}
+
+# --- FUNCTION TO USE LOG SCALE IN PLOTTING
+plot_logscale <- function(plt,sol_vec){
+
+  break_seq <- log10breaks(sol_vec)
+
+  plt <- plt +
+    ggplot2::scale_y_log10(breaks = break_seq,
+                           labels = scales::trans_format("log10", scales::math_format(10^.x)),
+                           limits = c(min(break_seq),max(break_seq))) +
+    ggplot2::annotation_logticks(sides = "l")
+
+  return(plt)
+}
+
+
 
 
