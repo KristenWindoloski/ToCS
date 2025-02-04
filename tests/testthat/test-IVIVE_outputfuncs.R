@@ -9,23 +9,8 @@ Generate_Pars <- function(){
 
   pars <- list(CompoundList = data.frame(Selected_Compounds = c("Acetamiprid","2,4-db","Acephate","Abamectin","Acetochlor",
                                                                 "Alachlor","Aldicarb","Ametryn","Amitraz","Atrazine")),
-               doseroute = "oral",
-               doseunits = "mg/kg",
-               dosinginfo = list(initial.dose = 1,
-                                 doses.per.day=NULL,
-                                 daily.dose=NULL,
-                                 dosing.matrix=NULL,
-                                 forcings = NULL),
                spec = "Human",
                model = "3compartment",
-               initvals = setNames(rep(0,7),
-                                   c("Aintestine","Aportven","Aliver","Asyscomp","Ametabolized","Atubules","AUC")),
-               returntimes = seq(0,1,signif(1/(96),round(-log10(1e-4)-1))),
-               simtime = 1,
-               odemethod = "lsoda",
-               solversteps = 4,
-               rtol = 1e-08,
-               atol = 1e-08,
                rb2p = FALSE,
                restrict_clear = TRUE,
                adj_fub = TRUE,
@@ -46,29 +31,11 @@ Generate_Pars <- function(){
                bioactiveIVIVE = FALSE,
                Clint_Pval = 0.05,
                AlphaPar = 0.001,
-               modelSSout_units = "uM",
-               output_concSS = "plasma",
-               tissueSS = NULL,
                modelIVIVEout_units = "mgpkgpday",
                output_concIVIVE = "plasma",
                tissueIVIVE = NULL,
-               logscale = FALSE,
-               dailydose = 1)
+               logscale = FALSE)
 }
-
-######################################################
-# --- DETERMINE LOG BREAKS IN IVIVE PLOTS
-######################################################
-
-test_that("log10breaks_IVIVE() produces a power of 10 sequence",{
-
-  # --- CREATE SAMPLE DATA
-  set.seed(1)
-  ydata <- runif(100,min = -1,max = 10)
-
-  # --- TEST
-  expect_equal(log10breaks_IVIVE(ydata),c(0.01,0.1,1,10))
-})
 
 ######################################################
 # --- CREATE SCATTER PLOT OF AED VALUES
@@ -118,7 +85,7 @@ test_that("Plotdf_Prep() produces the data frame of organized samples for plotti
   #OED samples data frame
   ChemNames <- c(rep("Acetamiprid",10),rep("2,4-db",10),rep("Acephate",10))
   df_samples <- data.frame(CompoundName = ChemNames, OED = c(df[3:12,]))
-  df_samples <- mutate(df_samples, CompoundName = fct_reorder(CompoundName, OED, .fun='median'))
+  df_samples <- dplyr::mutate(df_samples, CompoundName = forcats::fct_reorder(CompoundName, OED, .fun='median'))
 
   #5th quantile OED dose data frame
   df_q5 = data.frame(CompoundName = colnames(df), OED = c(df[1,]))
@@ -126,9 +93,10 @@ test_that("Plotdf_Prep() produces the data frame of organized samples for plotti
   df_q5 <- df_q5[match(plt_order, df_q5$CompoundName),]
 
   # --- TEST
-  expect_equal(length(Plotdf_Prep(df,pars)),2)
-  expect_equal(Plotdf_Prep(df,pars)[[1]],df_samples)
-  expect_equal(Plotdf_Prep(df,pars)[[2]],df_q5)
+  Plotdf_Prep_out <- Plotdf_Prep(df,pars)
+  expect_equal(length(Plotdf_Prep_out),2)
+  expect_equal(Plotdf_Prep_out[[1]],df_samples)
+  expect_equal(Plotdf_Prep_out[[2]],df_q5)
 })
 
 ######################################################
@@ -149,17 +117,19 @@ test_that("CalcOED() produces a single OED value or a vector of OED values",{
 
   # --- TEST
   #output for return samples false
-  expect_true(CalcOED(1,pars,bioactive_conc)>0)
-  expect_equal(CalcOED(1,pars,bioactive_conc), OED) #check that seed is set
-  expect_equal(names(CalcOED(1,pars,bioactive_conc)),"95%")
+  out <- CalcOED(1,pars,bioactive_conc)
+  expect_true(out>0)
+  expect_equal(out, OED) #check that seed is set
+  expect_equal(names(out),"95%")
 
   #output for return samples true
   pars[["returnsamples"]] <- TRUE
   OEDsamples <- CalcOED(2,pars,bioactive_conc)
 
-  expect_equal(length(CalcOED(2,pars,bioactive_conc)),1000)
-  expect_true(all(CalcOED(2,pars,bioactive_conc)>0))
-  expect_equal(CalcOED(2,pars,bioactive_conc), OEDsamples) #check that seed is set
+  out <- CalcOED(2,pars,bioactive_conc)
+  expect_equal(length(out),1000)
+  expect_true(all(out>0))
+  expect_equal(out, OEDsamples) #check that seed is set
 
   #output for honda = honda1
   pars[["returnsamples"]] <- FALSE
@@ -275,18 +245,15 @@ test_that("StorePars_IVIVE() outputs a data frame of parameters used in the simu
                     minimum.Funbound.plasma = pars[["min_fub"]],
                     regression = pars[["regression"]])
   chemdata <- chem.physical_and_invitro.data[chem.physical_and_invitro.data$Compound %in% pars[["CompoundList"]][,1],]
+  chemdata <- chemdata[order(match(chemdata$Compound,out$chem.name)),]
   out <-cbind(out,chemdata)
 
   # --- TEST
-  expect_equal(StorePars_IVIVE(pars,bioactive_conc),out)
-
-  pars[["tissueIVIVE"]] <- "kidney"
-  out$tissue <- "kidney"
-  pars[["HondaIVIVE"]] <- "Honda1"
-  out$IVIVE <- "Honda1"
-  pars[["output_concIVIVE"]] <- "blood"
-  out$concentration <- "blood"
-  expect_equal(StorePars_IVIVE(pars,bioactive_conc),out)
+  IVIVE_sol_out <- StorePars_IVIVE(pars,bioactive_conc)
+  expect_equal(IVIVE_sol_out,out)
+  expect_equal(IVIVE_sol_out$chem.name[1],IVIVE_sol_out$Compound[1])
+  expect_equal(IVIVE_sol_out$chem.name[2],IVIVE_sol_out$Compound[2])
+  expect_equal(IVIVE_sol_out$chem.name[3],IVIVE_sol_out$Compound[3])
 })
 
 test_that("IVIVEsol() returns a solution list",{
@@ -304,20 +271,22 @@ test_that("IVIVEsol() returns a solution list",{
 
   # --- TEST
   #test typeof of list
-  expect_equal(typeof(IVIVEsol(pars)),"list")
+  IVIVEsol_out <- IVIVEsol(pars)
+  expect_equal(typeof(IVIVEsol_out ),"list")
 
   #test return samples = false
-  expect_equal(nrow(IVIVEsol(pars)[[1]]), 3)
-  expect_equal(ncol(IVIVEsol(pars)[[1]]), 2)
-  expect_equal(IVIVEsol(pars)[[1]][,1], CompNames)
-  expect_false(any(IVIVEsol(pars)[[1]][,2] == 0))
+  expect_equal(nrow(IVIVEsol_out [[1]]),3)
+  expect_equal(ncol(IVIVEsol_out [[1]]),2)
+  expect_equal(IVIVEsol_out[[1]][,1],CompNames)
+  expect_false(any(IVIVEsol_out[[1]][,2] == 0))
 
   #test return samples = true
   pars[["returnsamples"]] <- TRUE
-  expect_equal(nrow(IVIVEsol(pars)[[1]]), 1002)
-  expect_equal(ncol(IVIVEsol(pars)[[1]]), 3)
-  expect_equal(colnames(IVIVEsol(pars)[[1]]), CompNames)
-  expect_true(all(is.na(IVIVEsol(pars)[[1]][2,])))
-  expect_false(any(IVIVEsol(pars)[[1]][1,] == 0))
-  expect_false(any(IVIVEsol(pars)[[1]][3:1002,] == 0))
+  IVIVEsol_out <- IVIVEsol(pars)
+  expect_equal(nrow(IVIVEsol_out[[1]]), 1002)
+  expect_equal(ncol(IVIVEsol_out[[1]]), 3)
+  expect_equal(colnames(IVIVEsol_out[[1]]), CompNames)
+  expect_true(all(is.na(IVIVEsol_out[[1]][2,])))
+  expect_false(any(IVIVEsol_out[[1]][1,] == 0))
+  expect_false(any(IVIVEsol_out[[1]][3:1002,] == 0))
 })

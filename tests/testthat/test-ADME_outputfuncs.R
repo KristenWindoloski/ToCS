@@ -103,16 +103,17 @@ test_that("TKsummary() produces a table of simulation summary statistics ",{
 # --- SOLVE MODEL FOR ADME SOLUTION AND TK SUMMARY
 ########################################################
 
-test_that("modsol() produces a list of 3 objects",{
+test_that("modsol() produces 3 objects",{
 
   # --- CREATE INPUT
   pars <- Generate_Pars()
 
   # --- TEST
-  expect_true(is.list(modsol(pars)))
-  expect_true(is.array(modsol(pars)[[1]]))
-  expect_true(is.array(modsol(pars)[[2]]))
-  expect_true(is.data.frame(modsol(pars)[[3]]))
+  modsol_out <- modsol(pars)
+  expect_true(is.list(modsol_out))
+  expect_true(is.array(modsol_out[[1]]))
+  expect_true(is.array(modsol_out[[2]]))
+  expect_true(is.data.frame(modsol_out[[3]]))
 })
 
 ########################################################

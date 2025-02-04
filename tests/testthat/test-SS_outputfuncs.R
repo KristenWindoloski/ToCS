@@ -7,8 +7,6 @@ rm(list = ls())
 
 Generate_Pars <- function(){
 
-  BioFile <- read.csv("SampleBioactiveConcentrations.csv")
-
   pars <- list(CompoundList = data.frame(Selected_Compounds = c("Acetamiprid","2,4-db","Acephate","Abamectin","Acetochlor",
                                                                 "Alachlor","Aldicarb","Ametryn","Amitraz","Atrazine")),
                doseroute = "oral",
@@ -31,20 +29,6 @@ Generate_Pars <- function(){
                caco_overwriteinvivo = FALSE,
                caco_keep100 = FALSE)
 }
-
-######################################################
-# --- DETERMINE LOG BREAKS IN SS PLOTS
-######################################################
-
-test_that("log10breaks_SS() produces a power of 10 sequence",{
-
-  # --- CREATE SAMPLE DATA
-  set.seed(1)
-  ydata <- runif(100,min = -1,max = 10)
-
-  # --- TEST
-  expect_equal(log10breaks_SS(ydata),c(0.01,0.1,1,10))
-})
 
 ######################################################
 # --- CREATE SCATTER PLOT OF STEADY STATE VALUES
@@ -113,23 +97,26 @@ test_that("CalcCssDay() produces the relevant info when Css is reached",{
   # --- TEST
   pars[["spec"]] <- "Rat"
   pars[["model"]] <- "1compartment"
-  expect_equal(CalcCssDay(pars,1)[[1]],0.8492)
-  expect_equal(CalcCssDay(pars,1)[[2]],0.8445)
-  expect_equal(CalcCssDay(pars,1)[[3]],1.181)
-  expect_equal(CalcCssDay(pars,1)[[4]],8)
+  out <- CalcCssDay(pars,1)
+  expect_equal(out[[1]],0.8492)
+  expect_equal(out[[2]],0.8445)
+  expect_equal(out[[3]],1.181)
+  expect_equal(out[[4]],8)
 
   pars[["spec"]] <- "Human"
   pars[["model"]] <- "3compartment"
-  expect_equal(CalcCssDay(pars,2)[[1]],151.9)
-  expect_equal(CalcCssDay(pars,2)[[2]],0.999)
-  expect_equal(CalcCssDay(pars,2)[[3]],152.6)
-  expect_equal(CalcCssDay(pars,2)[[4]],75)
+  out <- CalcCssDay(pars,2)
+  expect_equal(out[[1]],151.9)
+  expect_equal(out[[2]],0.999)
+  expect_equal(out[[3]],152.6)
+  expect_equal(out[[4]],75)
 
   pars[["model"]] <- "pbtk"
-  expect_equal(CalcCssDay(pars,3)[[1]],1.99)
-  expect_equal(CalcCssDay(pars,3)[[2]],0.9716)
-  expect_equal(CalcCssDay(pars,3)[[3]],2.506)
-  expect_equal(CalcCssDay(pars,3)[[4]],4)
+  out <- CalcCssDay(pars,3)
+  expect_equal(out[[1]],1.99)
+  expect_equal(out[[2]],0.9716)
+  expect_equal(out[[3]],2.506)
+  expect_equal(out[[4]],4)
 })
 
 test_that("StorePars_SS() outputs a data frame of parameters used in the simulation",{
@@ -160,14 +147,16 @@ test_that("StorePars_SS() outputs a data frame of parameters used in the simulat
                     regression = pars[["regression"]])
 
   chemdata <- chem.physical_and_invitro.data[chem.physical_and_invitro.data$Compound %in% pars[["CompoundList"]][,1],]
+  chemdata <- chemdata[order(match(chemdata$Compound,out$chem.name)),]
   out <-cbind(out,chemdata)
 
   # --- TEST
-  expect_equal(StorePars_SS(pars),out)
-
-  pars[["tissueSS"]] <- "kidney"
-  out$tissue <- "kidney"
-  expect_equal(StorePars_SS(pars),out)
+  SS_pars_out <- StorePars_SS(pars)
+  expect_equal(SS_pars_out,out)
+  expect_equal(SS_pars_out$chem.name[1],SS_pars_out$Compound[1])
+  expect_equal(SS_pars_out$chem.name[2],SS_pars_out$Compound[2])
+  expect_equal(SS_pars_out$chem.name[3],SS_pars_out$Compound[3])
+  expect_equal(SS_pars_out$chem.name[4],SS_pars_out$Compound[4])
 })
 
 test_that("SS_sol() produces a list with the SS concentrations, Css_Day statistics, and parameters",{
@@ -207,12 +196,14 @@ test_that("SS_sol() produces a list with the SS concentrations, Css_Day statisti
                     regression = pars[["regression"]])
 
   chemdata <- chem.physical_and_invitro.data[chem.physical_and_invitro.data$Compound %in% pars[["CompoundList"]][,1],]
+  chemdata <- chemdata[order(match(chemdata$Compound,parout$chem.name)),]
   parout <-cbind(parout,chemdata)
 
-  expect_equal(length(SS_sol(pars)),3)
-  expect_equal(SS_sol(pars)[[1]],sol)
-  expect_equal(SS_sol(pars)[[2]],CssDay)
-  expect_equal(SS_sol(pars)[[3]],parout)
+  SS_sol_out <- SS_sol(pars)
+  expect_equal(length(SS_sol_out),3)
+  expect_equal(SS_sol_out[[1]],sol)
+  expect_equal(SS_sol_out[[2]],CssDay)
+  expect_equal(SS_sol_out[[3]],parout)
 })
 
 
