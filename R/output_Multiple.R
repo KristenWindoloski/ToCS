@@ -8,20 +8,14 @@
 #--- COMPILE LIST OF ALL COMPOUNDS TO ANALYZE
 ###############################################
 
-CompoundList <- function(preload_comp, preload_comp_Honda1, uploaded_comps){
+CompoundList <- function(preload_comp, uploaded_comps){
 
   #-----------------------------------
   #--- PRELOADED COMPOUNDS SELECTED?
   #-----------------------------------
 
   if (!is.null(preload_comp)){
-
-    preload_comp_name <- sub("^.*?, ", "", preload_comp)
-    compounds_preload <- preload_comp_name
-  }
-  else{
-    preload_comp_name <- sub("^.*?, ", "", preload_comp_Honda1)
-    compounds_preload <- preload_comp_name
+    compounds_preload <- sub("^.*?, ", "", preload_comp)
   }
 
   #---------------------------------------------

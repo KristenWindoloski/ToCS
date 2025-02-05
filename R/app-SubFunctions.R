@@ -45,7 +45,7 @@ MS_Dosing <- function(){
                                       shiny::conditionalPanel(condition = "input.multdose == 'Yes'",
                                                               numericInput_MultiDoseAmount("mult_doseamount"),
                                                               sliderInput_MultiDoseTime("mult_dosetime")),
-                                      shiny::conditionalPanel(condition = "input.multdose == 'No'",
+                                      shiny::conditionalPanel(condition = "input.dosenum == 'Multiple Doses' && input.multdose == 'No'",
                                                               textInput_DoseMatrix("multdose_odd"))),
               shiny::conditionalPanel(condition = "input.func == 'Steady state concentrations'",
                                       numericInput_DailyDose("dailydose")),
@@ -241,19 +241,16 @@ UpdateFunc <- function(session){
     updateSelectInput(session = session, inputId = 'model', selected = "Select")
     updateSelectInput(session = session, inputId = 'insilicopars', selected = "Select")
     updateSelectInput(session = session, inputId = 'httkPreloadComps', selected = "")
-    updateSelectInput(session = session, inputId = 'httkPreloadComps_Honda', selected = "")
 }
 
 UpdateSpec <- function(session){
 
   updateSelectInput(session = session, inputId = 'model', selected = "Select")
   updateSelectInput(session = session, inputId = 'httkPreloadComps', selected = "")
-  updateSelectInput(session = session, inputId = 'httkPreloadComps_Honda', selected = "")
 }
 
 UpdateComps <- function(session){
 
   updateSelectInput(session = session, inputId = 'httkPreloadComps', selected = "")
-  updateSelectInput(session = session, inputId = 'httkPreloadComps_Honda', selected = "")
 }
 

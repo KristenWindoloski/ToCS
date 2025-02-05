@@ -7,7 +7,7 @@
 ParNames <- function(){
 
   GenPars <- c("func","spec","defaulttoHuman")
-  CompoundSelectPars <- c("HondaIVIVE","FSBf","httkPreloadComps","httkPreloadComps_Honda","file1","insilicopars")
+  CompoundSelectPars <- c("HondaIVIVE","FSBf","httkPreloadComps","file1","insilicopars")
   ModelSpecifPars <- c("doseroute","doseunits","dosenum","initdose","multdose","mult_doseamount","mult_dosetime","multdose_odd","dailydose",
                        "model","simtime","BioactiveFile","returnsamples","quantile")
   ModelConditionPars <- c("init_cond_opts",unlist(names_ICs()[[1]]),"samples","bioactiveIVIVE",

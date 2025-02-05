@@ -19,7 +19,7 @@
 ToCS <- function(...){
 
   ##########################################################################
-  # GENERATE INITIAL CONDITIONS
+  # GENERATE INITIAL CONDITIONS & ERROR MESSAGES
   ##########################################################################
 
   ics <- names_ICs()
@@ -27,7 +27,7 @@ ToCS <- function(...){
   ic_comps <- ics[[2]]
 
   not_null <- function(value,input, message = "At least one compound must be selected or uploaded"){
-    if (is.null(c(value,input$httkPreloadComps_Honda,input$file1))) message
+    if (is.null(c(value,input$file1))) message
   }
 
   multdose_Select <- function(value,input,message = "The dosing frequency must be selected"){
@@ -168,16 +168,16 @@ ToCS <- function(...){
     CompLst <- shiny::reactive({
 
       #--- COMPILES A LIST OF ALL COMPOUNDS
-      CompoundList(input$httkPreloadComps,input$httkPreloadComps_Honda,input$file1)
+      CompoundList(input$httkPreloadComps,input$file1)
       })
 
     output$comptext <- shiny::renderTable({
 
       #--- OUTPUT ERROR WARNINGS IF NEEDED VARIABLES ARE MISSING
       pars <- list(input$func,input$spec,input$defaulttoHuman,input$model,input$insilicopars,
-                   input$httkPreloadComps,input$httkPreloadComps_Honda,input$file1)
+                   input$httkPreloadComps,input$file1)
       names(pars) <- c("func","spec","defaulttoHuman","model","insilicopars",
-                       "httkPreloadComps","httkPreloadComps_Honda","file1")
+                       "httkPreloadComps","file1")
       validate_text_Common(pars)
 
       CompLst()

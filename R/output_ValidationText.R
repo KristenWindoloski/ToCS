@@ -51,9 +51,9 @@ validate_text_Common <- function(pars){
       shiny::need(pars[["insilicopars"]] != 'Select',
                   message = paste("")))
   }
-  if (is.null(c(pars[["httkPreloadComps"]],pars[["httkPreloadComps_Honda"]],pars[["file1"]]))){
+  if (is.null(c(pars[["httkPreloadComps"]],pars[["file1"]]))){
     shiny::validate(
-          shiny::need(!is.null(c(pars[["httkPreloadComps"]],pars[["httkPreloadComps_Honda"]],pars[["file1"]])),
+          shiny::need(!is.null(c(pars[["httkPreloadComps"]],pars[["file1"]])),
                       message = paste(""))
           )
   }
