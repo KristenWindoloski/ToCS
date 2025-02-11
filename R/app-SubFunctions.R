@@ -1,5 +1,4 @@
 
-
 ######################################################
 # UI CODE SUB FUNCTIONS
 ######################################################
@@ -201,9 +200,6 @@ RS_Results <- function(){
               shiny::conditionalPanel(condition = "input.func == 'In vitro in vivo extrapolation (IVIVE)'", IVIVE_ui("IVIVE_AllOut")),
               shiny::conditionalPanel(condition = "input.func == 'Parameter calculations'", PC_ui("IP_AllOut")))
 }
-
-
-
 
 
 #######################################
