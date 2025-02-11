@@ -1,5 +1,5 @@
 # Use the official R base image
-FROM rocker/r-ver:latest
+FROM rocker/geospatial:latest
 
 # Set environment variables
 ENV DEBIAN_FRONTEND=noninteractive
@@ -8,26 +8,16 @@ ENV LANG=C.UTF-8
 
 # Install required system dependencies
 RUN apt-get update && apt-get install -y \
-    libcurl4-openssl-dev \
-    libssl-dev \
-    libxml2-dev \
-    libudunits2-dev \
-    libgdal-dev \
-    libgeos-dev \
-    libproj-dev \
-    libnetcdf-dev \
-    libxt-dev \
-    libtiff-dev \
-    libjpeg-dev \
-    git \
-    pandoc \
-    pandoc-citeproc \
-    build-essential \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    libcurl4-openssl-dev libssl-dev libxml2-dev \
+    libudunits2-dev libgdal-dev libgeos-dev libproj-dev \
+    libnetcdf-dev libxt-dev libtiff-dev libjpeg-dev \
+    git pandoc build-essential \
+    libgit2-dev libharfbuzz-dev libfribidi-dev \
+    libfontconfig1-dev libfreetype6-dev libpng-dev \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Install remotes and devtools for package development
-RUN R -e "install.packages(c('remotes', 'devtools', 'shiny', 'shinyjs'), repos='https://cloud.r-project.org/')"
+# Install devtools separately and explicitly handle errors
+RUN R -e "install.packages('devtools', dependencies=TRUE, repos='https://cloud.r-project.org/')"
 
 # Install httk from CRAN
 RUN R -e "install.packages('httk', repos='https://cloud.r-project.org/')"
@@ -49,10 +39,6 @@ WORKDIR /usr/local/src/ToCS
 # Expose the Shiny port
 EXPOSE 3838
 
-# Set default command to ensure the GUI is externally accessible
-CMD ["R", "-e", "devtools::load_all('.'); options(shiny.host='0.0.0.0', shiny.port=3838); ToCS()"]
-
-
-# Set default command to launch R
-CMD ["R"]
+# Ensure R uses the correct library path and run the application
+CMD ["R", "-e", ".libPaths(c('/usr/local/lib/R/site-library', .libPaths())); library(devtools); devtools::load_all('/usr/local/src/ToCS'); options(shiny.host='0.0.0.0', shiny.port=3838); ToCS()"]
 
