@@ -11,12 +11,10 @@
 CompoundList <- function(preload_comp, uploaded_comps){
 
   #-----------------------------------
-  #--- PRELOADED COMPOUNDS SELECTED?
+  #--- LOAD ANY PRELOADED COMPOUNDS
   #-----------------------------------
 
-  if (!is.null(preload_comp)){
     compounds_preload <- sub("^.*?, ", "", preload_comp)
-  }
 
   #---------------------------------------------
   #--- DETERMINE FULL LIST OF COMPOUNDS TO RUN
@@ -87,7 +85,7 @@ UpdatePars <- function(pars){
   #------------------------------------
 
   if (pars[["HondaIVIVE"]] == "NULL"){
-    pars[["HondaIVIVE"]] <- NULL
+    pars["HondaIVIVE"] <- list(NULL)
   }
 
   #------------------------------------

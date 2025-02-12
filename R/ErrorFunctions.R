@@ -225,11 +225,14 @@ multdose_odd <- function(value,input,message = "The dosing administration amount
 }
 
 fetal_cond <- function(value,input,message = "The 'Human' species must be selected to run the fetal_pbtk model"){
-  if (value == "fetal_pbtk" && input$spec != "Human") message
+  if (!is.null(value)){
+    if (value == "fetal_pbtk" && input$spec != "Human") message
+  }
 }
 
 returntimes_cond <- function(value,input,message = "A beginning output time of 91 days (13 weeks) or later must be entered"){
-  if (input$model == "fetal_pbtk" && length(value)>0){
+
+  if (input$model == "fetal_pbtk" && value != ''){
     v1 <- unlist(strsplit(value,","))
     out_times <- sapply(v1, function(x) eval(parse(text = x)))
     if (min(out_times)<91){
@@ -254,7 +257,7 @@ BioUpload_Check <- function(value,input){
     # --- Check for correct column names and order
     file_df_colnames <- colnames(file_df)
 
-    if (!(file_df_colnames == c("ChemicalName","CAS","BioactiveConcentration"))){
+    if (!all(file_df_colnames == c("ChemicalName","CAS","BioactiveConcentration"))){
       return("Error: Check the uploaded file to make sure the correct column names
                were used and are in the correct order.")
     }
@@ -262,9 +265,30 @@ BioUpload_Check <- function(value,input){
     # --- Check for correct data input types
     file_df_datatypes <- unname(sapply(file_df,class))
 
-    if (!(file_df_datatypes == c("character","character","numeric"))){
+    if (!all(file_df_datatypes == c("character","character","numeric"))){
         return("Error: Check the uploaded file to make sure the correct type of data (numbers,
                  words) was used for each entry. .")
     }
+  }
+}
+
+FSBf_Check <- function(value,input){
+
+  if (!is.null(input$HondaIVIVE)){
+    if (input$HondaIVIVE == "Honda1"){
+      if (is.na(value)){
+        "Required"
+      }
+    }
+  }
+}
+
+addrule_adme_ics <- function(iv_adme,identifier){
+  iv_adme$add_rule(identifier,shinyvalidate::sv_required())
+}
+
+adme_ic_errormess <- function(identifier,pars){
+  if (is.na(pars[[identifier]])){
+    shiny::validate(shiny::need(!is.na(pars[[identifier]]),message = paste("")))
   }
 }

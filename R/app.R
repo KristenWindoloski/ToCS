@@ -1,6 +1,6 @@
 
 # --- Created by Kristen Windoloski
-# --- Last Updated: February 11, 2025
+# --- Last Updated: February 12, 2025
 # --- Description: A graphical user interface that utilizes the EPA's
 #                  high-throughput toxicokinetics 'httk' R package to generate
 #                  toxicokinetic ADME (absorption, distribution, metabolism,
@@ -158,7 +158,7 @@ ToCS <- function(...){
       })
 
     ##########################################################################
-    # RESET INPUT VARIABLES IF USER CHANGES VARIABLES AFTER SIMULATION
+    # RESET INPUT SOME VARIABLES IF USER CHANGES CERTAIN VARIABLES
     ##########################################################################
 
     shiny::observeEvent(input$func,{UpdateFunc(session)})
@@ -197,55 +197,56 @@ ToCS <- function(...){
 
     iv_adme <- shinyvalidate::InputValidator$new()
     iv_adme$add_rule("dosenum", shinyvalidate::sv_not_equal("Select"))
-    iv_adme$add_rule("multdose", multdose_Select, input)
-    iv_adme$add_rule("multdose_odd", multdose_odd, input)
+    iv_adme$add_rule("multdose", multdose_Select,input)
+    iv_adme$add_rule("multdose_odd", multdose_odd,input)
     iv_adme$add_rule("model", fetal_cond, input)
-    iv_adme$add_rule("returntimes", returntimes_cond, input)
-    # iv_adme$add_rule("initdose",shinyvalidate::sv_required())
-    # iv_adme$add_rule("mult_doseamount",shinyvalidate::sv_required())
-    # iv_adme$add_rule("simtime",shinyvalidate::sv_required())
-    # iv_adme$add_rule("min_fub",shinyvalidate::sv_required())
-    # iv_adme$add_rule("solversteps",shinyvalidate::sv_required())
-    # iv_adme$add_rule("caco2default",shinyvalidate::sv_required())
+    iv_adme$add_rule("returntimes", returntimes_cond,input)
+    iv_adme$add_rule("initdose",shinyvalidate::sv_required())
+    iv_adme$add_rule("mult_doseamount",shinyvalidate::sv_required())
+    iv_adme$add_rule("simtime",shinyvalidate::sv_required())
+    iv_adme$add_rule("min_fub",shinyvalidate::sv_required())
+    iv_adme$add_rule("solversteps",shinyvalidate::sv_required())
+    iv_adme$add_rule("caco2default",shinyvalidate::sv_required())
+    purrr::map2(rep(list(iv_adme),45),unlist(ic_names),addrule_adme_ics)
 
     parent_adme_iv <- shinyvalidate::InputValidator$new()
     parent_adme_iv$add_validator(iv_common)
     parent_adme_iv$add_validator(iv_adme)
     parent_adme_iv$enable()
 
-    # iv_ss <- shinyvalidate::InputValidator$new()
-    # iv_ss$add_rule("dailydose",shinyvalidate::sv_required())
-    # iv_ss$add_rule("caco2default",shinyvalidate::sv_required())
+    iv_ss <- shinyvalidate::InputValidator$new()
+    iv_ss$add_rule("dailydose",shinyvalidate::sv_required())
+    iv_ss$add_rule("caco2default",shinyvalidate::sv_required())
 
-    # parent_ss_iv <- shinyvalidate::InputValidator$new()
-    # parent_ss_iv$add_validator(iv_common)
-    # parent_ss_iv$add_validator(iv_adme)
-    # parent_ss_iv$enable()
+    parent_ss_iv <- shinyvalidate::InputValidator$new()
+    parent_ss_iv$add_validator(iv_common)
+    parent_ss_iv$add_validator(iv_ss)
+    parent_ss_iv$enable()
 
     iv_ivive <- shinyvalidate::InputValidator$new()
     iv_ivive$add_rule("BioactiveFile", shinyvalidate::sv_required())
-    iv_ivive$add_rule("BioactiveFile",BioUpload_Check, input)
+    iv_ivive$add_rule("BioactiveFile",BioUpload_Check,input)
     iv_ivive$add_rule("returnsamples", shinyvalidate::sv_not_equal("Select"))
-    # iv_ivive$add_rule("quantile", shinyvalidate::sv_required())
-    # iv_ivive$add_rule("samples", shinyvalidate::sv_required())
-    # iv_ivive$add_rule("min_fub",shinyvalidate::sv_required())
-    # iv_ivive$add_rule("FSBf",shinyvalidate::sv_required())
-    # iv_ivive$add_rule("caco2default",shinyvalidate::sv_required())
+    iv_ivive$add_rule("quantile", shinyvalidate::sv_required())
+    iv_ivive$add_rule("samples", shinyvalidate::sv_required())
+    iv_ivive$add_rule("min_fub",shinyvalidate::sv_required())
+    iv_ivive$add_rule("FSBf",FSBf_Check,input)
+    iv_ivive$add_rule("caco2default",shinyvalidate::sv_required())
 
     parent_ivive_iv <- shinyvalidate::InputValidator$new()
     parent_ivive_iv$add_validator(iv_common)
     parent_ivive_iv$add_validator(iv_ivive)
     parent_ivive_iv$enable()
 
-    # iv_pc <- shinyvalidate::InputValidator$new()
-    # iv_pc$add_rule("Clint_Pval",shinyvalidate::sv_required())
-    # iv_pc$add_rule("AlphaPar",shinyvalidate::sv_required())
-    # iv_pc$add_rule("min_fub",shinyvalidate::sv_required())
-    #
-    # parent_pc_iv <- shinyvalidate::InputValidator$new()
-    # parent_pc_iv$add_validator(iv_common)
-    # parent_pc_iv$add_validator(iv_pc)
-    # parent_pc_iv$enable()
+    iv_pc <- shinyvalidate::InputValidator$new()
+    iv_pc$add_rule("Clint_Pval",shinyvalidate::sv_required())
+    iv_pc$add_rule("AlphaPar",shinyvalidate::sv_required())
+    iv_pc$add_rule("min_fub",shinyvalidate::sv_required())
+
+    parent_pc_iv <- shinyvalidate::InputValidator$new()
+    parent_pc_iv$add_validator(iv_common)
+    parent_pc_iv$add_validator(iv_pc)
+    parent_pc_iv$enable()
 
     ##########################################################################
     # ADME TIME COURSE OUTPUTS (PLOTS, SIMULATION DATA, TK SUMMARY STATS)
@@ -263,41 +264,38 @@ ToCS <- function(...){
         }
         else {
           Notify_ParError()
-          ADME_server("ADME_AllOut",AllInputs,shiny::reactive(input$runsim))
           req(parent_adme_iv$is_valid())
         }
       }
       else if (input$func == "Steady state concentrations"){
-        if (iv_common$is_valid()){
+        if (parent_ss_iv$is_valid()){
           Notify_Computing()
           SS_server("SS_AllOut",AllInputs,shiny::reactive(input$runsim),shiny::reactive(input$logscale))
         }
         else {
           Notify_ParError()
-          SS_server("SS_AllOut",AllInputs,shiny::reactive(input$runsim),shiny::reactive(input$logscale))
-          req(iv_common$is_valid())
+          req(parent_ss_iv$is_valid())
         }
       }
       else if (input$func == "In vitro in vivo extrapolation (IVIVE)"){
+
         if (parent_ivive_iv$is_valid()){
           Notify_Computing()
           IVIVE_server("IVIVE_AllOut",AllInputs,shiny::reactive(input$runsim),shiny::reactive(input$logscale))
         }
         else {
           Notify_ParError()
-          IVIVE_server("IVIVE_AllOut",AllInputs,shiny::reactive(input$runsim),shiny::reactive(input$logscale))
           req(parent_ivive_iv$is_valid())
         }
       }
       else if (input$func == "Parameter calculations"){
-        if (iv_common$is_valid()){
+        if (parent_pc_iv$is_valid()){
           Notify_Computing()
           PC_server("IP_AllOut",AllInputs,shiny::reactive(input$runsim),shiny::reactive(input$logscale))
         }
         else{
           Notify_ParError()
-          PC_server("IP_AllOut",AllInputs,shiny::reactive(input$runsim),shiny::reactive(input$logscale))
-          req(iv_common$is_valid())
+          shiny::req(parent_pc_iv$is_valid())
         }
       }
     })

@@ -33,7 +33,7 @@ PC_server <- function(id,pars,runsim,logscale) {
 
     out <- shiny::eventReactive(runsim(),{
 
-      validate_text_Common(pars())
+      validate_text_PC(pars())
       Parsol(pars())
     })
 
