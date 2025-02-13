@@ -12,11 +12,11 @@ UploadComps_Check <- function(value,input){
 
   if (!is.null(value)){
 
-    # --- Process uploaded data
+    # --- PROCESS UPLOADED DATA
     file_df <- read.csv(value$datapath)
     file_df[file_df == ""] <- NA
 
-    # --- Check for correct column names and order
+    # --- CHECK FOR CORRECT COLUMN NAMES AND COLUMN ORDER
     file_df_colnames <- colnames(file_df)
     httkdata_colnames <- colnames(chem.physical_and_invitro.data)
 
@@ -26,20 +26,26 @@ UploadComps_Check <- function(value,input){
                left.")
     }
 
-    # --- Check for missing required data
+    # --- CHECK FOR MISSING REQUIRED DATA NO MATTER THE SIMULATION
     req_pars <- c("Compound","CAS","DTXSID","logP","MW")
     if (anyNA(file_df[,req_pars])){
       return("Error: Check the uploaded file for missing values in the 'Compound', 'CAS',
                'DTXSID', 'logP', and 'MW' columns.")
     }
 
-    # --- Check for missing clint and fup values
+    # --- CHECK FOR MISSING HONDA1 ASSUMPTION IVIVE REQURIED PARAMETERS, IF APPLICABLE
+    if (input$HondaIVIVE == "Honda1"){
+      if (anyNA(file_df[,c("logHenry","logWSol","MP")])){
+        return("Error: Check the uploaded file for missing values in the
+               'logHenry', 'logWSol', and 'MP' columns.")
+      }
+    }
+
+    # --- CHECK FOR MISSING CLINT AND FUP VALUES
     out1 <- MissingClintFup(file_df,input$spec,input$defaulttoHuman)
     if (!is.null(out1)) return(out1)
 
-
-
-    # --- Check for correct data input types
+    # --- CHECK FOR CORRECT INPUT DATA TYPES
     out2 <- DataInputType(file_df,file_df_colnames)
     if (!is.null(out2)) return(out2)
   }
@@ -48,17 +54,20 @@ UploadComps_Check <- function(value,input){
 MissingClintFup <- function(file,spec,defaultHuman){
 
   out <- NULL
-  # --- Check for missing clint and fup values
+
+  # --- HUMAN SPECIES
   if (spec == "Human"){
     if (anyNA(file[,c("Human.Clint","Human.Funbound.plasma")])){
       out <- "Error: Check the uploaded file for missing 'Human.Clint' and 'Human.Funbound.plasma' values."
     }
   }
+  # --- RAT SPECIES AND NO HUMAN
   else if (spec == "Rat" && defaultHuman == "No"){
     if (anyNA(file[,c("Rat.Clint","Rat.Funbound.plasma")])){
       out <- "Error: Check the uploaded file for missing 'Rat.Clint' and 'Rat.Funbound.plasma' values."
     }
   }
+  # --- RAT SPECIES AND HUMAN ALLOWABLE
   else if (spec == "Rat" && defaultHuman == "Yes"){
 
     Clint <- file[,c("Human.Clint","Rat.Clint")]
@@ -72,6 +81,7 @@ MissingClintFup <- function(file,spec,defaultHuman){
                  rat or human clint and one of rat or human funbound plasma must have data."
     }
   }
+  # --- MOUSE SPECIES AND HUMAN ALLOWABLE
   else if (spec == "Mouse" && defaultHuman == "Yes"){
 
     Fup <- file[,c("Human.Funbound.plasma","Mouse.Funbound.plasma")]
@@ -82,6 +92,7 @@ MissingClintFup <- function(file,spec,defaultHuman){
                    'Human.Clint' and one of mouse or human funbound plasma must have data."
     }
   }
+  # --- RABBIT SPECIES AND HUMAN ALLOWABLE
   else if (spec == "Rabbit" && defaultHuman == "Yes"){
 
     Fup <- file[,c("Human.Funbound.plasma","Rabbit.Funbound.plasma")]
@@ -92,15 +103,17 @@ MissingClintFup <- function(file,spec,defaultHuman){
                    'Human.Clint' and one of rabbit or human funbound plasma must have data."
     }
   }
+  # --- DOG SPECIES AND HUMAN ALLOWABLE
   else if (spec == "Dog" && defaultHuman == "Yes"){
 
     if (anyNA(file[,c("Human.Clint","Human.Funbound.plasma")])){
       out <- "Error: Check the uploaded file for missing Human.Clint or Human.Funbound.plasma values."
     }
   }
+  # --- NON-HUMAN OR NON-RAT SPECIES THAT NEED HUMAN DATA FOR SIMULATION
   else{
     out <- "Error: You must select 'Yes' for the default to human parameter selection on the 'General
-           Parameters' page. Human.Clint and/or Human.Funbound.plasma values are needed to run simulations for
+           Parameters' tab. Human.Clint and/or Human.Funbound.plasma values are needed to run simulations for
            the selected species."
   }
   return(out)
@@ -108,37 +121,45 @@ MissingClintFup <- function(file,spec,defaultHuman){
 
 DataInputType <- function(file,column_names){
 
+  # --- DETERMINE FILE ENTRY DATA TYPES
   out <- NULL
   file_df_datatypes <- unname(sapply(file,class))
   httkdata_datatypes <- unname(sapply(chem.physical_and_invitro.data,class))
 
+  # --- EXTRACT COLUMNS THAT ARE SUPPOSED TO BE ONLY CHARACTERS
+  file_df_ref <- file %>% dplyr::select(dplyr::contains("reference"))
+  df_non_ref <- file[,c("Compound","CAS","DTXSID","Formula","All.Compound.Names","All.Species","Chemical.Class")]
+  char_only_df <- cbind(df_non_ref,file_df_ref)
+
+  # --- CHECK IF UPLOADED FILE COLUMN DATA TYPES MATCH ALL HTTK COLUMN DATA TYPES
   if (!all(file_df_datatypes == httkdata_datatypes)){
 
     accept_datatypes <- DataTypeList()
-    check_type <- unname(mapply(type_func,
-                                accept_datatypes,
-                                file_df_datatypes))
+    check_type <- unname(mapply(type_func,accept_datatypes,file_df_datatypes))
 
-    if (any(check_type == FALSE)){
+    # --- IF TYPES DON'T EXACTLY MATCH, SEE IF TYPE IS ACCEPTABLE AND MAKE SURE
+    # --- ANY COLUMNS OF TYPE 'CHARACTER' ARE ACTUALLY ALL CHARACTERS AND NOT NUMERICS
+    if (any(check_type == FALSE) || !all(is.na(as.numeric(unlist(char_only_df))))){
       out <- "Error: Check the uploaded file to make sure the correct type of data (numbers,
                  words) was used for each entry. See the 'Instructions' card on the left."
     }
+  }
+  else if (!all(is.na(as.numeric(unlist(char_only_df))))){
+    out <- "Error: Check the uploaded file to make sure the correct type of data (numbers,
+                 words) was used for each entry. See the 'Instructions' card on the left."
   }
   return(out)
 }
 
 type_func <- function(x,y){
 
-  if (y %in% x){
-    TRUE
-  }
-  else{
-    FALSE
-  }
+  if (y %in% x) TRUE
+  else FALSE
 }
 
 DataTypeList <- function(){
 
+  # --- TYPES OF ACCEPTABLE COLUMN OUTPUTS
   t1 <- c("character")
   t2 <- c("numeric")
   t3 <- c("character","numeric")
@@ -146,6 +167,7 @@ DataTypeList <- function(){
   t5 <- c("numeric","logical")
   t6 <- c("character","numeric","logical")
 
+  # --- LIST ACCEPTABLE OUTPUTS FOR EACH SPECIFIC COLUMN
   lst <- list(compound = t1,
               cas = t1,
               cas.checksum = t4,
@@ -177,7 +199,7 @@ DataTypeList <- function(){
               formulareference = t4,
               humancaco2pab = t6,
               humancaco2pabreference = t4,
-              humanclint = t3,
+              humanclint = t6,
               humanclintpvalue = t5,
               humanclintpvaluereference = t4,
               humanclintreference = t4,
@@ -189,7 +211,7 @@ DataTypeList <- function(){
               humanfhepreference = t4,
               humanforal = t5,
               humanforalreference = t4,
-              humanfunboundplasma = t3,
+              humanfunboundplasma = t6,
               humanfunboundplasmareference = t4,
               humanrblood2plasma = t5,
               humanrblood2plasmareference = t4,
@@ -197,9 +219,9 @@ DataTypeList <- function(){
               monkeyforalreference = t4,
               mouseforal = t5,
               mouseforalreference = t4,
-              mousefunboundplasma = t5,
+              mousefunboundplasma = t6,
               mousefunboundplasmareference = t4,
-              rabbitfunboundplasma = t5,
+              rabbitfunboundplasma = t6,
               rabbitfunboundplasmareference = t4,
               ratclint = t6,
               ratclintpvalue = t5,
@@ -245,16 +267,11 @@ BioUpload_Check <- function(value,input){
 
   if (!is.null(value)){
 
-    # --- Process uploaded data
+    # --- PROCESS UPLOADED DATA
     file_df <- read.csv(value$datapath)
     file_df[file_df == ""] <- NA
 
-    # --- Check for missing required data
-    if (anyNA(file_df)){
-      return("Error: Check the uploaded file for missing values.")
-    }
-
-    # --- Check for correct column names and order
+    # --- CHECK FOR CORRECT COLUMN NAMES AND ORDER
     file_df_colnames <- colnames(file_df)
 
     if (!all(file_df_colnames == c("ChemicalName","CAS","BioactiveConcentration"))){
@@ -262,12 +279,19 @@ BioUpload_Check <- function(value,input){
                were used and are in the correct order.")
     }
 
-    # --- Check for correct data input types
+    # --- CHECK FOR MISSING REQUIRED DATA
+    if (anyNA(file_df)){
+      return("Error: Check the uploaded file for missing values.")
+    }
+
+    # --- CHECK FOR CORRECT DATA INPUT TYPES
     file_df_datatypes <- unname(sapply(file_df,class))
 
-    if (!all(file_df_datatypes == c("character","character","numeric"))){
+    if (!all(file_df_datatypes == c("character","character","numeric")) ||
+        !all(is.na(as.numeric(file_df$ChemicalName))) ||
+        !all(is.na(as.numeric(file_df$CAS)))){
         return("Error: Check the uploaded file to make sure the correct type of data (numbers,
-                 words) was used for each entry. .")
+                 words) was used for each entry.")
     }
   }
 }

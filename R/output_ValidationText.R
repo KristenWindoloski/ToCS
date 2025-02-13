@@ -41,11 +41,11 @@ validate_text_Common <- function(pars){
   }
   if (!is.null(pars[["file1"]])){
 
-    # --- READ IN DATA
+    # --- PROCESS UPLOADED DATA
     file_df <- read.csv(pars[["file1"]]$datapath)
     file_df[file_df == ""] <- NA
 
-    # --- CHECK FOR CORRECT COLUMN NAMES AND ORDER
+    # --- CHECK FOR CORRECT COLUMN NAMES AND COLUMN ORDER
     file_df_colnames <- colnames(file_df)
     httkdata_colnames <- colnames(chem.physical_and_invitro.data)
 
@@ -53,78 +53,101 @@ validate_text_Common <- function(pars){
       shiny::validate(shiny::need(all(file_df_colnames == httkdata_colnames),message = paste("")))
     }
 
-    # --- CHECK FOR MISSING REQUIRED DATA
-    # Check for universally required parameters
+    # --- CHECK FOR MISSING REQUIRED DATA NO MATTER THE SIMULATION
     req_pars <- c("Compound","CAS","DTXSID","logP","MW")
     if (anyNA(file_df[,req_pars])){
       shiny::validate(shiny::need(!anyNA(file_df[,req_pars]),message = paste("")))
     }
-    # Check for species specific parameters
-    if (pars[["spec"]] == "Human"){
-      col_pars <- c("Human.Clint","Human.Funbound.plasma")
-      if (anyNA(file_df[,col_pars])){
-        shiny::validate(shiny::need(!anyNA(file_df[,col_pars]),message = paste("")))
-      }
-    }
-    else if (pars[["spec"]] == "Rat" && pars[["defaulttoHuman"]] == "No"){
-      col_pars <- c("Rat.Clint","Rat.Funbound.plasma")
-      if (anyNA(file_df[,col_pars])){
-        shiny::validate(shiny::need(!anyNA(file_df[,col_pars]),message = paste("")))
-      }
-    }
-    else if (pars[["spec"]] == "Rat" && pars[["defaulttoHuman"]] == "Yes"){
 
-      Clint <- file_df[,c("Human.Clint","Rat.Clint")]
+    # --- CHECK FOR MISSING HONDA1 ASSUMPTION IVIVE REQURIED PARAMETERS, IF APPLICABLE
+    if (pars[["HondaIVIVE"]] == "Honda1"){
+      if (anyNA(file_df[,c("logHenry","logWSol","MP")])){
+        shiny::validate(shiny::need(!anyNA(file_df[,c("logHenry","logWSol","MP")]),message = paste("")))
+      }
+    }
+
+    # --- CHECK FOR MISSING CLINT AND FUP VALUES
+    # --- HUMAN SPECIES
+    if (spec == "Human"){
+      if (anyNA(file[,c("Human.Clint","Human.Funbound.plasma")])){
+        shiny::validate(shiny::need(!anyNA(file[,c("Human.Clint","Human.Funbound.plasma")]),message = paste("")))
+      }
+    }
+    # --- RAT SPECIES AND NO HUMAN
+    else if (spec == "Rat" && defaultHuman == "No"){
+      if (anyNA(file[,c("Rat.Clint","Rat.Funbound.plasma")])){
+        shiny::validate(shiny::need(!anyNA(file[,c("Rat.Clint","Rat.Funbound.plasma")]),message = paste("")))
+      }
+    }
+    # --- RAT SPECIES AND HUMAN ALLOWABLE
+    else if (spec == "Rat" && defaultHuman == "Yes"){
+
+      Clint <- file[,c("Human.Clint","Rat.Clint")]
       ind_Clint <- which(is.na(Clint),arr.ind = TRUE)
 
-      Fup <- file_df[,c("Human.Funbound.plasma","Rat.Funbound.plasma")]
+      Fup <- file[,c("Human.Funbound.plasma","Rat.Funbound.plasma")]
       ind_Fup <- which(is.na(Fup),arr.ind = TRUE)
 
       if (any(duplicated(ind_Clint[,1]) == TRUE) || any(duplicated(ind_Fup[,1]) == TRUE)){
-        shiny::validate(shiny::need(all(duplicated(ind_Clint[,1]) == FALSE) && all(duplicated(ind_Fup[,1]) == FALSE),message = paste("")))
+        shiny::validate(shiny::need(!any(duplicated(ind_Clint[,1]) == TRUE) && !any(duplicated(ind_Fup[,1]) == TRUE),message = paste("")))
       }
     }
-    else if (pars[["spec"]] == "Mouse" && pars[["defaulttoHuman"]] == "Yes"){
+    # --- MOUSE SPECIES AND HUMAN ALLOWABLE
+    else if (spec == "Mouse" && defaultHuman == "Yes"){
 
-      Fup <- file_df[,c("Human.Funbound.plasma","Mouse.Funbound.plasma")]
+      Fup <- file[,c("Human.Funbound.plasma","Mouse.Funbound.plasma")]
       ind_Fup <- which(is.na(Fup),arr.ind = TRUE)
 
-      if (anyNA(file_df$Human.Clint) || any(duplicated(ind_Fup[,1]) == TRUE)){
-        shiny::validate(shiny::need(!anyNA(file_df$Human.Clint) && all(duplicated(ind_Fup[,1]) == FALSE),message = paste("")))
+      if (anyNA(file$Human.Clint) || any(duplicated(ind_Fup[,1]) == TRUE)){
+        shiny::validate(shiny::need(!anyNA(file$Human.Clint) && !any(duplicated(ind_Fup[,1]) == TRUE),message = paste("")))
       }
     }
-    else if (pars[["spec"]] == "Rabbit" && pars[["defaulttoHuman"]] == "Yes"){
+    # --- RABBIT SPECIES AND HUMAN ALLOWABLE
+    else if (spec == "Rabbit" && defaultHuman == "Yes"){
 
-      Fup <- file_df[,c("Human.Funbound.plasma","Rabbit.Funbound.plasma")]
+      Fup <- file[,c("Human.Funbound.plasma","Rabbit.Funbound.plasma")]
       ind_Fup <- which(is.na(Fup),arr.ind = TRUE)
 
-      if (anyNA(file_df$Human.Clint) || any(duplicated(ind_Fup[,1]) == TRUE)){
-        shiny::validate(shiny::need(!anyNA(file_df$Human.Clint) && all(duplicated(ind_Fup[,1]) == FALSE),message = paste("")))
+      if (anyNA(file$Human.Clint) || any(duplicated(ind_Fup[,1]) == TRUE)){
+        shiny::validate(shiny::need(!anyNA(file$Human.Clint) && !any(duplicated(ind_Fup[,1]) == TRUE),message = paste("")))
       }
     }
-    else if (pars[["spec"]] == "Dog" && pars[["defaulttoHuman"]] == "Yes"){
+    # --- DOG SPECIES AND HUMAN ALLOWABLE
+    else if (spec == "Dog" && defaultHuman == "Yes"){
 
-      col_pars <- c("Human.Clint","Human.Funbound.plasma")
-      if (anyNA(file_df[,col_pars])){
-        shiny::validate(shiny::need(!anyNA(file_df[,col_pars]),message = paste("")))
+      if (anyNA(file[,c("Human.Clint","Human.Funbound.plasma")])){
+        shiny::validate(shiny::need(!anyNA(file[,c("Human.Clint","Human.Funbound.plasma")]),message = paste("")))
       }
     }
+    # --- NON-HUMAN OR NON-RAT SPECIES THAT NEED HUMAN DATA FOR SIMULATION
     else{
       shiny::validate(shiny::need(pars[["defaulttoHuman"]] == "Yes",message = paste("")))
     }
 
     # --- CHECK FOR CORRECT INPUT DATA TYPES
+    # --- DETERMINE FILE ENTRY DATA TYPES
     file_df_datatypes <- unname(sapply(file_df,class))
     httkdata_datatypes <- unname(sapply(chem.physical_and_invitro.data,class))
 
+    # --- EXTRACT COLUMNS THAT ARE SUPPOSED TO BE ONLY CHARACTERS
+    file_df_ref <- file_df %>% dplyr::select(dplyr::contains("reference"))
+    df_non_ref <- file[,c("Compound","CAS","DTXSID","Formula","All.Compound.Names","All.Species","Chemical.Class")]
+    char_only_df <- cbind(df_non_ref,file_df_ref)
+
+    # --- CHECK IF UPLOADED FILE COLUMN DATA TYPES MATCH ALL HTTK COLUMN DATA TYPES
     if (!all(file_df_datatypes == httkdata_datatypes)){
+
       accept_datatypes <- DataTypeList()
-      check_type <- unname(mapply(type_func,
-                                  accept_datatypes,
-                                  file_df_datatypes))
-      if (any(check_type == FALSE)){
-        shiny::validate(shiny::need(all(check_type == TRUE),message = paste("")))
+      check_type <- unname(mapply(type_func,accept_datatypes,file_df_datatypes))
+
+      # --- IF TYPES DON'T EXACTLY MATCH, SEE IF TYPE IS ACCEPTABLE AND MAKE SURE
+      # --- ANY COLUMNS OF TYPE 'CHARACTER' ARE ACTUALLY ALL CHARACTERS AND NOT NUMERICS
+      if (any(check_type == FALSE) || !all(is.na(as.numeric(unlist(char_only_df))))){
+        shiny::validate(shiny::need(!any(check_type == FALSE) && all(is.na(as.numeric(unlist(char_only_df)))),message = paste("")))
       }
+    }
+    else if (!all(is.na(as.numeric(unlist(char_only_df))))){
+      shiny::validate(shiny::need(!all(is.na(as.numeric(unlist(char_only_df)))),message = paste("")))
     }
 
   }
@@ -199,11 +222,6 @@ validate_text_IVIVE <- function(pars){
     file_df <- read.csv(pars[["BioactiveFile"]]$datapath)
     file_df[file_df == ""] <- NA
 
-    # --- CHECK FOR MISSING REQUIRED DATA
-    if (anyNA(file_df)){
-      shiny::validate(shiny::need(!anyNA(file_df),message = paste("")))
-    }
-
     # --- CHECK FOR CORRECT COLUMN ORDER
     file_df_colnames <- colnames(file_df)
     col_pars <- c("ChemicalName","CAS","BioactiveConcentration")
@@ -211,10 +229,17 @@ validate_text_IVIVE <- function(pars){
       shiny::validate(shiny::need(all(file_df_colnames == col_pars),message = paste("")))
     }
 
+    # --- CHECK FOR MISSING REQUIRED DATA
+    if (anyNA(file_df)){
+      shiny::validate(shiny::need(!anyNA(file_df),message = paste("")))
+    }
+
     # --- CHECK FOR CORRECT DATA INPUT TYPES
     file_df_datatypes <- unname(sapply(file_df,class))
     par_types <- c("character","character","numeric")
-    if (!all(file_df_datatypes == par_types)){
+    if (!all(file_df_datatypes == par_types) ||
+        !all(is.na(as.numeric(file_df$ChemicalName))) ||
+        !all(is.na(as.numeric(file_df$CAS)))){
       shiny::validate(shiny::need(all(file_df_datatypes == par_types),message = paste("")))
     }
   }
