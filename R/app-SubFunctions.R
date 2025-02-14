@@ -232,6 +232,39 @@ PreloadComps_UI <- function(func,spec,defaulthuman,model,insilicopars,honda){
   }
 }
 
+CompileCompLst <- function(func,spec,defaulthuman,model,insilico,preloadcomps,file){
+
+  #--- OUTPUT ERROR WARNINGS IF NEEDED VARIABLES ARE MISSING
+  pars <- list(func,spec,defaulthuman,model,insilico,preloadcomps,file)
+  names(pars) <- c("func","spec","defaulttoHuman","model","insilicopars",
+                   "httkPreloadComps","file1")
+  validate_text_Common(pars)
+
+  #--- COMPILES A LIST OF ALL COMPOUNDS
+  CompoundList(preloadcomps,file)
+}
+
+GatherInputVars <- function(input,compoundlist){
+
+  pars <- purrr::map2(ParNames(),rep(list(input),length(ParNames())),CompilePars)
+  names(pars) <- ParNames()
+  pars[["CompoundList"]] <- compoundlist
+  pars_new <- UpdatePars(pars)
+}
+
+CompilePars <- function(VarName,input){
+  eval(parse(text = paste("input$",VarName,sep = "")))
+}
+
+UpdateInputs <- function(input,session){
+
+  shiny::observeEvent(input$func,{UpdateFunc(session)})
+  shiny::observeEvent(input$spec,{UpdateSpec(session)})
+  shiny::observeEvent(input$defaulttoHuman,{UpdateComps(session)})
+  shiny::observeEvent(input$model,{UpdateComps(session)})
+  shiny::observeEvent(input$insilicopars,{UpdateComps(session)})
+}
+
 UpdateFunc <- function(session){
 
     updateSelectInput(session = session, inputId = 'model', selected = "Select")
@@ -249,4 +282,119 @@ UpdateComps <- function(session){
 
   updateSelectInput(session = session, inputId = 'httkPreloadComps', selected = "")
 }
+
+InputRules_Children <- function(iv_common,iv_adme,iv_ss,iv_ivive,iv_pc,input,ic_names){
+
+  iv_common$add_rule("func", shinyvalidate::sv_not_equal("Select"))
+  iv_common$add_rule("spec", shinyvalidate::sv_not_equal("Select"))
+  iv_common$add_rule("defaulttoHuman", shinyvalidate::sv_not_equal("Select"))
+  iv_common$add_rule("model", shinyvalidate::sv_not_equal("Select"))
+  iv_common$add_rule("insilicopars", shinyvalidate::sv_not_equal("Select"))
+  iv_common$add_rule("httkPreloadComps", not_null,input)
+  iv_common$add_rule("file1",UploadComps_Check,input)
+
+  iv_adme$add_rule("dosenum", shinyvalidate::sv_not_equal("Select"))
+  iv_adme$add_rule("multdose", multdose_Select,input)
+  iv_adme$add_rule("multdose_odd", multdose_odd,input)
+  iv_adme$add_rule("model", fetal_cond, input)
+  iv_adme$add_rule("returntimes", returntimes_cond,input)
+  iv_adme$add_rule("initdose",shinyvalidate::sv_required())
+  iv_adme$add_rule("mult_doseamount",shinyvalidate::sv_required())
+  iv_adme$add_rule("simtime",shinyvalidate::sv_required())
+  iv_adme$add_rule("min_fub",shinyvalidate::sv_required())
+  iv_adme$add_rule("solversteps",shinyvalidate::sv_required())
+  iv_adme$add_rule("caco2default",shinyvalidate::sv_required())
+  purrr::map2(rep(list(iv_adme),45),unlist(ic_names),addrule_adme_ics)
+
+  iv_ss$add_rule("dailydose",shinyvalidate::sv_required())
+  iv_ss$add_rule("caco2default",shinyvalidate::sv_required())
+
+  iv_ivive$add_rule("BioactiveFile", shinyvalidate::sv_required())
+  iv_ivive$add_rule("BioactiveFile",BioUpload_Check,input)
+  iv_ivive$add_rule("returnsamples", shinyvalidate::sv_not_equal("Select"))
+  iv_ivive$add_rule("quantile", shinyvalidate::sv_required())
+  iv_ivive$add_rule("samples", shinyvalidate::sv_required())
+  iv_ivive$add_rule("min_fub",shinyvalidate::sv_required())
+  iv_ivive$add_rule("FSBf",FSBf_Check,input)
+  iv_ivive$add_rule("caco2default",shinyvalidate::sv_required())
+
+  iv_pc$add_rule("Clint_Pval",shinyvalidate::sv_required())
+  iv_pc$add_rule("AlphaPar",shinyvalidate::sv_required())
+  iv_pc$add_rule("min_fub",shinyvalidate::sv_required())
+}
+
+InputRules_Parents <- function(parent_adme_iv,iv_adme,
+                               parent_ss_iv,iv_ss,
+                               parent_ivive_iv,iv_ivive,
+                               parent_pc_iv,iv_pc,
+                               iv_common){
+
+  parent_adme_iv$add_validator(iv_common)
+  parent_adme_iv$add_validator(iv_adme)
+  parent_adme_iv$enable()
+
+  parent_ss_iv$add_validator(iv_common)
+  parent_ss_iv$add_validator(iv_ss)
+  parent_ss_iv$enable()
+
+  parent_ivive_iv$add_validator(iv_common)
+  parent_ivive_iv$add_validator(iv_ivive)
+  parent_ivive_iv$enable()
+
+  parent_pc_iv$add_validator(iv_common)
+  parent_pc_iv$add_validator(iv_pc)
+  parent_pc_iv$enable()
+}
+
+
+Run_Simulation <- function(parent_adme_iv,
+                           parent_ss_iv,
+                           parent_ivive_iv,
+                           parent_pc_iv,
+                           input, AllInputs){
+
+  if (input$func == "Concentration-time profiles"){
+    if (parent_adme_iv$is_valid()){
+      Notify_Computing()
+      ADME_server("ADME_AllOut",AllInputs,shiny::reactive(input$runsim))
+    }
+    else {
+      Notify_ParError()
+      req(parent_adme_iv$is_valid())
+    }
+  }
+  else if (input$func == "Steady state concentrations"){
+    if (parent_ss_iv$is_valid()){
+      Notify_Computing()
+      SS_server("SS_AllOut",AllInputs,shiny::reactive(input$runsim),shiny::reactive(input$logscale))
+    }
+    else {
+      Notify_ParError()
+      req(parent_ss_iv$is_valid())
+    }
+  }
+  else if (input$func == "In vitro in vivo extrapolation (IVIVE)"){
+
+    if (parent_ivive_iv$is_valid()){
+      Notify_Computing()
+      IVIVE_server("IVIVE_AllOut",AllInputs,shiny::reactive(input$runsim),shiny::reactive(input$logscale))
+    }
+    else {
+      Notify_ParError()
+      req(parent_ivive_iv$is_valid())
+    }
+  }
+  else if (input$func == "Parameter calculations"){
+    if (parent_pc_iv$is_valid()){
+      Notify_Computing()
+      PC_server("IP_AllOut",AllInputs,shiny::reactive(input$runsim),shiny::reactive(input$logscale))
+    }
+    else{
+      Notify_ParError()
+      shiny::req(parent_pc_iv$is_valid())
+    }
+  }
+}
+
+
 
