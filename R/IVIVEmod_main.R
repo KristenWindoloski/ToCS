@@ -11,7 +11,8 @@ IVIVE_ui <- function(id) {
   ####################################################################################
 
   bslib::accordion(bslib::accordion_panel("Oral Equivalent Dose Table", IVIVE_Table_ui(shiny::NS(id,"IVIVE_table"))),
-                   bslib::accordion_panel("Oral Equivalent Dose Plot", IVIVE_Plot_ui(shiny::NS(id,"IVIVE_plot")))
+                   bslib::accordion_panel("Oral Equivalent Dose Plot", IVIVE_Plot_ui(shiny::NS(id,"IVIVE_plot"))),
+                   bslib::accordion_panel("Bioactivity Exposure Ratio Table", BER_Table_ui(shiny::NS(id,"BER_table")))
   )
 
 }
@@ -26,9 +27,6 @@ IVIVE_server <- function(id,pars,runsim,logscale) {
 
     out <- shiny::eventReactive(runsim(),{
 
-      shiny::showModal(shiny::modalDialog(title = "System Running",
-                                          "Computing solution - this may take a moment. Plots and tables will update once completed.
-                                          You may click the 'Dismiss' button."))
       validate_text_IVIVE(pars())
       sol <- IVIVEsol(pars())
     })
@@ -43,7 +41,7 @@ IVIVE_server <- function(id,pars,runsim,logscale) {
 
     IVIVE_Table_server("IVIVE_table",ivive_out)
     IVIVE_Plot_server("IVIVE_plot",ivive_out)
-
+    BER_Table_server("BER_table",ivive_out)
   })
 
 }

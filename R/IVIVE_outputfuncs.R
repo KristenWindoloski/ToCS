@@ -18,10 +18,32 @@ IVIVEsol <- function(pars){
   # --- EXTRACT DIMENSIONS NEEDED FOR SOLUTION
   n <- nrow(pars[["CompoundList"]])
 
+  # --- CALCULATE BIOACTIVITY EXPOSURE RATIO (BER)
+  if (!is.null(pars[["fileExposure"]])){
+
+    # --- LOAD EXPOSURE DATA
+    fileExposure <- pars[["fileExposure"]]
+    exposuredata <- read.csv(fileExposure$datapath)
+
+    # --- REARRANGE ROWS OF EXPOSURE DATA FILE TO BE IN SAME ORDER AS COMPOUNDS FILE
+    exposuredata <- exposuredata[match(pars[["CompoundList"]][,1], exposuredata$ChemicalName),]
+
+    # --- CALCULATE BER
+    exposuredata$max <- apply(exposuredata, 1, max, na.rm=TRUE)
+  }
+
   # --- SET OUTPUT TYPE AND SIZE: DATA FRAME (return.samples = FALSE) OR ARRAY (return.samples = TRUE)
   if (pars[["returnsamples"]] == FALSE){
 
     sol <- data.frame(CompoundName = pars[["CompoundList"]][,1], OED = rep(0,n))
+    for (i in 1:n) {
+      sol[i,2] <- CalcOED(i,pars,bioactive_conc)
+    }
+    if (!is.null(pars[["fileExposure"]])){
+      BER <- data.frame(CompoundName = exposuredata$Compound,
+                        CAS = exposuredata$CAS,
+                        BER = sol[,2]/exposuredata$max)
+    }
   }
   else if (pars[["returnsamples"]] == TRUE) {
 
@@ -30,17 +52,9 @@ IVIVEsol <- function(pars){
                  dim = c(pars[["samples"]]+2,n))
     dimnames(sol) <- list(c("OED_5","Samples",seq(1,pars[["samples"]])),
                           pars[["CompoundList"]][,1])
-  }
+    for (i in 1:n) {
 
-  # --- Generate OED solution for each chemical
-  for (i in 1:n) {
-
-    OED <- CalcOED(i,pars,bioactive_conc)
-
-    if (pars[["returnsamples"]] == FALSE){
-      sol[i,2] <- OED
-    }
-    else if (pars[["returnsamples"]] == TRUE) {
+      OED <- CalcOED(i,pars,bioactive_conc)
 
       # --- CALCULATE 95% CSS THEN CONVERT TO BIOACTIVE CONCENTRATION (SAME PROCESS AS HTTK CODE)
       q <- stats::quantile(bioactive_conc[i,3]/OED, 0.95, na.rm=TRUE)
@@ -48,13 +62,18 @@ IVIVEsol <- function(pars){
       sol[2,i] <- NA
       sol[seq(3,pars[["samples"]]+2),i] <- OED
     }
+    if (!is.null(pars[["fileExposure"]])){
+      BER <- data.frame(CompoundName = exposuredata$Compound,
+                        CAS = exposuredata$CAS,
+                        BER = sol[1,]/exposuredata$max)
+    }
   }
 
   # --- STORE PARAMETERS USED FOR THE SIMULATION
   pars_df <- StorePars_IVIVE(pars,bioactive_conc)
 
   # --- RETURN LIST OF OUTPUTS
-  out <- list(sol,bioactive_conc,pars_df)
+  out <- list(sol,bioactive_conc,pars_df,BER)
 }
 
 CalcOED <- function(i,pars,bioactive_df){
@@ -86,6 +105,10 @@ CalcOED <- function(i,pars,bioactive_df){
                                                                minimum.Funbound.plasma = pars[["min_fub"]],
                                                                regression = pars[["regression"]]),
                                   samples = pars[["samples"]])
+}
+
+CalcBER <- function(i){
+
 }
 
 ConvertBioactive <- function(pars,bioactive_df){

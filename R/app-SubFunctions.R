@@ -162,6 +162,8 @@ AP_OutputSpecification <- function(){
                                       shiny::conditionalPanel(condition = "input.modelSS !== 'Select' && input.modelSS !== '3compartmentss'",
                                                               selectInput_Tissue("tissueSS"))),
               shiny::conditionalPanel(condition = "input.func == 'In vitro in vivo extrapolation (IVIVE)'",
+                                      fileInput_ExposureData("fileExposure"),
+                                      shiny::a("Exposure Data File Folder", target="_blank", href="ExposureDataFileFolder.zip"),
                                       selectInput_IVIVEoutunits("modelIVIVEout_units"),
                                       shiny::conditionalPanel(condition = "input.HondaIVIVE == 'NULL'",
                                                               selectInput_OutConc("output_concIVIVE")),

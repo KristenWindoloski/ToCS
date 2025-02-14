@@ -733,6 +733,14 @@ numericInput_FSBf <- function(id){
 
 }
 
+fileInput_ExposureData <- function(id){
+  shiny::fileInput(id,
+                   label = "Upload a CSV file of exposure data for the selected compounds.
+                   See the downloadable folder below for file upload formatting details.",
+                   multiple = FALSE,
+                   accept = c(".csv"))
+}
+
 
 ###################################
 # PLOTTING PARAMETERS
