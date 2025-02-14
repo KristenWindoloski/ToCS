@@ -121,6 +121,8 @@ StorePars_PC <- function(pars){
 plotPar <- function(soldata,pars,logscale){
 
   df_elim <- dplyr::select(soldata, CompoundName, EliminationRate)
+  df_elim <- dplyr::arrange(df_elim, EliminationRate)
+  df_elim$CompoundName <- factor(df_elim$CompoundName, levels = df_elim$CompoundName)
 
   df_vdist <- dplyr::select(soldata, CompoundName, VolumeOfDistribution)
   df_vdist <- dplyr::arrange(df_vdist, VolumeOfDistribution)
@@ -191,6 +193,8 @@ plotPCs <- function(soldata,pars,logscale){
     # --- Create data frame for tissue i to plot all state i curves at once
     tissue_df <- data.frame(CompoundName = soldata[,1],
                             TissuePC = soldata[,i+1])
+    tissue_df <- dplyr::arrange(tissue_df, TissuePC)
+    tissue_df$CompoundName <- factor(tissue_df$CompoundName, levels = tissue_df$CompoundName)
 
     # --- Plot curves for tissue i for all compounds
     plt_lst[[i]] <- ggplot2::ggplot(tissue_df, ggplot2::aes(CompoundName, TissuePC)) +
