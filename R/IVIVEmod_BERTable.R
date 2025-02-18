@@ -28,18 +28,18 @@ BER_Table_server <- function(id,ivive_args){
 
       #--- Outputs table of BER values
       output$BERtable <- DT::renderDT({
-      sol()[[4]]}, options = list(scrollX = TRUE, scrollY = TRUE))
+        sol()[[4]]}, options = list(scrollX = TRUE, scrollY = TRUE))
 
       #--- Outputs table caption
       output$BERtableCaption <- shiny::renderText({
-      shiny::req(sol(),runsim())
-      paste("Table 2: Table of the bioactivity exposure ratio (BER) for each selected
+        shiny::req(sol(),runsim())
+        paste("Table 2: Table of the bioactivity exposure ratio (BER) for each selected
             compound.")})
 
       #--- Creates download button
       output$downloadBERtable_cond <- shiny::renderUI({
-      shiny::req(sol(),runsim())
-      shiny::downloadButton(session$ns("downloadBER"), "Download Table 2")})
+        shiny::req(sol(),runsim())
+        shiny::downloadButton(session$ns("downloadBER"), "Download Table 2")})
 
       #--- Downloads table of BER values
       output$downloadBER <- shiny::downloadHandler(
