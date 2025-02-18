@@ -14,7 +14,7 @@ ParNames <- function(){
                           "Clint_Pval","AlphaPar","rb2p","restrict_clear","adj_fub","min_fub","regression")
   ModelSolverPars <- c("odemethod","solversteps","rtol","atol")
   BioavailPars <- c("caco2default","caco_fabs","caco_fgut","caco_overwriteinvivo","caco_keep100")
-  OutputSpecifPars <- c("returntimes","modelSSout_units","output_concSS","tissueSS","modelIVIVEout_units","output_concIVIVE","tissueIVIVE")
+  OutputSpecifPars <- c("returntimes","modelSSout_units","output_concSS","tissueSS","modelIVIVEout_units","output_concIVIVE","tissueIVIVE","fileExposure")
   RunSimPars <- c("runsim","logscale","ResetButton")
 
   out_lst <- c(GenPars,CompoundSelectPars,ModelSpecifPars,ModelConditionPars,ModelSolverPars,BioavailPars,OutputSpecifPars,RunSimPars)

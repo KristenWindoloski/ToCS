@@ -27,22 +27,24 @@ IVIVEsol <- function(pars){
 
     # --- REARRANGE ROWS OF EXPOSURE DATA FILE TO BE IN SAME ORDER AS COMPOUNDS FILE
     exposuredata <- exposuredata[match(pars[["CompoundList"]][,1], exposuredata$ChemicalName),]
+    exposuredata_trimmed <- exposuredata %>% select(-c(ChemicalName,CAS))
 
-    # --- CALCULATE BER
-    exposuredata$max <- apply(exposuredata, 1, max, na.rm=TRUE)
+    # --- FIND UPPER EXPOSURE ESTIMATE FOR EACH CHEMICAL
+    exposuredata$max <- apply(exposuredata_trimmed, 1, max, na.rm=TRUE)
   }
 
   # --- SET OUTPUT TYPE AND SIZE: DATA FRAME (return.samples = FALSE) OR ARRAY (return.samples = TRUE)
   if (pars[["returnsamples"]] == FALSE){
 
-    sol <- data.frame(CompoundName = pars[["CompoundList"]][,1], OED = rep(0,n))
+    sol <- data.frame(CompoundName = pars[["CompoundList"]][,1],
+                      OED = rep(0,n))
     for (i in 1:n) {
       sol[i,2] <- CalcOED(i,pars,bioactive_conc)
     }
     if (!is.null(pars[["fileExposure"]])){
-      BER <- data.frame(CompoundName = exposuredata$Compound,
-                        CAS = exposuredata$CAS,
-                        BER = sol[,2]/exposuredata$max)
+
+      BER <- data.frame(CompoundName = exposuredata$ChemicalName,
+                        BER = signif(sol$OED/exposuredata$max, digits = 4))
     }
   }
   else if (pars[["returnsamples"]] == TRUE) {
@@ -63,9 +65,8 @@ IVIVEsol <- function(pars){
       sol[seq(3,pars[["samples"]]+2),i] <- OED
     }
     if (!is.null(pars[["fileExposure"]])){
-      BER <- data.frame(CompoundName = exposuredata$Compound,
-                        CAS = exposuredata$CAS,
-                        BER = sol[1,]/exposuredata$max)
+      BER <- data.frame(CompoundName = exposuredata$ChemicalName,
+                        BER = signif(unname(sol[1,])/exposuredata$max,digits = 4))
     }
   }
 
@@ -73,7 +74,12 @@ IVIVEsol <- function(pars){
   pars_df <- StorePars_IVIVE(pars,bioactive_conc)
 
   # --- RETURN LIST OF OUTPUTS
-  out <- list(sol,bioactive_conc,pars_df,BER)
+  if (!is.null(pars[["fileExposure"]])){
+    out <- list(sol,bioactive_conc,pars_df,BER)
+  }
+  else{
+    out <- list(sol,bioactive_conc,pars_df)
+  }
 }
 
 CalcOED <- function(i,pars,bioactive_df){
@@ -105,10 +111,6 @@ CalcOED <- function(i,pars,bioactive_df){
                                                                minimum.Funbound.plasma = pars[["min_fub"]],
                                                                regression = pars[["regression"]]),
                                   samples = pars[["samples"]])
-}
-
-CalcBER <- function(i){
-
 }
 
 ConvertBioactive <- function(pars,bioactive_df){
@@ -297,4 +299,30 @@ Plotdf_Prep <- function(df,pars){
   Q5_OED_rearr <- q5_OED_df[match(Plt_order, q5_OED_df$CompoundName),]
 
   out <- list(OED_Samples_df_rearr, Q5_OED_rearr)
+}
+
+BERplotting <- function(BERdata){
+
+  # --- ARRANGE BER DATA FOR PLOTTING
+  BERdata <- dplyr::arrange(BERdata, BER)
+  BERdata$CompoundName <- factor(BERdata$CompoundName, levels = BERdata$CompoundName)
+  break_seq <- log10breaks(BERdata$BER)
+
+  # --- PLOT SCATTER PLOT OF ALL OED VALUES
+  plt <- ggplot2::ggplot(BERdata, ggplot2::aes(x = CompoundName, y = BER)) +
+    ggplot2::geom_point(size = 4) +
+    ggplot2::geom_hline(yintercept = 1, linetype = 5, linewidth = 1, color = "red") +
+    ggplot2::labs(x = "Compounds",
+                  y = "Bioactivity Exposure Ratio (Unitless)",
+                  title = "Bioactivity Exposure Ratio for Chemical Prioritization") +
+    ggplot2::theme_bw(base_size = 18) +
+    ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 0.5, vjust = 0.5),
+                   plot.title = ggplot2::element_text(hjust = 0.5)) +
+    ggplot2::scale_y_log10(breaks = break_seq,
+                           labels = scales::trans_format("log10", scales::math_format(10^.x)),
+                           limit = c(min(break_seq),max(break_seq))) +
+    ggplot2::annotation_logticks(sides = "l")
+
+
+  return(plt)
 }
