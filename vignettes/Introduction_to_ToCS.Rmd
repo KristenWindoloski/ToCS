@@ -1,7 +1,7 @@
 ---
 title: "Introduction to the ToCS App"
 author: "Kristen Windoloski"
-date: "February 3, 2025"
+date: "February 19, 2025"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Introduction_to_ToCS}
@@ -29,6 +29,7 @@ While other GUIs that utilize httk have been created (Integrated Chemical Enviro
 
 - Calculates the area under the curve (AUC) and time to maximum concentration for all model compartments
 - Offers computation of analytical steady state concentrations and oral equivalent doses (OEDs) for all model and other tissue compartments, not just plasma
+- Predicts the bioactivity exposure ratio (BER) and plots the OEDs against exposure estimates given user-uploaded chemical exposure data, which can be used to prioritize chemicals for further risk assessment
 - Provides estimates of TK parameters not only including half-lives but also total plasma clearances, volumes of distribution, elimination rates, and partition coefficients
 - Estimates the number of days it takes for compounds to reach plasma steady state
 - Allows for further customization of simulations beyond basic model parameters
@@ -53,7 +54,7 @@ The *General Parameters* tab (shown in the image below) acts as a home page for 
 - Steady state concentrations
   - Produces a table and plot of the analytical steady state concentration for the desired concentration and tissue of all selected compounds as well as a table estimating the time (days) it takes to reach steady state behavior for all compounds
 - In vitro in vivo extrapolation (IVIVE)
-  - Generates a table and plot of OEDs (the external dose needed to produce the internal bioactive concentration) for all simulated chemicals
+  - Generates a table and plot of OEDs (the external dose needed to produce the internal bioactive concentration) for all simulated chemicals. If the user uploads chemical exposure data, then a table with bioactivity exposure ratios (BERs) and a plot of BERs is produced to suggest chemical prioritization for further risk assessment. Additionally, the exposure estimates will be plotted against the OED estimate or distribution
 - Parameter calculations
   - Calculates tables and plots of TK parameters including the half-life, total plasma clearance, elimination rate, volume of distribution, and partition coefficients of the selected chemicals.
   
