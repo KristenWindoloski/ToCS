@@ -319,6 +319,7 @@ InputRules_Children <- function(iv_common,iv_adme,iv_ss,iv_ivive,iv_pc,input,ic_
   iv_ivive$add_rule("min_fub",shinyvalidate::sv_required())
   iv_ivive$add_rule("FSBf",FSBf_Check,input)
   iv_ivive$add_rule("caco2default",shinyvalidate::sv_required())
+  iv_ivive$add_rule("fileExposure",ExposureUpload_Check,input)
 
   iv_pc$add_rule("Clint_Pval",shinyvalidate::sv_required())
   iv_pc$add_rule("AlphaPar",shinyvalidate::sv_required())

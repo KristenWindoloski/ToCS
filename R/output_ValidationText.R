@@ -240,7 +240,9 @@ validate_text_IVIVE <- function(pars){
     if (!all(file_df_datatypes == par_types) ||
         !all(is.na(as.numeric(file_df$ChemicalName))) ||
         !all(is.na(as.numeric(file_df$CAS)))){
-      shiny::validate(shiny::need(all(file_df_datatypes == par_types),message = paste("")))
+      shiny::validate(shiny::need(all(file_df_datatypes == par_types) &&
+                                  all(is.na(as.numeric(file_df$ChemicalName))) &&
+                                  all(is.na(as.numeric(file_df$CAS))),message = paste("")))
     }
   }
   if (pars[["returnsamples"]] == 'Select'){
@@ -264,6 +266,43 @@ validate_text_IVIVE <- function(pars){
   }
   if (is.na(pars[["caco2default"]])){
     shiny::validate(shiny::need(!is.na(pars[["caco2default"]]),message = paste("")))
+  }
+  if (!is.null(pars[["fileExposure"]])){
+
+    # --- PROCESS UPLOADED DATA
+    file_df <- read.csv(pars[["fileExposure"]]$datapath)
+    file_df[file_df == ""] <- NA
+
+    # --- CHECK FOR CORRECT COLUMN NAMES AND ORDER
+    file_df_colnames <- colnames(file_df)
+
+    if (!all(file_df_colnames == c("ChemicalName","CAS","Exp.Upper","Exp.Median","Exp.Lower"))){
+      shiny::validate(shiny::need(all(file_df_colnames == c("ChemicalName","CAS","Exp.Upper","Exp.Median","Exp.Lower")),message = paste("")))
+    }
+
+    # --- CHECK FOR MISSING REQUIRED DATA
+    vec <- c(file_df$ChemicalName,file_df$CAS,file_df$Exp.Upper)
+    if (anyNA(vec)){
+      shiny::validate(shiny::need(!anyNA(vec),message = paste("")))
+    }
+
+    # --- CHECK FOR CORRECT DATA INPUT TYPES
+    file_df_datatypes <- unname(sapply(file_df,class))
+
+    if (!all(file_df_datatypes == c("character","character","numeric","numeric","numeric")) ||
+        !all(file_df_datatypes == c("character","character","numeric","numeric","logical")) ||
+        !all(file_df_datatypes == c("character","character","numeric","logical","numeric")) ||
+        !all(file_df_datatypes == c("character","character","numeric","logical","logical")) ||
+        !all(is.na(as.numeric(file_df$ChemicalName))) ||
+        !all(is.na(as.numeric(file_df$CAS)))){
+      shiny::validate(shiny::need((all(file_df_datatypes == c("character","character","numeric","numeric","numeric")) ||
+                                  all(file_df_datatypes == c("character","character","numeric","numeric","logical")) ||
+                                  all(file_df_datatypes == c("character","character","numeric","logical","numeric")) ||
+                                  all(file_df_datatypes == c("character","character","numeric","logical","logical"))) &&
+                                    all(is.na(as.numeric(file_df$ChemicalName))) &&
+                                    all(is.na(as.numeric(file_df$CAS))),
+                                  message = paste("")))
+    }
   }
 }
 

@@ -307,6 +307,43 @@ FSBf_Check <- function(value,input){
   }
 }
 
+ExposureUpload_Check <- function(value,input){
+
+  if (!is.null(value)){
+
+    # --- PROCESS UPLOADED DATA
+    file_df <- read.csv(value$datapath)
+    file_df[file_df == ""] <- NA
+
+    # --- CHECK FOR CORRECT COLUMN NAMES AND ORDER
+    file_df_colnames <- colnames(file_df)
+
+    if (!all(file_df_colnames == c("ChemicalName","CAS","Exp.Upper","Exp.Median","Exp.Lower"))){
+      return("Error: Check the uploaded file to make sure the correct column names
+               were used and are in the correct order.")
+    }
+
+    # --- CHECK FOR MISSING REQUIRED DATA
+    if (anyNA(c(file_df$ChemicalName,file_df$CAS,file_df$Exp.Upper))){
+      return("Error: Check the uploaded file for missing values in the
+             'ChemicalName', 'CAS', and 'Exp.Upper' columns.")
+    }
+
+    # --- CHECK FOR CORRECT DATA INPUT TYPES
+    file_df_datatypes <- unname(sapply(file_df,class))
+
+    if (!all(file_df_datatypes == c("character","character","numeric","numeric","numeric")) ||
+        !all(file_df_datatypes == c("character","character","numeric","numeric","logical")) ||
+        !all(file_df_datatypes == c("character","character","numeric","logical","numeric")) ||
+        !all(file_df_datatypes == c("character","character","numeric","logical","logical")) ||
+        !all(is.na(as.numeric(file_df$ChemicalName))) ||
+        !all(is.na(as.numeric(file_df$CAS)))){
+      return("Error: Check the uploaded file to make sure the correct type of data (numbers,
+                 words) was used for each entry.")
+    }
+  }
+}
+
 addrule_adme_ics <- function(iv_adme,identifier){
   iv_adme$add_rule(identifier,shinyvalidate::sv_required())
 }
