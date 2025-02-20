@@ -318,24 +318,25 @@ ExposureUpload_Check <- function(value,input){
     # --- CHECK FOR CORRECT COLUMN NAMES AND ORDER
     file_df_colnames <- colnames(file_df)
 
-    if (!all(file_df_colnames == c("ChemicalName","CAS","Exp.Upper","Exp.Median","Exp.Lower"))){
+    if (!all(file_df_colnames == c("ChemicalName","CAS","Upper","Median","Lower"))){
       return("Error: Check the uploaded file to make sure the correct column names
                were used and are in the correct order.")
     }
 
     # --- CHECK FOR MISSING REQUIRED DATA
-    if (anyNA(c(file_df$ChemicalName,file_df$CAS,file_df$Exp.Upper))){
+    if (anyNA(c(file_df$ChemicalName,file_df$CAS,file_df$Upper))){
       return("Error: Check the uploaded file for missing values in the
-             'ChemicalName', 'CAS', and 'Exp.Upper' columns.")
+             'ChemicalName', 'CAS', and 'Upper' columns. If there is a single exposure
+             estimate for a chemical, it should be placed in the 'Upper' column.")
     }
+
 
     # --- CHECK FOR CORRECT DATA INPUT TYPES
     file_df_datatypes <- unname(sapply(file_df,class))
 
-    if (!all(file_df_datatypes == c("character","character","numeric","numeric","numeric")) ||
-        !all(file_df_datatypes == c("character","character","numeric","numeric","logical")) ||
-        !all(file_df_datatypes == c("character","character","numeric","logical","numeric")) ||
-        !all(file_df_datatypes == c("character","character","numeric","logical","logical")) ||
+    if (!all(file_df_datatypes[1:3] == c("character","character","numeric")) ||
+        file_df_datatypes[4] == "character" ||
+        file_df_datatypes[5] == "character" ||
         !all(is.na(as.numeric(file_df$ChemicalName))) ||
         !all(is.na(as.numeric(file_df$CAS)))){
       return("Error: Check the uploaded file to make sure the correct type of data (numbers,

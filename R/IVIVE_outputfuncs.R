@@ -27,24 +27,26 @@ IVIVEsol <- function(pars){
 
     # --- REARRANGE ROWS OF EXPOSURE DATA FILE TO BE IN SAME ORDER AS COMPOUNDS FILE
     exposuredata <- exposuredata[match(pars[["CompoundList"]][,1], exposuredata$ChemicalName),]
-    exposuredata_trimmed <- exposuredata %>% select(-c(ChemicalName,CAS))
+    exposuredata_trimmed <- exposuredata %>% dplyr::select(-c(ChemicalName,CAS))
 
     # --- FIND UPPER EXPOSURE ESTIMATE FOR EACH CHEMICAL
-    exposuredata$max <- apply(exposuredata_trimmed, 1, max, na.rm=TRUE)
+    exposuredata$maxval <- apply(exposuredata_trimmed, 1, max, na.rm=TRUE)
+    names(exposuredata)[names(exposuredata) == "ChemicalName"] <- "CompoundName"
   }
 
   # --- SET OUTPUT TYPE AND SIZE: DATA FRAME (return.samples = FALSE) OR ARRAY (return.samples = TRUE)
   if (pars[["returnsamples"]] == FALSE){
 
     sol <- data.frame(CompoundName = pars[["CompoundList"]][,1],
+                      CAS = bioactive_conc$CAS,
                       OED = rep(0,n))
     for (i in 1:n) {
-      sol[i,2] <- CalcOED(i,pars,bioactive_conc)
+      sol[i,3] <- CalcOED(i,pars,bioactive_conc)
     }
     if (!is.null(pars[["fileExposure"]])){
 
-      BER <- data.frame(CompoundName = exposuredata$ChemicalName,
-                        BER = signif(sol$OED/exposuredata$max, digits = 4))
+      BER <- data.frame(CompoundName = exposuredata$CompoundName,
+                        BER = signif(sol$OED/exposuredata$maxval, digits = 4))
     }
   }
   else if (pars[["returnsamples"]] == TRUE) {
@@ -65,8 +67,8 @@ IVIVEsol <- function(pars){
       sol[seq(3,pars[["samples"]]+2),i] <- OED
     }
     if (!is.null(pars[["fileExposure"]])){
-      BER <- data.frame(CompoundName = exposuredata$ChemicalName,
-                        BER = signif(unname(sol[1,])/exposuredata$max,digits = 4))
+      BER <- data.frame(CompoundName = exposuredata$CompoundName,
+                        BER = signif(unname(sol[1,])/exposuredata$maxval,digits = 4))
     }
   }
 
@@ -75,7 +77,7 @@ IVIVEsol <- function(pars){
 
   # --- RETURN LIST OF OUTPUTS
   if (!is.null(pars[["fileExposure"]])){
-    out <- list(sol,bioactive_conc,pars_df,BER)
+    out <- list(sol,bioactive_conc,pars_df,BER,exposuredata)
   }
   else{
     out <- list(sol,bioactive_conc,pars_df)
@@ -182,7 +184,7 @@ StorePars_IVIVE <- function(pars,bioactive_df){
 # --- CREATE SCATTER PLOT OF OED VALUES
 ######################################################
 
-IVIVEplotting <- function(OED_data,BioactiveConc,pars,logscale){
+IVIVEplotting <- function(OED_data,BioactiveConc,pars,logscale,expdata){
 
   # --- SET PLOT LABEL NAMES
   plt_labels <- IVIVEplot_labels(pars)
@@ -196,12 +198,36 @@ IVIVEplotting <- function(OED_data,BioactiveConc,pars,logscale){
     OED_data$CompoundName <- factor(OED_data$CompoundName, levels = OED_data$CompoundName)
 
     # --- PLOT SCATTER PLOT OF ALL OED VALUES
-    plt <- ggplot2::ggplot(OED_data, ggplot2::aes(x = CompoundName, y = OED)) +
+    plt <- ggplot2::ggplot(data = OED_data, ggplot2::aes(x = CompoundName, y = OED),) +
       ggplot2::geom_point(size = 4) +
       ggplot2::labs(x = "Compounds", y = y_exp, title = title_exp) +
       ggplot2::theme_bw(base_size = 18) +
       ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 0.5, vjust = 0.5),
                      plot.title = ggplot2::element_text(hjust = 0.5))
+
+    if (!is.null(pars[["fileExposure"]])){
+
+      #need to make this all into one data frame with a color distinction in order for dodge to work
+      OED_data$Upper <- OED_data$OED + 1e-8
+      OED_data$Lower <- OED_data$OED - 1e-8
+      OED_data$Type <- "OED"
+      OED_data <- OED_data %>% dplyr::relocate(OED, .after = Upper)
+      names(OED_data)[names(OED_data) == "OED"] <- "Median"
+
+      expdata$Type <- "Exposure"
+      expdata <- expdata %>% dplyr::select(-c("maxval"))
+      expdata <- FillExposureData(expdata)
+
+      combined_df <- rbind(OED_data,expdata)
+
+      plt <- ggplot2::ggplot(data = combined_df, ggplot2::aes(x = CompoundName, y = Median, color= Type)) +
+        ggplot2::geom_pointrange(mapping = ggplot2::aes(ymin = Lower, ymax = Upper),
+                                 position=ggplot2::position_dodge(width = 0.5)) +
+        ggplot2::labs(x = "Compounds", y = y_exp, title = title_exp) +
+        ggplot2::theme_bw(base_size = 18) +
+        ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 0.5, vjust = 0.5),
+                       plot.title = ggplot2::element_text(hjust = 0.5))
+    }
 
   }
   else if (pars[["returnsamples"]] == TRUE){
@@ -212,6 +238,7 @@ IVIVEplotting <- function(OED_data,BioactiveConc,pars,logscale){
     Q5_OED_df <- plt_df_list[[2]]
 
     # --- PLOT OED SAMPLES
+    # --- keep OED samples boxplot and add linerange plot of exposure data
     plt <- ggplot2::ggplot(OEDSamples_df, ggplot2::aes(x = CompoundName, y = OED)) +
       ggplot2::geom_boxplot() +
       ggplot2::geom_point(data = Q5_OED_df, ggplot2::aes(x = CompoundName, y = OED), color = 'red', size = 4)+
@@ -219,6 +246,38 @@ IVIVEplotting <- function(OED_data,BioactiveConc,pars,logscale){
       ggplot2::theme_bw(base_size = 18) +
       ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 0.5, vjust = 0.5),
                      plot.title = ggplot2::element_text(hjust = 0.5))
+
+    if (!is.null(pars[["fileExposure"]])){
+
+      OEDSamples_df$Type <- "OED"
+      Q5_OED_df$Type <- "OED"
+
+      expdata$Type <- "Exposure"
+      expdata <- FillExposureData(expdata)
+      names(expdata)[names(expdata) == "Median"] <- "OED"
+
+      plt <- ggplot2::ggplot(OEDSamples_df, ggplot2::aes(x = CompoundName, y = OED, fill = Type)) +
+        ggplot2::geom_boxplot(position=ggplot2::position_nudge(x=-0.15),
+                              width = 0.2,
+                              fill = "lightcoral") +
+        ggplot2::geom_point(data = Q5_OED_df,
+                            ggplot2::aes(x = CompoundName, y = OED),
+                            color = 'red',
+                            size = 3,
+                            position=ggplot2::position_nudge(x=-0.15))+
+        ggplot2::geom_pointrange(data = expdata,
+                                 mapping = ggplot2::aes(x = CompoundName, y = OED, ymin = Lower, ymax = Upper),
+                                 color = "slateblue1",
+                                 linewidth = 1,
+                                 size = 0.5,
+                                 position=ggplot2::position_nudge(x=0.15)) +
+        ggplot2::labs(x = "Compounds", y = y_exp, title = title_exp) +
+        ggplot2::theme_bw(base_size = 18) +
+        ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 0.5, vjust = 0.5),
+                       plot.title = ggplot2::element_text(hjust = 0.5))
+    }
+
+
   }
 
   # --- PLOT Y-AXIS ON LOG SCALE IF DESIRED
@@ -228,7 +287,13 @@ IVIVEplotting <- function(OED_data,BioactiveConc,pars,logscale){
       break_seq <- log10breaks(OEDSamples_df$OED)
     }
     else{
-      break_seq <- log10breaks(OED_data$OED)
+      if (!is.null(pars[["fileExposure"]])){
+        break_seq <- log10breaks(c(combined_df$Lower,combined_df$Upper))
+      }
+      else{
+        break_seq <- log10breaks(OED_data$OED)
+      }
+
     }
      plt <- plt +
        ggplot2::scale_y_log10(breaks = break_seq,
@@ -248,17 +313,37 @@ IVIVEplot_labels <- function(pars){
   # --- SET Y-AXIS LABEL
   if (pars[["output_concIVIVE"]] != 'tissue'){
     if (is.null(pars[["tissueIVIVE"]])){
-      y_exp <- paste("Oral equivalent dose (OED) \n in whole body ",
+      if (!is.null(pars[["fileExposure"]])){
+        y_exp <- paste("OED in whole body ",
+                       pars[["output_concIVIVE"]], " \n or exposure (", pars[["modelIVIVEout_units"]], ")", sep = "")
+      }
+      else {
+        y_exp <- paste("Oral equivalent dose (OED) \n in whole body ",
                      pars[["output_concIVIVE"]], " (", pars[["modelIVIVEout_units"]], ")", sep = "")
+      }
+
     }
     else{
-      y_exp <- paste("Oral equivalent dose (OED) \n in ", pars[["tissueIVIVE"]],
+      if (!is.null(pars[["fileExposure"]])){
+        y_exp <- paste("OED in ", pars[["tissueIVIVE"]],
+                       " ", pars[["output_concIVIVE"]], " \n or exposure (", pars[["modelIVIVEout_units"]], ")", sep = "")
+      }
+      else {
+        y_exp <- paste("Oral equivalent dose (OED) \n in ", pars[["tissueIVIVE"]],
                      " ", pars[["output_concIVIVE"]], " (", pars[["modelIVIVEout_units"]], ")", sep = "")
+      }
+
     }
   }
   else{
-    y_exp <- paste("Oral equivalent dose (OED) \n in ", pars[["tissueIVIVE"]],
+    if (!is.null(pars[["fileExposure"]])){
+      y_exp <- paste("OED \n in ", pars[["tissueIVIVE"]],
+                     " \n or exposure (", pars[["modelIVIVEout_units"]], ")", sep = "")
+    }
+    else{
+      y_exp <- paste("Oral equivalent dose (OED) \n in ", pars[["tissueIVIVE"]],
                    " (", pars[["modelIVIVEout_units"]], ")", sep = "")
+    }
   }
 
   out <- list(title_exp, y_exp)
@@ -281,13 +366,15 @@ Plotdf_Prep <- function(df,pars){
 
   # --- CREATE DATA FRAME WITH 2 COLUMNS TO STORE SAMPLE DATA FOR BOXPLOT
   ChemNames <- c()
+  CASvalues <- c()
   OEDvalues <- c()
   for (i in 1:n) {
     ChemNames <- append(ChemNames, rep(cnames[i], m))
+    CASvalues <- append(CASvalues, rep(chem.physical_and_invitro.data[chem.physical_and_invitro.data$Compound == cnames[i],2], m))
     OEDvalues <- append(OEDvalues, Samples_OED[,i])
   }
 
-  OED_Samples_df <- data.frame(CompoundName = ChemNames, OED = OEDvalues)
+  OED_Samples_df <- data.frame(CompoundName = ChemNames, CAS = CASvalues, OED = OEDvalues)
   OED_Samples_df <- na.omit(OED_Samples_df)
 
   # --- ARRANGE LEVELS OF DATA FRAME BASED ON THE MEDIAN SAMPLE OED OF EACH COMPOUND
@@ -325,4 +412,24 @@ BERplotting <- function(BERdata){
 
 
   return(plt)
+}
+
+FillExposureData <- function(exposure_df){
+
+  # --- DETERMINE ROWS WITH MISSING DATA
+  indicies <- which(is.na(exposure_df), arr.ind = TRUE)
+
+  # --- DETERMINE ROWS MISSING BOTH MEDIAN AND LOWER VALUE
+  dup_rows <- indicies[which(duplicated(indicies[,1])),1]
+  for (i in dup_rows) {
+    exposure_df$Lower[i] <- exposure_df$Upper[i] - 1e-8
+    exposure_df$Median[i] <- median(c(exposure_df$Upper[i],exposure_df$Lower[i]))
+  }
+
+  # --- DETERMINE ROWS MISSING ONLY MEDIAN VALUE
+  nondup_rows <- indicies[!(indicies[,1] %in% dup_rows),1]
+  for (j in nondup_rows) {
+    exposure_df$Median[j] <- median(c(exposure_df$Upper[j],exposure_df$Lower[j]))
+  }
+  return(exposure_df)
 }

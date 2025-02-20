@@ -276,12 +276,12 @@ validate_text_IVIVE <- function(pars){
     # --- CHECK FOR CORRECT COLUMN NAMES AND ORDER
     file_df_colnames <- colnames(file_df)
 
-    if (!all(file_df_colnames == c("ChemicalName","CAS","Exp.Upper","Exp.Median","Exp.Lower"))){
-      shiny::validate(shiny::need(all(file_df_colnames == c("ChemicalName","CAS","Exp.Upper","Exp.Median","Exp.Lower")),message = paste("")))
+    if (!all(file_df_colnames == c("ChemicalName","CAS","Upper","Median","Lower"))){
+      shiny::validate(shiny::need(all(file_df_colnames == c("ChemicalName","CAS","Upper","Median","Lower")),message = paste("")))
     }
 
     # --- CHECK FOR MISSING REQUIRED DATA
-    vec <- c(file_df$ChemicalName,file_df$CAS,file_df$Exp.Upper)
+    vec <- c(file_df$ChemicalName,file_df$CAS,file_df$Upper)
     if (anyNA(vec)){
       shiny::validate(shiny::need(!anyNA(vec),message = paste("")))
     }
@@ -289,18 +289,16 @@ validate_text_IVIVE <- function(pars){
     # --- CHECK FOR CORRECT DATA INPUT TYPES
     file_df_datatypes <- unname(sapply(file_df,class))
 
-    if (!all(file_df_datatypes == c("character","character","numeric","numeric","numeric")) ||
-        !all(file_df_datatypes == c("character","character","numeric","numeric","logical")) ||
-        !all(file_df_datatypes == c("character","character","numeric","logical","numeric")) ||
-        !all(file_df_datatypes == c("character","character","numeric","logical","logical")) ||
+    if (!all(file_df_datatypes[1:3] == c("character","character","numeric")) ||
+        file_df_datatypes[4] == "character" ||
+        file_df_datatypes[5] == "character" ||
         !all(is.na(as.numeric(file_df$ChemicalName))) ||
         !all(is.na(as.numeric(file_df$CAS)))){
-      shiny::validate(shiny::need((all(file_df_datatypes == c("character","character","numeric","numeric","numeric")) ||
-                                  all(file_df_datatypes == c("character","character","numeric","numeric","logical")) ||
-                                  all(file_df_datatypes == c("character","character","numeric","logical","numeric")) ||
-                                  all(file_df_datatypes == c("character","character","numeric","logical","logical"))) &&
-                                    all(is.na(as.numeric(file_df$ChemicalName))) &&
-                                    all(is.na(as.numeric(file_df$CAS))),
+      shiny::validate(shiny::need(all(file_df_datatypes[1:3] == c("character","character","numeric")) &&
+                                  file_df_datatypes[4] == "character" &&
+                                  file_df_datatypes[5] == "character" &&
+                                  all(is.na(as.numeric(file_df$ChemicalName))) &&
+                                  all(is.na(as.numeric(file_df$CAS))),
                                   message = paste("")))
     }
   }
