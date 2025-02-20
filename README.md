@@ -28,7 +28,11 @@ easy-to-use computational toxicology tool to predict:
 - In vitro in vivo extrapolation (IVIVE)
   - Generates a table and plot of OEDs (oral equivalent dose, the
     external dose needed to produce the internal bioactive
-    concentration) for all simulated chemicals
+    concentration) for all simulated chemicals. If exposure data is
+    provided by the user, the GUI will also plot the exposure data
+    against the OEDs as well as calculate the bioactivity exposure
+    ratio, which can be used to prioritize chemicals for further risk
+    evaluation
 - Parameter calculations
   - Calculates tables and plots of TK parameters including the
     half-life, total plasma clearance, elimination rate, volume of
@@ -42,6 +46,9 @@ this GUI, ToCS is unique in that it:
 - Offers computation of analytical steady state concentrations and oral
   equivalent doses (OEDs) for all model and other tissue compartments,
   not just plasma
+- Offers chemical prioritization suggestions through the calculation of
+  the bioactivity exposure ratio if the user uploads chemical exposure
+  estimates
 - Calculates the area under the curve (AUC) and time to maximum
   concentration for all model compartments
 - Provides estimates of TK parameters not only including half-lives but
