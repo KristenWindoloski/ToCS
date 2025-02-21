@@ -152,6 +152,7 @@ IVIVEplotting <- function(OED_data,BioactiveConc,pars,logscale,expdata){
 
   OEDsample_df <- NULL
   combined_df <- NULL
+  Q5_OED_df <- NULL
 
   if (pars[["returnsamples"]] == FALSE){
 
@@ -160,15 +161,13 @@ IVIVEplotting <- function(OED_data,BioactiveConc,pars,logscale,expdata){
     OED_data$CompoundName <- factor(OED_data$CompoundName, levels = OED_data$CompoundName)
 
     # --- PLOT SCATTER PLOT OF ALL OED VALUES
-    plt <- ggplot2::ggplot(data = OED_data, ggplot2::aes(x = CompoundName, y = OED),) +
-      ggplot2::geom_point(size = 4) +
-      ggplot2::labs(x = "Compounds", y = y_exp, title = title_exp) +
-      ggplot2::theme_bw(base_size = 18) +
-      ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 0.5, vjust = 0.5),
-                     plot.title = ggplot2::element_text(hjust = 0.5))
-
     if (!is.null(pars[["fileExposure"]])){
-      plt <- OEDPoint_Exposure_Plot(OED_data,expdata)
+      out <- OEDPoint_Exposure_Plot(OED_data,expdata,y_exp,title_exp)
+      plt <- out[[1]]
+      combined_df <- out[[2]]
+    }
+    else{
+      plt <- OEDPoint_NoExposure_Plot(OED_data,y_exp,title_exp)
     }
 
   }
@@ -180,28 +179,37 @@ IVIVEplotting <- function(OED_data,BioactiveConc,pars,logscale,expdata){
     Q5_OED_df <- plt_df_list[[2]]
 
     # --- PLOT OED SAMPLES
-    # --- keep OED samples boxplot and add linerange plot of exposure data
-    plt <- ggplot2::ggplot(OEDSamples_df, ggplot2::aes(x = CompoundName, y = OED)) +
-      ggplot2::geom_boxplot() +
-      ggplot2::geom_point(data = Q5_OED_df, ggplot2::aes(x = CompoundName, y = OED), color = 'red', size = 4)+
-      ggplot2::labs(x = "Compounds", y = y_exp, title = title_exp) +
-      ggplot2::theme_bw(base_size = 18) +
-      ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 0.5, vjust = 0.5),
-                     plot.title = ggplot2::element_text(hjust = 0.5))
-
     if (!is.null(pars[["fileExposure"]])){
-      plt <- OEDSample_Exposure_Plot(OEDSamples_df,Q5_OED_df,expdata)
+      out <- OEDSample_Exposure_Plot(OEDSamples_df,Q5_OED_df,expdata,y_exp,title_exp)
+      plt <- out[[1]]
+      expdata <- out[[2]]
+    }
+    else{
+      plt <- OEDSample_NoExposure_Plot(OEDSamples_df,Q5_OED_df,y_exp,title_exp)
     }
   }
 
   # --- PLOT Y-AXIS ON LOG SCALE IF DESIRED
   if (logscale == TRUE){
-    IVIVEplot_logscale(plt,pars,OEDsample_df,combined_df,OED_data)
+    plt <- IVIVEplot_logscale(plt,pars,OEDSamples_df,combined_df,OED_data,expdata,Q5_OED_df)
   }
   return(plt)
 }
 
-OEDPoint_Exposure_Plot <- function(OED_data,expdata){
+OEDPoint_NoExposure_Plot <- function(OED_data,y_exp,title_exp){
+
+  # --- PLOT DATA
+  plt <- ggplot2::ggplot(data = OED_data, ggplot2::aes(x = CompoundName, y = OED),) +
+    ggplot2::geom_point(size = 4) +
+    ggplot2::labs(x = "Compounds", y = y_exp, title = title_exp) +
+    ggplot2::theme_bw(base_size = 18) +
+    ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 0.5, vjust = 0.5),
+                   plot.title = ggplot2::element_text(hjust = 0.5))
+
+  return(plt)
+}
+
+OEDPoint_Exposure_Plot <- function(OED_data,expdata,y_exp,title_exp){
 
   # --- TRANSFORM OED_DATA INTO NEEDED FORMAT
   OED_data$Upper <- OED_data$OED + 1e-8
@@ -225,9 +233,11 @@ OEDPoint_Exposure_Plot <- function(OED_data,expdata){
     ggplot2::theme_bw(base_size = 18) +
     ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 0.5, vjust = 0.5),
                    plot.title = ggplot2::element_text(hjust = 0.5))
+
+  return(list(plt,combined_df))
 }
 
-OEDSample_Exposure_Plot <- function(OEDSamples_df,Q5_OED_df,expdata){
+OEDSample_Exposure_Plot <- function(OEDSamples_df,Q5_OED_df,expdata,y_exp,title_exp){
 
   OEDSamples_df$Type <- "OED"
   Q5_OED_df$Type <- "OED"
@@ -256,17 +266,34 @@ OEDSample_Exposure_Plot <- function(OEDSamples_df,Q5_OED_df,expdata){
     ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 0.5, vjust = 0.5),
                    plot.title = ggplot2::element_text(hjust = 0.5))
 
-  return(plt)
+  return(list(plt,expdata))
 }
 
-IVIVEplot_logscale <- function(plt,pars,OEDsample_df,combined_df,OED_data){
+OEDSample_NoExposure_Plot <- function(OEDSamples_df,Q5_OED_df,y_exp,title_exp){
+
+  # --- PLOT
+  plt <- ggplot2::ggplot(OEDSamples_df, ggplot2::aes(x = CompoundName, y = OED)) +
+    ggplot2::geom_boxplot() +
+    ggplot2::geom_point(data = Q5_OED_df, ggplot2::aes(x = CompoundName, y = OED), color = 'red', size = 4)+
+    ggplot2::labs(x = "Compounds", y = y_exp, title = title_exp) +
+    ggplot2::theme_bw(base_size = 18) +
+    ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 0.5, vjust = 0.5),
+                   plot.title = ggplot2::element_text(hjust = 0.5))
+}
+
+IVIVEplot_logscale <- function(plt,pars,OEDSamples_df,combined_df,OED_data,expdata,Q5_OED_df){
 
   if (pars[["returnsamples"]] == TRUE){
-    break_seq <- log10breaks(OEDSamples_df$OED)
+    if (!is.null(pars[["fileExposure"]])){
+      break_seq <- log10breaks(c(OEDSamples_df$OED,Q5_OED_df$OED,expdata$Lower,expdata$Upper,1))
+    }
+    else{
+      break_seq <- log10breaks(OEDSamples_df$OED)
+    }
   }
   else{
     if (!is.null(pars[["fileExposure"]])){
-      break_seq <- log10breaks(c(combined_df$Lower,combined_df$Upper))
+      break_seq <- log10breaks(c(combined_df$Lower,combined_df$Upper,1))
     }
     else{
       break_seq <- log10breaks(OED_data$OED)
@@ -331,8 +358,8 @@ IVIVEplot_labels <- function(pars){
 IVIVEplot_caption <- function(pars){
 
   if (pars[["returnsamples"]] == TRUE){
-    if (!is.null(pars()[["fileExposure"]])){
-      paste("Figure 1: Boxplots of", pars()[["samples"]], "oral equivalent dose
+    if (!is.null(pars[["fileExposure"]])){
+      paste("Figure 1: Boxplots of", pars[["samples"]], "oral equivalent dose
               (OED) samples for each selected compound (red shaded) and user-uploaded exposure estimates (purple).
               The black dots represent outliers and the red dots indicate the 5th quantile OED for
               each compound. Compounds are arranged in ascending order of their median OED value.
@@ -342,14 +369,14 @@ IVIVEplot_caption <- function(pars){
               the purple dot represents that value.")
     }
     else{
-      paste("Figure 1: Boxplots of", pars()[["samples"]], "oral equivalent dose
+      paste("Figure 1: Boxplots of", pars[["samples"]], "oral equivalent dose
               (OED) samples for each selected compound. The black dots represent outliers
               and the red dots indicate the 5th quantile OED for each compound. Compounds
               are arranged in ascending order of their median OED value.")
     }
   }
   else{
-    if (!is.null(pars()[["fileExposure"]])){
+    if (!is.null(pars[["fileExposure"]])){
       paste("Figure 1: Plot of the estimated oral equivalent dose (OED) for
           each selected compound (blue) and user-uploaded exposure estimates (red).
           Compounds are arranged in ascending order of their OED values. Exposure estimates
@@ -424,7 +451,7 @@ BERplotting <- function(BERdata){
                    plot.title = ggplot2::element_text(hjust = 0.5)) +
     ggplot2::scale_y_log10(breaks = break_seq,
                            labels = scales::trans_format("log10", scales::math_format(10^.x)),
-                           limit = c(min(break_seq),max(break_seq))) +
+                           limit = c(min(break_seq,1),max(break_seq,1))) +
     ggplot2::annotation_logticks(sides = "l")
 
 
@@ -506,17 +533,37 @@ FillExposureData <- function(exposure_df){
   # --- DETERMINE ROWS WITH MISSING DATA
   indicies <- which(is.na(exposure_df), arr.ind = TRUE)
 
-  # --- DETERMINE ROWS MISSING BOTH MEDIAN AND LOWER VALUE
-  dup_rows <- indicies[which(duplicated(indicies[,1])),1]
+  # --- DETERMINE ROWS MISSING BOTH MEDIAN AND LOWER VALUE (TWO VALUES)
+  dup_rows <- unique(indicies[which(duplicated(indicies[,1])),1])
   for (i in dup_rows) {
-    exposure_df$Lower[i] <- exposure_df$Upper[i] - 1e-8
-    exposure_df$Median[i] <- median(c(exposure_df$Upper[i],exposure_df$Lower[i]))
+    if (is.na(exposure_df$Lower[i]) && is.na(exposure_df$Median[i]) && !is.na(exposure_df$Upper[i])){
+      exposure_df$Lower[i] <- exposure_df$Upper[i] - 1e-8
+      exposure_df$Median[i] <- median(c(exposure_df$Upper[i],exposure_df$Lower[i]))
+    }
+    else if (is.na(exposure_df$Lower[i]) && !is.na(exposure_df$Median[i]) && is.na(exposure_df$Upper[i])){
+      exposure_df$Lower[i] <- exposure_df$Median[i] - 1e-8
+      exposure_df$Upper[i] <- exposure_df$Median[i] + 1e-8
+    }
+    else if (!is.na(exposure_df$Lower[i]) && is.na(exposure_df$Median[i]) && is.na(exposure_df$Upper[i])){
+      exposure_df$Upper[i] <- exposure_df$Lower[i] + 1e-8
+      exposure_df$Median[i] <- median(c(exposure_df$Upper[i],exposure_df$Lower[i]))
+    }
   }
 
-  # --- DETERMINE ROWS MISSING ONLY MEDIAN VALUE
-  nondup_rows <- indicies[!(indicies[,1] %in% dup_rows),1]
-  for (j in nondup_rows) {
-    exposure_df$Median[j] <- median(c(exposure_df$Upper[j],exposure_df$Lower[j]))
+  # --- DETERMINE ROWS MISSING ONLY MEDIAN VALUE (ROWS MISSING ONE VALUE)
+  nondup_rows <- unique(indicies[!(indicies[,1] %in% dup_rows),1])
+  for (j in nondup_rows){
+    if (is.na(exposure_df$Lower[j])){
+      exposure_df$Lower[j] <- exposure_df$Median[j] - 1e-8
+    }
+    else if (is.na(exposure_df$Median[j])){
+      exposure_df$Median[j] <- median(c(exposure_df$Upper[j],exposure_df$Lower[j]))
+    }
+    else if (is.na(exposure_df$Upper[j])){
+      exposure_df$Upper[j] <- exposure_df$Median[j] + 1e-8
+    }
+
   }
+  print(exposure_df)
   return(exposure_df)
 }

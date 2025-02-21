@@ -324,17 +324,31 @@ ExposureUpload_Check <- function(value,input){
     }
 
     # --- CHECK FOR MISSING REQUIRED DATA
-    if (anyNA(c(file_df$ChemicalName,file_df$CAS,file_df$Upper))){
+    if (anyNA(c(file_df$ChemicalName,file_df$CAS))){
       return("Error: Check the uploaded file for missing values in the
-             'ChemicalName', 'CAS', and 'Upper' columns. If there is a single exposure
-             estimate for a chemical, it should be placed in the 'Upper' column.")
+             'ChemicalName' and 'CAS' columns.")
+    }
+
+    exp_df <- file_df[,3:5]
+    NAindicies <- which(is.na(exp_df), arr.ind = TRUE)
+    if (nrow(NAindicies) != 0){
+      NArows <- unique(NAindicies[which(duplicated(NAindicies[,1])),1])
+      if (length(NArows) != 0){
+        for (i in 1:length(NArows)) {
+          if (all(is.na(exp_df[NArows[i],]))){
+            return("Error: Check the uploaded file for missing exposure data. There must
+                   be at least one exposure estimate per chemical.")
+          }
+        }
+      }
     }
 
 
     # --- CHECK FOR CORRECT DATA INPUT TYPES
     file_df_datatypes <- unname(sapply(file_df,class))
 
-    if (!all(file_df_datatypes[1:3] == c("character","character","numeric")) ||
+    if (!all(file_df_datatypes[1:2] == c("character","character")) ||
+        file_df_datatypes[3] == "character" ||
         file_df_datatypes[4] == "character" ||
         file_df_datatypes[5] == "character" ||
         !all(is.na(as.numeric(file_df$ChemicalName))) ||

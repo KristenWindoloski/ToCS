@@ -32,7 +32,7 @@ IVIVE_Table_server <- function(id,ivive_args){
     #--- Outputs table caption
     output$IVIVEtableCaption <- shiny::renderText({
       shiny::req(sol(),runsim())
-      if (ncol(sol()[[1]])>2){
+      if (pars()[["returnsamples"]] == TRUE){
         paste("Table 1: Table of", pars()[["samples"]], "IVIVE oral equivalent
               dose (OED) samples (", pars()[["modelIVIVEout_units"]], ") for each
               selected compound. OED_5 represents the 5th OED quantile
