@@ -38,41 +38,8 @@ IVIVE_Plot_server <- function(id,ivive_args){
     #--- Outputs plot caption
     output$IVIVEPlotCaption <- shiny::renderText({
       shiny::req(sol(),runsim())
-      if (ncol(sol()[[1]])>3){
-        if (!is.null(pars()[["fileExposure"]])){
-          paste("Figure 1: Boxplots of", pars()[["samples"]], "oral equivalent dose
-              (OED) samples for each selected compound (red shaded) and user-uploaded exposure estimates (purple).
-              The black dots represent outliers and the red dots indicate the 5th quantile OED for
-              each compound. Compounds are arranged in ascending order of their median OED value.
-              Exposure estimates are shown as a distribution if more than one exposure estimate was provided
-              for each compound. The purple dot represents the median exposure either uploaded by the user
-              or calculated within the program. If the user only uploaded one exposure value for a compound, then
-              the purple dot represents that value.")
-        }
-        else{
-          paste("Figure 1: Boxplots of", pars()[["samples"]], "oral equivalent dose
-              (OED) samples for each selected compound. The black dots represent outliers
-              and the red dots indicate the 5th quantile OED for each compound. Compounds
-              are arranged in ascending order of their median OED value.")
-        }
-
-      }
-      else{
-        if (!is.null(pars()[["fileExposure"]])){
-          paste("Figure 1: Plot of the estimated oral equivalent dose (OED) for
-          each selected compound (blue) and user-uploaded exposure estimates (red).
-          Compounds are arranged in ascending order of their OED values. Exposure estimates
-          are shown as a distribution if more than one exposure estimate was provided
-          for each compound. The purple dot represents the median exposure either uploaded
-          by the user or calculated within the program. If the user only uploaded one
-          exposure value for a compound, then the purple dot represents that value.")
-        }
-        else{
-          "Figure 1: Plot of the estimated oral equivalent dose (OED) for
-          each selected compound. Compounds are arranged in ascending order of
-          their OED values."
-        }
-      }})
+      IVIVEplot_caption(pars())
+      })
 
     #--- Creates download button
     output$downloadIVIVEplot_cond <- shiny::renderUI({
