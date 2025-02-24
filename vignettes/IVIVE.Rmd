@@ -1,7 +1,7 @@
 ---
 title: "IVIVE Simulation Examples"
 author: "Kristen Windoloski"
-date: "February 3, 2025"
+date: "February 24, 2025"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{IVIVE}
@@ -25,7 +25,7 @@ If you have not already read the *Introduction to the ToCS App* vignette, it is 
 
 # Introduction
 
-This vignette provides three examples that use the ToCS app to generate oral equivalent doses (OEDs) by in vitro in vivo extrapolation (IVIVE), each example with different parameters selected. To begin, open the app by using any of the methods described in the README file. You have correctly accessed the app if your screen looks like the image below.
+This vignette provides three examples that use the ToCS app to generate oral equivalent doses (OEDs) by in vitro in vivo extrapolation (IVIVE), each example with different parameters selected. Two of the three examples also incorporate chemical exposure data into the program to generate bioactivity exposure ratios for chemical prioritization. To begin, open the app by using any of the methods described in the README file. You have correctly accessed the app if your screen looks like the image below.
 
 <br/><br/>
 
@@ -35,7 +35,7 @@ This vignette provides three examples that use the ToCS app to generate oral equ
 
 ## Example 1
 
-Let's say we want to perform IVIVE for eight chemicals that we have bioactivity data for. Since the IVIVE produces an OED for each bioactive concentration, assume that we want to transform the nominal bioactivity data to a free concentration in vitro. When the solution is outputted, we want the 5th dose quantile human plasma OED calculated from the pbtk model.
+Let's say we want to perform IVIVE for eight chemicals that we have bioactivity data for. Since the IVIVE produces an OED for each bioactive concentration, assume that we want to transform the nominal bioactivity data to a free concentration in vitro. When the solution is outputted, we want the 5th dose quantile human plasma OED calculated from the pbtk model. Assume that we also have chemical exposure estimates for all eight chemicals and wish to plot these against the OEDs and generate bioactivity exposure ratios.
 
 ### General Parameters Tab
 
@@ -111,7 +111,24 @@ For more details, see the EPA's httk documentation and/or the following publicat
 
 ### Advanced (Optional) Parameters Tab
 
-We omit changing any advanced parameter options for this example and leave all parameter values as the default (image shown below). The user can proceed to the next tab.
+In this tab, we have the opportunity to upload chemical exposure data (as a csv file) into the program in order to visualize these exposure estimates against the model-outputted OEDs as well as a generate bioactivity exposure ratios, which can guide chemical prioritization for potential risk. Suppose we have the following exposure data file:
+
+<br/><br/>
+
+```{r echo = FALSE, results='asis'}
+library(knitr)
+library(kableExtra)
+SampleChemsToUpload <- read.csv("Sample CSV Files/SampleExpData_8Chems.csv")
+SampleChemsToUpload[4,4] <- "4.93e-08"
+SampleChemsToUpload[3,5] <- "4.79e-08"
+SampleChemsToUpload[4,5] <- "4.74e-09"
+kable(SampleChemsToUpload, caption = "A csv file with exposure data (mg/kg BW/day) for all eight chemicals. These exposure estimates were gathered from the EPA CompTox Dashboard. NHANES estimates were used if available. Otherwise, the EPA's SEEM3 model predictions were used.") %>%    kable_styling() %>%
+  scroll_box(width = "100%")
+```
+
+<br/><br/>
+
+This file can be uploaded under the *Output Specification* card on the right. For help with exposure file formatting, please refer to the *Introduction to ToCS* vignette and/or the *Exposure Data File Folder* download option below the uploader in the interface. We will leave the other options on this tab at their default values and then proceed to the final *Run Simulation* tab.
 
 <br/><br/>
 
@@ -129,7 +146,7 @@ Now that all user parameter selections have been made and all compounds appear u
 
 <br/><br/>
 
-The image below is the completed OED plot tab, which shows the OED for each compound plotted in ascending order. The plot shown below uses a linear y-axis, but as we can see, this makes it challenging to visually see the difference between the smaller OEDs.
+The image below is the completed OED plot tab, which shows the OED (in blue) for the selected quantile for each compound plotted in ascending order. The plot also shows the exposure data estimates (in pink) from the uploaded exposure data file on the previous page next to each respective chemical so users can compare the oral equivalent dose needed for bioactivity and the exposure estimate. The plot shown below uses a linear y-axis, but as we can see, this makes it challenging to visually see the difference between the smaller OEDs as well as the distribution for the exposure estimates.
 
 <br/><br/>
 
@@ -137,11 +154,28 @@ The image below is the completed OED plot tab, which shows the OED for each comp
 
 <br/><br/>
 
-Therefore, we can click the box under the *Actions* card to change the scale of the y-axis to a log10 scale. That then results in the image shown below, which allows the user to view the differences in magnitudes of all OEDs. The user can download either the linear or log10 scale plot by clicking the *Download Figure 1* button.
+Therefore, we can click the box under the *Actions* card to change the scale of the y-axis to a log10 scale. That then results in the image shown below, which allows the user to view the differences in magnitudes of all OEDs and exposure estimates. Two chemicals have three exposure estimates available (lower, median, and upper), which is clearly seen by the median pink dot with bars extending in both directions, while the remaining chemicals only have two exposure estimates uploaded (median and upper). Those chemicals show a pink dot which represents the median exposure and one bar which reaches the upper exposure limit. The user can download either the linear or log10 scale plot by clicking the *Download Figure 1* button.
 
 <br/><br/>
 
 ![The completed run simulation tab for example 1 showing the expanded OED plot tab where the plot has a log10 scale y-axis.](IVIVE Vignette Images/Example1/GUI_IVIVE_RunSimEx1_3.png){width="100%"}
+
+<br/><br/>
+
+The image below shows the bioactivity exposure ratio (BER) table output for the calculated OEDs and uploaded exposure estimates. This is computed as the OED divided by the upper exposure estimate. As with Table 1, users can download this table by clicking the "Download Table 2" button.
+
+
+<br/><br/>
+
+![The completed run simulation tab for example 1 showing the expanded bioactivity exposure ratio (BER) table tab.](IVIVE Vignette Images/Example1/GUI_IVIVE_RunSimEx1_4.png){width="100%"}
+
+<br/><br/>
+
+The final output for the IVIVE module is given below and shows a plot of the BER for each chemical. The red dotted line on the plot indicates the threshold for chemical prioritization (BER = 1), where any chemicals that fall below that threshold should be prioritized for risk. In this simulation though, all BERs are greater than one. As with the previous plot, the user has the opportunity to download this plot by clicking the "Download Figure 2" button above the plot.
+
+<br/><br/>
+
+![The completed run simulation tab for example 1 showing the expanded BER plot tab where the plot has a log10 scale y-axis.](IVIVE Vignette Images/Example1/GUI_IVIVE_RunSimEx1_5.png){width="100%"}
 
 <br/><br/>
 
@@ -151,7 +185,7 @@ If we wanted to run another simulation, we would click the *Reset Session* butto
 
 ## Example 2
 
-Let's say we want to perform human IVIVE for ten chemicals that we have bioactivity data for. Assume that we want to use the nominal plasma in vitro bioactivity data as the bioactive concentration instead of the free concentration in vitro, and we want to use restrictive clearance. When the solution is outputted, suppose that we want to view all generated plasma OED samples calculated from the 3compartmentss model.
+Let's say we want to perform human IVIVE for ten chemicals that we have bioactivity data for. Assume that we want to use the nominal plasma in vitro bioactivity data as the bioactive concentration instead of the free concentration in vitro, and we want to use restrictive clearance. When the solution is outputted, suppose that we want to view all generated plasma OED samples calculated from the 3compartmentss model. Also suppose that we have chemical exposure estimates for all ten chemicals and would like to use them for this analysis.
 
 ### General Parameters Tab
 
@@ -199,7 +233,26 @@ As with the first example, the first drop down menu under the *Preloaded Compoun
 
 ### Advanced (Optional) Parameters Tab
 
-To speed up the computation time of the program, let's change the number of Monte Carlo samples generated for each compound (under the *Model Conditions* card) from 1000 to 500. Then under the *Output Specification* card, since we want to output the plasma OED, we keep the second drop down menu as *plasma*. Thus, the completed *Advanced Parameters* tab should look like the image below.
+To speed up the computation time of the program, let's change the number of Monte Carlo samples generated for each compound (under the *Model Conditions* card) from 1000 to 500. Then under the *Output Specification* card, we want to upload the following CSV file with chemical exposure data to the program:
+
+<br/><br/>
+
+```{r echo = FALSE, results='asis'}
+library(knitr)
+library(kableExtra)
+SampleChemsToUpload <- read.csv("Sample CSV Files/SampleExpData_10Chems.csv")
+SampleChemsToUpload[4,4] <- "4.93e-08"
+SampleChemsToUpload[3,5] <- "4.79e-08"
+SampleChemsToUpload[4,5] <- "4.74e-09"
+SampleChemsToUpload[9,4] <- "4.17e-08"
+SampleChemsToUpload[10,5] <- "2.81e-09"
+kable(SampleChemsToUpload, caption = "A csv file with exposure estimate data (mg/kg BW/day) for all ten chemicals. These exposure estimates were gathered from the EPA CompTox Dashboard. NHANES estimates were used if available. Otherwise, the EPA's SEEM3 and SEEM2 model predictions were used.") %>%    kable_styling() %>%
+  scroll_box(width = "100%")
+```
+
+<br/><br/>
+
+For more details on the format of this file, please review the *Introduction to ToCS* vignette and/or the Exposure Data File Folder below the upload area in the interface. Also, since we want to output the plasma OED, we keep the second drop down menu as *plasma*. Thus, the completed *Advanced Parameters* tab should look like the image below.
 
 <br/><br/>
 
@@ -217,15 +270,15 @@ Now that all user parameter selections have been made and all compounds appear u
 
 <br/><br/>
 
-The image below is the completed OED plot tab, which shows boxplots describing the distribution of all OED samples for each simulated compound. The black dots are outlying samples, and the large red dots represent the 5th quantile OED from the OED table in the previous drop down tab. The plot shown below uses a linear y-axis, but as we can see, this makes it challenging to visually see the distribution of samples for smaller OEDs.
+The image below is the completed OED plot tab, which shows boxplots describing the distribution of all OED samples for each simulated compound with line ranges of exposure estimate distributions (in purple) next to each chemical (though they look like singular points due to the linear y-axis). The black dots are outlying samples, and the large red dots represent the 5th quantile OED from the OED table in the previous drop down tab. The plot shown below uses a linear y-axis, but as we can see, this makes it challenging to visually see the distribution of OED samples and all exposure estimates.
 
 <br/><br/>
 
-![The completed run simulation tab for example 2 showing the expanded OED plot tab where the plot has a linear scale y-axis.](IVIVE Vignette Images/Example2/GUI_IVIVE_RunSimEx2_2.png){width="100%"}
+![The completed run simulation tab for example 2 showing the expanded OED plot tab where the OED plot has a linear scale y-axis and showcases the OED distributions against the chemical exposure estimate distributions.](IVIVE Vignette Images/Example2/GUI_IVIVE_RunSimEx2_2.png){width="100%"}
 
 <br/><br/>
 
-Therefore, we can click the box under the *Actions* card to change the scale of the y-axis to a log10 scale. That then results in the image shown below, which allows the user to view the OED sample distributions of all compounds. The user can download either the linear or log10 scale plot by clicking the *Download Figure 1* button.
+Therefore, we can click the box under the *Actions* card to change the scale of the y-axis to a log10 scale. That then results in the image shown below, which allows the user to clearly view and compare the OED sample distributions and exposure estimates of all compounds. The description of the exposure estimates is the same as in example 1. The user can download either the linear or log10 scale plot by clicking the *Download Figure 1* button.
 
 <br/><br/>
 
@@ -233,15 +286,31 @@ Therefore, we can click the box under the *Actions* card to change the scale of 
 
 <br/><br/>
 
+The table below shows the calculated bioactivity exposure ratios (BERs) for the chemicals included in the simulation with exposure data. The BER was calculated as the quotient of the 5th quantile OED (red dot from the OED plot) and the upper exposure estimate data point. Users can download the table by clicking the *Download Table 2* button above the table.
+
+<br/><br/>
+
+![The completed run simulation tab for example 2 showing the expanded BER table tab.](IVIVE Vignette Images/Example2/GUI_IVIVE_RunSimEx2_4.png){width="100%"}
+
+<br/><br/>
+
+The image below shows the final output of the IVIVE module which is a plot of the bioactivity exposure ratio (BER) for each chemical. As we can see from the plot, all BERs in this simulation are >> 1 (visually seen by the dotted red line), so they are not considered a risk with the current data used in the simulation. Users can download this plot by clicking the *Download Figure 2* button above the plot.
+
+<br/><br/>
+
+![The completed run simulation tab for example 2 showing the expanded BER plot tab where the plot has a log10 scale y-axis.](IVIVE Vignette Images/Example2/GUI_IVIVE_RunSimEx2_5.png){width="100%"}
+
+<br/><br/>
+
 If we wanted to run another simulation, we would click the *Reset Session* button under the *Actions* button, which would clear all parameter inputs and simulations and return the interface to the *General Parameters* tab.
 
 ## Example 3
 
-Let's say that we want to perform human IVIVE to obtain 10th quantile liver OEDs using the 3compartment model. We will use the nominal bioactivity data for the eight compounds used in example 1, and want to include restrictive clearance in the model.
+Let's say that we want to perform human IVIVE to obtain 10th quantile liver OEDs using the 3compartment model. We will use the nominal bioactivity data for the eight compounds used in example 1, and want to include restrictive clearance in the model. We will not upload chemical exposure data for this example.
 
 ### General Parameters Tab
 
-Since we want to perform IVIVE, we select the *In vitro in vivo extrapolation (IVIVE)* option under the drop down menu from the *Output* card. Then under the *Species* card, we select *Human* for the first drop down and *Yes* for the second drop down. As with other vignettes, we select *No* for the second drop down menu under the *Species* card. Thus, the completed *General Parameters* tab should look like the image below.
+Since we want to perform IVIVE, we select the *In vitro in vivo extrapolation (IVIVE)* option under the drop down menu from the *Output* card. Then under the *Species* card, we select *Human* for the first drop down and *Yes* for the second drop down as with other vignettes. Thus, the completed *General Parameters* tab should look like the image below.
 
 <br/><br/>
 
@@ -251,7 +320,7 @@ Since we want to perform IVIVE, we select the *In vitro in vivo extrapolation (I
 
 ### Model Specifications Tab
 
-Under the *Dosing* card, there are no options to select from. Under the *Model* card, we select *3compartments* for the first drop down. For the second drop down, we select *No* and decide to make compounds with only in vitro data available for this example. For the third item under the *Model* card, we have to upload a csv file with the nominal plasma in vitro bioactive concentrations of the eight compounds we want to simulate. Therefore, we upload the following csv table. Note that the table must have the following format.
+Under the *Dosing* card, there are no options to select from. Under the *Model* card, we select *3compartment* for the first drop down. For the second drop down, we select *No* and decide to make compounds with only in vitro data available for this example. For the third item under the *Model* card, we have to upload a csv file with the nominal plasma in vitro bioactive concentrations of the eight compounds we want to simulate. Therefore, we upload the following csv table. Note that the table must have the following format.
 
 <br/><br/>
 
@@ -320,6 +389,14 @@ Therefore, we can click the box under the *Actions* card to change the scale of 
 <br/><br/>
 
 ![The completed run simulation tab for example 3 showing the expanded OED plot tab where the plot has a log10 scale y-axis.](IVIVE Vignette Images/Example3/GUI_IVIVE_RunSimEx3_3.png){width="100%"}
+
+<br/><br/>
+
+The final two tabs on the IVIVE module exhibit the bioactivity exposure ratio (BER), if applicable for the simulation. Since no chemical exposure data was uploaded under the *Advanced Parameters* tab, no BERs were calculated for this simulation. If the user wanted to calculate BERs for this simulation, they would need to upload chemical exposure under the previous tab.
+
+<br/><br/>
+
+![The completed run simulation tab for example 3 showing the expanded BER table and plot tabs, which notifies the user that the calculations were not computed due to lack of exposure data.](IVIVE Vignette Images/Example3/GUI_IVIVE_RunSimEx3_4.png){width="100%"}
 
 <br/><br/>
 
