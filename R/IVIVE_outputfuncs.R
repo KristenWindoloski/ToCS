@@ -564,6 +564,5 @@ FillExposureData <- function(exposure_df){
     }
 
   }
-  print(exposure_df)
   return(exposure_df)
 }
