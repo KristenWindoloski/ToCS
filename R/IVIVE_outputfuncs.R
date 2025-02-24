@@ -285,7 +285,7 @@ IVIVEplot_logscale <- function(plt,pars,OEDSamples_df,combined_df,OED_data,expda
 
   if (pars[["returnsamples"]] == TRUE){
     if (!is.null(pars[["fileExposure"]])){
-      break_seq <- log10breaks(c(OEDSamples_df$OED,Q5_OED_df$OED,expdata$Lower,expdata$Upper,1))
+      break_seq <- log10breaks(c(OEDSamples_df$OED,Q5_OED_df$OED,expdata$Lower,expdata$Upper))
     }
     else{
       break_seq <- log10breaks(OEDSamples_df$OED)
@@ -293,7 +293,7 @@ IVIVEplot_logscale <- function(plt,pars,OEDSamples_df,combined_df,OED_data,expda
   }
   else{
     if (!is.null(pars[["fileExposure"]])){
-      break_seq <- log10breaks(c(combined_df$Lower,combined_df$Upper,1))
+      break_seq <- log10breaks(c(combined_df$Lower,combined_df$Upper))
     }
     else{
       break_seq <- log10breaks(OED_data$OED)
@@ -437,7 +437,7 @@ BERplotting <- function(BERdata){
   # --- ARRANGE BER DATA FOR PLOTTING
   BERdata <- dplyr::arrange(BERdata, BER)
   BERdata$CompoundName <- factor(BERdata$CompoundName, levels = BERdata$CompoundName)
-  break_seq <- log10breaks(BERdata$BER)
+  break_seq <- log10breaks(c(BERdata$BER,1))
 
   # --- PLOT SCATTER PLOT OF ALL OED VALUES
   plt <- ggplot2::ggplot(BERdata, ggplot2::aes(x = CompoundName, y = BER)) +
