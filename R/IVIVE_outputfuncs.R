@@ -12,7 +12,9 @@ IVIVEsol <- function(pars){
 
   # --- REARRANGE ROWS OF BIOACTIVE FILE TO BE IN SAME ORDER AS COMPOUNDS FILE
     # --- CONVERT BIOACTIVE CONCENTRATION IF HONDA1 IS SELECTED
-  bioactive_conc <- bioactive[match(pars[["CompoundList"]][,1], bioactive$ChemicalName),]
+  df <- chem.physical_and_invitro.data[chem.physical_and_invitro.data$Compound %in% pars[["CompoundList"]][,1],]
+  df <- df[match(pars[["CompoundList"]][,1], df$Compound),]
+  bioactive_conc <- bioactive[match(df$CAS, bioactive$CAS),]
   bioactive_conc <- ConvertBioactive(pars,bioactive_conc)
 
   # --- EXTRACT DIMENSIONS NEEDED FOR SOLUTION
@@ -87,7 +89,7 @@ ConvertBioactive <- function(pars,bioactive_df){
 
     bioactive_conc <- data.frame(ChemicalName = pars[["CompoundList"]][,1],
                                  CAS = arm_out$casrn,
-                                 Bioactive.Concentration = arm_out$cfree.invitro)
+                                 BioactiveConcentration = arm_out$cfree.invitro)
   }
   else {
     bioactive_conc <- bioactive_df
@@ -318,32 +320,18 @@ IVIVEplot_labels <- function(pars){
 
   # --- SET Y-AXIS LABEL
   if (pars[["output_concIVIVE"]] != 'tissue'){
-    if (is.null(pars[["tissueIVIVE"]])){
-      if (!is.null(pars[["fileExposure"]])){
-        y_exp <- paste("OED in whole body ",
-                       pars[["output_concIVIVE"]], " \n or exposure (", pars[["modelIVIVEout_units"]], ")", sep = "")
-      }
-      else {
-        y_exp <- paste("Oral equivalent dose (OED) \n in whole body ",
-                     pars[["output_concIVIVE"]], " (", pars[["modelIVIVEout_units"]], ")", sep = "")
-      }
-
+    if (!is.null(pars[["fileExposure"]])){
+      y_exp <- paste("OED in whole body ",
+                      pars[["output_concIVIVE"]], " \n or exposure (", pars[["modelIVIVEout_units"]], ")", sep = "")
     }
-    else{
-      if (!is.null(pars[["fileExposure"]])){
-        y_exp <- paste("OED in ", pars[["tissueIVIVE"]],
-                       " ", pars[["output_concIVIVE"]], " \n or exposure (", pars[["modelIVIVEout_units"]], ")", sep = "")
-      }
-      else {
-        y_exp <- paste("Oral equivalent dose (OED) \n in ", pars[["tissueIVIVE"]],
-                     " ", pars[["output_concIVIVE"]], " (", pars[["modelIVIVEout_units"]], ")", sep = "")
-      }
-
+    else {
+      y_exp <- paste("Oral equivalent dose (OED) \n in whole body ",
+                     pars[["output_concIVIVE"]], " (", pars[["modelIVIVEout_units"]], ")", sep = "")
     }
   }
   else{
     if (!is.null(pars[["fileExposure"]])){
-      y_exp <- paste("OED \n in ", pars[["tissueIVIVE"]],
+      y_exp <- paste("OED in ", pars[["tissueIVIVE"]],
                      " \n or exposure (", pars[["modelIVIVEout_units"]], ")", sep = "")
     }
     else{
@@ -351,7 +339,6 @@ IVIVEplot_labels <- function(pars){
                    " (", pars[["modelIVIVEout_units"]], ")", sep = "")
     }
   }
-
   out <- list(title_exp, y_exp)
 }
 
@@ -386,9 +373,9 @@ IVIVEplot_caption <- function(pars){
           exposure value for a compound, then the purple dot represents that value.")
     }
     else{
-      "Figure 1: Plot of the estimated oral equivalent dose (OED) for
-          each selected compound. Compounds are arranged in ascending order of
-          their OED values."
+      paste("Figure 1: Plot of the estimated oral equivalent dose (OED) for each
+            selected compound. Compounds are arranged in ascending order of their
+            OED values.")
     }
   }
 }
@@ -465,7 +452,21 @@ PrepExposureData <- function(pars){
     exposuredata <- read.csv(fileExposure$datapath)
 
     # --- REARRANGE ROWS OF EXPOSURE DATA FILE TO BE IN SAME ORDER AS COMPOUNDS FILE
-    exposuredata <- exposuredata[match(pars[["CompoundList"]][,1], exposuredata$ChemicalName),]
+    df <- chem.physical_and_invitro.data[chem.physical_and_invitro.data$Compound %in% pars[["CompoundList"]][,1],]
+    df <- df[match(pars[["CompoundList"]][,1], df$Compound),]
+    exposuredata <- exposuredata[match(df$CAS, exposuredata$CAS),]
+
+    # --- CONVERT UNITS TO UMOL/KG/DAY IF NEEDED
+    if (pars[["modelIVIVEout_units"]] == "umolpkgpday"){
+      df <- chem.physical_and_invitro.data[chem.physical_and_invitro.data$CAS %in% exposuredata$CAS,]
+      df <- df[match(exposuredata$CAS,df$CAS),]
+      exposuredata$MW <- df$MW
+      exposuredata$Upper <- signif((1000*exposuredata$Upper)/exposuredata$MW,4)
+      exposuredata$Median <- signif((1000*exposuredata$Median)/exposuredata$MW,4)
+      exposuredata$Lower <- signif((1000*exposuredata$Lower)/exposuredata$MW,4)
+      exposuredata <- exposuredata %>% dplyr::select(-c(MW))
+    }
+
     exposuredata_trimmed <- exposuredata %>% dplyr::select(-c(ChemicalName,CAS))
 
     # --- FIND UPPER EXPOSURE ESTIMATE FOR EACH CHEMICAL
@@ -492,7 +493,6 @@ Calc_OEDBER_RS_False <- function(n,pars,bioactive_conc,exposuredata){
   else{
     BER <- NULL
   }
-
   out <- list(sol,BER)
   return(out)
 }
