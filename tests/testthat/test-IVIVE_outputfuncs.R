@@ -38,7 +38,7 @@ Generate_Pars <- function(){
 }
 
 ######################################################
-# --- CREATE SCATTER PLOT OF AED VALUES
+# --- CREATE SCATTER PLOT OF OED VALUES
 ######################################################
 
 test_that("IVIVEplot_labels() produces the title and y-axis labels",{
@@ -50,20 +50,37 @@ test_that("IVIVEplot_labels() produces the title and y-axis labels",{
   expect_equal(length(IVIVEplot_labels(pars)),2)
   expect_equal(IVIVEplot_labels(pars)[[1]],"In vitro-in vivo extrapolation (IVIVE) \n from the 3compartment model")
 
+  # no exposure file uploaded
   pars[["output_concIVIVE"]] <- "plasma"
   pars[["tissueIVIVE"]] <- NULL
-  pars[["modelIVIVEout_units"]] <- "uM"
-  expect_equal(IVIVEplot_labels(pars)[[2]],"Oral equivalent dose (OED) \n in whole body plasma (uM)")
+  pars[["modelIVIVEout_units"]] <- "mgpkgpday"
+  expect_equal(IVIVEplot_labels(pars)[[2]],"Oral equivalent dose (OED) \n in whole body plasma (mgpkgpday)")
 
   pars[["output_concIVIVE"]] <- "blood"
-  pars[["tissueIVIVE"]] <- "kidney"
-  pars[["modelIVIVEout_units"]] <- "mg/L"
-  expect_equal(IVIVEplot_labels(pars)[[2]],"Oral equivalent dose (OED) \n in kidney blood (mg/L)")
+  pars[["modelIVIVEout_units"]] <- "umolpkgpday"
+  expect_equal(IVIVEplot_labels(pars)[[2]],"Oral equivalent dose (OED) \n in whole body blood (umolpkgpday)")
 
   pars[["output_concIVIVE"]] <- "tissue"
   pars[["tissueIVIVE"]] <- "liver"
-  pars[["modelIVIVEout_units"]] <- "uM"
-  expect_equal(IVIVEplot_labels(pars)[[2]],"Oral equivalent dose (OED) \n in liver (uM)")
+  pars[["modelIVIVEout_units"]] <- "mgpkgpday"
+  expect_equal(IVIVEplot_labels(pars)[[2]],"Oral equivalent dose (OED) \n in liver (mgpkgpday)")
+
+
+  # exposure file uploaded
+  pars[["fileExposure"]] <- "Uploaded"
+  pars[["output_concIVIVE"]] <- "plasma"
+  pars[["tissueIVIVE"]] <- NULL
+  pars[["modelIVIVEout_units"]] <- "mgpkgpday"
+  expect_equal(IVIVEplot_labels(pars)[[2]],"OED in whole body plasma \n or exposure (mgpkgpday)")
+
+  pars[["output_concIVIVE"]] <- "blood"
+  pars[["modelIVIVEout_units"]] <- "umolpkgpday"
+  expect_equal(IVIVEplot_labels(pars)[[2]],"OED in whole body blood \n or exposure (umolpkgpday)")
+
+  pars[["output_concIVIVE"]] <- "tissue"
+  pars[["tissueIVIVE"]] <- "liver"
+  pars[["modelIVIVEout_units"]] <- "mgpkgpday"
+  expect_equal(IVIVEplot_labels(pars)[[2]],"OED in liver \n or exposure (mgpkgpday)")
 })
 
 test_that("Plotdf_Prep() produces the data frame of organized samples for plotting",{
@@ -84,7 +101,8 @@ test_that("Plotdf_Prep() produces the data frame of organized samples for plotti
 
   #OED samples data frame
   ChemNames <- c(rep("Acetamiprid",10),rep("2,4-db",10),rep("Acephate",10))
-  df_samples <- data.frame(CompoundName = ChemNames, OED = c(df[3:12,]))
+  CASvals <- c(rep("135410-20-7",10),rep("94-82-6",10),rep("30560-19-1",10))
+  df_samples <- data.frame(CompoundName = ChemNames, CAS = CASvals, OED = c(df[3:12,]))
   df_samples <- dplyr::mutate(df_samples, CompoundName = forcats::fct_reorder(CompoundName, OED, .fun='median'))
 
   #5th quantile OED dose data frame
@@ -93,10 +111,11 @@ test_that("Plotdf_Prep() produces the data frame of organized samples for plotti
   df_q5 <- df_q5[match(plt_order, df_q5$CompoundName),]
 
   # --- TEST
-  Plotdf_Prep_out <- Plotdf_Prep(df,pars)
-  expect_equal(length(Plotdf_Prep_out),2)
-  expect_equal(Plotdf_Prep_out[[1]],df_samples)
-  expect_equal(Plotdf_Prep_out[[2]],df_q5)
+  out <- Plotdf_Prep(df,pars)
+  print(out)
+  expect_equal(length(out),2)
+  expect_equal(out[[1]],df_samples)
+  expect_equal(out[[2]],df_q5)
 })
 
 ######################################################
@@ -143,18 +162,21 @@ test_that("CalcOED() produces a single OED value or a vector of OED values",{
   #output for tissue and concentrations
   pars[["HondaIVIVE"]] <- NULL
   pars[["concentration"]] <- "blood"
-  pars[["tissueIVIVE"]] <- "kidney"
   expect_true(CalcOED(3,pars,bioactive_conc)>0)
 
   pars[["concentration"]] <- "tissue"
   pars[["tissueIVIVE"]] <- "adipose"
   expect_true(CalcOED(3,pars,bioactive_conc)>0)
 
-  pars[["concentration"]] <- "plasma"
+  pars[["concentration"]] <- "tissue"
+  pars[["tissueIVIVE"]] <- "bone"
+  expect_true(CalcOED(3,pars,bioactive_conc)>0)
+
+  pars[["concentration"]] <- "tissue"
   pars[["tissueIVIVE"]] <- "brain"
   expect_true(CalcOED(3,pars,bioactive_conc)>0)
 
-  pars[["concentration"]] <- "blood"
+  pars[["concentration"]] <- "tissue"
   pars[["tissueIVIVE"]] <- "gut"
   expect_true(CalcOED(3,pars,bioactive_conc)>0)
 
@@ -162,11 +184,15 @@ test_that("CalcOED() produces a single OED value or a vector of OED values",{
   pars[["tissueIVIVE"]] <- "heart"
   expect_true(CalcOED(3,pars,bioactive_conc)>0)
 
-  pars[["concentration"]] <- "plasma"
+  pars[["concentration"]] <- "tissue"
+  pars[["tissueIVIVE"]] <- "kidney"
+  expect_true(CalcOED(3,pars,bioactive_conc)>0)
+
+  pars[["concentration"]] <- "tissue"
   pars[["tissueIVIVE"]] <- "liver"
   expect_true(CalcOED(3,pars,bioactive_conc)>0)
 
-  pars[["concentration"]] <- "blood"
+  pars[["concentration"]] <- "tissue"
   pars[["tissueIVIVE"]] <- "lung"
   expect_true(CalcOED(3,pars,bioactive_conc)>0)
 
@@ -174,11 +200,11 @@ test_that("CalcOED() produces a single OED value or a vector of OED values",{
   pars[["tissueIVIVE"]] <- "muscle"
   expect_true(CalcOED(3,pars,bioactive_conc)>0)
 
-  pars[["concentration"]] <- "plasma"
+  pars[["concentration"]] <- "tissue"
   pars[["tissueIVIVE"]] <- "skin"
   expect_true(CalcOED(3,pars,bioactive_conc)>0)
 
-  pars[["concentration"]] <- "blood"
+  pars[["concentration"]] <- "tissue"
   pars[["tissueIVIVE"]] <- "spleen"
   expect_true(CalcOED(3,pars,bioactive_conc)>0)
 
@@ -207,6 +233,7 @@ test_that("ConvertBioactive() produces the desired bioactive concentration",{
   expect_equal(ConvertBioactive(pars,bioactive_conc),bioactive_conc)
 
   pars[["HondaIVIVE"]] <- "Honda1"
+  print(ConvertBioactive(pars,bioactive_conc))
   expect_equal(ConvertBioactive(pars,bioactive_conc),BC_convert_df)
 
   pars[["HondaIVIVE"]] <- "Honda3"
@@ -270,23 +297,237 @@ test_that("IVIVEsol() returns a solution list",{
   CompNames <- dplyr::arrange(pars[["CompoundList"]])[,1]
 
   # --- TEST
-  #test typeof of list
   IVIVEsol_out <- IVIVEsol(pars)
+  #test typeof of list
   expect_equal(typeof(IVIVEsol_out ),"list")
 
-  #test return samples = false
-  expect_equal(nrow(IVIVEsol_out [[1]]),3)
-  expect_equal(ncol(IVIVEsol_out [[1]]),2)
+  # --- test return samples = false
+  # sol output
+  expect_equal(nrow(IVIVEsol_out[[1]]),3)
+  expect_equal(ncol(IVIVEsol_out[[1]]),3)
   expect_equal(IVIVEsol_out[[1]][,1],CompNames)
   expect_false(any(IVIVEsol_out[[1]][,2] == 0))
+  # BER output
+  expect_true(is.null(IVIVEsol_out[[4]]))
+  # exposure data output
+  expect_true(is.null(IVIVEsol_out[[5]]))
 
-  #test return samples = true
+  # --- test return samples = true
   pars[["returnsamples"]] <- TRUE
+  pars[["fileExposure"]] <- data.frame(name = "SampleExposureData.csv",
+                                       size = 301,
+                                       type = "text/csv",
+                                       datapath = "C:/Users/Kristen.Windoloski/OneDrive - FDA/httk Project/ToCS/tests/testthat/SampleExposureData.csv")
   IVIVEsol_out <- IVIVEsol(pars)
+  # sol output
   expect_equal(nrow(IVIVEsol_out[[1]]), 1002)
   expect_equal(ncol(IVIVEsol_out[[1]]), 3)
   expect_equal(colnames(IVIVEsol_out[[1]]), CompNames)
   expect_true(all(is.na(IVIVEsol_out[[1]][2,])))
   expect_false(any(IVIVEsol_out[[1]][1,] == 0))
   expect_false(any(IVIVEsol_out[[1]][3:1002,] == 0))
+  # BER output
+  expect_equal(nrow(IVIVEsol_out[[4]]),3)
+  expect_equal(ncol(IVIVEsol_out[[4]]),2)
+  expect_equal(IVIVEsol_out[[4]][,1],CompNames)
+  expect_false(any(IVIVEsol_out[[4]][,2] == 0))
+  # Exposure data output
+  expect_equal(nrow(IVIVEsol_out[[5]]),3)
+  expect_equal(ncol(IVIVEsol_out[[5]]),6)
+  expect_equal(IVIVEsol_out[[5]][,1],CompNames)
+  expect_false(any(IVIVEsol_out[[5]][,6] == 0))
+  expect_false(anyNA(IVIVEsol_out[[5]][,6]))
+})
+
+
+######################################################
+# --- IVIVEplot_caption
+######################################################
+
+test_that("IVIVEplot_caption() outputs a data frame of parameters used in the simulation",{
+
+  # --- CREATE SAMPLE DATA
+  pars <- Generate_Pars()
+
+  # --- CREATE EXPECTED OUTPUT
+  output1 <- paste("Figure 1: Boxplots of 1000 oral equivalent dose
+              (OED) samples for each selected compound (red shaded) and user-uploaded exposure estimates (purple).
+              The black dots represent outliers and the red dots indicate the 5th quantile OED for
+              each compound. Compounds are arranged in ascending order of their median OED value.
+              Exposure estimates are shown as a distribution if more than one exposure estimate was provided
+              for each compound. The purple dot represents the median exposure either uploaded by the user
+              or calculated within the program. If the user only uploaded one exposure value for a compound, then
+              the purple dot represents that value.")
+
+  output2 <- paste("Figure 1: Boxplots of 1000 oral equivalent dose
+              (OED) samples for each selected compound. The black dots represent outliers
+              and the red dots indicate the 5th quantile OED for each compound. Compounds
+              are arranged in ascending order of their median OED value.")
+
+  output3 <- paste("Figure 1: Plot of the estimated oral equivalent dose (OED) for
+          each selected compound (blue) and user-uploaded exposure estimates (red).
+          Compounds are arranged in ascending order of their OED values. Exposure estimates
+          are shown as a distribution if more than one exposure estimate was provided
+          for each compound. The purple dot represents the median exposure either uploaded
+          by the user or calculated within the program. If the user only uploaded one
+          exposure value for a compound, then the purple dot represents that value.")
+
+  output4 <- paste("Figure 1: Plot of the estimated oral equivalent dose (OED) for each
+            selected compound. Compounds are arranged in ascending order of their
+            OED values.")
+
+  # --- TEST
+  # return samples false, no exposure data
+  expect_equal(IVIVEplot_caption(pars),output4)
+  # # return samples false, exposure data
+  pars[["fileExposure"]] <-data.frame(name = "SampleExposureData.csv",
+                                      size = 301,
+                                      type = "text/csv",
+                                      datapath = "C:/Users/Kristen.Windoloski/OneDrive - FDA/httk Project/ToCS/tests/testthat/SampleExposureData.csv")
+  expect_equal(IVIVEplot_caption(pars),output3)
+  # return samples true, exposure data
+  pars[["returnsamples"]] <- TRUE
+  expect_equal(IVIVEplot_caption(pars),output1)
+  # return samples true, no exposure data
+  pars[["fileExposure"]] <- NULL
+  expect_equal(IVIVEplot_caption(pars),output2)
+})
+
+######################################################
+# --- FillExposureData()
+######################################################
+
+test_that("FillExposureData() return a data frame with no missing values",{
+
+  # --- CREATE SAMPLE DATA
+  expdata <- data.frame(Compound = c("A","B","C","D","E","F","G"),
+                        CAS = c("J","K","L","M","N","O","P"),
+                        Upper = c(1,NA,NA,4,NA,9,10),
+                        Median = c(NA,2,NA,5,6,NA,11),
+                        Lower = c(NA,NA,3,NA,7,8,12))
+
+  # --- TEST
+  expect_false(anyNA(FillExposureData(expdata)))
+})
+
+######################################################
+# --- PrepExposureData()
+######################################################
+
+test_that("PrepExposureData() return a data frame with no missing values",{
+
+  # --- CREATE SAMPLE DATA
+  pars <- Generate_Pars()
+  pars[["CompoundList"]] <- data.frame(Selected_Compounds = c("2,4-db","Acephate","Acetamiprid"))
+  pars[["fileExposure"]] <-data.frame(name = "SampleExposureData2.csv",
+                                      size = 301,
+                                      type = "text/csv",
+                                      datapath = "C:/Users/Kristen.Windoloski/OneDrive - FDA/httk Project/ToCS/tests/testthat/SampleExposureData2.csv")
+
+  # --- CREATE EXPECTED OUTPUT
+  expdata_out <- data.frame(CompoundName = c("2,4-db","Acephate","Acetamiprid"),
+                            CAS = c("94-82-6","30560-19-1","135410-20-7"),
+                            Upper = c(1,5,NA),
+                            Median = c(1,8,4),
+                            Lower = c(NA,3,6),
+                            maxval = c(1,8,6))
+
+  expdata_out2 <- data.frame(CompoundName = c("2,4-db","Acephate","Acetamiprid"),
+                            CAS = c("94-82-6","30560-19-1","135410-20-7"),
+                            Upper = c(4.014,27.29,NA),
+                            Median = c(4.014,43.67,17.96),
+                            Lower = c(NA,16.38,26.94),
+                            maxval = c(4.014,43.67,26.94))
+
+
+  # --- TEST
+  # mgpkgpday units
+  expect_true(all.equal(PrepExposureData(pars),expdata_out,check.attributes = FALSE))
+  # umolpkgpday units
+  pars[["modelIVIVEout_units"]] <- "umolpkgpday"
+  expect_true(all.equal(PrepExposureData(pars),expdata_out2,check.attributes = FALSE))
+})
+
+
+######################################################
+# --- Calc_OEDBER_RS_False()
+######################################################
+
+test_that("Calc_OEDBER_RS_False() return a data frame with no missing values",{
+
+  # --- CREATE SAMPLE DATA
+  pars <- Generate_Pars()
+  pars[["CompoundList"]] <- data.frame(Selected_Compounds = c("2,4-db","Acephate","Acetamiprid"))
+  bioactive_conc <- data.frame(ChemicalName = c("2,4-db","Acephate","Acetamiprid"),
+                               CAS = c("94-82-6","30560-19-1","135410-20-7"),
+                               BioactiveConcentration = c(50.3,22.9,1.2))
+
+
+  # --- CREATE EXPECTED OUTPUT
+  sol1 <- data.frame(CompoundName = c("2,4-db","Acephate","Acetamiprid"),
+                     CAS = c("94-82-6","30560-19-1","135410-20-7"),
+                     OED = c(CalcOED(1,pars,bioactive_conc),
+                             CalcOED(2,pars,bioactive_conc),
+                             CalcOED(3,pars,bioactive_conc)))
+  BER1 <- NULL
+  BER2 <- data.frame(CompoundName = c("2,4-db","Acephate","Acetamiprid"),
+                     BER = signif(c(sol1$OED[1]/1,sol1$OED[2]/8,sol1$OED[3]/6),4))
+
+  # --- TEST
+  # no exposure data
+  expect_equal(Calc_OEDBER_RS_False(3,pars,bioactive_conc,NULL),list(sol1,BER1))
+  # exposure data
+  pars[["fileExposure"]] <-data.frame(name = "SampleExposureData2.csv",
+                                      size = 301,
+                                      type = "text/csv",
+                                      datapath = "C:/Users/Kristen.Windoloski/OneDrive - FDA/httk Project/ToCS/tests/testthat/SampleExposureData2.csv")
+  exposuredata <- PrepExposureData(pars)
+  expect_equal(Calc_OEDBER_RS_False(3,pars,bioactive_conc,exposuredata),list(sol1,BER2))
+})
+
+######################################################
+# --- Calc_OEDBER_RS_True()
+######################################################
+
+test_that("Calc_OEDBER_RS_True() return a data frame with no missing values",{
+
+  # --- CREATE SAMPLE DATA
+  pars <- Generate_Pars()
+  pars[["CompoundList"]] <- data.frame(Selected_Compounds = c("2,4-db","Acephate","Acetamiprid"))
+  bioactive_conc <- data.frame(ChemicalName = c("2,4-db","Acephate","Acetamiprid"),
+                               CAS = c("94-82-6","30560-19-1","135410-20-7"),
+                               BioactiveConcentration = c(50.3,22.9,1.2))
+
+
+  # --- CREATE EXPECTED OUTPUT
+  sol1 <- array(data = rep(0,17),dim = c(7,3))
+  dimnames(sol1) <- list(c("OED_5","Samples",seq(1,5)), c("2,4-db","Acephate","Acetamiprid"))
+
+  pars[["returnsamples"]] <- TRUE
+  pars[["samples"]] <- 5
+  OED1 <- CalcOED(1,pars,bioactive_conc)
+  OED2 <- CalcOED(2,pars,bioactive_conc)
+  OED3 <- CalcOED(3,pars,bioactive_conc)
+
+  q1 <- stats::quantile(bioactive_conc[1,3]/OED1, 0.95, na.rm=TRUE)
+  q2 <- stats::quantile(bioactive_conc[2,3]/OED2, 0.95, na.rm=TRUE)
+  q3 <- stats::quantile(bioactive_conc[3,3]/OED3, 0.95, na.rm=TRUE)
+  sol1[1,] <- signif(bioactive_conc[,3]/c(q1,q2,q3), digits = 4)
+  sol1[2,] <- NA
+  sol1[seq(3,7),] <- c(OED1,OED2,OED3)
+
+  BER1 <- NULL
+  BER2 <- data.frame(CompoundName = c("2,4-db","Acephate","Acetamiprid"),
+                     BER = signif(c(sol1[1,1]/1,sol1[1,2]/8,sol1[1,3]/6),4))
+
+  # --- TEST
+  # no exposure data
+  expect_equal(Calc_OEDBER_RS_True(3,pars,bioactive_conc,NULL),list(sol1,BER1))
+  # exposure data
+  pars[["fileExposure"]] <-data.frame(name = "SampleExposureData2.csv",
+                                      size = 301,
+                                      type = "text/csv",
+                                      datapath = "C:/Users/Kristen.Windoloski/OneDrive - FDA/httk Project/ToCS/tests/testthat/SampleExposureData2.csv")
+  exposuredata <- PrepExposureData(pars)
+  expect_equal(Calc_OEDBER_RS_True(3,pars,bioactive_conc,exposuredata),list(sol1,BER2))
 })
