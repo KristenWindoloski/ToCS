@@ -1,7 +1,7 @@
 ---
 title: "Parameter Calculations Examples"
 author: "Kristen Windoloski"
-date: "February 3, 2025"
+date: "February 27, 2025"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Parameter_Calculations}
@@ -45,13 +45,13 @@ Let's say that we want to calculate human TK parameters for nine sample chemical
   - Picloram (CAS: 1918-02-1)
   - Pirinixic acid (CAS: 50892-23-4)
   - Titanium dioxide (CAS: 13463-67-7)
-  - Triadimensol (CAS: 55219-65-3)
+  - Triadimenol (CAS: 55219-65-3)
 
 without using httk's preloaded in silico parameters for hepatic clearance, fraction unbound in plasma, or caco-2 permeability.
 
 ### General Parameters Tab
 
-Since we want to calculate human TK parameters, we select *Parameter calculations* for the first drop down menu under the *Output* card and *Human* for the first drop down under the *Species* card. Then, as with examples in other vignettes, we select *Yes* for the second drop down under the *Species* card. The completed *General Parameters* tab should look like the image below. The user should now move on to the *Model Specifications* tab.
+Since we want to calculate human TK parameters, we select *Parameter calculations* for the first drop down menu under the *Output* card and *Human* for the first drop down under the *Species* card. The completed *General Parameters* tab should look like the image below. The user should now move on to the *Model Specifications* tab.
 
 <br/><br/>
 
@@ -71,7 +71,7 @@ As shown in the image below, there are no user selections under the *Dosing* car
 
 ### Compound Selection Tab
 
-Under the *Preloaded Compounds* tab, we search by either compound name or CAS for all nine compounds. All but two compounds (advantame and titanium dioxide) are available, so we select the seven available compounds under the *Preloaded Compounds* tab. Thus, we have to upload the chemical data for advantame and titanium dioxide. So, we copy the SampleCSV file in the *Uploaded Compound File Folder* under the *Instructions* card and enter the appropriate chemical information for each compound, as shown in the table below. See the *Introduction to ToCS* vignette for more information on upload instructions. For the purpose of this example, we use fake chemical data and upload the following csv file (CSV_PCvignette.csv) by clicking *Browse* under the *Uploaded Compounds* card.
+Under the *Preloaded Compounds* tab, we search by either compound name or CAS for all nine compounds. All but two compounds (advantame and titanium dioxide) are available, so we select the seven available compounds under the *Preloaded Compounds* tab. Thus, we have to upload the chemical data for advantame and titanium dioxide. So, we copy the SampleCSV file in the *Uploaded Compound File Folder* under the *Instructions* card and enter the appropriate chemical information for each compound, as shown in the table below. See the *Introduction to ToCS* vignette for more information on upload instructions. For the purpose of this example, we use fake chemical data and upload the following csv file (CSV_PCvignette.csv) by clicking *Browse* under the *Uploaded Data* card.
 
 <br/><br/>
 
