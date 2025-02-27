@@ -1,7 +1,7 @@
 ---
 title: "Steady State Concentration Simulation Examples"
 author: "Kristen Windoloski"
-date: "February 3, 2025"
+date: "February 27, 2025"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Steady_State_Concentrations}
@@ -38,7 +38,7 @@ In this example, let's say we want to generate human steady state concentrations
 
 ### General Parameters Tab
 
-Under the *Output* card, we select *Steady state concentrations* since that is the type of simulation we want to run. Under the *Species* card, we select *Human* for the first drop down menu and *Yes* for the second drop down menu. As with the *Concentration-Time Profile* vignette, we could have selected *No* for the second drop down menu under the *Species* card and it would not make a difference in the simulation results since our simulation was already for humans. The completed *General Parameters* card is shown in the image below.
+Under the *Output* card, we select *Steady state concentrations* since that is the type of simulation we want to run. Under the *Species* card, we select *Human* for the first drop down menu. The completed *General Parameters* card is shown in the image below.
 
 <br/><br/>
 
@@ -71,7 +71,7 @@ Since we selected to load in silico generated parameters, the *Preloaded Compoun
   - Thiabendazole (CAS: 148-79-8)
   - Tribufos (CAS: 78-48-8)
   
-We leave the *Uploaded Compounds* card as is, and the completed *Compound Selection* tab should look like the image below.
+We leave the *Uploaded Data* card as is, and the completed *Compound Selection* tab should look like the image below.
 
 Note that if we selected *No* on the previous *Model Specifications* tab for using in silico generated parameters then captan, hexanedioic acid, isoborneol, and sodium cyclamate would not be available for simulation under the *Preloaded Compounds* card (i.e. these compounds use in silico generated parameters instead of human in vitro data).
 
