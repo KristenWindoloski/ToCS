@@ -48,9 +48,8 @@ Instructions_CompSelect_Part1 <- function(){
 }
 
 Instructions_CompSelect_Part2 <- function(){
-  shiny::helpText("Below is a downloadable folder containing information on upload file formatting if compounds to be analyzed are not included in the preloaded compounds list.
-            The uploaded file must be formatted exactly how the 'SampleCSV' file is structured (keeping columns even if there is no data). The header descriptions of
-            the CSV and the minimal data inputs required for the CSV are in the 'DataDescriptions' and 'RequiredData' PDFs, respectively.")
+  shiny::helpText("Click on the appropriate link(s) below to download guidance on how to upload data under the 'Uploaded Data' card.
+                  Follow the 'Instructions' document in the downloaded folder to correctly format the file you want to upload.")
 }
 
 Instructions_RunSim <- function(){
@@ -87,8 +86,8 @@ selectInput_DefaultToHuman <- function(id){
   shiny::selectInput(id,
               label = "Do you want to use human in vitro data if in vitro data for
                       the selected species is missing?",
-              choices = list("Select", "Yes", "No"),
-              selected = "Select")
+              choices = list("Yes", "No"),
+              selected = "Yes")
 }
 
 
@@ -196,9 +195,10 @@ getPiped <- function(CASnums,honda){
 
 fileInput_UploadedComps <- function(id){
   shiny::fileInput(id,
-            label = "Upload a CSV file of data for compounds not in the preloaded
-                    list (if desired). See the 'Instructions' panel to the left for
-                    directions on file formatting requirements.",
+            label = "Upload a CSV file of physical and chemical data for compounds not
+                    in the preloaded list (if desired). Download the 'Uploaded
+                    Physical-Chemical Data File Folder' under the 'Instructions' card
+                    for file formatting instructions.",
             multiple = FALSE,
             accept = c(".csv"))
 }
@@ -641,10 +641,9 @@ numericInput_Alpha <- function(id){
 
 fileInput_BioactiveConc <- function(id){
   shiny::fileInput(id,
-            "Upload one CSV file with your species' in vitro bioactive concentrations
-            (in uM units) for all compounds. The CSV should have three column names
-            in the following order with one row per chemical:
-            ChemicalName, CAS, BioactiveConcentration.",
+            "Upload a CSV file with in vitro bioactive concentrations (uM units)
+            for all selected compounds. Download the 'Bioactivity Data File Folder'
+            under the 'Instructions' card for file formatting instructions.",
             multiple = FALSE,
             accept = c(".csv"))
 }
@@ -735,8 +734,9 @@ numericInput_FSBf <- function(id){
 
 fileInput_ExposureData <- function(id){
   shiny::fileInput(id,
-                   label = "Upload a CSV file of exposure data for the selected compounds.
-                   See the downloadable folder below for file upload formatting details.",
+                   label = "Upload a CSV file of exposure data for all selected compounds (optional).
+                   Download the 'Exposure Data File Folder' under the 'Instructions' card
+                   for file formatting instructions.",
                    multiple = FALSE,
                    accept = c(".csv"))
 }

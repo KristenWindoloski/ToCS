@@ -23,7 +23,8 @@ GP_Output <- function(){
 GP_Species <- function(){
   bslib::card(bslib::card_header("SPECIES"),
               selectInput_Species("spec"),
-              selectInput_DefaultToHuman("defaulttoHuman"))
+              shiny::conditionalPanel(condition = "input.spec == 'Dog' || input.spec == 'Mouse' || input.spec == 'Rabbit' || input.spec == 'Rat'",
+                                      selectInput_DefaultToHuman("defaulttoHuman")))
 }
 
 #######################################
@@ -61,7 +62,6 @@ MS_Model <- function(){
               shiny::conditionalPanel(condition = "input.func == 'Concentration-time profiles'",
                                       numericInput_SimTime("simtime")),
               shiny::conditionalPanel(condition = "input.func == 'In vitro in vivo extrapolation (IVIVE)'",
-                                      fileInput_BioactiveConc("BioactiveFile"),
                                       selectInput_ReturnSamps("returnsamples"),
                                       shiny::conditionalPanel(condition = "input.returnsamples == 'Only return a specified dose quantile (default)'",
                                                               numericInput_Quantile("quantile"))))
@@ -77,7 +77,11 @@ CS_Instructions <- function(){
               shiny::conditionalPanel(condition = "input.httkPreloadComps == '' && output.fileUploaded == false && input.model != 'Select' && input.insilicopars != 'Select'",
                                       Instructions_CompSelect_Part1()),
               Instructions_CompSelect_Part2(),
-              shiny::a("Uploaded Compound File Folder", target="_blank", href="UploadedCompoundDetailsFolder.zip"))
+              shiny::tags$a("Uploaded Physical-Chemical Data File Folder", target="_blank", href="UploadedPhysicalChemicalDataFileFolder.zip"),
+              shiny::conditionalPanel(condition = "input.func == 'In vitro in vivo extrapolation (IVIVE)'",
+                                      shiny::tags$a("Bioactivity Data File Folder", href="BioactivityDataFileFolder.zip"),
+                                      shiny::tags$a("Exposure Data File Folder", target="_blank", href="ExposureDataFileFolder.zip"))
+              )
 }
 
 #### PRELOADED COMPOUNDS CARD
@@ -89,10 +93,14 @@ CS_PreloadedCompounds <- function(){
                                       shiny::uiOutput("PreloadedComps")))
 }
 
-#### UPLOADED COMPOUNDS CARD
-CS_UploadedCompounds <- function(){
-  bslib::card(bslib::card_header("UPLOADED COMPOUNDS"),
-              fileInput_UploadedComps("file1"))
+#### UPLOADED DATA CARD
+CS_UploadedData <- function(){
+  bslib::card(bslib::card_header("UPLOADED DATA"),
+              fileInput_UploadedComps("file1"),
+              shiny::conditionalPanel(condition = "input.func == 'In vitro in vivo extrapolation (IVIVE)'",
+                                      fileInput_BioactiveConc("BioactiveFile"),
+                                      fileInput_ExposureData("fileExposure"))
+              )
 }
 
 #######################################
@@ -162,8 +170,6 @@ AP_OutputSpecification <- function(){
                                       shiny::conditionalPanel(condition = "input.modelSS !== 'Select' && input.modelSS !== '3compartmentss'",
                                                               selectInput_Tissue("tissueSS"))),
               shiny::conditionalPanel(condition = "input.func == 'In vitro in vivo extrapolation (IVIVE)'",
-                                      fileInput_ExposureData("fileExposure"),
-                                      shiny::a("Exposure Data File Folder", target="_blank", href="ExposureDataFileFolder.zip"),
                                       selectInput_IVIVEoutunits("modelIVIVEout_units"),
                                       shiny::conditionalPanel(condition = "input.HondaIVIVE == 'NULL'",
                                                               selectInput_OutConc("output_concIVIVE")),
@@ -348,7 +354,6 @@ InputRules_Parents <- function(parent_adme_iv,iv_adme,
   parent_pc_iv$add_validator(iv_pc)
   parent_pc_iv$enable()
 }
-
 
 Run_Simulation <- function(parent_adme_iv,
                            parent_ss_iv,

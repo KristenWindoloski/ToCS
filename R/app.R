@@ -1,6 +1,6 @@
 
 # --- Created by Kristen Windoloski
-# --- Last Updated: February 14, 2025
+# --- Last Updated: February 27, 2025
 # --- Description: A graphical user interface that utilizes the EPA's
 #                  high-throughput toxicokinetics 'httk' R package to generate
 #                  toxicokinetic ADME (absorption, distribution, metabolism,
@@ -63,7 +63,7 @@ ToCS <- function(...){
                     bslib::nav_panel(title = "Compound Selection",
                                      bslib::layout_columns(CS_Instructions(),
                                                            CS_PreloadedCompounds(),
-                                                           CS_UploadedCompounds(),
+                                                           CS_UploadedData(),
                                                            col_widths = c(4,4,4))),
 
                     ##################################################################################
