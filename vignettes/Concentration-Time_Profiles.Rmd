@@ -1,7 +1,7 @@
 ---
 title: "Concentration-Time Profile Simulation Examples"
 author: "Kristen Windoloski"
-date: "February 3, 2025"
+date: "February 27, 2025"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Concentration-Time_Profiles}
@@ -92,9 +92,7 @@ Let's say we want to run a simulation that outputs human concentration-time prof
 
 ### General Parameters Tab
 
-Since the main output we want is concentration-time profiles, we select *Concentration-time profiles* from the drop down menu under the *Output* card. Under the *Species* card, we select *Human* species and, while it does not matter in this scenario what we select for the second drop down since we selected human species, we select *Yes* to use human in vitro data. We could also select *No* for human in vitro data as well and get the same output. Thus, the first tab should look like the page below.
-
-
+Since the main output we want is concentration-time profiles, we select *Concentration-time profiles* from the drop down menu under the *Output* card. Under the *Species* card, we select *Human* species. Thus, the completed first tab should look like the page below.
 
 <br/><br/>
 
@@ -117,15 +115,7 @@ On the *Dosing* card, we leave the first two drop down menus as their default va
 
 ### Compound Selection Tab
 
-Since we want to simulate four compounds (abamectin, bisphenol-a, cyanazine, and dimethoate), we try searching the drop down menu under the *Preloaded Compounds* card to see if the program is able to simulate those chemicals with the current data in httk. To see the available compounds, click on the empty box in the center column. We can see already from the drop down menu in the image below that Abamectin is available, so we click that compound. Remember that the user can search for a compound by either its CAS number or chemical name.
-
-<br/><br/>
-
-![The compound selection tab's list of available preloaded compounds based on previous user selections.](Concentration-Time Profile Vignette Images/Example1/GUI_CTP_CompoundSelectEx1.png){width="100%"}
-
-<br/><br/>
-
-By either scrolling or typing in the textbox, we see that the names of the other three compounds are also available, so we select those. Since all of the compounds we need are available, we do not need to upload a CSV file under the *Uploaded Compounds* card and leave it untouched. Then, we proceed to the next tab. 
+Since we want to simulate four compounds (abamectin, bisphenol-a, cyanazine, and dimethoate), we try searching the drop down menu under the *Preloaded Compounds* card to see if the program is able to simulate those chemicals with the current data in httk. To see the available compounds, click on the empty box in the center column. By either scrolling or typing in the textbox, we see that the names of all four compounds are also available, so we select those. Since all of the compounds we need are available, we do not need to upload a CSV file under the *Uploaded Data* card and leave it untouched. Then, we proceed to the next tab. 
 
 <br/><br/>
 
@@ -210,7 +200,7 @@ On the *Model* card, we select *3compartment* model under the first drop down me
 
 ### Compound Selection Tab
 
-We first try to search for the compounds we desire to simulate through the drop down menu under the *Preloaded Compounds* card. Typing in the chemical names or CAS numbers shows that three of the five desired chemicals (valproic acid, benzoic acid, ethanol) are present on the preloaded compounds list and two chemicals are not (titanium dioxide and advantame). Therefore, we select valproic acid, benzoic acid, and ethanol on the *Preloaded Compounds* card and will have to upload the remaining two compounds under the *Uploaded Compounds* card. To get the chemical information for titanium dioxide and advantame into the program, we copy the SampleCSV file in the *Uploaded Compound File Folder* under the *Instructions* card and enter the appropriate chemical information for each compound. See the *Introduction to ToCS* vignette for more information on upload instructions. For the purpose of this example, we use fictional chemical data and upload the following csv file by clicking *Browse* under the *Uploaded Compounds* card.
+We first try to search for the compounds we desire to simulate through the drop down menu under the *Preloaded Compounds* card. Typing in the chemical names or CAS numbers shows that three of the five desired chemicals (valproic acid, benzoic acid, ethanol) are present on the preloaded compounds list and two chemicals are not (titanium dioxide and advantame). Therefore, we select valproic acid, benzoic acid, and ethanol on the *Preloaded Compounds* card and will have to upload the remaining two compounds under the *Uploaded Data* card. To get the chemical information for titanium dioxide and advantame into the program, we copy the *SampleCSV.csv* file in the *Uploaded Physical-Chemical File Folder* under the *Instructions* card and enter the appropriate chemical information for each compound. See the *Introduction to ToCS* vignette for more information on upload instructions. For the purpose of this example, we use fictional chemical data and upload the following csv file by clicking *Browse* under the *Uploaded Data* card.
 
 <br/><br/>
 
@@ -224,7 +214,7 @@ kable(SampleChemsToUpload, caption = "A csv file with chemical information for t
 
 <br/><br/>
 
-Once we have the three compounds selected under the *Preloaded Compounds* card and the two compounds uploaded under the *Uploaded Compounds* card (with the csv file name CSV_CTPvignette.csv), we then proceed to the next tab. The final *Compound Selection* tab should look like the image below.
+Once we have the three compounds selected under the *Preloaded Compounds* card and the two compounds uploaded under the *Uploaded Data* card (with the csv file name CSV_CTPvignette.csv), we then proceed to the next tab. The final *Compound Selection* tab should look like the image below.
 
 <br/><br/>
 
@@ -244,15 +234,7 @@ Suppose that we want to customize parameters other than just the basic simulatio
 
 ### Run Simulation Tab
 
-Now that we've filled out all simulation information and the correct compounds appear under the *Selected Compounds* card as shown in the image below, we are ready to run the simulation. Thus, we click the *Run Simulation* button under the *Actions* card.
-
-<br/><br/>
-
-![The run simulation tab before the simulation is run for example 2.](Concentration-Time Profile Vignette Images/Example2/GUI_CTP_RunSimEx2_1.png){width="100%"}
-
-<br/><br/>
-
-The image of the completed simulation is shown below. The first tab illustrates the time course plots of all five compounds for each model compartment. The user has the option to download the plot by clicking *Download Figure 1*.
+Now that we've filled out all simulation information and the correct compounds appear under the *Selected Compounds* card. Thus, we click the *Run Simulation* button under the *Actions* card. The image of the completed simulation is shown below. The first tab illustrates the time course plots of all five compounds for each model compartment. The user has the option to download the plot by clicking *Download Figure 1*.
 
 <br/><br/>
 
