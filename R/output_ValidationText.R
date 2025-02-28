@@ -81,13 +81,13 @@ validate_text_Common <- function(pars){
       }
     }
     # --- RAT SPECIES AND NO HUMAN
-    else if (pars[["spec"]] == "Rat" && defaultHuman == "No"){
+    else if (pars[["spec"]] == "Rat" && pars[["defaulttoHuman"]] == "No"){
       if (anyNA(file_df[,c("Rat.Clint","Rat.Funbound.plasma")])){
         shiny::validate(shiny::need(!anyNA(file_df[,c("Rat.Clint","Rat.Funbound.plasma")]),message = paste("")))
       }
     }
     # --- RAT SPECIES AND HUMAN ALLOWABLE
-    else if (pars[["spec"]] == "Rat" && defaultHuman == "Yes"){
+    else if (pars[["spec"]] == "Rat" && pars[["defaulttoHuman"]] == "Yes"){
 
       Clint <- file_df[,c("Human.Clint","Rat.Clint")]
       ind_Clint <- which(is.na(Clint),arr.ind = TRUE)
@@ -100,7 +100,7 @@ validate_text_Common <- function(pars){
       }
     }
     # --- MOUSE SPECIES AND HUMAN ALLOWABLE
-    else if (pars[["spec"]] == "Mouse" && defaultHuman == "Yes"){
+    else if (pars[["spec"]] == "Mouse" && pars[["defaulttoHuman"]] == "Yes"){
 
       Fup <- file_df[,c("Human.Funbound.plasma","Mouse.Funbound.plasma")]
       ind_Fup <- which(is.na(Fup),arr.ind = TRUE)
@@ -110,7 +110,7 @@ validate_text_Common <- function(pars){
       }
     }
     # --- RABBIT SPECIES AND HUMAN ALLOWABLE
-    else if (pars[["spec"]] == "Rabbit" && defaultHuman == "Yes"){
+    else if (pars[["spec"]] == "Rabbit" && pars[["defaulttoHuman"]] == "Yes"){
 
       Fup <- file_df[,c("Human.Funbound.plasma","Rabbit.Funbound.plasma")]
       ind_Fup <- which(is.na(Fup),arr.ind = TRUE)
@@ -120,7 +120,7 @@ validate_text_Common <- function(pars){
       }
     }
     # --- DOG SPECIES AND HUMAN ALLOWABLE
-    else if (pars[["spec"]] == "Dog" && defaultHuman == "Yes"){
+    else if (pars[["spec"]] == "Dog" && pars[["defaulttoHuman"]] == "Yes"){
 
       if (anyNA(file_df[,c("Human.Clint","Human.Funbound.plasma")])){
         shiny::validate(shiny::need(!anyNA(file_df[,c("Human.Clint","Human.Funbound.plasma")]),message = paste("")))
