@@ -1,7 +1,7 @@
 ---
 title: "Introduction to the ToCS App"
 author: "Kristen Windoloski"
-date: "February 19, 2025"
+date: "February 28, 2025"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Introduction_to_ToCS}
@@ -58,7 +58,7 @@ The *General Parameters* tab (shown in the image below) acts as a home page for 
 - Parameter calculations
   - Calculates tables and plots of TK parameters including the half-life, total plasma clearance, elimination rate, volume of distribution, and partition coefficients of the selected chemicals.
   
-The module selected above then determines the available user selections in the remaining tabs as well as the layout of the output in the *Run Simulation* tab. Before moving on to the *Model Specifications* tab, the user must specify the species they wish to simulate (choosing from human, rat, mouse, rabbit, or dog) and whether to substitute human in vitro data if animal in vitro data is not available within httk (though the animal's physiology will still be used). If the user selects *Human*, then the selection made for the second drop down in the *Species* card will not make a difference, but one must be selected. Once the user has selected options for all three drop down menus, then proceed to the *Model Specifications* tab.
+The module selected above then determines the available user selections in the remaining tabs as well as the layout of the output in the *Run Simulation* tab. Before moving on to the *Model Specifications* tab, the user must specify the species they wish to simulate (choosing from human, rat, mouse, rabbit, or dog). If the user chooses a non-human species, then another drop down will appear under the *Species* card and users will have to select whether they want to substitute human in vitro data if their selected animal's in vitro data is not available (though the animal's physiology will still be used). Once the user has made selections for all drop downs on this page, then proceed to the *Model Specifications* tab.
 
 <br/><br/>
 
@@ -94,7 +94,7 @@ Once all selections have been made for this tab, move on to the *Compound Select
 
 ### Compound Selection Tab
 
-The layout for this tab (shown in the image below) primarily looks the same for all modules and includes two cards that correspond to the user declaring the compounds to simulate. At least one compound MUST be selected. The *Preloaded Compounds* card contains a drop down list of chemicals that are already present in httk and have enough data to run the desired simulations. The user will not need to upload any data to simulate compounds that appear in this list. The drop down list is displayed in the format of "CASRN, Compound Name", and the user can search the list using either chemical identifier (though searching by CASRN is recommended since compounds can have multiple names). To select a compound, just click on it in the drop down list. Multiple compounds may be selected. Note that only a portion of the compound list will be initially visible during scrolling due to the size of the list, but the application will check the entire list if the user searches a chemical identifier. 
+The layout for this tab (shown in the image below) primarily looks the same for all modules and allows the user to select the compounds they want to simulate and upload any additional data appropriate with the simulation selected. At least one compound MUST be selected. The *Preloaded Compounds* card contains a drop down list of chemicals that are already present in httk and have enough data to run the desired simulations. The user will not need to upload any data to simulate compounds that appear in this list. The drop down list is displayed in the format of "CASRN, Compound Name", and the user can search the list using either chemical identifier (though searching by CASRN is recommended since compounds can have multiple names). To select a compound, just click on it in the drop down list. Multiple compounds may be selected. Note that only a portion of the compound list will be initially visible during scrolling due to the size of the list, but the application will check the entire list if the user searches a chemical identifier. 
 
 <br/><br/>
 
@@ -102,7 +102,7 @@ The layout for this tab (shown in the image below) primarily looks the same for 
 
 <br/><br/>
 
-In the *Uploaded Compounds* card, users may upload chemicals that are not available from the drop down menu in the *Preloaded Compounds* card by clicking the *Browse* button and selecting a CSV file. To do so, users should follow the instructions under the *Instructions* card and download the *Uploaded Compounds File Folder*. This folder contains three files. Users should review all three files to ensure they are able to successfully upload new chemicals. The main file, called SampleCSV.csv, contains the exact file format the user needs to upload new chemicals. Columns of the csv file must have these exact names and be in this exact order. It is strongly recommended that users copy the SampleCSV file into a new spreadsheet and replace the sample chemical information with their chemical information. See the sample csv file to upload below.
+In the *Uploaded Data* card, users may upload chemicals that are not available from the drop down menu in the *Preloaded Compounds* card by clicking the *Browse* button and selecting a CSV file. Users should follow the directions under the *Instructions* card and download the *Uploaded Physical-Chemical File Folder*. This folder contains four files. Users should review all files, beginning with the *Instructions.pdf*, so they successfully upload new chemicals. The main file, *SampleCSV.csv*, contains the exact file format the user needs to upload new chemicals. Columns of the csv file must have these exact names and be in this exact order. It is strongly recommended that users copy the SampleCSV file into a new spreadsheet and replace the sample chemical information with their chemical information. See the sample csv file below.
 
 <br/><br/>
 
@@ -110,7 +110,7 @@ In the *Uploaded Compounds* card, users may upload chemicals that are not availa
 library(knitr)
 library(kableExtra)
 SampleChemsToUpload <- read.csv("Sample CSV Files/SampleCSV.csv")
-kable(SampleChemsToUpload, caption = "A sample csv file to upload to the GUI to simulate chemicals not already in httk.") %>%    kable_styling() %>%
+kable(SampleChemsToUpload, caption = "A sample csv file to upload to the GUI to simulate chemicals not already available in the preloaded list.") %>%    kable_styling() %>%
   scroll_box(width = "100%")
 ```
 
@@ -126,9 +126,9 @@ While not all columns of the csv file must contain data, the following columns M
 - Clint (intrinsic hepatic clearance, uL/min/10^6 hepatocytes)
 - Funbound.plasma (fraction unbound in presence of plasma proteins, unitless fraction)
 
-This information can be found in the *RequiredData.pdf* file in the *Uploaded Compounds File Folder*. All definitions of the columns in the SampleCSV.csv file can be found in the *DataDescriptions.pdf* in the same folder. 
+This information can be found in the *RequiredData.pdf* file of the *Uploaded Physical-Chemical File Folder*. All definitions of the columns in the *SampleCSV.csv* file can be found in the *DataDescriptions.pdf* of the same folder. 
 
-Once the user has either selected compounds under the *Preloaded Compounds* card or uploaded compounds under the *Uploaded Compounds* card (or both!), they may proceed to the next tab, *Advanced (Optional) Parameters*, if they desire OR they may skip to the *Run Simulation* tab. Let's say for this example that we are not going to simulate the chemicals in the SampleCSV.csv, so we omit its upload and the *Compound Selection* tab should look like the image below.
+Once the user has either selected compounds under the *Preloaded Compounds* card or uploaded compounds under the *Uploaded Data* card (or both), they may proceed to the *Advanced (Optional) Parameters* tab OR skip to the *Run Simulation* tab. Let's say for this example that we are not going to simulate the chemicals in the *SampleCSV.csv*, so we omit its upload and the *Compound Selection* tab should look like the image below.
 
 <br/><br/>
 
