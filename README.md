@@ -193,11 +193,8 @@ plasma, and caco-2 permeability).
 
 Since the main output we want is concentration-time profiles, we select
 *Concentration-time profiles* from the drop down menu under the *Output*
-card. Under the *Species* card, we select *Human* species and, while it
-does not matter in this scenario what we select for the second drop down
-since we selected human species, we select *Yes* to use human in vitro
-data. We could also select *No* for human in vitro data as well and get
-the same output. Thus, the first tab should look like the page below.
+card. Under the *Species* card, we select *Human* species. Thus, the
+first tab should look like the page below.
 
 <br/><br/>
 
@@ -257,7 +254,7 @@ for a compound by either its CAS number or chemical name.
 
 <figure>
 <img
-src="vignettes/Concentration-Time%20Profile%20Vignette%20Images/Example1/GUI_CTP_CompoundSelectEx1.png"
+src="vignettes/Introduction%20to%20ToCS%20Vignette%20Images/GUI_Introduction_CompoundSelectPage.png"
 style="width:100.0%"
 alt="The compound selection tab’s list of available preloaded compounds based on previous user selections." />
 <figcaption aria-hidden="true">The compound selection tab’s list of
@@ -270,9 +267,9 @@ selections.</figcaption>
 By either scrolling or typing in the textbox, we see that the names of
 the other three compounds are also available, so we select those. Since
 all of the compounds we need are available, we do not need to upload a
-CSV file under the *Uploaded Compounds* card and leave it untouched. So,
-we hit the *Load Compounds* button under the *Instructions* card as
-shown in the image below before proceeding to the next tab.
+CSV file of chemical data under the *Uploaded Data* card and leave it
+untouched. So, the final *Compound Selection* tab should look like the
+image below and then we proceed to the next tab.
 
 <br/><br/>
 
