@@ -240,12 +240,12 @@ PreloadComps_UI <- function(func,spec,defaulthuman,model,insilicopars,honda){
   }
 }
 
-CompileCompLst <- function(func,spec,defaulthuman,model,insilico,preloadcomps,file){
+CompileCompLst <- function(func,spec,defaulthuman,model,insilico,preloadcomps,file,honda){
 
   #--- OUTPUT ERROR WARNINGS IF NEEDED VARIABLES ARE MISSING
-  pars <- list(func,spec,defaulthuman,model,insilico,preloadcomps,file)
+  pars <- list(func,spec,defaulthuman,model,insilico,preloadcomps,file,honda)
   names(pars) <- c("func","spec","defaulttoHuman","model","insilicopars",
-                   "httkPreloadComps","file1")
+                   "httkPreloadComps","file1","HondaIVIVE")
   validate_text_Common(pars)
 
   #--- COMPILES A LIST OF ALL COMPOUNDS

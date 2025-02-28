@@ -137,9 +137,10 @@ ToCS <- function(...){
     CompLst <- shiny::reactive({
 
       CompileCompLst(input$func,input$spec,input$defaulttoHuman,input$model,
-                     input$insilicopars,input$httkPreloadComps,input$file1)})
+                     input$insilicopars,input$httkPreloadComps,input$file1,input$HondaIVIVE)})
 
-    output$comptext <- shiny::renderTable({CompLst()})
+    output$comptext <- shiny::renderTable({
+      CompLst()})
 
     ##########################################################################
     # RESET INPUT COMPOUND-RELATED VARIABLES IF USER CHANGES DEPENDENT VARIABLES

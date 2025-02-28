@@ -34,12 +34,17 @@ UploadComps_Check <- function(value,input){
     }
 
     # --- CHECK FOR MISSING HONDA1 ASSUMPTION IVIVE REQURIED PARAMETERS, IF APPLICABLE
-    if (input$HondaIVIVE == "Honda1"){
-      if (anyNA(file_df[,c("logHenry","logWSol","MP")])){
-        return("Error: Check the uploaded file for missing values in the
-               'logHenry', 'logWSol', and 'MP' columns.")
+    if (input$func == "In vitro in vivo extrapolation (IVIVE)"){
+      if (!is.null(input$HondaIVIVE)){
+        if (input$HondaIVIVE == "Honda1"){
+          if (anyNA(file_df[,c("logHenry","logWSol","MP")])){
+            return("Error: Check the uploaded file for missing values in the
+                   'logHenry', 'logWSol', and 'MP' columns.")
+          }
+        }
       }
     }
+
 
     # --- CHECK FOR MISSING CLINT AND FUP VALUES
     out1 <- MissingClintFup(file_df,input$spec,input$defaulttoHuman)
