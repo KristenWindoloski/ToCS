@@ -162,8 +162,6 @@ validate_text_Common <- function(pars){
 
 validate_text_ADME <- function(pars){
 
-  validate_text_Common(pars)
-
   if (pars[["dosenum"]] == 'Select'){
     shiny::validate(shiny::need(pars[["dosenum"]] != 'Select',message = paste("")))
   }
@@ -207,8 +205,6 @@ validate_text_ADME <- function(pars){
 
 validate_text_SS <- function(pars){
 
-  validate_text_Common(pars)
-
   if (is.na(pars[["dailydose"]])){
     shiny::validate(shiny::need(!is.na(pars[["dailydose"]]),message = paste("")))
   }
@@ -218,8 +214,6 @@ validate_text_SS <- function(pars){
 }
 
 validate_text_IVIVE <- function(pars){
-
-  validate_text_Common(pars)
 
   if (is.null(pars[["BioactiveFile"]])){
     shiny::validate(shiny::need(!is.null(pars[["BioactiveFile"]]),message = paste("")))
@@ -327,8 +321,6 @@ validate_text_IVIVE <- function(pars){
 }
 
 validate_text_PC <- function(pars){
-
-  validate_text_Common(pars)
 
   if (is.na(pars[["Clint_Pval"]])){
     shiny::validate(shiny::need(!is.na(pars[["Clint_Pval"]]),message = paste("")))
