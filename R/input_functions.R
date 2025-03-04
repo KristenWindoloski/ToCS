@@ -1,11 +1,16 @@
 
 
-###################################
-# ALL PARAMETER NAMES
-###################################
+################################################################################
+################################################################################
 
+#' Compile the names of all user-selected parameters across all modules
+#'
+#' @return A list of parameter id names
+#' @export
+#'
+#' @examples ParNames()
+#'
 ParNames <- function(){
-
   GenPars <- c("func","spec","defaulttoHuman")
   CompoundSelectPars <- c("HondaIVIVE","FSBf","httkPreloadComps","file1","insilicopars")
   ModelSpecifPars <- c("doseroute","doseunits","dosenum","initdose","multdose","mult_doseamount","mult_dosetime","multdose_odd","dailydose",
@@ -20,10 +25,18 @@ ParNames <- function(){
   out_lst <- c(GenPars,CompoundSelectPars,ModelSpecifPars,ModelConditionPars,ModelSolverPars,BioavailPars,OutputSpecifPars,RunSimPars)
 }
 
-###################################
-# HELPER TEXT
-###################################
 
+################################################################################
+################################################################################
+
+#' Generate text for the instructions card under the 'General Parameters' tab
+#'
+#' @return Text describing the major uses of ToCS, where to find additional
+#' resources, and where to report bugs
+#' @export
+#'
+#' @examples Instructions_GenPars()
+#'
 Instructions_GenPars <- function(){
   htmltools::tagList(shiny::helpText("Fill out the prompts on each of the above tabs moving left to right. Then,
                     click the 'Run Simulation' tab to run the simulation or reset
@@ -41,21 +54,66 @@ Instructions_GenPars <- function(){
                                      for improvement, visit https://github.com/KristenWindoloski/ToCS/issues."))
 }
 
+
+################################################################################
+################################################################################
+
+#' Generate text to notify user that they must select or upload at least one
+#' compound to simulate
+#'
+#' @return Text notifying the user of compound requirements
+#' @export
+#'
+#' @examples Instructions_CompSelect_Part1()
+#'
 Instructions_CompSelect_Part1 <- function(){
     htmltools::h6(shiny::strong("You must choose at least one compound from the preloaded compounds,
             upload a CSV file with data for at least one compound not included
             in the preloaded compounds, or both."))
 }
 
+
+################################################################################
+################################################################################
+
+#' Generate text to notify the user of where to see sample uploaded compound data
+#'
+#' @return Text notifying the user of uploaded compound data instructions
+#' @export
+#'
+#' @examples Instructions_CompSelect_Part2()
+#'
 Instructions_CompSelect_Part2 <- function(){
   shiny::helpText("Click on the appropriate link(s) below to download guidance on how to upload data under the 'Uploaded Data' card.
                   Follow the 'Instructions' document in the downloaded folder to correctly format the file you want to upload.")
 }
 
+
+################################################################################
+################################################################################
+
+#' Generate text for the 'Run Simulation' button
+#'
+#' @return Text notifying the user of the 'Run Simulation' button
+#' @export
+#'
+#' @examples Instructions_RunSim()
+#'
 Instructions_RunSim <- function(){
   shiny::helpText("Click on the 'Run Simulation' button when all information has been entered.")
 }
 
+
+################################################################################
+################################################################################
+
+#' Generate text for the 'Reset Session' button
+#'
+#' @return Text notifying the user of the 'Reset Session' button
+#' @export
+#'
+#' @examples Instructions_Reset()
+#'
 Instructions_Reset <- function(){
   shiny::helpText("Click on the button below to reset your session. This will clear all
            selections and any uploaded data, and is recommended to be done every
@@ -63,10 +121,18 @@ Instructions_Reset <- function(){
 }
 
 
-###################################
-# COMMON INPUTS
-###################################
+################################################################################
+################################################################################
 
+#' Generate the 'Output' drop down menu
+#'
+#' @param id Shiny identifier name
+#'
+#' @return Drop down menu for the desired output of ToCS
+#' @export
+#'
+#' @examples selectInput_Function("func")
+#'
 selectInput_Function <- function(id){
   shiny::selectInput(id, label = "Select the desired output.",
               choices = list("Select", "Concentration-time profiles",
@@ -76,12 +142,40 @@ selectInput_Function <- function(id){
               selected = "Select")
 }
 
+
+################################################################################
+################################################################################
+
+#' Generate the 'Species' drop down menu
+#'
+#' @param id Shiny identifier name
+#'
+#' @return Drop down menu for the desired species to simulate in ToCS
+#' @export
+#'
+#' @examples selectInput_Species("spec")
+#'
 selectInput_Species <- function(id){
+
   shiny::selectInput(id, label = "Select the species to analyze.",
               choices = list("Select", "Dog", "Human", "Mouse", "Rabbit", "Rat"),
               selected = "Select")
 }
 
+
+################################################################################
+################################################################################
+
+#' Generate the 'use of human data in place of animal data if unavailable' drop
+#' down menu
+#'
+#' @param id Shiny identifier name
+#'
+#' @return Drop down menu for the human data preference use in ToCS, if applicable
+#' @export
+#'
+#' @examples selectInput_DefaultToHuman("defaulttoHuman")
+#'
 selectInput_DefaultToHuman <- function(id){
   shiny::selectInput(id,
               label = "Do you want to use human in vitro data if in vitro data for
@@ -91,10 +185,20 @@ selectInput_DefaultToHuman <- function(id){
 }
 
 
-###################################
-# COMPOUND PARAMETERS
-###################################
+################################################################################
+################################################################################
 
+#' Generate the 'In silico parameter preference' drop down menu
+#'
+#' @param id Shiny identifier name
+#'
+#' @return Drop down menu with options to either use in silico generated clint
+#' (instrinic hepatic clearance) and fup (fraction unbound in plasma) in absence
+#' of in vitro data for the selected species
+#' @export
+#'
+#' @examples selectInput_InSilicoPars("insilicopars")
+#'
 selectInput_InSilicoPars <- function(id){
   shiny::selectInput(id,
               label = "Select whether to use in silico generated parameters for
@@ -107,6 +211,28 @@ selectInput_InSilicoPars <- function(id){
               selected = "Select")
 }
 
+
+################################################################################
+################################################################################
+
+#' Generate the drop down list of preloaded compounds available to simulate in httk
+#'
+#' @param func The user-selected desired output
+#' @param species The user-selected species
+#' @param defaulthuman The user-selected human in vitro data preference if an
+#' animal species is selected
+#' @param insilico The user-selected preference for use of in silico generated
+#' parameters if in vitro data is missing
+#' @param model The user-selected species
+#' @param honda The selected IVIVE assumption (either NULL, Honda1, Honda2,
+#' Honda3, or Honda4), if applicable
+#'
+#' @return A drop down list of preloaded available compounds within ToCS
+#' @export
+#'
+#' @examples PreloadCompsInput("Concentration-time profiles","Human","Yes","No, do not load in silico parameters","pbtk","NULL")
+#' PreloadCompsInput("In vitro in vivo extrapolation (IVIVE)","Human","Yes","Yes, load in silico parameters","3compartmentss","Honda1")
+#'
 PreloadCompsInput <- function(func,species,defaulthuman,insilico,model,honda){
 
   # --- Reset the chem.physical_and_invitro.data table in case any
@@ -153,6 +279,25 @@ PreloadCompsInput <- function(func,species,defaulthuman,insilico,model,honda){
     }
 }
 
+
+################################################################################
+################################################################################
+
+#' Generate a vector of CASRNs that are available for the user selected output,
+#' species, model, and human in vitro data preference
+#'
+#' @param func The user-selected desired output
+#' @param species The user-selected species
+#' @param model The user-selected species
+#' @param defaulttohuman The user-selected human in vitro data preference if an
+#' animal species is selected
+#'
+#' @return A vector of CASRNs for compounds that are available to simulate in ToCS
+#' @export
+#'
+#' @examples getCASnums("Concentration-time profiles","Human","pbtk",TRUE)
+#' getCASnums("Steady state concentrations","Rat","1compartment",FALSE)
+#'
 getCASnums <- function(func,species,model,defaulttohuman){
 
   CASnums <- httk::get_cheminfo(species = species,
@@ -168,6 +313,23 @@ getCASnums <- function(func,species,model,defaulttohuman){
   return(CASnums)
 }
 
+
+################################################################################
+################################################################################
+
+#' Generate the final list of available compounds to simulate in httk
+#'
+#' @param CASnums The CASRN numbers of compounds that have enough data in httk
+#' to simulate for the user's selected parameters
+#' @param honda The selected IVIVE assumption (either NULL, Honda1, Honda2,
+#' Honda3, or Honda4), if applicable
+#'
+#' @return A vector of CASRN and compound name pairings for compounds with enough
+#' available data to simulate in httk
+#' @export
+#'
+#' @examples getPiped(c("135410-20-7","94-82-6","30560-19-1","71751-41-2","34256-82-1"),"NULL")
+#' getPiped(c("15972-60-8","116-06-3","834-12-8","33089-61-1","1912-24-9"),"Honda1")
 getPiped <- function(CASnums,honda){
 
   # --- Available preloaded compounds if the Honda1 condition for IVIVE is selected
@@ -193,6 +355,20 @@ getPiped <- function(CASnums,honda){
   return(piped)
 }
 
+
+################################################################################
+################################################################################
+
+#' Generate the user upload option to upload compounds and their physical-chemical
+#' data
+#'
+#' @param id Shiny identifier name
+#'
+#' @return A browser and file upload box
+#' @export
+#'
+#' @examples fileInput_UploadedComps("file1")
+#'
 fileInput_UploadedComps <- function(id){
   shiny::fileInput(id,
             label = "Upload a CSV file of physical and chemical data for compounds not
@@ -204,10 +380,19 @@ fileInput_UploadedComps <- function(id){
 }
 
 
-###################################
-# DOSING PARAMETERS
-###################################
+################################################################################
+################################################################################
 
+#' Generate a drop down menu for administration method of compounds during ADME
+#' simulation
+#'
+#' @param id Shiny identifier name
+#'
+#' @return A drop drop list
+#' @export
+#'
+#' @examples selectInput_DoseRoute("doseroute")
+#'
 selectInput_DoseRoute <- function(id){
   shiny::selectInput(id,
               label = "Select the administration method of the compound(s).",
@@ -215,6 +400,20 @@ selectInput_DoseRoute <- function(id){
               selected = "oral")
 }
 
+
+################################################################################
+################################################################################
+
+#' Generate a numeric input box for users to enter the total daily dose administered
+#' during steady state concentration simulations
+#'
+#' @param id Shiny identifier name
+#'
+#' @return A numeric input box
+#' @export
+#'
+#' @examples numericInput_DailyDose("dailydose")
+#'
 numericInput_DailyDose <- function(id){
   shiny::numericInput(id,
                label = "Enter the total daily dose (in mg/kg BW).",
@@ -224,6 +423,19 @@ numericInput_DailyDose <- function(id){
                step = 1)
 }
 
+
+################################################################################
+################################################################################
+
+#' Generate a drop down list of dose units to select from
+#'
+#' @param id Shiny identifier name
+#'
+#' @return A drop down list
+#' @export
+#'
+#' @examples selectInput_ADMEdoseunits("doseunits")
+#'
 selectInput_ADMEdoseunits <- function(id){
   shiny::selectInput(id,
               label = "Select the units of the administered dose(s).",
@@ -231,14 +443,40 @@ selectInput_ADMEdoseunits <- function(id){
               selected = "mg/kg")
 }
 
+
+################################################################################
+################################################################################
+
+#' Generate a drop down list that describes the dosing frequency for ADME simulations
+#'
+#' @param id Shiny identifier name
+#'
+#' @return A drop down list
+#' @export
+#'
+#' @examples selectInput_NumDoses("dosenum")
+#'
 selectInput_NumDoses <- function(id){
   shiny::selectInput(id,
               label = "Select the dosing frequency.",
               choices = list("Select", "Single Dose", "Multiple Doses"),
               selected = "Select")
-
 }
 
+
+################################################################################
+################################################################################
+
+#' Generate a numeric input box that has users select the amount of initial dose
+#' administered
+#'
+#' @param id Shiny identifier name
+#'
+#' @return A numeric input box
+#' @export
+#'
+#' @examples numericInput_InitialDose("initdose")
+#'
 numericInput_InitialDose <- function(id){
   shiny::numericInput(id,
                label = "Enter the dose amount administered (in the specified units).",
@@ -248,6 +486,20 @@ numericInput_InitialDose <- function(id){
                step = 0.01)
 }
 
+
+################################################################################
+################################################################################
+
+#' Generate a drop down list of multiple dosing frequency options for ADME
+#' simulations
+#'
+#' @param id Shiny identifier name
+#'
+#' @return A drop down list
+#' @export
+#'
+#' @examples selectInput_MultipleDosesQ("multdose")
+#'
 selectInput_MultipleDosesQ <- function(id){
   shiny::selectInput(id,
               label = "Are equal doses given evenly across a 24 hour period?
@@ -255,6 +507,21 @@ selectInput_MultipleDosesQ <- function(id){
                              choices = list("Select", "Yes", "No"), selected = "Select")
 }
 
+
+################################################################################
+################################################################################
+
+#' Generate a numeric input box for users to enter the uniform amount of compound
+#' administered during each dose of a multiple dose administration regimen for
+#' ADME simulations
+#'
+#' @param id Shiny identifier name
+#'
+#' @return A numeric input box
+#' @export
+#'
+#' @examples numericInput_MultiDoseAmount("mult_doseamount")
+#'
 numericInput_MultiDoseAmount <- function(id){
   shiny::numericInput(id,
                label = "Enter the amount administered during every dose
@@ -265,6 +532,20 @@ numericInput_MultiDoseAmount <- function(id){
                step = 1)
 }
 
+
+################################################################################
+################################################################################
+
+#' Generate a slider input bar to select how often a uniform dose of compound
+#' is administered during an ADME simulation
+#'
+#' @param id Shiny identifier name
+#'
+#' @return A slider input
+#' @export
+#'
+#' @examples sliderInput_MultiDoseTime("mult_dosetime")
+#'
 sliderInput_MultiDoseTime <- function(id){
   shiny::sliderInput(id,
               label = "Select how often the above dose is administered (every ____ hours).",
@@ -274,6 +555,20 @@ sliderInput_MultiDoseTime <- function(id){
               step = 0.5)
 }
 
+
+################################################################################
+################################################################################
+
+#' Generate a text input where users can enter a dosing regimen of times and doses
+#' to administer of compounds selected for concentration-time profile simulations
+#'
+#' @param id Shiny identifier name
+#'
+#' @return A text input box
+#' @export
+#'
+#' @examples textInput_DoseMatrix("multdose_odd")
+#'
 textInput_DoseMatrix <- function(id){
   shiny::textInput(id,
             label = "Enter a list of dose amounts (in the specified units) and
@@ -285,12 +580,21 @@ textInput_DoseMatrix <- function(id){
 }
 
 
-###################################
-# MODEL PARAMETERS
-###################################
+################################################################################
+################################################################################
 
+#' Generates a drop down list of possible models to simulate
+#'
+#' @param func The user-selected output
+#' @param spec The user-selected species
+#'
+#' @return A drop down list
+#' @export
+#'
+#' @examples Model_Input("Concentration-time profiles","Human")
+#' Model_Input("Parameter calculations","Rat")
+#'
 Model_Input <- function(func,spec){
-
 
   if (func == "Concentration-time profiles"){
     if (spec == "Human"){
@@ -321,6 +625,19 @@ Model_Input <- function(func,spec){
   }
 }
 
+
+################################################################################
+################################################################################
+
+#' Generates a numeric input box where the user enters the simulation time for
+#' concentration-time profile simulations
+#'
+#' @param id Shiny identifier name
+#'
+#' @return A numeric input box
+#' @export
+#'
+#' @examples numericInput_SimTime("simtime")
 numericInput_SimTime <- function(id){
   shiny::numericInput(id,
                label = "Enter the total simulation time (in days).",
@@ -330,6 +647,19 @@ numericInput_SimTime <- function(id){
                step = 1)
 }
 
+
+################################################################################
+################################################################################
+
+#' Generates a text input box for the user to enter concentration-time profile
+#' output times, if desired
+#'
+#' @param id Shiny identifier name
+#'
+#' @return A text input box
+#' @export
+#'
+#' @examples textInput_OutputTimes("returntimes")
 textInput_OutputTimes <- function(id){
   shiny::textInput(id,
             label = "Enter the times (in days) to output concentrations. Leave
@@ -339,6 +669,20 @@ textInput_OutputTimes <- function(id){
           value = "")
 }
 
+
+################################################################################
+################################################################################
+
+#' Generates a drop down list of options for the ODE solver method for concentration-time
+#' profile simulations
+#'
+#' @param id Shiny identifier name
+#'
+#' @return A drop down list
+#' @export
+#'
+#' @examples selectInput_ODEmethod("odemethod")
+#'
 selectInput_ODEmethod <- function(id){
   shiny::selectInput(id,
               label = "Select the ODE solver method. See R documentation on the
@@ -348,9 +692,22 @@ selectInput_ODEmethod <- function(id){
                              "bdf", "bdf_d", "adams","impAdams","impAdams_d",
                              "iteration"),
               selected = "lsoda")
-
 }
 
+
+################################################################################
+################################################################################
+
+#' Generates a numeric input box for the user to specify the number of solver
+#' steps for the ODE solver in the concentration-time profile simulation
+#'
+#' @param id Shiny identifier name
+#'
+#' @return A numeric input box
+#' @export
+#'
+#' @examples numericInput_SolSteps("solversteps")
+#'
 numericInput_SolSteps <- function(id){
   shiny::numericInput(id,
                label = "Enter the number of time steps per hour for the solver to take.",
@@ -358,9 +715,21 @@ numericInput_SolSteps <- function(id){
                min = 1,
                max = NA,
                step = 1)
-
 }
 
+
+################################################################################
+################################################################################
+
+#' Generates a slider input where the user can specify the ODE solver's relative
+#' tolerance for concentration-time profile simulations
+#'
+#' @param id Shiny identifier name
+#'
+#' @return A slider input
+#' @export
+#'
+#' @examples sliderInput_RTol("rtol")
 sliderInput_RTol <- function(id){
   shiny::sliderInput(id,
               label = "Select the exponent (power of 10) of the relative tolerance
@@ -371,6 +740,20 @@ sliderInput_RTol <- function(id){
               step = 1)
 }
 
+
+################################################################################
+################################################################################
+
+#' Generates a slider input where the user can specify the ODE solver's absolute
+#' tolerance for concentration-time profile simulations
+#'
+#' @param id Shiny identifier name
+#'
+#' @return A slider input
+#' @export
+#'
+#' @examples sliderInput_ATol("atol")
+#'
 sliderInput_ATol <- function(id){
   shiny::sliderInput(id,
               label = "Select the exponent (power of 10) of the desired absolute
@@ -382,10 +765,19 @@ sliderInput_ATol <- function(id){
 }
 
 
-###################################
-# INITIAL CONDITION PARAMETERS
-###################################
+################################################################################
+################################################################################
 
+#' Generates a drop down list of options for whether the user wants to customize
+#' initial condition
+#'
+#' @param id Shiny identifier name
+#'
+#' @return A drop down list
+#' @export
+#'
+#' @examples selectInput_InitialCondCustom("init_cond_opts")
+#'
 selectInput_InitialCondCustom <- function(id){
   shiny::selectInput(id,
               label = "Would you like to change the initial compound amount in
@@ -396,6 +788,19 @@ selectInput_InitialCondCustom <- function(id){
               selected = "No, keep the default amounts (default)")
 }
 
+
+################################################################################
+################################################################################
+
+#' Generates a list of compartment names and variable names of the compartments
+#' in the model to be used to generate initial condition options to the user
+#' during concentration-time profile simulations
+#'
+#' @return A list of full compartment names and variable names of compartments
+#' @export
+#'
+#' @examples names_ICs()
+#'
 names_ICs <- function(){
 
   var1 <- c("One_gutlumen","One_gut","One_met","One_AUC")
@@ -433,6 +838,23 @@ names_ICs <- function(){
   out <- list(names,comps)
 }
 
+
+################################################################################
+################################################################################
+
+#' Generates a numeric input box for the user to specify the initial condition of
+#' a particular model compartment during concentration-time profile simulations
+#'
+#' @param id Shiny identifier name
+#' @param compartment Model compartment name
+#'
+#' @return A numeric input box
+#' @export
+#'
+#' @examples numericInput_ICvalue("One_gut","gut")
+#' numericInput_ICvalue("Three_AUC","AUC")
+#' numericInput_ICvalue("P_liver","liver")
+#'
 numericInput_ICvalue <- function(id, compartment){
 
   if (compartment == 'AUC'){
@@ -474,10 +896,20 @@ numericInput_ICvalue <- function(id, compartment){
 }
 
 
-###################################
-# BIOAVAILABILITY PARAMETERS
-###################################
+################################################################################
+################################################################################
 
+
+#' Generates a numeric input box where the user can customize the caco-2 apical-to-basal
+#' membrane permeability value if desired
+#'
+#' @param id Shiny identifier name
+#'
+#' @return A numeric input box
+#' @export
+#'
+#' @examples numericInput_CacoDefault("caco2default")
+#'
 numericInput_CacoDefault <- function(id){
   shiny::numericInput(id,
                label = "Enter a default value for the Caco-2 apical-to-basal
@@ -488,6 +920,22 @@ numericInput_CacoDefault <- function(id){
                step = 0.1)
 }
 
+
+################################################################################
+################################################################################
+
+#' Generates a drop down list where the user can select their preference for whether
+#' the caco-2 apical-to-basal value defined in numericInput_CacoDefault() should
+#' be used to estimate the in vivo measured fraction of an oral dose absorbed
+#' from the gut lumen into the gut if bioavailability data is unavailable
+#'
+#' @param id Shiny identifier name
+#'
+#' @return A drop down list
+#' @export
+#'
+#' @examples selectInput_Fabs("caco_fabs")
+#'
 selectInput_Fabs <- function(id){
   shiny::selectInput(id,
               label = "Select whether to use the Caco2.Pab value set above
@@ -499,6 +947,22 @@ selectInput_Fabs <- function(id){
             selected = "Use the Caco2.Pab value selected above (default)")
 }
 
+
+################################################################################
+################################################################################
+
+#' Generates a drop down list where the user can select their preference for whether
+#' the caco-2 apical-to-basal value defined in numericInput_CacoDefault() should
+#' be used to estimate the in vivo measured fraction of an oral dose that passes
+#' gut metabolism and clearance if bioavailability data is unavailable
+#'
+#' @param id Shiny identifier name
+#'
+#' @return A drop down list
+#' @export
+#'
+#' @examples selectInput_Fgut("caco_fgut")
+#'
 selectInput_Fgut <- function(id){
   shiny::selectInput(id,
               label = "Select whether to use the Caco2.Pab value set above to
@@ -510,6 +974,20 @@ selectInput_Fgut <- function(id){
             selected = "Use the Caco2.Pab value selected above (default)")
 }
 
+
+################################################################################
+################################################################################
+
+#' Generates a drop down list where the user can select their preference for whether
+#' to overwrite in vivo F_abs and F_gut data (if available)
+#'
+#' @param id Shiny identifier name
+#'
+#' @return A drop down list
+#' @export
+#'
+#' @examples selectInput_Overwrite("caco_overwriteinvivo")
+#'
 selectInput_Overwrite <- function(id){
   shiny::selectInput(id,
               label = "Select whether to overwrite in vivo F_abs and F_gut data
@@ -519,6 +997,20 @@ selectInput_Overwrite <- function(id){
             selected = "Do not overwrite in vivo values (default)")
 }
 
+
+################################################################################
+################################################################################
+
+#' Generates a drop down list where the user can select their preference for
+#' whether to keep F_abs and F_gut at 100% availability
+#'
+#' @param id Shiny identifier name
+#'
+#' @return A drop down list
+#' @export
+#'
+#' @examples selectInput_Keep100("caco_keep100")
+#'
 selectInput_Keep100 <- function(id) {
   shiny::selectInput(id,
               label = "Select whether to keep F_abs and F_gut at 100%
@@ -530,10 +1022,19 @@ selectInput_Keep100 <- function(id) {
 }
 
 
-###################################
-# STEADY STATE MODULE PARAMETERS
-###################################
+################################################################################
+################################################################################
 
+#' Generates a drop down list of potential output concentrations for the steady
+#' state concentrations output
+#'
+#' @param id Shiny identifier name
+#'
+#' @return A drop down list
+#' @export
+#'
+#' @examples selectInput_SSoutunits("modelSSout_units")
+#'
 selectInput_SSoutunits <- function(id){
   shiny::selectInput(id,
               label = "Select the output concentration units.",
@@ -541,6 +1042,21 @@ selectInput_SSoutunits <- function(id){
               selected = "uM")
 }
 
+
+################################################################################
+################################################################################
+
+#' Generates a drop down list of the output concentration type for the steady state
+#' concentration and IVIVE outputs
+#'
+#' @param id Shiny identifier name
+#'
+#' @return A drop down list
+#' @export
+#'
+#' @examples selectInput_OutConc("output_concSS")
+#' selectInput_OutConc("output_concIVIVE")
+#'
 selectInput_OutConc <- function(id){
   shiny::selectInput(id,
               label = "Select the output concentration type. Selecting 'Tissue'
@@ -550,6 +1066,21 @@ selectInput_OutConc <- function(id){
               selected = "plasma")
 }
 
+
+################################################################################
+################################################################################
+
+#' Generates a drop down list of tissue types for the steady state concentration
+#' and IVIVE outputs
+#'
+#' @param id Shiny identifier
+#'
+#' @return A drop down list
+#' @export
+#'
+#' @examples selectInput_Tissue("tissueSS")
+#' selectInput_Tissue("tissueIVIVE")
+#'
 selectInput_Tissue <- function(id){
   shiny::selectInput(id,
               label = "Select a tissue you want the output concentration in.
@@ -561,10 +1092,19 @@ selectInput_Tissue <- function(id){
 }
 
 
-###################################
-# MODEL CONDITIONS PARAMETERS
-###################################
+################################################################################
+################################################################################
 
+#' Generates a drop down list where the user selects its ratio of blood to plasma
+#' preferences for the specified model
+#'
+#' @param id Shiny identifier name
+#'
+#' @return A drop down list
+#' @export
+#'
+#' @examples selectInput_rb2p("rb2p")
+#'
 selectInput_rb2p <- function(id){
   shiny::selectInput(id,
               label = "Select whether to recalculate the chemical concentration
@@ -575,6 +1115,20 @@ selectInput_rb2p <- function(id){
               selected = "Do not recalculate (default)")
 }
 
+
+################################################################################
+################################################################################
+
+#' Generates a drop down list of clearance method preferences for the user to
+#' select from
+#'
+#' @param id Shiny identifier name
+#'
+#' @return A drop down list
+#' @export
+#'
+#' @examples selectInput_RestrictClear("restrict_clear")
+#'
 selectInput_RestrictClear <- function(id){
   shiny::selectInput(id,
               label = "Select whether protein binding is taken into account in
@@ -584,6 +1138,20 @@ selectInput_RestrictClear <- function(id){
               selected = "Yes, include protein binding (default)")
 }
 
+
+################################################################################
+################################################################################
+
+#' Generates a drop down list of chemical fraction unbound in plasma calculation
+#' preferences for the user to select from
+#'
+#' @param id Shiny identifier name
+#'
+#' @return A drop down list
+#' @export
+#'
+#' @examples selectInput_AdjFub("adj_fub")
+#'
 selectInput_AdjFub <- function(id){
   shiny::selectInput(id,
               label = "Select whether to adjust the chemical fraction unbound
@@ -593,6 +1161,20 @@ selectInput_AdjFub <- function(id){
               selected = "Yes, adjust the fraction of unbound plasma (default)")
 }
 
+
+################################################################################
+################################################################################
+
+#' Generates a numeric input box for the user to specify the minimum acceptable
+#' fraction unbound in plasma.
+#'
+#' @param id Shiny identifier name
+#'
+#' @return A numeric input box
+#' @export
+#'
+#' @examples numericInput_MinFub("min_fub")
+#'
 numericInput_MinFub <- function(id){
   shiny::numericInput(id,
                label = "Enter the minimum acceptable chemical fraction unbound
@@ -604,6 +1186,20 @@ numericInput_MinFub <- function(id){
                step = 0.0001)
 }
 
+
+################################################################################
+################################################################################
+
+#' Generates a drop down list where the user chooses their preference on whether
+#' regressions are used in the calculation of partition coefficients
+#'
+#' @param id Shiny identifier name
+#'
+#' @return A drop down list
+#' @export
+#'
+#' @examples selectInput_Regression("regression")
+#'
 selectInput_Regression <- function(id){
   shiny::selectInput(id,
               label = "Select whether to use regressions when calculating
@@ -613,6 +1209,20 @@ selectInput_Regression <- function(id){
             selected = "Use regressions (default)")
 }
 
+
+################################################################################
+################################################################################
+
+#' Generates a numeric input box where the user specifies their preference for
+#' the hepatic clearance p-value threshold
+#'
+#' @param id Shiny identifier name
+#'
+#' @return A numeric input box
+#' @export
+#'
+#' @examples numericInput_ClintPval("Clint_Pval")
+#'
 numericInput_ClintPval <- function(id){
   shiny::numericInput(id,
                label = "Enter the p-value threshold for the in vitro
@@ -624,6 +1234,21 @@ numericInput_ClintPval <- function(id){
                step = 0.01)
 }
 
+
+################################################################################
+################################################################################
+
+#' Generates a numeric input box where the user selects their preference on the
+#' ratio of distribution coefficient for totally charges species and that of the
+#' neutral form
+#'
+#' @param id Shiny identifier name
+#'
+#' @return A numeric input box
+#' @export
+#'
+#' @examples numericInput_Alpha("AlphaPar")
+#'
 numericInput_Alpha <- function(id){
   shiny::numericInput(id,
                label = "Enter the Ratio of Distribution coefficient D of totally
@@ -635,10 +1260,20 @@ numericInput_Alpha <- function(id){
 }
 
 
-###################################
-# IVIVE PARAMETERS
-###################################
+################################################################################
+################################################################################
 
+#' Generates a browser and file upload box for the user to upload a CSV file of
+#' bioactivity data for the selected compounds during the in vitro in vivo
+#' extrapolation (IVIVE) simulation
+#'
+#' @param id Shiny identifier name
+#'
+#' @return A browser and file upload box
+#' @export
+#'
+#' @examples fileInput_BioactiveConc("BioactiveFile")
+#'
 fileInput_BioactiveConc <- function(id){
   shiny::fileInput(id,
             "Upload a CSV file with in vitro bioactive concentrations (uM units)
@@ -648,6 +1283,19 @@ fileInput_BioactiveConc <- function(id){
             accept = c(".csv"))
 }
 
+
+################################################################################
+################################################################################
+
+#' Generates a drop down list of options for the user to select which chemical
+#' concentration is treated as bioactive in vivo
+#'
+#' @param id Shiny identifier name
+#'
+#' @return A drop down list
+#' @export
+#'
+#' @examples selectInput_Bioactive("bioactiveIVIVE")
 selectInput_Bioactive <- function(id){
   shiny::selectInput(id,
               label = "Select which chemical concentration is treated as
@@ -657,6 +1305,20 @@ selectInput_Bioactive <- function(id){
               selected = "Total chemical concentration (default)")
 }
 
+
+################################################################################
+################################################################################
+
+#' Generates a numeric input box for the user to enter the number of Monte Carlo
+#' samples to generate during in vitro in vivo extrapolation (IVIVE) simulations
+#'
+#' @param id Shiny identifier name
+#'
+#' @return A numeric input box
+#' @export
+#'
+#' @examples numericInput_Samples("samples")
+#'
 numericInput_Samples <- function(id){
   shiny::numericInput(id,
                label = "Enter the number of Monte Carlo samples generated for
@@ -668,6 +1330,21 @@ numericInput_Samples <- function(id){
 
 }
 
+
+################################################################################
+################################################################################
+
+#' Generates a drop down list for the user to select whether the want to return
+#' only a single OED estimate or all OED estimates for the in vitro in vivo
+#' extrapolation (IVIVE) simulation
+#'
+#' @param id Shiny identifier name
+#'
+#' @return A drop down list
+#' @export
+#'
+#' @examples selectInput_ReturnSamps("returnsamples")
+#'
 selectInput_ReturnSamps <- function(id){
   shiny::selectInput(id,
               label = "Select whether to return all oral equivalent
@@ -677,6 +1354,20 @@ selectInput_ReturnSamps <- function(id){
             selected = "Select")
 }
 
+
+################################################################################
+################################################################################
+
+#' Generates a numeric input box for users to specify the steady state concentration
+#' quantile used in the in vitro in vivo extrapolation (IVIVE) simulations
+#'
+#' @param id Shiny identifier name
+#'
+#' @return A numeric input box
+#' @export
+#'
+#' @examples numericInput_Quantile("quantile")
+#'
 numericInput_Quantile <- function(id){
   shiny::numericInput(id,
                label = "Enter the steady state concentration quantile (as a decimal)
@@ -688,6 +1379,19 @@ numericInput_Quantile <- function(id){
                step = 0.05)
 }
 
+
+################################################################################
+################################################################################
+
+#' Generates a drop down list of dose output units for the in vitro in vivo
+#' extrapolation (IVIVE) simulations
+#'
+#' @param id Shiny identifier name
+#'
+#' @return A drop down list
+#' @export
+#'
+#' @examples selectInput_IVIVEoutunits("modelIVIVEout_units")
 selectInput_IVIVEoutunits <- function(id){
   shiny::selectInput(id,
               label = "Select the dose output units from either mg/kg BW/day
@@ -696,6 +1400,20 @@ selectInput_IVIVEoutunits <- function(id){
               selected = "mgpkgpday")
 }
 
+
+################################################################################
+################################################################################
+
+#' Generates a drop down list of IVIVE assumptions for the user to select from
+#' during the in vitro in vivo extrapolation (IVIVE) simulations
+#'
+#' @param id Shiny identifier name
+#'
+#' @return A drop down list
+#' @export
+#'
+#' @examples selectInput_HondaCond("HondaIVIVE")
+#'
 selectInput_HondaCond <- function(id){
   shiny::selectInput(id,
               label = "Select an IVIVE assumption to implement. For any input
@@ -711,16 +1429,21 @@ selectInput_HondaCond <- function(id){
               selected = "NULL")
 }
 
-              # label = "Select an IVIVE assumption to implement. For any input nominal concentration in vitro, the Honda1 assumption is
-              #         recommended. Leave on 'NULL' if no assumptions are to be applied. Selection options are 1) Honda1 - restrictive hepatic
-              #         clearance (protein binding taken into account), unbound (free) venous plasma in vivo concentration as bioactive,
-              #         and the unbound (free) in vitro concentration as bioactive, 2) Honda2 - restrictive hepatic clearance (protein
-              #         binding taken into account), unbound (free) venous plasma in vivo concentration as bioactive, and the nominal in
-              #         vitro concentration as bioactive, 3) Honda3 - restrictive hepatic clearance (protein binding taken into account),
-              #         total venous plasma in vivo concentration as bioactive, and the nominal in vitro concentration as bioactive, 4) Honda4 -
-              #         Use non-restrictive hepatic clearance (protein binding not taken into account), total tissue in vivo concentration as
-              #         bioactive, and the nominal in vitro concentration as bioactive",
 
+################################################################################
+################################################################################
+
+#' Generates a numeric input box for the user to customize the fraction of fetal
+#' bovine serum used in the in vitro assay for bioactivity data uploaded in in
+#' vitro in vivo extrapolation (IVIVE) simulations
+#'
+#' @param id Shiny identifier name
+#'
+#' @return A numeric input box
+#' @export
+#'
+#' @examples numericInput_FSBf("FSBf")
+#'
 numericInput_FSBf <- function(id){
   shiny::numericInput(id,
                label = "Enter the volume fraction of fetal bovine serum used
@@ -732,6 +1455,20 @@ numericInput_FSBf <- function(id){
 
 }
 
+
+################################################################################
+################################################################################
+
+#' Generates a browse and upload box for users to upload a CSV file of exposure
+#' data for in vitro in vivo extrapolation (IVIVE) simulations
+#'
+#' @param id Shiny identifier name
+#'
+#' @return A browse and file upload box
+#' @export
+#'
+#' @examples fileInput_ExposureData("fileExposure")
+#'
 fileInput_ExposureData <- function(id){
   shiny::fileInput(id,
                    label = "Upload a CSV file of exposure data for all selected compounds (optional).
@@ -742,10 +1479,18 @@ fileInput_ExposureData <- function(id){
 }
 
 
-###################################
-# PLOTTING PARAMETERS
-###################################
+################################################################################
+################################################################################
 
+#' Generates a checkbox for the user to click if the user wants a log10 y-axis
+#' on their respective plots
+#'
+#' @param id Shiny identifier name
+#'
+#' @return A checkbox input
+#' @export
+#'
+#' @examples checkboxInput_Log("logscale")
 checkboxInput_Log <- function(id){
   shiny::checkboxInput(id,
                 label = "Check the box to display plots with a log10 scale y-axis.",

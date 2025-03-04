@@ -1,13 +1,26 @@
 
-####################################################################
+################################################################################
 # This file contains functions that is used for outputs of
-# multiple modules within the R Shiny app
-####################################################################
+# multiple modules within ToCS
+################################################################################
 
-###############################################
-#--- COMPILE LIST OF ALL COMPOUNDS TO ANALYZE
-###############################################
+################################################################################
+################################################################################
 
+#' Compile a data frame of compound names to simulate (both compounds uploaded
+#' by the user and any preloaded httk compounds selected)
+#'
+#' @param preload_comp A vector of selected compounds from the preloaded
+#' compounds drop down list
+#' @param uploaded_comps A CSV file uploaded by the user with compounds and
+#' their physical-chemical data, where the compounds are not already available
+#' in the preloaded compounds drop down list
+#'
+#' @return A data frame with the names of all compounds the user wants to simulate
+#' @export
+#'
+#' @examples None
+#'
 CompoundList <- function(preload_comp, uploaded_comps){
 
   #-----------------------------------
@@ -62,11 +75,19 @@ CompoundList <- function(preload_comp, uploaded_comps){
 }
 
 
-################################################################
-#--- COMPILE A LIST OF ALL PARAMETERS
-#--- (ONLY UPDATE PARAMETERS WHOSE VALUE NEEDS TO BE CHANGED)
-################################################################
+################################################################################
+################################################################################
 
+#' Compile the list of all GUI parameters and adjust any parameters from the user
+#' selection wording to a function-ready input for all simulation modules
+#'
+#' @param pars A list of parameter values encompassing all user inputs for all modules
+#'
+#' @return A list of parameters to pass into modules
+#' @export
+#'
+#' @examples None
+#'
 UpdatePars <- function(pars){
 
   #---------------------------
@@ -221,6 +242,22 @@ UpdatePars <- function(pars){
   out <- pars
 }
 
+
+################################################################################
+################################################################################
+
+#' Create the named vector of initial conditions needed for ADME simulations
+#'
+#' @param model The model the user selects
+#' @param ICopts The user's selection on whether they want to use initial
+#' conditions other than the default, which is zero for all model states
+#' @param pars A list of parameters to pass into modules
+#'
+#' @return A named vector of initial conditions for a specific model
+#' @export
+#'
+#' @examples None
+#'
 InitVals_Par <- function(model,ICopts,pars){
 
   if (model == "1compartment") {
@@ -236,7 +273,8 @@ InitVals_Par <- function(model,ICopts,pars){
   }
   else if (model == "3compartment"){
 
-    CompNames <- c("Aintestine","Aportven","Aliver","Asyscomp","Ametabolized","Atubules","AUC")
+    CompNames <- c("Aintestine","Aportven","Aliver","Asyscomp","Ametabolized",
+                   "Atubules","AUC")
     if (ICopts == "Yes, enter my own initial amounts"){
       InitVals <- stats::setNames(unlist(pars[28:34]), CompNames)}
     else{
@@ -244,7 +282,8 @@ InitVals_Par <- function(model,ICopts,pars){
   }
   else if (model == "pbtk"){
 
-    CompNames <- c("Agutlumen","Agut","Aliver","Aven","Alung","Aart","Arest","Akidney","Atubules","Ametabolized","AUC")
+    CompNames <- c("Agutlumen","Agut","Aliver","Aven","Alung","Aart","Arest",
+                   "Akidney","Atubules","Ametabolized","AUC")
     if (ICopts == "Yes, enter my own initial amounts"){
       InitVals <- stats::setNames(unlist(pars[35:45]), CompNames)}
     else {
@@ -252,8 +291,11 @@ InitVals_Par <- function(model,ICopts,pars){
   }
   else if (model == "fetal_pbtk"){
 
-    CompNames <- c("Agutlumen", "Agut", "Aliver", "Aven", "Alung", "Aart", "Aadipose", "Arest", "Akidney", "Atubules", "Ametabolized", "AUC", "fAUC", "Athyroid",
-                   "Aplacenta", "Afgut", "Aflung", "Afliver", "Afven", "Afart", "Afrest", "Afthyroid", "Afkidney", "Afbrain")
+    CompNames <- c("Agutlumen", "Agut", "Aliver", "Aven", "Alung", "Aart",
+                   "Aadipose", "Arest", "Akidney", "Atubules", "Ametabolized",
+                   "AUC", "fAUC", "Athyroid","Aplacenta", "Afgut", "Aflung",
+                   "Afliver", "Afven", "Afart", "Afrest", "Afthyroid",
+                   "Afkidney", "Afbrain")
     if (ICopts == "Yes, enter my own initial amounts"){
       InitVals <- stats::setNames(unlist(pars[46:68]), CompNames)}
     else{
@@ -261,7 +303,37 @@ InitVals_Par <- function(model,ICopts,pars){
   }
 }
 
+
+################################################################################
+################################################################################
+
+#' Return the list of dosing parameters needed for the ADME dosing parameter in
+#' httk's solve_model function
+#'
+#' @param dosenum The user's selection of the number of doses to administer,
+#' either "Single dose" or "Multiple doses"
+#' @param initdose A positive number; The user's input of the amount of initial
+#' dose to administer
+#' @param multdose The user's selection of the kind of multiple dosing to
+#' simulate, either "Yes" or "No"
+#' @param multdosetime A positive number; The user's slider selection of how
+#' often to administer reoccurring doses
+#' @param multdoseamount A positive number; The user's selection of the amount
+#' of dose to give during evenly spaced intervals
+#' @param multdoseodd A list of numbers; The user's text input of a list of times
+#' to administer dose and the dose to administer at each time
+#'
+#' @return A list of dosing information taken in by httk's solve_model function.
+#' The list has five entries: initial.dose, doses.per.day, daily.dose,
+#' dosing.matrix, and forcings.
+#' @export
+#'
+#' @examples DosingPar("Single Dose",1,NULL,NULL,NULL,NULL)
+#' DosingPar("Multiple Doses",NULL,"Yes",6,2,NULL)
+#' DosingPar("Multiple Doses",NULL,"No",NULL,NULL,c(0,0.25,0.5,1,1.25,1.5,1,1,1,1,1,1))
+#'
 DosingPar <- function(dosenum,initdose,multdose,multdosetime,multdoseamount,multdoseodd){
+
 
   if (dosenum == "Single Dose"){
     dosinginfo <- list(initial.dose = initdose,
@@ -286,16 +358,33 @@ DosingPar <- function(dosenum,initdose,multdose,multdosetime,multdoseamount,mult
                                    forcings = NULL)}}
 }
 
+
+################################################################################
+################################################################################
+
+#' Generate a vector specifying times to output the time course solution in the
+#' ADME module simulation
+#'
+#' @param pars A list of parameters to pass into modules
+#'
+#' @return A vector of times to output the ADME concentration-time profile solution
+#' @export
+#'
+#' @examples None
+#'
 OutputTimes_Par <- function(pars){
 
+  # --- The user does not specify output times and the model is not for pregnancy
   if (pars[["returntimes"]] == "" && pars[["model"]] != 'fetal_pbtk'){
     out_times <- seq(0, pars[["simtime"]], signif(1/(96), round(-log10(1e-4)-1))) #output approx every 15 minutes
     out_times <- unique(c(out_times,pars[["simtime"]]))
   }
+  # --- The user does not specify output times and the model is for pregnancy
   else if (pars[["returntimes"]] == "" && pars[["model"]] == 'fetal_pbtk'){
     end_time <- min(c(280,91+pars[["simtime"]]))
     out_times <- seq(91,end_time,1) #only runs weeks 13-40 of gestation
   }
+  # --- The user specifies output times
   else{
     v1 <- unlist(strsplit(pars[["returntimes"]],","))
     out_times <- sapply(v1, function(x) eval(parse(text = x)))
@@ -309,25 +398,51 @@ OutputTimes_Par <- function(pars){
 }
 
 
-################################################################
-#--- POP-UP USER NOTIFICATIONS FROM RUNSIM BUTTON
-################################################################
+################################################################################
+################################################################################
 
+#' Notify the user that the solution is being computed after the "Run Simulation"
+#' button is clicked
+#'
+#' @return A pop-up notification to the user
+#' @export
+#'
+#' @examples Notify_Computing()
+#'
 Notify_Computing <- function(){
   shiny::showNotification("Computing solution - this may take a moment. Plots and tables will be updated once completed.", type = "message", duration = NULL)
 }
 
+
+################################################################################
+################################################################################
+
+#' Notify the user that there is are missing or invalid parameters for the simulation
+#' when the "Run Simulation" button is clicked
+#'
+#' @return A pop-up notification to the user
+#' @export
+#'
+#' @examples Notify_ParError()
+#'
 Notify_ParError <- function(){
   shiny::showNotification("Invalid Inputs: Check all previous tabs for missing or invalid parameters. Changing some parameters such as the output, species,
                                   and model will result in other parameters (such as selected compounds) needing to be reselected.", type = "error", duration = NULL)
 }
 
+################################################################################
+################################################################################
 
-################################################################
-#--- LOG PLOT FUNCTIONS FOR SS, IVIVE, AND PC MODULES
-################################################################
 
-# --- FUNCTION TO DETERMINE Y-AXIS RANGE IN LOG SCALE
+#' Generate a vector of 10^x breakpoints for the y-axis of a plot
+#'
+#' @param ydata A vector of y-coordinate data to be plotted
+#'
+#' @return A vector of y-axis breaks
+#' @export
+#'
+#' @examples log10breaks(ydata = c(0.1,0.004,15,130,0.0005))
+#'
 log10breaks <- function(ydata) {
 
   x <- ydata[ydata > 0]
@@ -337,7 +452,20 @@ log10breaks <- function(ydata) {
   10^(seq(bottom, top))
 }
 
-# --- FUNCTION TO USE LOG SCALE IN PLOTTING
+
+################################################################################
+################################################################################
+
+#' Generate a plot with a log10 scale y-axis
+#'
+#' @param plt ggplot2 plot object to add the log10 y-axis to
+#' @param sol_vec A vector of y-values to be plotted on plt
+#'
+#' @return A plot that is plt with a log10 y-axis
+#' @export
+#'
+#' @examples None
+#'
 plot_logscale <- function(plt,sol_vec){
 
   break_seq <- log10breaks(sol_vec)
