@@ -77,10 +77,10 @@ CS_Instructions <- function(){
               shiny::conditionalPanel(condition = "input.httkPreloadComps == '' && output.fileUploaded == false && input.model != 'Select' && input.insilicopars != 'Select'",
                                       Instructions_CompSelect_Part1()),
               Instructions_CompSelect_Part2(),
-              shiny::tags$a("Uploaded Physical-Chemical Data File Folder", target="_blank", href="UploadedPhysicalChemicalDataFileFolder.zip"),
+              shiny::tags$a("Uploaded Physical-Chemical Data File Folder", href="UploadedPhysicalChemicalDataFileFolder.zip"),
               shiny::conditionalPanel(condition = "input.func == 'In vitro in vivo extrapolation (IVIVE)'",
                                       shiny::tags$a("Bioactivity Data File Folder", href="BioactivityDataFileFolder.zip"),
-                                      shiny::tags$a("Exposure Data File Folder", target="_blank", href="ExposureDataFileFolder.zip"))
+                                      shiny::tags$a("Exposure Data File Folder", href="ExposureDataFileFolder.zip"))
               )
 }
 
@@ -219,18 +219,10 @@ PreloadComps_UI <- function(func,spec,defaulthuman,model,insilicopars,honda){
   if (spec != "Select" && func != "Select" && insilicopars != "Select" && model != "Select" && defaulthuman != "Select"){
     if (func == "In vitro in vivo extrapolation (IVIVE)" && honda == "Honda1"){
       htmltools::tagList(numericInput_FSBf("FSBf"),
-                         shiny::showModal(shiny::modalDialog(title = "System Running",
-                                                             "Compiling chemical list. The Preloaded Compounds card will update once completed, and
-                                                              may take a moment if loading compounds with in silico parameters.
-                                                              You may click the 'Dismiss' button.")),
                          PreloadCompsInput(func,spec,defaulthuman,insilicopars,model,honda))
     }
     else {
-      htmltools::tagList(shiny::showModal(shiny::modalDialog(title = "System Running",
-                                                             "Compiling chemical list. The Preloaded Compounds card will update once completed, and
-                                                              may take a moment if loading compounds with in silico parameters.
-                                                              You may click the 'Dismiss' button.")),
-                         PreloadCompsInput(func,spec,defaulthuman,insilicopars,model,honda))
+      PreloadCompsInput(func,spec,defaulthuman,insilicopars,model,honda)
     }
   }
   else{
@@ -363,7 +355,6 @@ Run_Simulation <- function(parent_adme_iv,
 
   if (input$func == "Concentration-time profiles"){
     if (parent_adme_iv$is_valid()){
-      Notify_Computing()
       ADME_server("ADME_AllOut",AllInputs,shiny::reactive(input$runsim))
     }
     else {
@@ -373,7 +364,6 @@ Run_Simulation <- function(parent_adme_iv,
   }
   else if (input$func == "Steady state concentrations"){
     if (parent_ss_iv$is_valid()){
-      Notify_Computing()
       SS_server("SS_AllOut",AllInputs,shiny::reactive(input$runsim),shiny::reactive(input$logscale))
     }
     else {
@@ -384,7 +374,6 @@ Run_Simulation <- function(parent_adme_iv,
   else if (input$func == "In vitro in vivo extrapolation (IVIVE)"){
 
     if (parent_ivive_iv$is_valid()){
-      Notify_Computing()
       IVIVE_server("IVIVE_AllOut",AllInputs,shiny::reactive(input$runsim),shiny::reactive(input$logscale))
     }
     else {
@@ -394,7 +383,6 @@ Run_Simulation <- function(parent_adme_iv,
   }
   else if (input$func == "Parameter calculations"){
     if (parent_pc_iv$is_valid()){
-      Notify_Computing()
       PC_server("IP_AllOut",AllInputs,shiny::reactive(input$runsim),shiny::reactive(input$logscale))
     }
     else{

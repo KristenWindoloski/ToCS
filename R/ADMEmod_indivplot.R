@@ -46,13 +46,12 @@ ADME_IndPlt_server <- function(id,adme_args){
     #--- and outputs the names of the plots needed
     output$plots <- renderUI({
 
-      individ_plt_name_lst <- lapply(1:num_ADMEplots(),
-                                     function(i) {
+        n <- num_ADMEplots()
+        individ_plt_name_lst <- list()
 
-                                       plotname <- paste("plot", i, sep="")
-                                       shiny::plotOutput(session$ns(plotname))
-                                     }
-      )
+        for (i in 1:n) {
+          individ_plt_name_lst[[i]] <- shiny::plotOutput(session$ns(paste("plot",i,sep = "")))
+        }
       do.call(htmltools::tagList, individ_plt_name_lst)
     })
 
@@ -74,11 +73,11 @@ ADME_IndPlt_server <- function(id,adme_args){
       # Need local so that each item gets its own number. Without it, the value of i in the renderPlot() will be the same across all instances.
       local({
 
-        my_i <- i
-        plotname <- paste("plot", my_i, sep="")
+          my_i <- i
+          plotname <- paste("plot", my_i, sep="")
 
-        output[[plotname]] <- shiny::renderPlot({
-          gridExtra::grid.arrange(grobs = ADME2plots_list()[[my_i]])})
+          output[[plotname]] <- shiny::renderPlot({
+            gridExtra::grid.arrange(grobs = ADME2plots_list()[[my_i]])})
       })
     }
 
@@ -101,14 +100,23 @@ ADME_IndPlt_server <- function(id,adme_args){
       content = function(file){
 
         savedfiles <- c()
-        for (i in 1:num_ADMEplots()) {
 
-          f <- paste("Compound_", i, ".jpg", sep="")
-          ggplot2::ggsave(f, plot = reactive_pltname_list()[[i]], height = 12, width = 16, dpi = 1200)
-          savedfiles <- append(savedfiles, f)
-        }
+        shiny::withProgress(message = "Compiling zip file. Please wait.", value = 0, {
 
-        # Zip the files
-        zip(file, savedfiles)})
+          for (i in 1:num_ADMEplots()) {
+
+            # --- Increment the progress bar and update detail text
+            incProgress(1/(num_ADMEplots()+1), detail = paste("Generating plot file for chemical", i))
+
+            f <- paste("Compound_", i, ".jpg", sep="")
+            ggplot2::ggsave(f, plot = reactive_pltname_list()[[i]], height = 12, width = 16, dpi = 1200)
+            savedfiles <- append(savedfiles, f)
+          }
+
+          # Zip the files
+          # --- Increment the progress bar and update detail text
+          incProgress(1/(num_ADMEplots()+1), detail = paste("Zipping file together"))
+          zip(file, savedfiles)})
+        })
   })
 }

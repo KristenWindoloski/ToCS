@@ -25,14 +25,22 @@ Parsol <- function(pars){
 
   # --- For each compound, find all five metrics
 
-  for (i in 1:n) {
+  shiny::withProgress(message = "Computation in progress. Please wait.", value = 0, {
 
-    df1[i,2] <- CalcElimRate(pars,i)
-    df1[i,3] <- CalcVdist(pars,i)
-    df1[i,4] <- CalcHalfLife(pars,i)
-    df1[i,5] <- CalcClearance(pars,i)
-    df2[i,2:14] <- CalcPCs(pars,i)
-  }
+    for (i in 1:n) {
+
+      # --- Increment the progress bar and update detail text
+      incProgress(1/n, detail = paste("Generating parameters for chemical", i))
+
+      df1[i,2] <- CalcElimRate(pars,i)
+      df1[i,3] <- CalcVdist(pars,i)
+      df1[i,4] <- CalcHalfLife(pars,i)
+      df1[i,5] <- CalcClearance(pars,i)
+      df2[i,2:14] <- CalcPCs(pars,i)
+
+
+    }
+  })
 
   # --- Create a data frame to store all simulation parameters
   pars_df <- StorePars_PC(pars)
@@ -209,8 +217,4 @@ plotPCs <- function(soldata,pars,logscale){
 
   return(plt_lst)
 }
-
-
-
-
 

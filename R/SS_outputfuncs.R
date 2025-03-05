@@ -19,16 +19,22 @@ SS_sol <- function(pars){
                          MaxConc = rep(0,n),
                          CssDay = rep(0,n))
 
-  # --- Solve model for each compound
-  for (i in (1:n)) {
+  shiny::withProgress(message = "Computation in progress. Please wait.", value = 0, {
 
-    #--- Calculate the steady state concentration and save in data frame
-    sol[i,2] <- CalcAnalyticCss(pars,i)
+    # --- Solve model for each compound
+    for (i in (1:n)) {
 
-    #--- Calculate the number of days it takes for each compound to approximately reach steady state
-    css_char[i,2:5] <- CalcCssDay(pars,i)
+      # --- Increment the progress bar and update detail text
+      incProgress(1/n, detail = paste("Generating the steady state concentrations for chemical", i))
 
-  }
+      #--- Calculate the steady state concentration and save in data frame
+      sol[i,2] <- CalcAnalyticCss(pars,i)
+
+      #--- Calculate the number of days it takes for each compound to approximately reach steady state
+      css_char[i,2:5] <- CalcCssDay(pars,i)
+    }
+  })
+
   # --- Sort data frames from smallest to largest
   sol_ascend <- dplyr::arrange(sol, SteadyState)
   css_char_ascend <- dplyr::arrange(css_char, CssDay)

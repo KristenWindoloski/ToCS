@@ -3,6 +3,18 @@
 # --- PLOT ALL ADME COMPOUND CURVES ON ONE PLOT
 ######################################################
 
+#' Reformat the ADME solution array
+#'
+#' @param i A number representing the index of the current model state to be plotted
+#' @param n A number representing the number of compounds being plotted
+#' @param sol_array An array (row = time steps, column = model state, sheet = compound) of the model solution from other code
+#' @param chemnames A vector containing the names of the compounds being simulated
+#' @param numtimes A vector containing the times the solution is evaluated
+#'
+#' @return A data frame that reformats the sol_array so concentration-time profiles can be plotted according to compound
+#' @export
+#'
+#' @examples None
 Create_Plotting_df <- function(i,n,sol_array,chemnames,numtimes){
 
   # --- Create empty vectors
@@ -125,20 +137,27 @@ plottingfunc_individual <- function(sol_array, plt_colors){
 
   # --- Generates 1 plot for each compound. Each plot contains a subplot for
   # --- each of the model compartments outputted.
-  for (i in 1:num_compounds) {
 
-    # --- Extract model solution for compound i and create blank plot list
-    comp_sol <- as.data.frame(sol_array[,,i], col.names = col_names)
-    individ_plt_lst <- vector('list', num_states+1)
+  shiny::withProgress(message = "Computation in progress. Please wait.", value = 0, {
 
-    # --- Fill the list with each subplot for compound i
-    for (j in 1:num_states) {
-      individ_plt_lst[[j]] <- Create_Individ_Subplot(i,j,comp_sol,compound_names,plt_colors,col_names)
+    for (i in 1:num_compounds) {
+
+      # --- Increment the progress bar and update detail text
+      incProgress(1/num_compounds, detail = paste("Generating plot for chemical", i))
+
+      # --- Extract model solution for compound i and create blank plot list
+      comp_sol <- as.data.frame(sol_array[,,i], col.names = col_names)
+      individ_plt_lst <- vector('list', num_states+1)
+
+      # --- Fill the list with each subplot for compound i
+      for (j in 1:num_states) {
+        individ_plt_lst[[j]] <- Create_Individ_Subplot(i,j,comp_sol,compound_names,plt_colors,col_names)
+      }
+
+      # --- Set legend and final plot for compound i
+      wholeplot_list[[i]] <- Set_Individ_Plot(individ_plt_lst,num_states)
     }
-
-    # --- Set legend and final plot for compound i
-    wholeplot_list[[i]] <- Set_Individ_Plot(individ_plt_lst,num_states)
-  }
+  })
 
   return(wholeplot_list)
 }
@@ -199,22 +218,28 @@ modsol <- function(pars){
   # Get row, column, and page dimensions for arrays used to store solutions
   n <- nrow(pars[["CompoundList"]])
 
-  # --- Solve model for each compound
-  for (i in (1:n)) {
+  shiny::withProgress(message = "Computation in progress. Please wait.", value = 0, {
 
-    modsolution <- Run_ADME_Model(i,pars)
+    for (i in 1:n) {
 
-    #--- Set sizes of output arrays
-    if (i==1){
-      arrs <- SetArraySize(modsolution,n)
-      sol <- arrs[[1]]
-      tk_sum_array <- arrs[[2]]
+      # --- Increment the progress bar and update detail text
+      incProgress(1/n, detail = paste("Generating the concentration-time profile for chemical", i))
+
+      # --- Solve model for compound i
+      modsolution <- Run_ADME_Model(i,pars)
+
+      # --- Set sizes of output arrays
+      if (i==1){
+        arrs <- SetArraySize(modsolution,n)
+        sol <- arrs[[1]]
+        tk_sum_array <- arrs[[2]]
+      }
+
+      # --- Save solution in array and generate TK Summary
+      sol[,,i] <- modsolution
+      tk_sum_array[,,i] <- TKsummary(modsolution)
     }
-
-    # --- Save solution in array and generate TK Summary
-    sol[,,i] <- modsolution
-    tk_sum_array[,,i] <- TKsummary(modsolution)
-  }
+  })
 
   # --- Assign row, column, and page names to the arrays
   arr_out <- AssignArrayNames(sol,modsolution,tk_sum_array,pars)

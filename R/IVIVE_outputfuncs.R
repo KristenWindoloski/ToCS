@@ -481,9 +481,14 @@ Calc_OEDBER_RS_False <- function(n,pars,bioactive_conc,exposuredata){
   sol <- data.frame(CompoundName = pars[["CompoundList"]][,1],
                     CAS = bioactive_conc$CAS,
                     OED = rep(0,n))
-  for (i in 1:n) {
-    sol[i,3] <- CalcOED(i,pars,bioactive_conc)
-  }
+  shiny::withProgress(message = "Computation in progress. Please wait.", value = 0, {
+    for (i in 1:n) {
+      incProgress(1/n, detail = paste("Generating the OED for chemical", i))
+      sol[i,3] <- CalcOED(i,pars,bioactive_conc)
+    }
+
+  })
+
 
   # --- CALCULATE BIOACTIVITY EXPOSURE RATIO, IF APPLICABLE
   if (!is.null(pars[["fileExposure"]])){
@@ -504,16 +509,22 @@ Calc_OEDBER_RS_True <- function(n,pars,bioactive_conc,exposuredata){
                dim = c(pars[["samples"]]+2,n))
   dimnames(sol) <- list(c("OED_5","Samples",seq(1,pars[["samples"]])),
                         pars[["CompoundList"]][,1])
-  for (i in 1:n) {
 
-    OED <- CalcOED(i,pars,bioactive_conc)
+  shiny::withProgress(message = "Computation in progress. Please wait.", value = 0, {
 
-    # --- CALCULATE 95% CSS THEN CONVERT TO BIOACTIVE CONCENTRATION (SAME PROCESS AS HTTK CODE)
-    q <- stats::quantile(bioactive_conc[i,3]/OED, 0.95, na.rm=TRUE)
-    sol[1,i] <- signif(bioactive_conc[i,3]/q, digits = 4)
-    sol[2,i] <- NA
-    sol[seq(3,pars[["samples"]]+2),i] <- OED
-  }
+    for (i in 1:n) {
+
+      incProgress(1/n, detail = paste("Generating the OEDs for chemical", i))
+
+      OED <- CalcOED(i,pars,bioactive_conc)
+
+      # --- CALCULATE 95% CSS THEN CONVERT TO BIOACTIVE CONCENTRATION (SAME PROCESS AS HTTK CODE)
+      q <- stats::quantile(bioactive_conc[i,3]/OED, 0.95, na.rm=TRUE)
+      sol[1,i] <- signif(bioactive_conc[i,3]/q, digits = 4)
+      sol[2,i] <- NA
+      sol[seq(3,pars[["samples"]]+2),i] <- OED
+    }
+  })
 
   # --- CALCULATE BIOACTIVITY EXPOSURE RATIO, IF APPLICABLE
   if (!is.null(pars[["fileExposure"]])){

@@ -242,10 +242,20 @@ PreloadCompsInput <- function(func,species,defaulthuman,insilico,model,honda){
 
   # --- Load in in silico fup, clint, and caco2 if selected
   if(insilico == "Yes, load in silico parameters"){
-    httk::load_sipes2017(overwrite = FALSE)
-    httk::load_pradeep2020(overwrite = FALSE)
-    httk::load_dawson2021(overwrite = FALSE)
-    httk::load_honda2023(overwrite = FALSE)
+
+    shiny::withProgress(message = "Loading the the of available chemicals to simulate under the 'Preloaded Compounds' card. Please wait.",
+                        value = 0, {
+
+      incProgress(1/5, detail = paste("Loading in silico parameter set", 1))
+      httk::load_sipes2017(overwrite = FALSE)
+      incProgress(1/5, detail = paste("Loading in silico parameter set", 2))
+      httk::load_pradeep2020(overwrite = FALSE)
+      incProgress(1/5, detail = paste("Loading in silico parameter set", 3))
+      httk::load_dawson2021(overwrite = FALSE)
+      incProgress(1/5, detail = paste("Loading in silico parameter set", 4))
+      httk::load_honda2023(overwrite = FALSE)
+      incProgress(1/5, detail = paste("All in silico parameter sets loaded"))
+      })
   }
 
   # --- Transform default to human response
