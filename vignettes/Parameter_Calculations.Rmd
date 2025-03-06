@@ -1,7 +1,7 @@
 ---
 title: "Parameter Calculations Examples"
 author: "Kristen Windoloski"
-date: "February 27, 2025"
+date: "March 6, 2025"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Parameter_Calculations}
