@@ -1,9 +1,21 @@
 
+################################################################################
+# This file contains functions used in the steady state concentrations module
+# to generate the output needed for the 'Run Simulation' tab
+################################################################################
 
-#########################################################
-# --- SOLVE MODEL FOR STEADY STATE SOLUTION
-#########################################################
 
+################################################################################
+################################################################################
+
+#' Calculate the steady state concentration solutions
+#'
+#' @param pars A list of all user input parameters for the entire app
+#'
+#' @return A list with steady state concentrations, steady state characteristics,
+#' and simulation and chemical-physical parameters used in the simulation
+#' @export
+#'
 SS_sol <- function(pars){
 
   # Get row, column, and page dimensions for arrays used to store solutions
@@ -47,6 +59,18 @@ SS_sol <- function(pars){
   out_list <- list(sol_ascend,css_char_ascend,pars_df)
 }
 
+################################################################################
+################################################################################
+
+#' Calculate the analytical steady state concentration of a chemical
+#'
+#' @param pars A list of all user input parameters for the entire app
+#' @param i Chemical index on the simulated chemicals list
+#'
+#' @return A numerical value representing the analytical steady state concentration
+#' in the specified units
+#' @export
+#'
 CalcAnalyticCss <- function(pars,i){
 
   out <- httk::calc_analytic_css(chem.name = pars[["CompoundList"]][i,1],
@@ -71,6 +95,20 @@ CalcAnalyticCss <- function(pars,i){
                                                     regression = pars[["regression"]]))
 }
 
+################################################################################
+################################################################################
+
+#' Calculate the day steady state is reached
+#'
+#' @param pars A list of all user input parameters for the entire app
+#' @param i Chemical index on the simulated chemicals list
+#'
+#' @return A list composed of the average concentration at the end of the
+#' simulation, the fraction of the true steady state reached on the steady state
+#' day, the maximum concentration of the simulation, and the day steady state
+#' was reached
+#' @export
+#'
 CalcCssDay <- function(pars,i){
 
   out <- httk::calc_css(chem.name = pars[["CompoundList"]][i,1],
@@ -87,6 +125,18 @@ CalcCssDay <- function(pars,i){
                   suppress.messages = TRUE)
 }
 
+################################################################################
+################################################################################
+
+#' Store all relevant module parameters and physical-chemical in a data frame
+#' for user download
+#'
+#' @param pars A list of all user input parameters for the entire app
+#'
+#' @return A data frame of simulation parameters and chemical-physical data for
+#' the chemicals simulated
+#' @export
+#'
 StorePars_SS <- function(pars){
 
   if (!is.null(pars[["tissueSS"]])){
@@ -121,10 +171,21 @@ StorePars_SS <- function(pars){
   out <-cbind(out,chemdata)
 }
 
-######################################################
-# --- CREATE SCATTER PLOT OF STEADY STATE VALUES
-######################################################
+################################################################################
+################################################################################
 
+#' Create a scatter plot of steady state concentrations for the steady state
+#' concentrations module
+#'
+#' @param sol A data frame of steady state concentrations
+#' @param pars A list of all user input parameters for the entire app
+#' @param logscale The log10 y-axis scale checkbox input to signify whether the
+#' user wants a plot to have a log10 y-axis scale
+#'
+#' @return A scatter plot object of steady state concentrations, either with a
+#' linear or log10 scale y-axis
+#' @export
+#'
 scat_plot <- function(sol,pars,logscale){
 
   # --- Set Label Names
@@ -148,6 +209,16 @@ scat_plot <- function(sol,pars,logscale){
   return(plt)
 }
 
+################################################################################
+################################################################################
+
+#' Steady state module plot labeling function
+#'
+#' @param pars A list of all user input parameters for the entire app
+#'
+#' @return A list containing plots labels for the title and y-axis.
+#' @export
+#'
 plot_labels <- function(pars){
 
   # --- Set Label Names of title and y axis

@@ -3,6 +3,15 @@
 # UI - SS CONCENTRATION PLOT
 ###################################
 
+#' User interface for the steady state concentrations plot
+#'
+#' @param id Shiny identifier name; must match the identifier in the SS_ConcPlot_server()
+#'
+#' @return User interface for the steady state concentrations plot which includes
+#' four elements: a plot download button, the steady state concentrations plot,
+#' and a plot caption
+#' @export
+#'
 SS_ConcPlot_ui <- function(id){
 
   htmltools::tagList(shiny::uiOutput(shiny::NS(id,"downloadSSplot_cond")),
@@ -15,6 +24,17 @@ SS_ConcPlot_ui <- function(id){
 # SERVER - SS CONCENTRATION PLOT
 ###################################
 
+#' Server function for the steady state concentrations plot
+#'
+#' @param id Shiny identifier name; must match the identifier in the SS_ConcPlot_ui()
+#' @param ss_args A Shiny reactive list with the output of SS_sol(), all shiny
+#' parameters in pars(), and the logscale() input by the user
+#'
+#' @return Server function for the steady state concentrations plot which includes
+#' four elements: a plot download button, the steady state concentrations plot,
+#' and a plot caption
+#' @export
+#'
 SS_ConcPlot_server <- function(id,ss_args){
 
   shiny::moduleServer(id, function(input, output, session) {

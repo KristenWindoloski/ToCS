@@ -3,6 +3,14 @@
 # UI - SS DAY TABLE
 ###################################
 
+#' User interface for the days to steady state table
+#'
+#' @param id Shiny identifier name
+#'
+#' @return The user interface for the days to steady state table which includes
+#' three outputs: a table download button, a table, and a table caption
+#' @export
+#'
 SS_DayTable_ui <- function(id){
 
   htmltools::tagList(shiny::uiOutput(shiny::NS(id,"downloadSSDaytable_cond")),
@@ -15,6 +23,16 @@ SS_DayTable_ui <- function(id){
 # SERVER - SS DAY TABLE
 ###################################
 
+#' The server function for the days to steady state table
+#'
+#' @param id Shiny identifier name; identifier must match that in SS_DayTable_ui()
+#' @param ss_args A Shiny reactive list with the output of SS_sol(), all shiny
+#' parameters in pars(), and the logscale() input by the user
+#'
+#' @return The server function for the days to steady state table which includes
+#' three outputs: a table download button, a table, and a table caption
+#' @export
+#'
 SS_DayTable_server <- function(id, ss_args){
 
   shiny::moduleServer(id, function(input, output, session) {

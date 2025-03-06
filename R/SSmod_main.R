@@ -3,6 +3,15 @@
 # UI - SS MAIN MODULE
 ##########################
 
+#' User interface layout for the steady state concentrations module and is composed
+#' of three submodules
+#'
+#' @param id Shiny identifier name; must match the identifier in the SS_server()
+#'
+#' @return User interface layout for the steady state concentrations module on the 'Run Simulation'
+#' tab; includes one plot and two table drop down panels
+#' @export
+#'
 SS_ui <- function(id) {
 
   ####################################################################################
@@ -22,6 +31,19 @@ SS_ui <- function(id) {
 # SERVER - SS MAIN MODULE
 ##########################
 
+#' Server output for the steady state concentrations module and is composed of
+#' three submodules
+#'
+#' @param id Shiny identifier name; must match the identifier in the SS_ui()
+#' @param pars A list of all user input parameters for the entire app
+#' @param runsim Action button titled 'Run Simulation' pressed by the user
+#' @param logscale Checkbox input value indicating if the user wanted the y-axis
+#' of plots to be a log10 scale
+#'
+#' @return Server output for the steady state concentrations module on the 'Run Simulation'
+#' tab; includes one plot and two table drop down panels
+#' @export
+#'
 SS_server <- function(id,pars,runsim,logscale) {
 
   shiny::moduleServer(id, function(input, output, session) {

@@ -3,6 +3,14 @@
 # UI - IVIVE MAIN MODULE
 ##########################
 
+#' Main user interface function to set up the 'Results' card under the IVIVE module
+#'
+#' @param id Shiny identifier name; must be the same id used as in IVIVE_server()
+#'
+#' @return The four user interface panels consisting of two plots and two tables
+#' of IVIVE results; this main module is made up of four submodules
+#' @export
+#'
 IVIVE_ui <- function(id) {
 
   ####################################################################################
@@ -24,6 +32,19 @@ IVIVE_ui <- function(id) {
 # SERVER - IVIVE MAIN MODULE
 ##############################
 
+#' Main server function to set up the 'Results' card under the IVIVE module
+#'
+#' @param id Shiny identifier name; must be the same id used as in IVIVE_ui()
+#' @param pars A list of all user input parameters for the entire app
+#' @param runsim Action button titled 'Run Simulation' pressed by the user
+#' @param logscale Checkbox input value indicating if the user wanted the y-axis
+#' of plots to be a log10 scale
+#'
+#' @return The four outputs that correspond to the main IVIVE user interface
+#' function consisting of two plots and two tables of IVIVE results; this main
+#' module is made up of four submodules
+#' @export
+#'
 IVIVE_server <- function(id,pars,runsim,logscale) {
 
   shiny::moduleServer(id, function(input, output, session) {

@@ -3,6 +3,16 @@
 # UI - SS CONCENTRATION TABLE
 ###################################
 
+#' User interface for the steady state concentrations table
+#'
+#' @param id Shiny identifier name; must match the identifier in the SS_ConcTable_server()
+#'
+#' @return User interface for the steady state concentrations table which includes
+#' four elements: a table download button, a simulation parameters download button,
+#' the steady state concentrations table, and a table caption
+#'
+#' @export
+#'
 SS_ConcTable_ui <- function(id){
 
   htmltools::tagList(shiny::uiOutput(shiny::NS(id,"downloadSStable_cond")),
@@ -16,6 +26,17 @@ SS_ConcTable_ui <- function(id){
 # SERVER - SS CONCENTRATION TABLE
 ###################################
 
+#' Server function for the steady state concentrations table
+#'
+#' @param id Shiny identifier name; must match the identifier in SS_ConcTable_ui()
+#' @param ss_args A Shiny reactive list with the output of SS_sol(), all shiny
+#' parameters in pars(), and the logscale() input by the user
+#'
+#' @return Server outputs for the steady state concentrations table which includes
+#' four elements: a table download button, a simulation parameters download button,
+#' the steady state concentrations table, and a table caption
+#' @export
+#'
 SS_ConcTable_server <- function(id, ss_args){
 
   shiny::moduleServer(id, function(input, output, session) {

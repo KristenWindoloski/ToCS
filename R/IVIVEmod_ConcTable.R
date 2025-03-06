@@ -3,6 +3,15 @@
 # UI - IVIVE CONC TABLE
 ##########################
 
+#' User interface function for the IVIVE dose table
+#'
+#' @param id Shiny identifier name; must be the same id used as in IVIVE_Table_server()
+#'
+#' @return User interface function for the IVIVE table which includes four
+#' elements: a table download button, a simulation parameters download button,
+#' the IVIVE dose table, and a table caption
+#' @export
+#'
 IVIVE_Table_ui <- function(id){
 
   htmltools::tagList(shiny::uiOutput(shiny::NS(id,"downloadIVIVEtable_cond")),
@@ -13,9 +22,20 @@ IVIVE_Table_ui <- function(id){
 }
 
 ##############################
-# SERVER - IVIVE CONC TABLE
+# SERVER - IVIVE TABLE
 ##############################
 
+#' Server function for the IVIVE dose table
+#'
+#' @param id Shiny identifier name; must be the same id used as in IVIVE_Table_ui()
+#' @param ivive_args A Shiny reactive list with the output of IVIVEsol(), all shiny
+#' parameters in pars(), and the logscale() input by the user
+#'
+#' @return Server outputs for the IVIVE table which includes four elements: a
+#' table download button, a simulation parameters download button,
+#' the IVIVE dose table, and a table caption
+#' @export
+#'
 IVIVE_Table_server <- function(id,ivive_args){
 
   shiny::moduleServer(id, function(input, output, session) {
