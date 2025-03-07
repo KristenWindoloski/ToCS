@@ -7,60 +7,184 @@
 # HAS A FILE WITH COMPOUND DATA BEEN UPLOADED?
 ##########################################################################
 
-# test_that("getData() reactive in app server returns whether a file with compound info has been uploaded",{
-#   shiny::testServer(ToCS(),exp = {
-#
-#     session$setInputs(file1 = NULL)
-#     expect_false(getData())
-#
-#     session$setInputs(file1 = data.frame(name = "4SampleChems.csv",
-#                                          size = 1.58,
-#                                          type = "text//csv",
-#                                          datapath = "C:/Users/Kristen.Windoloski/OneDrive - FDA/httk Project/ToCS/tests/testthat/4SampleChems.csv"))
-#     expect_true(getData())
-#   })
-# })
+test_that("getData() reactive in app server returns whether a file with compound info has been uploaded",{
+  shiny::testServer(run_ToCS(),exp = {
+
+    # VALUE IF NO FILE WITH COMPOUNDS IS UPLOADED
+    session$setInputs(file1 = NULL)
+    expect_false(getData())
+
+    # --- VALUE IF FILE IS UPLOADED
+    session$setInputs(file1 = data.frame(name = "4SampleChems.csv",
+                                         size = 1.58,
+                                         type = "text//csv",
+                                         datapath = "C:/Users/Kristen.Windoloski/OneDrive - FDA/httk Project/ToCS/tests/testthat/4SampleChems.csv"))
+    expect_true(getData())
+  })
+})
 
 
 ##########################################################################
 # COMPILES LIST OF ALL COMPOUNDS TO RUN
 ##########################################################################
 
-test_that("CompLst event reactive outputs a list of compound names",{
+test_that("CompLst() reactive outputs a list of compound names",{
 
-  shiny::testServer(ToCS(),exp = {
+  shiny::testServer(run_ToCS(),exp = {
 
-    #--- TEST 1
-    # session$setInputs(func = "Concentration-time profiles",
-    #                   spec = "Human",
-    #                   defaulttoHuman = "TRUE",
-    #                   runCompounds = 1,
-    #                   model = "pbtk",
-    #                   httkPreloadComps = c("94-75-7, 2,4-d",
-    #                                        "90-43-7, 2-phenylphenol",
-    #                                        "1007-28-9, 6-desisopropylatrazine",
-    #                                        "71751-41-2, Abamectin"),
-    #                   httkPreloadComps_Honda = NULL,
-    #                   file1 = NULL)
-    #
-    # out <- data.frame(Selected_Compounds = c("2,4-d","2-phenylphenol","6-desisopropylatrazine","Abamectin"))
-    # expect_equal(CompLst(),out)
-
-    #--- TEST 2
-    session$setInputs(func = "Select",
+    # --- TEST 1 (ONLY PRELOADED)
+    session$setInputs(func = "Concentration-time profiles",
                       spec = "Human",
-                      defaulttoHuman = "TRUE",
-                      runCompounds = 1,
+                      defaulttoHuman = "Yes",
                       model = "pbtk",
+                      insilicopars = "No, do not load in silico parameters",
                       httkPreloadComps = c("94-75-7, 2,4-d",
-                                           "94-82-6, 2,4-db",
                                            "90-43-7, 2-phenylphenol",
                                            "1007-28-9, 6-desisopropylatrazine",
                                            "71751-41-2, Abamectin"),
-                      httkPreloadComps_Honda = NULL,
-                      file1 = NULL)
+                      file1 = NULL,
+                      HondaIVIVE = "NULL")
 
-    print(CompLst())
-    expect_error(CompLst(),"Error: Desired output")
+    out <- data.frame(Selected_Compounds = c("2,4-d","2-phenylphenol","6-desisopropylatrazine","Abamectin"))
+    expect_equal(CompLst(),out)
+
+    #--- TEST 2 (ONLY UPLOADED - Concentration-time profiles)
+    UploadedComps <- data.frame(name = "4SampleChems.csv",
+                                size = 1.58,
+                                type = "text/csv",
+                                datapath = "C:/Users/Kristen.Windoloski/OneDrive - FDA/httk Project/ToCS/tests/testthat/4SampleChems.csv")
+
+    session$setInputs(func = "Concentration-time profiles",
+                      spec = "Human",
+                      defaulttoHuman = "Yes",
+                      model = "pbtk",
+                      insilicopars = "No, do not load in silico parameters",
+                      httkPreloadComps = NULL,
+                      file1 = UploadedComps,
+                      HondaIVIVE = NULL)
+
+    out <- data.frame(Selected_Compounds = c("Chem1","Chem2","Chem3","Chem4"))
+    expect_equal(CompLst(),out)
+
+    #--- TEST 3 (ONLY UPLOADED - IVIVE, Honda=NULL)
+    UploadedComps <- data.frame(name = "4SampleChems.csv",
+                                size = 1.58,
+                                type = "text/csv",
+                                datapath = "C:/Users/Kristen.Windoloski/OneDrive - FDA/httk Project/ToCS/tests/testthat/4SampleChems.csv")
+
+    session$setInputs(func = "In vitro in vivo extrapolation (IVIVE)",
+                      spec = "Human",
+                      defaulttoHuman = "Yes",
+                      model = "pbtk",
+                      insilicopars = "No, do not load in silico parameters",
+                      httkPreloadComps = NULL,
+                      file1 = UploadedComps,
+                      HondaIVIVE = NULL)
+
+    out <- data.frame(Selected_Compounds = c("Chem1","Chem2","Chem3","Chem4"))
+    expect_equal(CompLst(),out)
+
+    #--- TEST 4 (ONLY UPLOADED - IVIVE, Honda=Honda1)
+    UploadedComps <- data.frame(name = "4SampleChems.csv",
+                                size = 1.58,
+                                type = "text/csv",
+                                datapath = "C:/Users/Kristen.Windoloski/OneDrive - FDA/httk Project/ToCS/tests/testthat/4SampleChems.csv")
+
+    session$setInputs(func = "In vitro in vivo extrapolation (IVIVE)",
+                      spec = "Human",
+                      defaulttoHuman = "Yes",
+                      model = "pbtk",
+                      insilicopars = "No, do not load in silico parameters",
+                      httkPreloadComps = NULL,
+                      file1 = UploadedComps,
+                      HondaIVIVE = "Honda1")
+
+    expect_error(CompLst())
+
+    #--- TEST 5 (ONLY UPLOADED - IVIVE, Honda=Honda2)
+    UploadedComps <- data.frame(name = "4SampleChems.csv",
+                                size = 1.58,
+                                type = "text/csv",
+                                datapath = "C:/Users/Kristen.Windoloski/OneDrive - FDA/httk Project/ToCS/tests/testthat/4SampleChems.csv")
+
+    session$setInputs(func = "In vitro in vivo extrapolation (IVIVE)",
+                      spec = "Human",
+                      defaulttoHuman = "Yes",
+                      model = "pbtk",
+                      insilicopars = "No, do not load in silico parameters",
+                      httkPreloadComps = NULL,
+                      file1 = UploadedComps,
+                      HondaIVIVE = "Honda2")
+
+    out <- data.frame(Selected_Compounds = c("Chem1","Chem2","Chem3","Chem4"))
+    expect_equal(CompLst(),out)
+
+    # --- TEST 5 (PRELOADED AND UPLOADED)
+
+    session$setInputs(func = "Concentration-time profiles",
+                      spec = "Human",
+                      defaulttoHuman = "Yes",
+                      model = "pbtk",
+                      insilicopars = "No, do not load in silico parameters",
+                      httkPreloadComps = c("94-75-7, 2,4-d",
+                                           "90-43-7, 2-phenylphenol",
+                                           "1007-28-9, 6-desisopropylatrazine",
+                                           "71751-41-2, Abamectin"),
+                      file1 = UploadedComps)
+
+    out <- data.frame(Selected_Compounds = c("2,4-d","2-phenylphenol","6-desisopropylatrazine","Abamectin",
+                                             "Chem1","Chem2","Chem3","Chem4"))
+    expect_equal(CompLst(),out)
+
   })
 })
+
+
+
+##########################################################################
+# COMPILES LIST OF ALL COMPOUNDS TO RUN
+##########################################################################
+
+test_that("output$comptext outputs a table of compounds to simulate",{
+
+  shiny::testServer(run_ToCS(),exp = {
+
+    # --- TEST ALL COMBOS FOR WORKING AND VALIDATION TEXT
+    session$setInputs(func = "Concentration-time profiles",
+                      spec = "Human",
+                      defaulttoHuman = "Yes",
+                      model = "pbtk",
+                      insilicopars = "No, do not load in silico parameters",
+                      httkPreloadComps = c("94-75-7, 2,4-d",
+                                           "90-43-7, 2-phenylphenol",
+                                           "1007-28-9, 6-desisopropylatrazine",
+                                           "71751-41-2, Abamectin"),
+                      file1 = NULL)
+
+    out <- data.frame(Selected_Compounds = c("2,4-d","2-phenylphenol","6-desisopropylatrazine","Abamectin"))
+    new_output <- as.data.frame(rvest::read_html(output$comptext) %>% rvest::html_table(fill=TRUE))
+    expect_equal(new_output,out)
+  })
+})
+
+##########################################################################
+# TEST ADME MODULE
+##########################################################################
+
+### STILL WORKING ON THE BELOW TEST - NEED TO TROUBLESHOOT
+
+# test_that("output$tksummaryCaption reactive returns caption text",{
+#
+#   adme_args <- shiny::reactiveVal()
+#   shiny::testServer(ADME_TKTable_server,args = list(var = adme_args), exp = {
+#
+#     adme_args(list(1,2,3))
+#     # --- TEST
+#     out <- paste("Table 1: Table of summary statistics (Tmax - time to maximal concentration,
+#       MaxValue - maximal amount (A, umol) or concentration (C, uM), AUC - area
+#       under the curve (uM*days)) for each compartment for each selected compound.")
+#
+#     session$flushReact()
+#     expect_equal(output$tksummaryCaption,out)
+#   })
+# })
