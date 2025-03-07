@@ -18,7 +18,7 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 Depends:
-    httk (>= 2.4.0)
+    httk (>= 2.5.0)
 Imports: 
     bslib,
     cowplot,
@@ -33,6 +33,7 @@ Imports:
     scales,
     shiny,
     shinyjs,
+    shinyvalidate,
     stats
 Suggests: 
     knitr,
