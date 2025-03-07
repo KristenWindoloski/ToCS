@@ -1,9 +1,26 @@
 
+################################################################################
+################################################################################
 
-######################################################
-# --- SOLVE MODEL FOR IVIVE SOLUTION
-######################################################
-
+#' Main function to calculate the oral equivalent dose and bioactivity exposure
+#' ratio for a list of chemicals
+#'
+#' @description
+#' This function is the primary function used to calculate the oral equivalent
+#' dose and bioactivity exposure ratio for a list of chemicals, if applicable.
+#' This function calls other functions that do the actual calculations, but it
+#' returns the final output used to generate the specified outputs in the IVIVE
+#' server functions.
+#'
+#'
+#' @param pars A list of all user input parameters for the entire app
+#'
+#' @return A list consisting of the data frame of oral equivalent dose solutions,
+#' the bioactive concentration data frame, a data frame with simulation parameters
+#' and physical-chemical data for chemicals simulated, a data frame with bioactivity
+#' exposure ratios (BER), and a data frame with user-uploaded exposure data
+#' @export
+#'
 IVIVEsol <- function(pars){
 
   # --- PROCESS BIOACTIVE CONCENTRATIONS FILE
@@ -45,6 +62,27 @@ IVIVEsol <- function(pars){
   out <- list(sol,bioactive_conc,pars_df,BER,exposuredata)
 }
 
+################################################################################
+################################################################################
+
+#' Calculate the oral equivalent dose (OED) of a chemical
+#'
+#' @description
+#' This function calculates the oral equivalent dose (OED) of a chemical given
+#' its bioactive concentration. The 'httk' package function 'calc_mc_oral_equiv"
+#' is used to generate either a single OED or a vector of OEDs depending on
+#' whether the user wants only a specific quantile returned or all OED samples
+#' returned.
+#'
+#'
+#' @param i Index indicating which chemical on the list to simulate
+#' @param pars A list of all user input parameters for the entire app
+#' @param bioactive_df A data frame with the chemical name, CAS number, and
+#' bioactive concentration (in uM units) for each chemical to simulate
+#'
+#' @return A numeric value or vector of values, depending on the parameter
+#' @export
+#'
 CalcOED <- function(i,pars,bioactive_df){
 
   # --- SET RANDOM GENERATOR SEED
@@ -76,6 +114,28 @@ CalcOED <- function(i,pars,bioactive_df){
                                   samples = pars[["samples"]])
 }
 
+################################################################################
+################################################################################
+
+#' Convert a bioactive concentration from a nominal concentration to a free
+#' concentration in vitro
+#'
+#' @description
+#' This function converts nominal bioactive concentrations to a free concentration
+#' in vitro, if the user selects the 'Honda1' IVIVE assumption. If chosen, this
+#' assumption uses the 'httk' package's 'armitage_eval' function to perform the
+#' conversion. If the 'Honda1' assumption is not chosen, then the original
+#' 'bioactive_df' data frame is returned.
+#'
+#'
+#' @param pars A list of all user input parameters for the entire app
+#' @param bioactive_df A data frame with the chemical name, CAS number, and
+#' bioactive concentration (in uM units) for each chemical to simulate
+#'
+#' @return A data frame with the chemical name, CAS number, and bioactive
+#' concentration
+#' @export
+#'
 ConvertBioactive <- function(pars,bioactive_df){
 
   if (is.null(pars[["HondaIVIVE"]])){
@@ -96,6 +156,27 @@ ConvertBioactive <- function(pars,bioactive_df){
   }
 }
 
+################################################################################
+################################################################################
+
+#' Compile the simulation parameters and physical-chemical data used into one
+#' data frame
+#'
+#' @description
+#' This function combines the used simulation parameters and chemical-physical
+#' data for simulated compounds into one data frame. The returned parameters are
+#' only those used to generate the simulation, and the chemical-physical data is
+#' retrieved from the 'httk' package's 'chem.physical_and_invitro.data' data frame.
+#'
+#'
+#' @param pars A list of all user input parameters for the entire app
+#' @param bioactive_df A data frame with the chemical name, CAS number, and
+#' bioactive concentration (in uM units) for each chemical to simulate
+#'
+#' @return A data frame with simulation parameters and physical-chemical data
+#' for simulated compounds
+#' @export
+#'
 StorePars_IVIVE <- function(pars,bioactive_df){
 
   # --- CONVERT POTENTIAL NULL PARAMETERS
@@ -141,10 +222,23 @@ StorePars_IVIVE <- function(pars,bioactive_df){
 
 }
 
-######################################################
-# --- CREATE SCATTER PLOT OF OED VALUES
-######################################################
+################################################################################
+################################################################################
 
+#' Plot the oral equivalent dose (OED) and exposure data (if applicable)
+#'
+#' @param OED_data A data frame of chemical names and their OEDs (either one per
+#' chemical or many per chemical if samples were returned); The first output
+#' from the IVIVEsol function
+#' @param BioactiveConc An input not used
+#' @param pars A list of all user input parameters for the entire app
+#' @param logscale Checkbox input value indicating if the user wanted the y-axis
+#' of plots to be a log10 scale
+#' @param expdata A data frame with chemical names and exposure data estimates
+#'
+#' @return A ggplot2 plotting object
+#' @export
+#'
 IVIVEplotting <- function(OED_data,BioactiveConc,pars,logscale,expdata){
 
   # --- SET PLOT LABEL NAMES
@@ -198,6 +292,19 @@ IVIVEplotting <- function(OED_data,BioactiveConc,pars,logscale,expdata){
   return(plt)
 }
 
+################################################################################
+################################################################################
+
+#' Plot the oral equivalent dose (OED) for each chemical when there is no exposure
+#' data uploaded
+#'
+#' @param OED_data A data frame with chemical names and their OEDs
+#' @param y_exp The plot's y-axis label expression
+#' @param title_exp The plot's title expression
+#'
+#' @return A ggplot2 plotting object
+#' @export
+#'
 OEDPoint_NoExposure_Plot <- function(OED_data,y_exp,title_exp){
 
   # --- PLOT DATA
@@ -211,6 +318,21 @@ OEDPoint_NoExposure_Plot <- function(OED_data,y_exp,title_exp){
   return(plt)
 }
 
+################################################################################
+################################################################################
+
+#' Plot the oral equivalent dose (OED) for each chemical when the user uploads
+#' exposure data
+#'
+#' @param OED_data A data frame with chemical names and their OEDs
+#' @param expdata A data frame with chemical names and their exposure estimates
+#' @param y_exp The plot's y-axis label expression
+#' @param title_exp The plot's title expression
+#'
+#' @return A list with two elements: a ggplot2 plotting object and a data frame
+#' with both OED and exposure data
+#' @export
+#'
 OEDPoint_Exposure_Plot <- function(OED_data,expdata,y_exp,title_exp){
 
   # --- TRANSFORM OED_DATA INTO NEEDED FORMAT
@@ -239,6 +361,21 @@ OEDPoint_Exposure_Plot <- function(OED_data,expdata,y_exp,title_exp){
   return(list(plt,combined_df))
 }
 
+################################################################################
+################################################################################
+
+#' Plot the oral equivalent dose samples and user-uploaded exposure data estimates
+#'
+#' @param OEDSamples_df A data frame with chemical names and their OED samples
+#' @param Q5_OED_df A data frame with chemical names and their 5th OED quantile value
+#' @param expdata A data frame with chemical names and their exposure estimates
+#' @param y_exp The plot's y-axis label expression
+#' @param title_exp The plot's title expression
+#'
+#' @return A list with two elements: a ggplot2 plotting object and a data frame
+#' with exposure data
+#' @export
+#'
 OEDSample_Exposure_Plot <- function(OEDSamples_df,Q5_OED_df,expdata,y_exp,title_exp){
 
   OEDSamples_df$Type <- "OED"
@@ -271,6 +408,19 @@ OEDSample_Exposure_Plot <- function(OEDSamples_df,Q5_OED_df,expdata,y_exp,title_
   return(list(plt,expdata))
 }
 
+################################################################################
+################################################################################
+
+#' Plot the oral equivalent dose samples when the user does not upload exposure data
+#'
+#' @param OEDSamples_df A data frame with chemical names and their OED samples
+#' @param Q5_OED_df A data frame with chemical names and their 5th OED quantile value
+#' @param y_exp The plot's y-axis label expression
+#' @param title_exp The plot's title expression
+#'
+#' @return A ggplot2 plotting object
+#' @export
+#'
 OEDSample_NoExposure_Plot <- function(OEDSamples_df,Q5_OED_df,y_exp,title_exp){
 
   # --- PLOT
@@ -283,6 +433,34 @@ OEDSample_NoExposure_Plot <- function(OEDSamples_df,Q5_OED_df,y_exp,title_exp){
                    plot.title = ggplot2::element_text(hjust = 0.5))
 }
 
+################################################################################
+################################################################################
+
+#' Converts a plot with a linear y-axis to a plot with a log10 y-axis scale
+#'
+#' @description
+#' This function converts the y-axis scale on a plot object from a linear to a
+#' log10 y-axis.
+#'
+#'
+#' @param plt A complete ggplot2 plotting object
+#' @param pars A list of all user input parameters for the entire app
+#' @param OEDSamples_df A data frame of oral equivalent dose samples for each
+#' compound; The first list output from PlotPrep_df.
+#' @param combined_df A data frame with OEDs and exposure estimates; The second
+#' output from OEDPoint_Exposure_Plot.
+#' @param OED_data A data frame of compound names and their OEDs;
+#' The first output from the IVIVEsol function arranged in ascending order of
+#' the OEDs
+#' @param expdata A data frame of compound names and their exposure data estimates;
+#' The fifth output of the IVIVEsol function
+#' @param Q5_OED_df A data frame of compound names and their 5th quantile OED;
+#' The second output of the Plotdf_Prep function
+#'
+#' @return A plot object of OEDs and exposure data (if applicable) with a log10
+#' y-axis scale
+#' @export
+#'
 IVIVEplot_logscale <- function(plt,pars,OEDSamples_df,combined_df,OED_data,expdata,Q5_OED_df){
 
   if (pars[["returnsamples"]] == TRUE){
@@ -300,7 +478,6 @@ IVIVEplot_logscale <- function(plt,pars,OEDSamples_df,combined_df,OED_data,expda
     else{
       break_seq <- log10breaks(OED_data$OED)
     }
-
   }
 
   plt <- plt +
@@ -312,6 +489,23 @@ IVIVEplot_logscale <- function(plt,pars,OEDSamples_df,combined_df,OED_data,expda
   return(plt)
 }
 
+################################################################################
+################################################################################
+
+#' Generate the title and y-axis label for the IVIVE oral equivalent dose plot
+#'
+#' @description
+#' This function generates the title and y-axis expressions for the oral equivalent
+#' dose plot in the IVIVE module. The plot's title is dependent upon the model chosen,
+#' and the y-axis label is dependent upon the output concentration and tissue and
+#' output units selected.
+#'
+#'
+#' @param pars A list of all user input parameters for the entire app
+#'
+#' @return A list with two elements: a title expression and a y-axis expression
+#' @export
+#'
 IVIVEplot_labels <- function(pars){
 
   # --- SET TITLE LABEL
@@ -342,6 +536,22 @@ IVIVEplot_labels <- function(pars){
   out <- list(title_exp, y_exp)
 }
 
+################################################################################
+################################################################################
+
+#' Generate the caption for the IVIVE plot
+#'
+#' @description
+#' This function generates the caption for the IVIVE oral equivalent dose plot
+#' output. The caption differs depending on whether a single OED or a vector of
+#' OEDs is returned as well as whether exposure data is available.
+#'
+#'
+#' @param pars A list of all user input parameters for the entire app
+#'
+#' @return A text caption for Figure 1
+#' @export
+#'
 IVIVEplot_caption <- function(pars){
 
   if (pars[["returnsamples"]] == TRUE){
@@ -380,6 +590,27 @@ IVIVEplot_caption <- function(pars){
   }
 }
 
+################################################################################
+################################################################################
+
+#' Rearrange the data frame of compounds and their OED samples by median OED
+#' sample and separate the 5th quantile OED for each chemical
+#'
+#' @description
+#' This function prepares the data frames for plotting the OED when all OED samples
+#' are returned instead of a singular OED per compound. The compounds are arranged
+#' in ascending order based on the median OED sample for each compound and then
+#' the data frame with the 5th quantile OED is arranged in that same order.
+#'
+#'
+#' @param df A data frame with chemical names and outputted OED samples from
+#' IVIVEsol()
+#' @param pars A list of all user input parameters for the entire app
+#'
+#' @return A list with two elements: the OED samples and the 5th quantile OEDs
+#' arranged by median value
+#' @export
+#'
 Plotdf_Prep <- function(df,pars){
 
   # --- EXTRACT OUT 5TH QUANTILE OED DOSE FROM SOLUTION DATA FRAME
@@ -419,6 +650,24 @@ Plotdf_Prep <- function(df,pars){
   out <- list(OED_Samples_df_rearr, Q5_OED_rearr)
 }
 
+################################################################################
+################################################################################
+
+#' Plot the bioactivity exposure ratio (BER) for all simulated chemicals
+#'
+#' @description
+#' This function plots the bioactivity exposure ratios (BERs) for a list of
+#' chemicals. The compounds are arranged in ascending order and then plotted using
+#' ggplot2. A red line is also plotted at BER = 1, indicating the threshold where
+#' compounds below the red line should be prioritized for further assessment.
+#'
+#'
+#' @param BERdata A data frame of chemical names and BER values
+#'
+#' @return A ggplot plotting object with all BERs plotted and a red line indicating
+#' the chemical prioritization cutoff
+#' @export
+#'
 BERplotting <- function(BERdata){
 
   # --- ARRANGE BER DATA FOR PLOTTING
@@ -445,6 +694,24 @@ BERplotting <- function(BERdata){
   return(plt)
 }
 
+################################################################################
+################################################################################
+
+#' Prepare the exposure data file for plotting
+#'
+#' @description
+#' This function prepares the user uploaded exposure data file for plotting. The
+#' function assures that the chemicals in the exposure data file are in the same
+#' order as the original chemical list, updates the data if the model output units
+#' are different than the default of mg/kg/day, and calculates the maximal exposure
+#' data estimate for each compound. The updated exposure data frame is returned.
+#'
+#'
+#' @param pars A list of all user input parameters for the entire app
+#'
+#' @return A data frame with exposure data
+#' @export
+#'
 PrepExposureData <- function(pars){
 
     # --- LOAD EXPOSURE DATA
@@ -475,6 +742,30 @@ PrepExposureData <- function(pars){
     return(exposuredata)
 }
 
+################################################################################
+################################################################################
+
+#' Calculate the oral equivalent dose and bioactivity exposure ratio when OED
+#' samples are not returned
+#'
+#' @description
+#' This function calculates the oral equivalent dose (OED) and bioactivity exposure
+#' (BER) ratio when the user wants a specific quantile of OED returned. The BER
+#' is calculated using the OED quantile selected by the user. If no exposure
+#' data is uploaded by the user, then the BER is not calculated.
+#'
+#'
+#' @param n The number of compounds being simulated
+#' @param pars A list of all user input parameters for the entire app
+#' @param bioactive_conc A data frame with chemical names, their CAS numbers, and
+#' their bioactive concentrations
+#' @param exposuredata A data frame with chemical names, their CAS numbers, and
+#' an upper, median, and lower exposure estimate
+#'
+#' @return A list with two elements: a data frame with oral equivalent doses and
+#' a data frame with bioactivity exposure ratios
+#' @export
+#'
 Calc_OEDBER_RS_False <- function(n,pars,bioactive_conc,exposuredata){
 
   # --- CALCULATE OED
@@ -489,7 +780,6 @@ Calc_OEDBER_RS_False <- function(n,pars,bioactive_conc,exposuredata){
 
   })
 
-
   # --- CALCULATE BIOACTIVITY EXPOSURE RATIO, IF APPLICABLE
   if (!is.null(pars[["fileExposure"]])){
     BER <- data.frame(CompoundName = exposuredata$CompoundName,
@@ -502,6 +792,30 @@ Calc_OEDBER_RS_False <- function(n,pars,bioactive_conc,exposuredata){
   return(out)
 }
 
+################################################################################
+################################################################################
+
+#' Calculate the oral equivalent doses and bioactivity exposure ratio when OED
+#' samples are returned
+#'
+#' @description
+#' This function calculates an array of oral equivalent dose (OED) samples and the 5th
+#' quantile OED as well a data frame of bioactivity exposure ratios (BERs). The
+#' BER is calculated using the 5th quantile OED. If no exposure data is uploaded
+#' by the user, then no bioactivity exposure ratios are returned.
+#'
+#'
+#' @param n The number of compounds being simulated
+#' @param pars A list of all user input parameters for the entire app
+#' @param bioactive_conc A data frame with chemical names, their CAS numbers, and
+#' their bioactive concentrations
+#' @param exposuredata A data frame with chemical names, their CAS numbers, and
+#' an upper, median, and lower exposure estimate
+#'
+#' @return A list with two elements: an array with oral equivalent doses and
+#' a data frame with bioactivity exposure ratios
+#' @export
+#'
 Calc_OEDBER_RS_True <- function(n,pars,bioactive_conc,exposuredata){
 
   # --- CREATE ARRAY WITH 1ST ROW BEING 5TH DOSE OED AND 3-END ROWS BEING SAMPLES
@@ -539,6 +853,24 @@ Calc_OEDBER_RS_True <- function(n,pars,bioactive_conc,exposuredata){
   return(out)
 }
 
+################################################################################
+################################################################################
+
+#' Replace NAs in exposure data frame with values
+#'
+#' @description
+#' This function fills in the NA values in the exposure data frame by placing a
+#' small deviation (1e-8) from the non-NA elements of the data frame for that
+#' particular chemical. This is done so that the exposure data can be plotted as
+#' line and point ranges.
+#'
+#'
+#' @param exposure_df A data frame with chemical names and exposure estimates. '
+#'
+#' @return A data frame with chemical names and exposure estimates.
+#' There should be no NA values in the outputted data frame.
+#' @export
+#'
 FillExposureData <- function(exposure_df){
 
   # --- DETERMINE ROWS WITH MISSING DATA

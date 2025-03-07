@@ -3,6 +3,18 @@
 # UI - BER PLOT
 ##########################
 
+#' User interface function for the BER plot
+#'
+#' #' @description
+#' This function outputs the user interface for the BER plot drop down in the
+#' results card under the 'Run Simulation' tab. The interface has three outputs:
+#' a plot download button, a plot with BER values, and a plot caption.
+#'
+#' @param id Shiny identifier name; must be the same id used as in BER_Plot_server()
+#'
+#' @return User interface for the BER plot drop down with three elements
+#' @export
+#'
 BER_Plot_ui <- function(id){
 
   htmltools::tagList(shiny::uiOutput(shiny::NS(id,"downloadBERplot_cond")),
@@ -15,6 +27,20 @@ BER_Plot_ui <- function(id){
 # SERVER - BER PLOT
 #############################
 
+#' Server function for the BER plot
+#'
+#' #' @description
+#' This function generates the outputs defined in the IVIVE_Table_ui()
+#' function. This connects the download buttons with the plot to download,
+#' generates the plot content, and creates the text for the plot caption.
+#'
+#' @param id Shiny identifier name; must be the same id used as in BER_Plot_ui()
+#' @param ivive_args A Shiny reactive list with the output of IVIVEsol(), all shiny
+#' parameters in pars(), and the logscale() input by the user
+#'
+#' @return Server outputs for the BER plot drop down which includes three elements
+#' @export
+#'
 BER_Plot_server <- function(id,ivive_args){
 
   moduleServer(id, function(input, output, session) {
