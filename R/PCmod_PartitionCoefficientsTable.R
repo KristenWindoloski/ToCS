@@ -3,6 +3,15 @@
 # UI - PC PARTITION COEFFICIENTS TABLE
 #######################################
 
+#' User interface function for the parameter calculations partition coefficients
+#' table
+#'
+#' @param id Shiny identifier name; must be the same id used as in PC_PCTable_server()
+#'
+#' @return User interface for the partition coefficients table drop down with
+#' three elements
+#' @export
+#'
 PC_PCTable_ui <- function(id){
 
   htmltools::tagList(shiny::uiOutput(shiny::NS(id,"downloadPCtable_cond")),
@@ -15,6 +24,15 @@ PC_PCTable_ui <- function(id){
 # SERVER - PC PARTITION COEFFICIENTS TABLE
 ############################################
 
+#' Server function for the parameter calculations partition coefficients table
+#'
+#' @param id Shiny identifier name; must be the same id used as in PC_PCTable_ui()
+#' @param pc_args A Shiny reactive list with the output of Parsol(), all shiny
+#' parameters in pars(), and the logscale() input by the user
+#'
+#' @return Server outputs for the partition coefficients table with three elements
+#' @export
+#'
 PC_PCTable_server <- function(id,pc_args){
 
   shiny::moduleServer(id, function(input, output, session) {

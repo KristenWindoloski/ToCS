@@ -1,8 +1,25 @@
 
-###########################################
-# --- CALCULATE OUTPUT PARAMETER VALUES
-###########################################
+################################################################################
+################################################################################
 
+#' Calculate the elimination rate, volume of distribution, half-life, and total
+#' plasma clearance of all selected compounds
+#'
+#' @description
+#' This function is the main function that calls for the calculation of a list of
+#' compounds' elimination rates, volumes of distribution, half lives, and total
+#' plasma clearances. The data frames are set up in this function, and then other
+#' functions are called to do the calculation for these parameters.
+#'
+#'
+#' @param pars A list of all user input parameters for the entire app
+#'
+#' @return A list consisting of a data frame with calculated elimination rates,
+#' volumes of distribution, half life, and total clearance measures, a data
+#' frame with calculated partition coefficients, and a data frame with simulation
+#' parameters and chemical-physical data
+#' @export
+#'
 Parsol <- function(pars){
 
   # --- Get number of compounds
@@ -37,8 +54,6 @@ Parsol <- function(pars){
       df1[i,4] <- CalcHalfLife(pars,i)
       df1[i,5] <- CalcClearance(pars,i)
       df2[i,2:14] <- CalcPCs(pars,i)
-
-
     }
   })
 
@@ -49,6 +64,23 @@ Parsol <- function(pars){
   out_list <- list(df1,df2,pars_df)
 }
 
+################################################################################
+################################################################################
+
+#' Calculate the elimination rate of a chemical
+#'
+#' @description
+#' This function calculates the elimination rate of a compound using the 'httk'
+#' package's 'calc_elimination_rate' function.
+#'
+#'
+#' @param pars A list of all user input parameters for the entire app
+#' @param i A numerical value representing the index number of the compound to
+#' simulate
+#'
+#' @return A numerical value, which is the elimination rate for compound i
+#' @export
+#'
 CalcElimRate <- function(pars,i){
 
   sol_elim <- httk::calc_elimination_rate(chem.name = pars[["CompoundList"]][i,1],
@@ -61,6 +93,22 @@ CalcElimRate <- function(pars,i){
                                     minimum.Funbound.plasma = pars[["min_fub"]])
 }
 
+################################################################################
+################################################################################
+
+#' Calculate the volume of distribution of a chemical
+#'
+#' #' @description
+#' This function calculates the volume of distribution of a compound using the
+#' 'httk' package's 'calc_vdist' function.
+#'
+#' @param pars A list of all user input parameters for the entire app
+#' @param i A numerical value representing the index number of the compound to
+#' simulate
+#'
+#' @return A numerical value, which is the volume of distribution for compound i
+#' @export
+#'
 CalcVdist <- function(pars,i){
 
   out <- httk::calc_vdist(chem.name = pars[["CompoundList"]][i,1],
@@ -71,6 +119,22 @@ CalcVdist <- function(pars,i){
              minimum.Funbound.plasma = pars[["min_fub"]])
 }
 
+################################################################################
+################################################################################
+
+#' Calculate the half-life of a chemical
+#'
+#' #' @description
+#' This function calculates the half-life of a compound using the 'httk' package's
+#' 'calc_half_life' function.
+#'
+#' @param pars A list of all user input parameters for the entire app
+#' @param i A numerical value representing the index number of the compound to
+#' simulate
+#'
+#' @return A numerical value, which is the half-life for compound i
+#' @export
+#'
 CalcHalfLife <- function(pars,i){
 
   HL <- httk::calc_half_life(chem.name = pars[["CompoundList"]][i,1],
@@ -83,6 +147,22 @@ CalcHalfLife <- function(pars,i){
                              minimum.Funbound.plasma = pars[["min_fub"]])
 }
 
+################################################################################
+################################################################################
+
+#' This function calculates the total plasma clearance of a chemical
+#'
+#' #' @description
+#' This function calculates the total plasma clearance of a compound using the
+#' 'httk' package's 'calc_total_clearance' function.
+#'
+#' @param pars A list of all user input parameters for the entire app
+#' @param i A numerical value representing the index number of the compound to
+#' simulate
+#'
+#' @return A numerical value, which is the plasma total clearance for compound i
+#' @export
+#'
 CalcClearance <- function(pars,i){
 
   TotClear <- httk::calc_total_clearance(chem.name = pars[["CompoundList"]][i,1],
@@ -92,6 +172,24 @@ CalcClearance <- function(pars,i){
                                          adjusted.Funbound.plasma = pars[["adj_fub"]])
 }
 
+################################################################################
+################################################################################
+
+#' Calculate the partition coefficients of a chemical
+#'
+#' @description
+#' This function calculates the tissue to unbound plasma partition coefficients
+#' of a given chemical. This is done using the 'httk' package's
+#' 'predict_partitioning_schmitt' function.
+#'
+#'
+#' @param pars A list of all user input parameters for the entire app
+#' @param i A numerical value representing the index number of the compound to
+#' simulate
+#'
+#' @return A list, which consists of the partition coefficients for compound i
+#' @export
+#'
 CalcPCs <- function(pars,i){
 
   out <- httk::predict_partitioning_schmitt(chem.name = pars[["CompoundList"]][i,1],
@@ -103,6 +201,26 @@ CalcPCs <- function(pars,i){
                                minimum.Funbound.plasma = pars[["min_fub"]])
 }
 
+################################################################################
+################################################################################
+
+#' Create a data frame that stores all simulation parameters and physical-chemical
+#' data for simulated compounds
+#'
+#' @description
+#' This function creates a data frame that contains all simulated user-selected
+#' parameters as well as chemical-physical compound data for simulated compounds.
+#' Chemical-physical data is taken from the 'httk' package's
+#' chem.physical_and_invitro.data data frame, where the data was either uploaded
+#' by the GUI user or already present when httk was loaded.
+#'
+#'
+#' @param pars A list of all user input parameters for the entire app
+#'
+#' @return A data frame with simulation parameters and physical-chemical
+#' data from the compounds simulated
+#' @export
+#'
 StorePars_PC <- function(pars){
 
   # --- Create a data frame to store all simulation parameters
@@ -121,11 +239,32 @@ StorePars_PC <- function(pars){
   pars_df <-cbind(pars_df,chemdata)
 }
 
-##################################################
-# --- GENERATE PLOT WITH ELIM RATE AND VDIST
-##################################################
+################################################################################
+################################################################################
 
 
+#' Generate plots of calculated elimination rate, volume of distribution, half-life,
+#' and total plasma clearance values for a list of chemicals
+#'
+#' @description
+#' This function generates plots for calculated elimination rate, volume of
+#' distribution, half-life, and total plasma clearance values for a list of
+#' compounds. Each plot has its values arranged in ascending order and plot on a
+#' log10 y-axis scale, if desired by the user.
+#'
+#'
+#' @param soldata A data frame with calculated elimination rates, volumes of
+#' distribution, half life, and total clearance measures for each simulated
+#' compound.
+#' @param pars A list of all user input parameters for the entire app
+#' @param logscale Checkbox input value indicating if the user wanted the y-axis
+#' of plots to be a log10 scale; either 'TRUE' for log10 y-axis or 'FALSE' for a
+#' linear y-axis
+#'
+#' @return A list of four ggplot2 objects for plots of elimination rate, volume
+#' of distribution, half life, and total plasma clearance
+#' @export
+#'
 plotPar <- function(soldata,pars,logscale){
 
   df_elim <- dplyr::select(soldata, CompoundName, EliminationRate)
@@ -185,10 +324,29 @@ plotPar <- function(soldata,pars,logscale){
   return(plt_lst)
 }
 
-##################################################
-# --- GENERATE PLOT WITH PARTITION COEFFICIENTS
-##################################################
+################################################################################
+################################################################################
 
+#' Generate partition coefficient plots for simulated chemicals
+#'
+#' @description
+#' This function generates plots of partition coefficients for all simulated
+#' compounds. Each plot represents a different tissue and that tissue's partition
+#' coefficients are arranged in ascending order. The plots are plotted on a log10
+#' y-axis scale, if desired by the user.
+#'
+#'
+#' @param soldata A data frame with calculated partition coefficients for each
+#' simulated compound.
+#' @param pars A list of all user input parameters for the entire app
+#' @param logscale Checkbox input value indicating if the user wanted the y-axis
+#' of plots to be a log10 scale; either 'TRUE' for log10 y-axis or 'FALSE' for a
+#' linear y-axis
+#'
+#' @return A list of four ggplot2 objects for plots of elimination rate, volume
+#' of distribution, half life, and total plasma clearance
+#' @export
+#'
 plotPCs <- function(soldata,pars,logscale){
 
   # --- Create empty list to be filled with number of plots (each plot will have multiple curves on it)

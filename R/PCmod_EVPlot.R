@@ -3,6 +3,13 @@
 # UI - PC ELIM RATE AND VDIST PLOT
 #######################################
 
+#' User interface function for the parameter calculations parameter plot
+#'
+#' @param id Shiny identifier name; must be the same id used as in PC_EVPlot_server()
+#'
+#' @return User interface for the parameter plot drop down with three elements
+#' @export
+#'
 PC_EVPlot_ui <- function(id){
 
   htmltools::tagList(shiny::uiOutput(shiny::NS(id,"downloadParplot_cond")),
@@ -15,6 +22,16 @@ PC_EVPlot_ui <- function(id){
 # SERVER - PC ELIM RATE AND VDIST PLOT
 #######################################
 
+#' Server function for the parameter calculations parameter plot
+#'
+#' @param id Shiny identifier name; must be the same id used as in PC_EVPlot_ui()
+#' @param pc_args A Shiny reactive list with the output of Parsol(), all shiny
+#' parameters in pars(), and the logscale() input by the user
+#'
+#' @return Server outputs for the parameter plot drop down which includes three
+#' elements
+#' @export
+#'
 PC_EVPlot_server <- function(id,pc_args){
 
   shiny::moduleServer(id, function(input, output, session) {

@@ -3,6 +3,23 @@
 # UI - IP MAIN MODULE
 ##########################
 
+#' Main user interface function to set up the 'Results' card under the Parameter
+#' Calculations module's 'Run Simulation' tab
+#'
+#' #' @description
+#' This function outputs the structure of the user interface for the Parameter
+#' Calculations 'Results' card under the 'Run Simulation' tab. Five drop down
+#' tabs appear: one for a parameter plot, one for a parameter table, one for a
+#' partition coefficient plot, one for a partition coefficient table, and one for
+#' a download option for simulation parameters. The user interface contents of
+#' each drop down is then filled by a separate UI module.
+#'
+#' @param id Shiny identifier name; must be the same id used as in PC_server()
+#'
+#' @return Five user interface drop down tabs identifying space for two plots,
+#' two tables, and a download button of parameter calculation results.
+#' @export
+#'
 PC_ui <- function(id) {
 
   ####################################################################################
@@ -26,6 +43,20 @@ PC_ui <- function(id) {
 # SERVER - IP MAIN MODULE
 ##########################
 
+#' Main server function to set up the 'Results' card under the Parameter
+#' Calculation module's Run Simulation' tab
+#'
+#' @param id Shiny identifier name; must be the same id used as in PC_ui()
+#' @param pars A list of all user input parameters for the entire app
+#' @param runsim Action button titled 'Run Simulation' pressed by the user
+#' @param logscale Checkbox input value indicating if the user wanted the y-axis
+#' of plots to be a log10 scale
+#'
+#' @return The five server outputs that fill the main Parameter Calculations
+#' user interface function consisting of two plots, two tables, and a download
+#' button of simulation parameters of Parameter Calculation results
+#' @export
+#'
 PC_server <- function(id,pars,runsim,logscale) {
 
   shiny::moduleServer(id, function(input, output, session) {
