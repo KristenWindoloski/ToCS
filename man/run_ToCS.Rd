@@ -10,9 +10,6 @@ run_ToCS()
 The ToCS interface
 }
 \description{
-Run the ToCS App
-}
-\examples{
-run_ToCS()
-
+This is the primary function to run the ToCS app once the ToCS package is
+loaded into R or opened on the web.
 }
