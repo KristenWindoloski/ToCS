@@ -4,7 +4,7 @@
 \alias{getPiped}
 \title{Generate the final list of available compounds to simulate in httk}
 \usage{
-getPiped(CASnums, honda)
+getPiped(CASnums, honda, comptype)
 }
 \arguments{
 \item{CASnums}{The CASRN numbers of compounds that have enough data in httk

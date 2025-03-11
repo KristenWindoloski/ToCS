@@ -4,7 +4,15 @@
 \alias{PreloadCompsInput}
 \title{Generate the drop down list of preloaded compounds available to simulate in httk}
 \usage{
-PreloadCompsInput(func, species, defaulthuman, insilico, model, honda)
+PreloadCompsInput(
+  func,
+  species,
+  defaulthuman,
+  insilico,
+  model,
+  honda,
+  comptype
+)
 }
 \arguments{
 \item{func}{The user-selected desired output}
