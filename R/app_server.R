@@ -33,7 +33,8 @@ app_server <- function(input, output, session) {
   # --- GENERATES THE PRELOADED COMPOUNDS OUTPUT
   output$PreloadedComps <- shiny::renderUI({
     PreloadComps_UI(input$func,input$spec,input$defaulttoHuman,
-                    input$model,input$insilicopars,input$HondaIVIVE)})
+                    input$model,input$insilicopars,input$HondaIVIVE,
+                    input$CompType)})
 
   # --- COMPILES LIST OF ALL COMPOUNDS TO RUN
   CompLst <- shiny::reactive({

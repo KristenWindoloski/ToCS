@@ -90,6 +90,7 @@ CS_PreloadedCompounds <- function(){
               shiny::conditionalPanel(condition = "input.func !== 'Select' && input.spec != 'Select' && input.defaultoHuman != 'Select'",
                                       shiny::conditionalPanel(condition = "input.func == 'In vitro in vivo extrapolation (IVIVE)'",
                                                               selectInput_HondaCond("HondaIVIVE")),
+                                      selectInput_CompPreference("CompType"),
                                       shiny::uiOutput("PreloadedComps")))
 }
 
@@ -214,15 +215,15 @@ RS_Results <- function(){
 # SERVER
 #######################################
 
-PreloadComps_UI <- function(func,spec,defaulthuman,model,insilicopars,honda){
+PreloadComps_UI <- function(func,spec,defaulthuman,model,insilicopars,honda,comptype){
 
   if (spec != "Select" && func != "Select" && insilicopars != "Select" && model != "Select" && defaulthuman != "Select"){
     if (func == "In vitro in vivo extrapolation (IVIVE)" && honda == "Honda1"){
       htmltools::tagList(numericInput_FSBf("FSBf"),
-                         PreloadCompsInput(func,spec,defaulthuman,insilicopars,model,honda))
+                         PreloadCompsInput(func,spec,defaulthuman,insilicopars,model,honda,comptype))
     }
     else {
-      PreloadCompsInput(func,spec,defaulthuman,insilicopars,model,honda)
+      PreloadCompsInput(func,spec,defaulthuman,insilicopars,model,honda,comptype)
     }
   }
   else{

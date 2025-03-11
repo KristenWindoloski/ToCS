@@ -211,6 +211,29 @@ selectInput_InSilicoPars <- function(id){
               selected = "Select")
 }
 
+################################################################################
+################################################################################
+
+#' Generate the drop down menu where the user can specify the types of chemicals
+#' to choose from
+#'
+#' @param id Shiny identifier name
+#'
+#' @return Drop down menu with options to either set simulated chemicals as a
+#' demo list, select chemicals from the entire available list, or select chemicals
+#' from a list of food or food-related chemicals only
+#' @export
+#'
+#' @examples selectInput_CompPreference("PreferredCompLst")
+#'
+selectInput_CompPreference <- function(id){
+  shiny::selectInput(id,
+                     label = "Select the types of compounds you want to simulate.",
+                     choices = list("Choose from all available chemicals",
+                                    "Choose from only food relevant chemicals"),
+                     selected = "Choose from all available chemicals")
+}
+
 
 ################################################################################
 ################################################################################
@@ -233,7 +256,7 @@ selectInput_InSilicoPars <- function(id){
 #' @examples PreloadCompsInput("Concentration-time profiles","Human","Yes","No, do not load in silico parameters","pbtk","NULL")
 #' PreloadCompsInput("In vitro in vivo extrapolation (IVIVE)","Human","Yes","Yes, load in silico parameters","3compartmentss","Honda1")
 #'
-PreloadCompsInput <- function(func,species,defaulthuman,insilico,model,honda){
+PreloadCompsInput <- function(func,species,defaulthuman,insilico,model,honda,comptype){
 
   # --- Reset the chem.physical_and_invitro.data table in case any
   # --- in silico loaded parameters or uploaded chemicals/parameters
@@ -269,7 +292,7 @@ PreloadCompsInput <- function(func,species,defaulthuman,insilico,model,honda){
   CASnums <- getCASnums(func,species,model,defaulttohuman)
 
   # --- Get all available preloaded compounds
-  piped <- getPiped(CASnums,honda)
+  piped <- getPiped(CASnums,honda,comptype)
 
   # --- Output to be returned (either nothing or a select drop down menu)
   if (is.null(piped)){
@@ -340,7 +363,7 @@ getCASnums <- function(func,species,model,defaulttohuman){
 #'
 #' @examples getPiped(c("135410-20-7","94-82-6","30560-19-1","71751-41-2","34256-82-1"),"NULL")
 #' getPiped(c("15972-60-8","116-06-3","834-12-8","33089-61-1","1912-24-9"),"Honda1")
-getPiped <- function(CASnums,honda){
+getPiped <- function(CASnums,honda,comptype){
 
   # --- Available preloaded compounds if the Honda1 condition for IVIVE is selected
   if (is.null(CASnums)){
@@ -348,6 +371,11 @@ getPiped <- function(CASnums,honda){
   }
   # --- Available preloaded compounds otherwise
   else{
+
+    if (comptype == "Choose from only food relevant chemicals"){
+      FoodCAS <- unique(c(DirectFoodAdditives$CAS.Reg.No..or.other.ID.,IndirectFoodAdditives$CAS.Registry.No...or.other.ID.))
+      CASnums <- CASnums[CASnums %in% FoodCAS]
+    }
 
     if (honda == "Honda1"){
       chemlist <- httk::chem.physical_and_invitro.data %>% dplyr::filter(CAS %in% CASnums,
