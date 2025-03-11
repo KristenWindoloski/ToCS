@@ -3,6 +3,20 @@
 # UI - ADME MULTI-PLOT MODULE
 ##################################
 
+#' User interface function for the concentration-time profile multi-plot output
+#'
+#' @description
+#' This function outputs the user interface for the concentration-time profile
+#' multi-plot drop down in the results card under the 'Run Simulation' tab.
+#' The interface has three outputs: a download plot button, a plot, and a plot
+#' caption.
+#'
+#'
+#' @param id Shiny identifier name; must be the same id used as in ADME_MultPlt_server()
+#'
+#' @return User interface for the multi-plot drop down which has three elements
+#' @export
+#'
 ADME_MultPlt_ui <- function(id){
 
   htmltools::tagList(shiny::uiOutput(shiny::NS(id,"downloadADME1plots_cond")),
@@ -15,6 +29,22 @@ ADME_MultPlt_ui <- function(id){
 # SERVER - ADME MULTI-PLOT MODULE
 ##################################
 
+#' Server function for the concentration-time profile multi-plot output
+#'
+#' @description
+#' This function generates the outputs defined in the ADME_MultPlt_ui()
+#' function. This connects the download button, plot, and plot caption to the
+#' elements that fill their spaces.
+#'
+#'
+#' @param id Shiny identifier name; must be the same id used as in ADME_MultPlt_ui()
+#' @param adme_args A Shiny reactive list with the output of modsol() and all shiny
+#' parameters in pars()
+#'
+#' @return Server outputs for the concentration-time profile multi-plot drop down
+#'  which includes three elements
+#' @export
+#'
 ADME_MultPlt_server <- function(id, adme_args){
 
   shiny::moduleServer(id, function(input, output, session) {

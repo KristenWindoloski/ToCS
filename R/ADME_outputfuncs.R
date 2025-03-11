@@ -1,7 +1,5 @@
-
-######################################################
-# --- PLOT ALL ADME COMPOUND CURVES ON ONE PLOT
-######################################################
+################################################################################
+################################################################################
 
 #' Reformat the ADME solution array
 #'
@@ -14,7 +12,6 @@
 #' @return A data frame that reformats the sol_array so concentration-time profiles can be plotted according to compound
 #' @export
 #'
-#' @examples None
 Create_Plotting_df <- function(i,n,sol_array,chemnames,numtimes){
 
   # --- Create empty vectors
@@ -38,6 +35,18 @@ Create_Plotting_df <- function(i,n,sol_array,chemnames,numtimes){
   return(compartment_df)
 }
 
+
+################################################################################
+################################################################################
+
+#' Title
+#'
+#' @param plt_lst
+#' @param n_states
+#'
+#' @return
+#' @export
+#'
 Set_Plot_Legend_Color <- function(plt_lst,n_states){
 
   # --- Extract color pattern data frame for individual compound plots
@@ -55,6 +64,17 @@ Set_Plot_Legend_Color <- function(plt_lst,n_states){
   out <- list(plt_lst, plt_colors)
 }
 
+
+################################################################################
+################################################################################
+
+#' Title
+#'
+#' @param sol_array
+#'
+#' @return
+#' @export
+#'
 plottingfunc_all <- function(sol_array){
 
   # --- Set needed variables; subtracted 1 from num_states because 'time' is one of the columns
@@ -86,10 +106,22 @@ plottingfunc_all <- function(sol_array){
   out <- Set_Plot_Legend_Color(plt_lst,num_states)
 }
 
-########################################################
-# --- PLOT ALL ADME COMPOUND CURVES ON INDIVIDUAL PLOTS
-########################################################
 
+################################################################################
+################################################################################
+
+#' Title
+#'
+#' @param i
+#' @param j
+#' @param comp_sol
+#' @param compound_names
+#' @param plt_colors
+#' @param col_names
+#'
+#' @return
+#' @export
+#'
 Create_Individ_Subplot <- function(i,j,comp_sol,compound_names,plt_colors,col_names){
 
   # --- Create data frame with plotting data for compound i
@@ -104,6 +136,18 @@ Create_Individ_Subplot <- function(i,j,comp_sol,compound_names,plt_colors,col_na
     ggplot2::scale_linetype("Compound")
 }
 
+
+################################################################################
+################################################################################
+
+#' Title
+#'
+#' @param individ_plt_lst
+#' @param n_states
+#'
+#' @return
+#' @export
+#'
 Set_Individ_Plot <- function(individ_plt_lst,n_states){
 
   # --- Save legend to plot later
@@ -119,6 +163,18 @@ Set_Individ_Plot <- function(individ_plt_lst,n_states){
   out <- individ_plt_lst
 }
 
+
+################################################################################
+################################################################################
+
+#' Title
+#'
+#' @param sol_array
+#' @param plt_colors
+#'
+#' @return
+#' @export
+#'
 plottingfunc_individual <- function(sol_array, plt_colors){
 
   # --- Set needed variables; subtracted 1 from num_states because 'time' is
@@ -162,10 +218,17 @@ plottingfunc_individual <- function(sol_array, plt_colors){
   return(wholeplot_list)
 }
 
-########################################################
-# --- ARRANGES PLOTS ON THE SAME GRID
-########################################################
 
+################################################################################
+################################################################################
+
+#' Title
+#'
+#' @param plt_list
+#'
+#' @return
+#' @export
+#'
 plt_arrange <- function(plt_list){
 
   num_plots <- length(plt_list)
@@ -176,10 +239,17 @@ plt_arrange <- function(plt_list){
   return(out_list)
 }
 
-########################################################
-# --- GENERATE A TABLE WITH TK SUMMARY STATISTICS
-########################################################
 
+################################################################################
+################################################################################
+
+#' Title
+#'
+#' @param modsol
+#'
+#' @return
+#' @export
+#'
 TKsummary <- function(modsol) {
 
   sol <- as.data.frame(modsol, stringsAsFactors = FALSE)
@@ -209,10 +279,17 @@ TKsummary <- function(modsol) {
   TKsum_final <- apply(as.matrix(TKsum[,2:4]), 2, as.numeric)
 }
 
-########################################################
-# --- SOLVE MODEL FOR ADME SOLUTION AND TK SUMMARY
-########################################################
 
+################################################################################
+################################################################################
+
+#' Title
+#'
+#' @param pars A list of all user input parameters for the entire app
+#'
+#' @return
+#' @export
+#'
 modsol <- function(pars){
 
   # Get row, column, and page dimensions for arrays used to store solutions
@@ -255,6 +332,29 @@ modsol <- function(pars){
   out_list <- list(sol,tk_sum_array,pars_df)
 }
 
+
+################################################################################
+################################################################################
+
+#' Solve the ADME model
+#'
+#' @description
+#' This function solves the PBTK model to generate concentration-time profiles for
+#' the list of selected compounds. These concentrations are generated using the
+#' 'httk' package's 'solve_model' function for the selected model and parameters.
+#'
+#'
+#' @param i A numerical value; the index number of the compound to simulate from
+#' the user selected chemical list
+#' @param pars A list of all user input parameters for the entire app
+#'
+#' @return A matrix with time course data for the selected model and simulation
+#' parameters. The first column has time points and the remaining columns have
+#' concentrations for each model compartment, plasma concentration, and area
+#' under the curve of the plasma compartment. Each row represents a concentration
+#' at the listed time.
+#' @export
+#'
 Run_ADME_Model <- function(i,pars){
 
   out <- httk::solve_model(chem.name = pars[["CompoundList"]][i,1],
@@ -285,6 +385,21 @@ Run_ADME_Model <- function(i,pars){
   out <- RemoveCols(out,pars[["model"]])
 }
 
+
+################################################################################
+################################################################################
+
+#' Remove columns from the concentration-time profile solution matrix
+#'
+#' @param sol The solution matrix from httk's 'solve_model' function
+#' @param model The simulated model; either "1compartment","3compartment","pbtk",
+#' "fetal_pbtk"
+#'
+#' @return The trimmed solution matrix with less columns than sol; All columns
+#' after the AUC column are removed if the model is not "fetal_pbtk" and if the
+#' model is "fetal_pbtk", then all columns after Qthyroid are removed.
+#' @export
+#'
 RemoveCols <- function(sol,model){
 
   if (model == "fetal_pbtk"){
@@ -296,6 +411,19 @@ RemoveCols <- function(sol,model){
   sol <- sol[,1:index]
 }
 
+
+################################################################################
+################################################################################
+
+#' Title
+#'
+#' @param modelsol
+#' @param n
+#'
+#' @return
+#' @export
+#'
+#' @examples
 SetArraySize <- function(modelsol,n){
 
   # --- Find solution size
@@ -311,6 +439,21 @@ SetArraySize <- function(modelsol,n){
   out <- list(sol,tk_sum_array)
 }
 
+
+################################################################################
+################################################################################
+
+#' Title
+#'
+#' @param sol
+#' @param modsol
+#' @param tk_sum_array
+#' @param pars A list of all user input parameters for the entire app
+#'
+#' @return
+#' @export
+#'
+#' @examples
 AssignArrayNames <- function(sol,modsol,tk_sum_array,pars){
 
   # --- Extract compound and compartment names
@@ -326,6 +469,19 @@ AssignArrayNames <- function(sol,modsol,tk_sum_array,pars){
   out <- list(sol,tk_sum_array)
 }
 
+
+################################################################################
+################################################################################
+
+#' Title
+#'
+#' @param tk_sum_array
+#' @param pars A list of all user input parameters for the entire app
+#'
+#' @return
+#' @export
+#'
+#' @examples
 Rearr_TKSumArray <- function(tk_sum_array,pars){
 
   # --- Extract compound and compartment names
@@ -343,6 +499,18 @@ Rearr_TKSumArray <- function(tk_sum_array,pars){
   return(tk_sum_array)
 }
 
+
+################################################################################
+################################################################################
+
+#' Title
+#'
+#' @param pars A list of all user input parameters for the entire app
+#'
+#' @return
+#' @export
+#'
+#' @examples
 Dosing_Output <- function(pars){
 
   # --- Set values for dosing output (must have "NULL" instead of NULL)
@@ -368,6 +536,19 @@ Dosing_Output <- function(pars){
   out <- list(initial.dose,doses.per.day,daily.dose,dosing.matrix)
 }
 
+
+################################################################################
+################################################################################
+
+#' Title
+#'
+#' @param pars A list of all user input parameters for the entire app
+#' @param pars_df
+#'
+#' @return
+#' @export
+#'
+#' @examples
 Bind_Chem_Data <- function(pars,pars_df){
 
   # --- Combine parameter and chemical data into one data frame
@@ -376,6 +557,18 @@ Bind_Chem_Data <- function(pars,pars_df){
   pars_df <- cbind(pars_df,chemdata)
 }
 
+
+################################################################################
+################################################################################
+
+#' Title
+#'
+#' @param pars A list of all user input parameters for the entire app
+#'
+#' @return
+#' @export
+#'
+#' @examples
 StorePars_ADME <- function(pars){
 
   dosinginfo <- Dosing_Output(pars)

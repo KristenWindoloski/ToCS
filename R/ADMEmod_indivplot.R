@@ -3,6 +3,20 @@
 # UI - ADME INDIVIDUAL-PLOT MODULE
 ######################################
 
+#' User interface function for the concentration-time profile individual plots
+#'
+#' @description
+#' This function outputs the user interface for the concentration-time profile
+#' individual plots drop down in the results card under the 'Run Simulation' tab.
+#' The interface has four outputs: a plot download button, plotting text (if
+#' applicable), plots, and a plotting caption.
+#'
+#'
+#' @param id Shiny identifier name; must be the same id used as in ADME_IndPlt_server()
+#'
+#' @return User interface for the individual plots drop down with four elements
+#' @export
+#'
 ADME_IndPlt_ui <- function(id){
 
   htmltools::tagList(shiny::uiOutput(shiny::NS(id,"downloadADME2plots_cond")),
@@ -16,6 +30,22 @@ ADME_IndPlt_ui <- function(id){
 # SERVER- ADME INDIVIDUAL-PLOT MODULE
 ######################################
 
+#' Server function for the concentration-time profile individual plots
+#'
+#' @description
+#' This function generates the outputs defined in the ADME_IndPlt_ui()
+#' function. This connects the download button, plot text, plot, and plot
+#' caption to the elements that fill their spaces.
+#'
+#'
+#' @param id Shiny identifier name; must be the same id used as in ADME_IndPlt_ui()
+#' @param adme_args A Shiny reactive list with the output of modsol() and all shiny
+#' parameters in pars()
+#'
+#' @return Server outputs for the concentration-time profile individual plots
+#' drop down which includes four elements
+#' @export
+#'
 ADME_IndPlt_server <- function(id,adme_args){
 
   shiny::moduleServer(id, function(input, output, session) {

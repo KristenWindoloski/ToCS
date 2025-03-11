@@ -3,6 +3,24 @@
 # UI - ADME MAIN MODULE
 ##########################
 
+#' Main user interface function to set up the 'Results' card under the
+#' concentration-time profiles module's 'Run Simulation' tab
+#'
+#'#' @description
+#' This function outputs the structure of the user interface for the concentration-
+#' time profile 'Results' card under the 'Run Simulation' tab. Four drop down
+#' tabs appear: a single plot with all compound concentrations in all model
+#' compartments, multiple plots with one plot per compound, a download option for
+#' users to download time course data and simulation parameters, and a table with
+#' toxicokinetic summary statistics (Cmax, Tmax, AUC). The user interface contents
+#' of each drop down is then filled by a separate UI module.
+#'
+#' @param id Shiny identifier name; must be the same id used as in ADME_server()
+#'
+#' @return Four user interface drop down tabs identifying space for two plots, two
+#' download buttons, and one table of concentration-time profile results.
+#' @export
+#'
 ADME_ui <- function(id) {
 
   ####################################################################################
@@ -23,6 +41,24 @@ ADME_ui <- function(id) {
 # SERVER - ADME MAIN MODULE
 ###############################
 
+#' Main server function to set up the 'Results' card under the concentration-time
+#' profile module's 'Run Simulation' tab
+#'
+#' #' @description
+#' This function calculates the concentration-time profile's solution and outputs
+#' the contents of the UI objects for the concentration-time profiles' 'Results'
+#' card under the 'Run Simulation' tab. The contents of each UI object (drop
+#' down) are then filled by four separate server modules.
+#'
+#' @param id Shiny identifier name; must be the same id used as in ADME_ui()
+#' @param pars A list of all user input parameters for the entire app
+#' @param runsim Action button titled 'Run Simulation' pressed by the user
+#'
+#' @return The four server outputs that fill the main concentration-time profile
+#' user interface function consisting of two plots, two download buttons, and
+#' one table of concentration-time profile results
+#' @export
+#'
 ADME_server <- function(id,pars,runsim) {
 
   shiny::moduleServer(id, function(input, output, session) {
@@ -45,7 +81,6 @@ ADME_server <- function(id,pars,runsim) {
     ADME_IndPlt_server("IndPlt",adme_out)
     ADME_TCData_server("TCData",adme_out)
     ADME_TKTable_server("TKTable",adme_out)
-
   })
 
 }
