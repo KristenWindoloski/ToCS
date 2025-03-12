@@ -30,9 +30,9 @@ PC_ui <- function(id) {
   # 5) SIMULATION PARAMETERS DOWNLOAD
   ####################################################################################
 
-  bslib::accordion(bslib::accordion_panel("Parameter Plots", PC_EVPlot_ui(shiny::NS(id,"PC_EVPlot"))),
+  bslib::accordion(bslib::accordion_panel("Parameter Plots", PC_EVPlot_ui(shiny::NS(id,"PC_EVPlot")),height = "100%"),
                    bslib::accordion_panel("Parameter Table", PC_EVTable_ui(shiny::NS(id,"PC_EVTable"))),
-                   bslib::accordion_panel("Partition Coefficient Plots", PC_PCPlot_ui(shiny::NS(id,"PC_PCPlot"))),
+                   bslib::accordion_panel("Partition Coefficient Plots", PC_PCPlot_ui(shiny::NS(id,"PC_PCPlot")),height = "100%"),
                    bslib::accordion_panel("Partition Coefficient Table", PC_PCTable_ui(shiny::NS(id,"PC_PCTable"))),
                    bslib::accordion_panel("Simulation Parameters", PC_Pars_ui(shiny::NS(id,"PC_Pars")))
   )

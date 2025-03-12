@@ -18,7 +18,7 @@
 IVIVE_Plot_ui <- function(id){
 
   htmltools::tagList(shiny::uiOutput(shiny::NS(id,"downloadIVIVEplot_cond")),
-                     shiny::plotOutput(shiny::NS(id,"IVIVEPlot")),
+                     shiny::plotOutput(shiny::NS(id,"IVIVEPlot"), height = "100%"),
                      shiny::textOutput(shiny::NS(id,"IVIVEPlotCaption"))
   )
 }
@@ -59,7 +59,8 @@ IVIVE_Plot_server <- function(id,ivive_args){
                                                sol()[[5]])})
 
     #--- Outputs plot of OED values
-    output$IVIVEPlot <- shiny::renderPlot({IVIVEplt()})
+    output$IVIVEPlot <- shiny::renderPlot({IVIVEplt()},
+                                          height = 600)
 
     #--- Outputs plot caption
     output$IVIVEPlotCaption <- shiny::renderText({

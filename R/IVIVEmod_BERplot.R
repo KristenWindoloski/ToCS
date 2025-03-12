@@ -18,7 +18,7 @@
 BER_Plot_ui <- function(id){
 
   htmltools::tagList(shiny::uiOutput(shiny::NS(id,"downloadBERplot_cond")),
-                     shiny::plotOutput(shiny::NS(id,"BERPlot")),
+                     shiny::plotOutput(shiny::NS(id,"BERPlot"),height = "100%"),
                      shiny::textOutput(shiny::NS(id,"BERPlotCaption"))
   )
 }
@@ -57,7 +57,8 @@ BER_Plot_server <- function(id,ivive_args){
       BERplt <- shiny::reactive({BERplotting(sol()[[4]])})
 
       #--- Outputs plot of BER values
-      output$BERPlot <- shiny::renderPlot({BERplt()})
+      output$BERPlot <- shiny::renderPlot({BERplt()},
+                                          height = 600)
 
       #--- Outputs plot caption
       output$BERPlotCaption <- shiny::renderText({

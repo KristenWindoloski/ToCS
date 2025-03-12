@@ -15,7 +15,7 @@
 PC_PCPlot_ui <- function(id){
 
   htmltools::tagList(shiny::uiOutput(shiny::NS(id,"downloadPCplot_cond")),
-                     shiny::plotOutput(shiny::NS(id,"PCPlot")),
+                     shiny::plotOutput(shiny::NS(id,"PCPlot"),height = "100%"),
                      shiny::textOutput(shiny::NS(id,"PCPlotCaption"))
   )
 }
@@ -51,7 +51,8 @@ PC_PCPlot_server <- function(id,pc_args){
 
     #--- Outputs partition coefficient plot
     output$PCPlot <- shiny::renderPlot({
-      PCPlots()})
+      PCPlots()},
+      height = 800)
 
     #--- Outputs caption to the partition coefficient plot
     output$PCPlotCaption <- shiny::renderText({

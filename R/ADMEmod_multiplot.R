@@ -20,7 +20,7 @@
 ADME_MultPlt_ui <- function(id){
 
   htmltools::tagList(shiny::uiOutput(shiny::NS(id,"downloadADME1plots_cond")),
-                     shiny::plotOutput(shiny::NS(id,"ADME1plots")),
+                     shiny::plotOutput(shiny::NS(id,"ADME1plots"),height = "100%"),
                      shiny::textOutput(shiny::NS(id,"ADME1plotsCaption"))
   )
 }
@@ -66,7 +66,8 @@ ADME_MultPlt_server <- function(id, adme_args){
     #--- Outputs plot
     output$ADME1plots <- shiny::renderPlot({
       shiny::req(runsim(),sol())
-      ADME1plots()})
+      ADME1plots()},
+      height = 800)
 
     #--- Outputs plot caption
     output$ADME1plotsCaption <- shiny::renderText({

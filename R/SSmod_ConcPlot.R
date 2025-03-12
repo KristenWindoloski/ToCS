@@ -15,7 +15,7 @@
 SS_ConcPlot_ui <- function(id){
 
   htmltools::tagList(shiny::uiOutput(shiny::NS(id,"downloadSSplot_cond")),
-                     shiny::plotOutput(shiny::NS(id,"SSPlot")),
+                     shiny::plotOutput(shiny::NS(id,"SSPlot"),height = "100%"),
                      shiny::textOutput(shiny::NS(id,"SSPlotCaption"))
   )
 }
@@ -52,7 +52,8 @@ SS_ConcPlot_server <- function(id,ss_args){
 
     #--- Outputs plot
     output$SSPlot <- shiny::renderPlot({
-      SSplt()})
+      SSplt()},
+      height = 600)
 
     #--- Outputs plot caption
     output$SSPlotCaption <- shiny::renderText({

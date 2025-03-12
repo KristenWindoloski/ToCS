@@ -30,7 +30,7 @@ ADME_ui <- function(id) {
   # 4) TK SUMMARY STATS OUTPUT AND DATA DOWNLOAD
   ####################################################################################
 
-  bslib::accordion(bslib::accordion_panel("Multi-Curve Time Course Plot", ADME_MultPlt_ui(shiny::NS(id,"MultPlt"))),
+  bslib::accordion(bslib::accordion_panel("Multi-Curve Time Course Plot", ADME_MultPlt_ui(shiny::NS(id,"MultPlt")),height = "100%"),
                    bslib::accordion_panel("Individual Time Course Plots", ADME_IndPlt_ui(shiny::NS(id,"IndPlt"))),
                    bslib::accordion_panel("Time Course Data", ADME_TCData_ui(shiny::NS(id,"TCData"))),
                    bslib::accordion_panel("TK Summary Data", ADME_TKTable_ui(shiny::NS(id,"TKTable")))

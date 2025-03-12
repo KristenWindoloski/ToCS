@@ -13,7 +13,7 @@
 PC_EVPlot_ui <- function(id){
 
   htmltools::tagList(shiny::uiOutput(shiny::NS(id,"downloadParplot_cond")),
-                     shiny::plotOutput(shiny::NS(id,"ParPlot")),
+                     shiny::plotOutput(shiny::NS(id,"ParPlot"), height = "100%"),
                      shiny::textOutput(shiny::NS(id,"ParPlotCaption"))
   )
 }
@@ -49,7 +49,8 @@ PC_EVPlot_server <- function(id,pc_args){
 
     #--- Outputs elimination/volume of distribution plots
     output$ParPlot <- shiny::renderPlot({
-      ElimVdistPlots()})
+      ElimVdistPlots()},
+      height = 800)
 
     #--- Outputs caption of the elimination/volume of distribution plots
     output$ParPlotCaption <- shiny::renderText({

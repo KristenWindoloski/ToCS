@@ -30,9 +30,9 @@ IVIVE_ui <- function(id) {
   ####################################################################################
 
   bslib::accordion(bslib::accordion_panel("Oral Equivalent Dose Table", IVIVE_Table_ui(shiny::NS(id,"IVIVE_table"))),
-                   bslib::accordion_panel("Oral Equivalent Dose Plot", IVIVE_Plot_ui(shiny::NS(id,"IVIVE_plot"))),
+                   bslib::accordion_panel("Oral Equivalent Dose Plot", IVIVE_Plot_ui(shiny::NS(id,"IVIVE_plot")),height = "100%"),
                    bslib::accordion_panel("Bioactivity Exposure Ratio Table", BER_Table_ui(shiny::NS(id,"BER_table"))),
-                   bslib::accordion_panel("Bioactivity Exposure Ratio Plot", BER_Plot_ui(shiny::NS(id,"BER_plot")))
+                   bslib::accordion_panel("Bioactivity Exposure Ratio Plot", BER_Plot_ui(shiny::NS(id,"BER_plot")),height = "100%")
   )
 
 }

@@ -20,7 +20,7 @@ SS_ui <- function(id) {
   # 3) NUMER OF DAYS TO STEADY STATE TABLE AND DOWNLOAD OPTION
   ####################################################################################
 
-  bslib::accordion(bslib::accordion_panel("Steady State Concentration Plot", SS_ConcPlot_ui(shiny::NS(id,"SS_ConcPlot"))),
+  bslib::accordion(bslib::accordion_panel("Steady State Concentration Plot", SS_ConcPlot_ui(shiny::NS(id,"SS_ConcPlot")),height = "100%"),
                    bslib::accordion_panel("Steady State Concentrations Table", SS_ConcTable_ui(shiny::NS(id,"SS_ConcTable"))),
                    bslib::accordion_panel("Days to Steady State Table", SS_DayTable_ui(shiny::NS(id,"SS_DayTable")))
             )
