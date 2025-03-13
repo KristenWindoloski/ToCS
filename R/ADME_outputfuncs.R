@@ -283,11 +283,22 @@ TKsummary <- function(modsol) {
 ################################################################################
 ################################################################################
 
-#' Title
+#' Main function for the concentration-time profile output
+#'
+#' @description
+#' This function is the main function responsible for generating the output for
+#' the concentration-time profiles module. This function calls the Run_ADME_Model
+#' function as well as the TKsummary function to actually calculate the
+#' concentration-time profiles and toxicokinetic summaries, but it then formats
+#' those and other outputs to return to the main module server to distribute.
+#'
 #'
 #' @param pars A list of all user input parameters for the entire app
 #'
-#' @return
+#' @return A list with three elements containing an array of the concentration-time
+#' profile solution, a matrix of the toxicokinetic summary, and a data frame of
+#' simulation parameters and physical-chemical data for compounds used in the
+#' simulation
 #' @export
 #'
 modsol <- function(pars){
@@ -415,15 +426,17 @@ RemoveCols <- function(sol,model){
 ################################################################################
 ################################################################################
 
-#' Title
+#' Set the dimensions of the arrays for the model solution and the toxicokinetic
+#' summary data
 #'
-#' @param modelsol
-#' @param n
+#' @param modelsol The matrix resulting from solve_model, where rows represent
+#' a time step and columns represent a model compartment
+#' @param n The number of compounds to be simulated
 #'
-#' @return
+#' @return A list of two empty arrays, one for the model solution and the other
+#' for the toxicokinetic summary data
 #' @export
 #'
-#' @examples
 SetArraySize <- function(modelsol,n){
 
   # --- Find solution size
@@ -443,17 +456,22 @@ SetArraySize <- function(modelsol,n){
 ################################################################################
 ################################################################################
 
-#' Title
+#' Assign dimension names to the model solution and toxicokinetic (TK) summary
+#' arrays
 #'
-#' @param sol
-#' @param modsol
-#' @param tk_sum_array
+#' @param sol The solution array for all compounds; each page of the array is a
+#' matrix that's the concentration-time solution from solve_model for a particular
+#' compound
+#' @param modsol The matrix resulting from solve_model, where rows represent
+#' a time step and columns represent a model compartment
+#' @param tk_sum_array The array of TK summary data where each page of the array
+#' represents the TK summary of a particular compound with rows representing
+#' each model compartment and columns being Tmax, Cmax, and AUC
 #' @param pars A list of all user input parameters for the entire app
 #'
-#' @return
+#' @return A list of two arrays, the model solution array and the TK summary array
 #' @export
 #'
-#' @examples
 AssignArrayNames <- function(sol,modsol,tk_sum_array,pars){
 
   # --- Extract compound and compartment names
@@ -473,15 +491,18 @@ AssignArrayNames <- function(sol,modsol,tk_sum_array,pars){
 ################################################################################
 ################################################################################
 
-#' Title
+#' Rearrange the toxicokinetic (TK) array into a TK matrix
 #'
-#' @param tk_sum_array
+#' @param tk_sum_array The array of TK summary data where each page of the array
+#' represents the TK summary of a particular compound with rows representing
+#' each model compartment and columns being Tmax, Cmax, and AUC
 #' @param pars A list of all user input parameters for the entire app
 #'
-#' @return
+#' @return A matrix with rows representing model compartments and 3n columns (where
+#' n is the compounds of simulated compounds) with each compound having a Tmax,
+#' Cmax, and AUC column
 #' @export
 #'
-#' @examples
 Rearr_TKSumArray <- function(tk_sum_array,pars){
 
   # --- Extract compound and compartment names
@@ -493,24 +514,24 @@ Rearr_TKSumArray <- function(tk_sum_array,pars){
   combdim <- list(outer(statnames,compoundnames, paste))
   mat_colnames <- gsub(" ", ".",combdim[[1]])
   dim_tk <- dim(tk_sum_array)
-  tk_sum_array <- matrix(tk_sum_array,dim_tk[1],dim_tk[2]*dim_tk[3])
-  dimnames(tk_sum_array) <- list(compartmentnames,c(mat_colnames))
+  tk_sum_mat <- matrix(tk_sum_array,dim_tk[1],dim_tk[2]*dim_tk[3])
+  dimnames(tk_sum_mat) <- list(compartmentnames,c(mat_colnames))
 
-  return(tk_sum_array)
+  return(tk_sum_mat)
 }
 
 
 ################################################################################
 ################################################################################
 
-#' Title
+#' Turn dosing parameters into solve_model input format
 #'
 #' @param pars A list of all user input parameters for the entire app
 #'
-#' @return
+#' @return A list of dosing parameters (initial.dose, doses.per.day, daily.dose,
+#' and dosing.matrix)
 #' @export
 #'
-#' @examples
 Dosing_Output <- function(pars){
 
   # --- Set values for dosing output (must have "NULL" instead of NULL)
@@ -540,15 +561,17 @@ Dosing_Output <- function(pars){
 ################################################################################
 ################################################################################
 
-#' Title
+#' Combine data frames of user-selected simulation parameters and chemical-physical
+#' compound data
 #'
 #' @param pars A list of all user input parameters for the entire app
-#' @param pars_df
+#' @param pars_df A data frame with simulation parameters generated in the
+#' StorePars_ADME() function, where each row represents one compound.
 #'
-#' @return
+#' @return A data frame with all relevant simulation parameters chosen by the user
+#' and all physical-chemical data used for the simulated compounds
 #' @export
 #'
-#' @examples
 Bind_Chem_Data <- function(pars,pars_df){
 
   # --- Combine parameter and chemical data into one data frame
@@ -561,14 +584,20 @@ Bind_Chem_Data <- function(pars,pars_df){
 ################################################################################
 ################################################################################
 
-#' Title
+#' Store simulation parameters and physical-chemical data of compounds simulated
+#'
+#' @description
+#' This function collects all user-selected parameters and compound data relevant
+#' to the concentration-time profile simulation and compiles it into one data
+#' frame.
+#'
 #'
 #' @param pars A list of all user input parameters for the entire app
 #'
-#' @return
+#' @return A data frame with all relevant simulation parameters chosen by the user
+#' and all physical-chemical data used for the simulated compounds
 #' @export
 #'
-#' @examples
 StorePars_ADME <- function(pars){
 
   dosinginfo <- Dosing_Output(pars)
