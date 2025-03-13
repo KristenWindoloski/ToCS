@@ -1,7 +1,7 @@
 ---
 title: "Parameter Calculations Examples"
 author: "Kristen Windoloski"
-date: "March 6, 2025"
+date: "March 13, 2025"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Parameter_Calculations}
@@ -71,7 +71,7 @@ As shown in the image below, there are no user selections under the *Dosing* car
 
 ### Compound Selection Tab
 
-Under the *Preloaded Compounds* tab, we search by either compound name or CAS for all nine compounds. All but two compounds (advantame and titanium dioxide) are available, so we select the seven available compounds under the *Preloaded Compounds* tab. Thus, we have to upload the chemical data for advantame and titanium dioxide. So, we copy the SampleCSV file in the *Uploaded Compound File Folder* under the *Instructions* card and enter the appropriate chemical information for each compound, as shown in the table below. See the *Introduction to ToCS* vignette for more information on upload instructions. For the purpose of this example, we use fake chemical data and upload the following csv file (CSV_PCvignette.csv) by clicking *Browse* under the *Uploaded Data* card.
+We keep the first drop menu in the *Preloaded Compounds* card on *Choose from all available chemicals* and then under the second drop down, we search by either compound name or CAS for all nine compounds. All but two compounds (advantame and titanium dioxide) are available, so we select the seven available compounds under the *Preloaded Compounds* tab. Thus, we have to upload the chemical data for advantame and titanium dioxide. So, we copy the SampleCSV file in the *Uploaded Compound File Folder* under the *Instructions* card and enter the appropriate chemical information for each compound, as shown in the table below. See the *Introduction to ToCS* vignette for more information on upload instructions. For the purpose of this example, we use fake chemical data and upload the following csv file (CSV_PCvignette.csv) by clicking *Browse* under the *Uploaded Data* card.
 
 <br/><br/>
 
@@ -197,7 +197,7 @@ Our selections on this page are the same as example 1. The first drop down menu 
 
 ### Compound Selection Tab
 
-We select five compounds from the drop down menu under the *Preloaded Compounds* card to simulate:
+We keep the first drop menu in the *Preloaded Compounds* card on *Choose from all available chemicals* and then we select five compounds from the drop down menu under the *Preloaded Compounds* card to simulate:
 
   - Bisphenol-a (CAS: 80-05-7)
   - Butylparaben (CAS: 94-26-8)

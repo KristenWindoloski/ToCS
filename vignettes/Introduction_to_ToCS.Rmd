@@ -1,7 +1,7 @@
 ---
 title: "Introduction to the ToCS App"
 author: "Kristen Windoloski"
-date: "February 28, 2025"
+date: "March 13, 2025"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Introduction_to_ToCS}
@@ -33,12 +33,13 @@ While other GUIs that utilize httk have been created (Integrated Chemical Enviro
 - Provides estimates of TK parameters not only including half-lives but also total plasma clearances, volumes of distribution, elimination rates, and partition coefficients
 - Estimates the number of days it takes for compounds to reach plasma steady state
 - Allows for further customization of simulations beyond basic model parameters
-- Utilizes the most recent httk version (2.4.0)
+- Utilizes the most recent httk version (2.5.0)
 - Allows for non-uniform chemical exposure (dosing), which can be beneficial for users interested in food chemicals
 - Offers simulations for dog, rabbit, and mouse species in addition to human and rats
 - Includes the option to include in silico-generated parameters within httk if in vitro hepatic clearance, fraction unbound in plasma, and/or caco-2 membrane permeability is missing
 - Offers the option to convert the nominal bioactive concentration to a free concentration in vitro for IVIVE simulations (recommended)
-- Allows the user to declare the desired quantile of predicted OEDs and view all generated OED samples.
+- Allows the user to declare the desired quantile of predicted OEDs and view all generated OED samples
+- Has a subset of food-related compounds (direct and indirect food additives) that users can easily view and select from
 
 The app's interface has 5 main tabs, where the user toggles through them left to right filling out all information on each tab before moving to the next one. The final tab allows the user to submit the parameters to the app and then the app outputs any plots, tables, or download features for the input.
 
@@ -56,7 +57,7 @@ The *General Parameters* tab (shown in the image below) acts as a home page for 
 - In vitro in vivo extrapolation (IVIVE)
   - Generates a table and plot of OEDs (the external dose needed to produce the internal bioactive concentration) for all simulated chemicals. If the user uploads chemical exposure data, then a table with bioactivity exposure ratios (BERs) and a plot of BERs is produced to suggest chemical prioritization for further risk assessment. Additionally, the exposure estimates will be plotted against the OED estimate or distribution
 - Parameter calculations
-  - Calculates tables and plots of TK parameters including the half-life, total plasma clearance, elimination rate, volume of distribution, and partition coefficients of the selected chemicals.
+  - Calculates tables and plots of TK parameters including the half-life, total plasma clearance, elimination rate, volume of distribution, and tissue to unbound plasma partition coefficients of the selected chemicals.
   
 The module selected above then determines the available user selections in the remaining tabs as well as the layout of the output in the *Run Simulation* tab. Before moving on to the *Model Specifications* tab, the user must specify the species they wish to simulate (choosing from human, rat, mouse, rabbit, or dog). If the user chooses a non-human species, then another drop down will appear under the *Species* card and users will have to select whether they want to substitute human in vitro data if their selected animal's in vitro data is not available (though the animal's physiology will still be used). Once the user has made selections for all drop downs on this page, then proceed to the *Model Specifications* tab.
 
@@ -94,7 +95,7 @@ Once all selections have been made for this tab, move on to the *Compound Select
 
 ### Compound Selection Tab
 
-The layout for this tab (shown in the image below) primarily looks the same for all modules and allows the user to select the compounds they want to simulate and upload any additional data appropriate with the simulation selected. At least one compound MUST be selected. The *Preloaded Compounds* card contains a drop down list of chemicals that are already present in httk and have enough data to run the desired simulations. The user will not need to upload any data to simulate compounds that appear in this list. The drop down list is displayed in the format of "CASRN, Compound Name", and the user can search the list using either chemical identifier (though searching by CASRN is recommended since compounds can have multiple names). To select a compound, just click on it in the drop down list. Multiple compounds may be selected. Note that only a portion of the compound list will be initially visible during scrolling due to the size of the list, but the application will check the entire list if the user searches a chemical identifier. 
+The layout for this tab (shown in the image below) primarily looks the same for all modules and allows the user to select the compounds they want to simulate and upload any additional data appropriate with the simulation selected. At least one compound MUST be selected. The *Preloaded Compounds* card contains two drop down lists: the first specifying the types of compounds the user wants to be able to select from (either all available compounds or food relevant compounds only), and the second being a list of chemicals (dependent on the first drop down selection) that are already present in httk and have enough data to run the desired simulations. The user will not need to upload any data to simulate compounds that appear in this list. The drop down list is displayed in the format of "CASRN, Compound Name", and the user can search the list using either chemical identifier (though searching by CASRN is recommended since compounds can have multiple names). To select a compound, just click on it in the drop down list. Multiple compounds may be selected. Note that only a portion of the compound list will be initially visible during scrolling due to the size of the list, but the application will check the entire list if the user searches a chemical identifier. 
 
 <br/><br/>
 

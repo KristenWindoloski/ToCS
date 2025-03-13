@@ -1,7 +1,7 @@
 ---
 title: "Steady State Concentration Simulation Examples"
 author: "Kristen Windoloski"
-date: "March 6, 2025"
+date: "March 13, 2025"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Steady_State_Concentrations}
@@ -58,7 +58,7 @@ Under the *Dosing* card, we leave the total daily dose as its default value of 1
 
 ### Compound Selection Tab
 
-Since we selected to load in silico generated parameters, the *Preloaded Compounds* card will take a few moments to load. Once loaded, we search through the list and select 10 compounds:
+Since we selected to load in silico generated parameters, the *Preloaded Compounds* card will take a few moments to load. Once loaded, keep the first drop menu in the *Preloaded Compounds* card on *Choose from all available chemicals* and then search through the list and select 10 compounds:
 
   - Abamectin (CAS: 71751-41-2)
   - Aldicarb (CAS: 116-06-3)
@@ -162,7 +162,7 @@ Under the *Dosing* card, we enter *2* into the text box for the 2 mg/kg BW dose.
 
 ### Compound Selection Tab
 
-In the drop down menu under the *Preloaded Compounds* card, we search for all five compounds but only three (valproic acid, endosulfan, and abamectin) are available. The remaining two, titanium dioxide and advantame, will have to be uploaded under the *Uploaded Compounds* card. Therefore, we upload the chemical information for titanium dioxide and advantame by copying the SampleCSV file in the *Uploaded Compound File Folder* under the *Instructions* card and entering the appropriate chemical information for each compound. See the *Introduction to ToCS* vignette for more information on upload instructions. For the purpose of this example, we use fake chemical data and upload the following csv file by clicking *Browse* under the *Uploaded Compounds* card.
+We keep the first drop menu in the *Preloaded Compounds* card on *Choose from all available chemicals* and then in the second drop down menu, we search for all five compounds but only three (valproic acid, endosulfan, and abamectin) are available. The remaining two, titanium dioxide and advantame, will have to be uploaded under the *Uploaded Compounds* card. Therefore, we upload the chemical information for titanium dioxide and advantame by copying the SampleCSV file in the *Uploaded Compound File Folder* under the *Instructions* card and entering the appropriate chemical information for each compound. See the *Introduction to ToCS* vignette for more information on upload instructions. For the purpose of this example, we use fake chemical data and upload the following csv file by clicking *Browse* under the *Uploaded Compounds* card.
 
 <br/><br/>
 
