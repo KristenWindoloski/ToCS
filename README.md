@@ -69,7 +69,9 @@ this GUI, ToCS is unique in that it:
 - Offers the option to convert the nominal bioactive concentration to a
   free concentration in vitro for IVIVE simulations (recommended)
 - Allows the user to declare the desired quantile of predicted OEDs and
-  view all generated OED samples.
+  view all generated OED samples
+- Has a subset of food-related compounds (direct and indirect food
+  additives) that users can easily view and select from.
 
 ToCS is a toxicokinetics application that can be used by scientists with
 little to no modeling or programming backgrounds, and requires a small
