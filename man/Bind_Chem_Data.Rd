@@ -2,15 +2,22 @@
 % Please edit documentation in R/ADME_outputfuncs.R
 \name{Bind_Chem_Data}
 \alias{Bind_Chem_Data}
-\title{Title}
+\title{Combine data frames of user-selected simulation parameters and chemical-physical
+compound data}
 \usage{
 Bind_Chem_Data(pars, pars_df)
 }
 \arguments{
 \item{pars}{A list of all user input parameters for the entire app}
 
-\item{pars_df}{}
+\item{pars_df}{A data frame with simulation parameters generated in the
+StorePars_ADME() function, where each row represents one compound.}
+}
+\value{
+A data frame with all relevant simulation parameters chosen by the user
+and all physical-chemical data used for the simulated compounds
 }
 \description{
-Title
+Combine data frames of user-selected simulation parameters and chemical-physical
+compound data
 }

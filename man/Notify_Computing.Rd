@@ -14,7 +14,3 @@ A pop-up notification to the user
 Notify the user that the solution is being computed after the "Run Simulation"
 button is clicked
 }
-\examples{
-Notify_Computing()
-
-}

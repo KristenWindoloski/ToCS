@@ -2,13 +2,22 @@
 % Please edit documentation in R/ADME_outputfuncs.R
 \name{SetArraySize}
 \alias{SetArraySize}
-\title{Title}
+\title{Set the dimensions of the arrays for the model solution and the toxicokinetic
+summary data}
 \usage{
 SetArraySize(modelsol, n)
 }
 \arguments{
-\item{n}{}
+\item{modelsol}{The matrix resulting from solve_model, where rows represent
+a time step and columns represent a model compartment}
+
+\item{n}{The number of compounds to be simulated}
+}
+\value{
+A list of two empty arrays, one for the model solution and the other
+for the toxicokinetic summary data
 }
 \description{
-Title
+Set the dimensions of the arrays for the model solution and the toxicokinetic
+summary data
 }

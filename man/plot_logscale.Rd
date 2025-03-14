@@ -17,7 +17,3 @@ A plot that is plt with a log10 y-axis
 \description{
 Generate a plot with a log10 scale y-axis
 }
-\examples{
-None
-
-}

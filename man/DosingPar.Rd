@@ -42,9 +42,3 @@ dosing.matrix, and forcings.
 Return the list of dosing parameters needed for the ADME dosing parameter in
 httk's solve_model function
 }
-\examples{
-DosingPar("Single Dose",1,NULL,NULL,NULL,NULL)
-DosingPar("Multiple Doses",NULL,"Yes",6,2,NULL)
-DosingPar("Multiple Doses",NULL,"No",NULL,NULL,c(0,0.25,0.5,1,1.25,1.5,1,1,1,1,1,1))
-
-}

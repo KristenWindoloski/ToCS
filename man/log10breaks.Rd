@@ -15,7 +15,3 @@ A vector of y-axis breaks
 \description{
 Generate a vector of 10^x breakpoints for the y-axis of a plot
 }
-\examples{
-log10breaks(ydata = c(0.1,0.004,15,130,0.0005))
-
-}

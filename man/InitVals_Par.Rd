@@ -20,7 +20,3 @@ A named vector of initial conditions for a specific model
 \description{
 Create the named vector of initial conditions needed for ADME simulations
 }
-\examples{
-None
-
-}

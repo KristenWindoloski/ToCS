@@ -2,13 +2,20 @@
 % Please edit documentation in R/ADME_outputfuncs.R
 \name{plt_arrange}
 \alias{plt_arrange}
-\title{Title}
+\title{Arrange individual compound plots}
 \usage{
 plt_arrange(plt_list)
 }
 \arguments{
-\item{plt_list}{}
+\item{plt_list}{The list of individual plots (ggplot2 objects) to output, where
+each list object is the main plotting object for one compound. Each compound's
+plotting object is itself a list with elements being a subplot (ggplot2 object)
+of the compound's concentration-time profile within a specifc model
+compartment}
+}
+\value{
+A list of arranged individual concentration-time profile plots
 }
 \description{
-Title
+Arrange individual compound plots
 }

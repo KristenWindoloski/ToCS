@@ -2,13 +2,22 @@
 % Please edit documentation in R/ADME_outputfuncs.R
 \name{TKsummary}
 \alias{TKsummary}
-\title{Title}
+\title{Generate a toxicokinetic (TK) summary of each compound}
 \usage{
 TKsummary(modsol)
 }
 \arguments{
-\item{modsol}{}
+\item{modsol}{The concentrations-time profile matrix resulting from solve_model,
+where rows represent a time step and columns represent a model compartment}
+}
+\value{
+A matrix of TK summary values with three columns (Tmax, Cmax, and AUC)
+and the number of rows equal to the number of model output compartments (number
+of columns of modelsol)
 }
 \description{
-Title
+This function generates a matrix of a TK summary consisting of Tmax (time to
+maximal concentration), Cmax (maximal concentration), and AUC (area under the
+curve) for each compound in all model output compartments. AUC is calculated
+using the AUC function from the 'DescTools' R package with the trapezoid method
 }

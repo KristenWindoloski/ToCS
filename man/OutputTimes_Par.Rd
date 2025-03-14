@@ -17,7 +17,3 @@ A vector of times to output the ADME concentration-time profile solution
 Generate a vector specifying times to output the time course solution in the
 ADME module simulation
 }
-\examples{
-None
-
-}

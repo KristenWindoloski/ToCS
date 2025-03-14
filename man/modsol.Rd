@@ -2,13 +2,23 @@
 % Please edit documentation in R/ADME_outputfuncs.R
 \name{modsol}
 \alias{modsol}
-\title{Title}
+\title{Main function for the concentration-time profile output}
 \usage{
 modsol(pars)
 }
 \arguments{
 \item{pars}{A list of all user input parameters for the entire app}
 }
+\value{
+A list with three elements containing an array of the concentration-time
+profile solution, a matrix of the toxicokinetic summary, and a data frame of
+simulation parameters and physical-chemical data for compounds used in the
+simulation
+}
 \description{
-Title
+This function is the main function responsible for generating the output for
+the concentration-time profiles module. This function calls the Run_ADME_Model
+function as well as the TKsummary function to actually calculate the
+concentration-time profiles and toxicokinetic summaries, but it then formats
+those and other outputs to return to the main module server to distribute.
 }

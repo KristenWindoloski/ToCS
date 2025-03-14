@@ -17,7 +17,3 @@ A list of parameters to pass into modules
 Compile the list of all GUI parameters and adjust any parameters from the user
 selection wording to a function-ready input for all simulation modules
 }
-\examples{
-None
-
-}

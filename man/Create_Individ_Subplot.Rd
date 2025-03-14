@@ -2,13 +2,32 @@
 % Please edit documentation in R/ADME_outputfuncs.R
 \name{Create_Individ_Subplot}
 \alias{Create_Individ_Subplot}
-\title{Title}
+\title{Generate a single concentration-time profile curve using ggplot2}
 \usage{
 Create_Individ_Subplot(i, j, comp_sol, compound_names, plt_colors, col_names)
 }
 \arguments{
-\item{col_names}{}
+\item{i}{Index corresponding to the ith compound simulated}
+
+\item{j}{Index corresponding to the jth model compartment}
+
+\item{comp_sol}{A data frame of the matrix solution of concentration-time
+profiles for compound i; same format as the output of the 'httk' package's
+solve_model function}
+
+\item{compound_names}{A vector of all compound names simulated in the order of
+simulation}
+
+\item{plt_colors}{A data frame of colors where each entry is a hexadecimal RGB
+triplet for one compound}
+
+\item{col_names}{A vector of all outputted model compartments, which should be
+the same as the columns from comp_sol}
+}
+\value{
+A ggplot2 plotting object with a concentration-time profile curve in
+compartment j for compound i.
 }
 \description{
-Title
+Generate a single concentration-time profile curve using ggplot2
 }

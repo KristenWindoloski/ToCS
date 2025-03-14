@@ -2,13 +2,29 @@
 % Please edit documentation in R/ADME_outputfuncs.R
 \name{AssignArrayNames}
 \alias{AssignArrayNames}
-\title{Title}
+\title{Assign dimension names to the model solution and toxicokinetic (TK) summary
+arrays}
 \usage{
 AssignArrayNames(sol, modsol, tk_sum_array, pars)
 }
 \arguments{
+\item{sol}{The solution array for all compounds; each page of the array is a
+matrix that's the concentration-time solution from solve_model for a particular
+compound}
+
+\item{modsol}{The matrix resulting from solve_model, where rows represent
+a time step and columns represent a model compartment}
+
+\item{tk_sum_array}{The array of TK summary data where each page of the array
+represents the TK summary of a particular compound with rows representing
+each model compartment and columns being Tmax, Cmax, and AUC}
+
 \item{pars}{A list of all user input parameters for the entire app}
 }
+\value{
+A list of two arrays, the model solution array and the TK summary array
+}
 \description{
-Title
+Assign dimension names to the model solution and toxicokinetic (TK) summary
+arrays
 }

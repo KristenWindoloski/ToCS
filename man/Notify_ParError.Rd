@@ -14,7 +14,3 @@ A pop-up notification to the user
 Notify the user that there is are missing or invalid parameters for the simulation
 when the "Run Simulation" button is clicked
 }
-\examples{
-Notify_ParError()
-
-}

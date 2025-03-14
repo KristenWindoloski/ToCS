@@ -2,13 +2,17 @@
 % Please edit documentation in R/ADME_outputfuncs.R
 \name{Dosing_Output}
 \alias{Dosing_Output}
-\title{Title}
+\title{Turn dosing parameters into solve_model input format}
 \usage{
 Dosing_Output(pars)
 }
 \arguments{
 \item{pars}{A list of all user input parameters for the entire app}
 }
+\value{
+A list of dosing parameters (initial.dose, doses.per.day, daily.dose,
+and dosing.matrix)
+}
 \description{
-Title
+Turn dosing parameters into solve_model input format
 }

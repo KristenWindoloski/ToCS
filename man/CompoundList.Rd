@@ -22,7 +22,3 @@ A data frame with the names of all compounds the user wants to simulate
 Compile a data frame of compound names to simulate (both compounds uploaded
 by the user and any preloaded httk compounds selected)
 }
-\examples{
-None
-
-}

@@ -2,13 +2,23 @@
 % Please edit documentation in R/ADME_outputfuncs.R
 \name{plottingfunc_individual}
 \alias{plottingfunc_individual}
-\title{Title}
+\title{Generate the plots for the individual plots drop down}
 \usage{
 plottingfunc_individual(sol_array, plt_colors)
 }
 \arguments{
-\item{plt_colors}{}
+\item{sol_array}{The concentration-time profile solution array where entries
+signify the concentration of a compound at a specific time in a particular
+compartment. Pages of the array correspond to compounds, rows to time points,
+and columns to model compartments and outputs.}
+
+\item{plt_colors}{A data frame of colors where each entry is a hexadecimal RGB
+triplet for one compound}
+}
+\value{
+A list that contains other lists. Each list element makes up one full
+plotting figure for one compound (i.e. a plot with subplots).
 }
 \description{
-Title
+Generate the plots for the individual plots drop down
 }
