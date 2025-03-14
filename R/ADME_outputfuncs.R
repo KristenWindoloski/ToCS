@@ -39,12 +39,16 @@ Create_Plotting_df <- function(i,n,sol_array,chemnames,numtimes){
 ################################################################################
 ################################################################################
 
-#' Title
+#' Remove plot legends and determine plot color
 #'
-#' @param plt_lst
-#' @param n_states
+#' @param plt_lst A list of ggplot2 plotting objects where each list element is
+#' the plot of a single compound and is composed of subplots
+#' @param n_states Number of model compartments/outputs
 #'
-#' @return
+#' @return A list containing two elements, the first one being the inputted plot
+#' list with the legends on each compound plot removed and a new subplot with the
+#' plotting legend and the second element being a data frame of hexadecimal RGB
+#' triplet colors that defines the plotting color for each compound.
 #' @export
 #'
 Set_Plot_Legend_Color <- function(plt_lst,n_states){
@@ -68,11 +72,17 @@ Set_Plot_Legend_Color <- function(plt_lst,n_states){
 ################################################################################
 ################################################################################
 
-#' Title
+#' Generate the ggplot2 plotting object for the multi-curve plot
 #'
-#' @param sol_array
+#' @param sol_array The concentration-time profile solution array where entries
+#' signify the concentration of a compound at a specific time in a particular
+#' compartment. Pages of the array correspond to compounds, rows to time points,
+#' and columns to model compartments and outputs.
 #'
-#' @return
+#' @return A list containing two elements, the first one being a plot
+#' list with each element of the list representing a different compound (no plot
+#' legends) and the second element being a data frame of hexadecimal RGB
+#' triplet colors that defines the plotting color for each compound
 #' @export
 #'
 plottingfunc_all <- function(sol_array){
@@ -110,16 +120,22 @@ plottingfunc_all <- function(sol_array){
 ################################################################################
 ################################################################################
 
-#' Title
+#' Generate a single concentration-time profile curve using ggplot2
 #'
-#' @param i
-#' @param j
-#' @param comp_sol
-#' @param compound_names
-#' @param plt_colors
-#' @param col_names
+#' @param i Index corresponding to the ith compound simulated
+#' @param j Index corresponding to the jth model compartment
+#' @param comp_sol A data frame of the matrix solution of concentration-time
+#' profiles for compound i; same format as the output of the 'httk' package's
+#' solve_model function
+#' @param compound_names A vector of all compound names simulated in the order of
+#' simulation
+#' @param plt_colors A data frame of colors where each entry is a hexadecimal RGB
+#' triplet for one compound
+#' @param col_names A vector of all outputted model compartments, which should be
+#' the same as the columns from comp_sol
 #'
-#' @return
+#' @return A ggplot2 plotting object with a concentration-time profile curve in
+#' compartment j for compound i.
 #' @export
 #'
 Create_Individ_Subplot <- function(i,j,comp_sol,compound_names,plt_colors,col_names){
@@ -140,12 +156,14 @@ Create_Individ_Subplot <- function(i,j,comp_sol,compound_names,plt_colors,col_na
 ################################################################################
 ################################################################################
 
-#' Title
+#' Remove current plot legend and generate individual plot legends
 #'
-#' @param individ_plt_lst
-#' @param n_states
+#' @param individ_plt_lst A list of ggplot2 plotting objects where each list element is
+#' the plot of a single compound and is composed of subplots
+#' @param n_states Number of model compartments/outputs
 #'
-#' @return
+#' @return A list containing the inputted plot list with the legends on each
+#' compound plot removed and a new subplot with the plotting legend
 #' @export
 #'
 Set_Individ_Plot <- function(individ_plt_lst,n_states){
@@ -153,7 +171,7 @@ Set_Individ_Plot <- function(individ_plt_lst,n_states){
   # --- Save legend to plot later
   individ_plt_lst[[n_states+1]] <- cowplot::get_plot_component(individ_plt_lst[[1]],"guide-box",return_all = TRUE)[[1]]
 
-  # --- Remove legend from current plots
+  # --- Add legend to current plots
   for (j in 1:n_states) {
     individ_plt_lst[[j]] <- individ_plt_lst[[j]] + ggplot2::theme(legend.position = "none")
   }
@@ -167,12 +185,17 @@ Set_Individ_Plot <- function(individ_plt_lst,n_states){
 ################################################################################
 ################################################################################
 
-#' Title
+#' Generate the plots for the individual plots drop down
 #'
-#' @param sol_array
-#' @param plt_colors
+#' @param sol_array The concentration-time profile solution array where entries
+#' signify the concentration of a compound at a specific time in a particular
+#' compartment. Pages of the array correspond to compounds, rows to time points,
+#' and columns to model compartments and outputs.
+#' @param plt_colors A data frame of colors where each entry is a hexadecimal RGB
+#' triplet for one compound
 #'
-#' @return
+#' @return A list that contains other lists. Each list element makes up one full
+#' plotting figure for one compound (i.e. a plot with subplots).
 #' @export
 #'
 plottingfunc_individual <- function(sol_array, plt_colors){
@@ -222,11 +245,15 @@ plottingfunc_individual <- function(sol_array, plt_colors){
 ################################################################################
 ################################################################################
 
-#' Title
+#' Arrange individual compound plots
 #'
-#' @param plt_list
+#' @param plt_list The list of individual plots (ggplot2 objects) to output, where
+#' each list object is the main plotting object for one compound. Each compound's
+#' plotting object is itself a list with elements being a subplot (ggplot2 object)
+#' of the compound's concentration-time profile within a specifc model
+#' compartment
 #'
-#' @return
+#' @return A list of arranged individual concentration-time profile plots
 #' @export
 #'
 plt_arrange <- function(plt_list){
@@ -243,11 +270,21 @@ plt_arrange <- function(plt_list){
 ################################################################################
 ################################################################################
 
-#' Title
+#' Generate a toxicokinetic (TK) summary of each compound
 #'
-#' @param modsol
+#' @description
+#' This function generates a matrix of a TK summary consisting of Tmax (time to
+#' maximal concentration), Cmax (maximal concentration), and AUC (area under the
+#' curve) for each compound in all model output compartments. AUC is calculated
+#' using the AUC function from the 'DescTools' R package with the trapezoid method
 #'
-#' @return
+#'
+#' @param modsol The concentrations-time profile matrix resulting from solve_model,
+#' where rows represent a time step and columns represent a model compartment
+#'
+#' @return A matrix of TK summary values with three columns (Tmax, Cmax, and AUC)
+#' and the number of rows equal to the number of model output compartments (number
+#' of columns of modelsol)
 #' @export
 #'
 TKsummary <- function(modsol) {

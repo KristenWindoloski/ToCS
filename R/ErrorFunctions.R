@@ -4,10 +4,37 @@
 # RULE FUNCTIONS FOR INPUT ERRORS
 ######################################################
 
+################################################################################
+################################################################################
+
+#' Has the user selected and/or uploaded compounds to simulate?
+#'
+#' @param value A Shiny input ID corresponding to an input object
+#' @param input The reactive inputs associated with the session
+#' @param message A character string to return to the user if condition is true
+#'
+#' @return If condition if FALSE, then return the message. If the condition is
+#' TRUE, return nothing.
+#' @export
+#'
 not_null <- function(value,input, message = "At least one compound must be selected or uploaded"){
   if (is.null(c(value,input$file1))) message
 }
 
+
+################################################################################
+################################################################################
+
+#' Are there any formatting or data errors in the new compounds file uploaded by
+#' the user?
+#'
+#' @param value A Shiny input ID corresponding to an input object
+#' @param input The reactive inputs associated with the session
+#'
+#' @return If condition if FALSE, then return the message. If the condition is
+#' TRUE, return nothing.
+#' @export
+#'
 UploadComps_Check <- function(value,input){
 
   if (!is.null(value)){
@@ -56,6 +83,19 @@ UploadComps_Check <- function(value,input){
   }
 }
 
+
+################################################################################
+################################################################################
+
+#' Title
+#'
+#' @param file
+#' @param spec
+#' @param defaultHuman
+#'
+#' @return
+#' @export
+#'
 MissingClintFup <- function(file,spec,defaultHuman){
 
   out <- NULL
@@ -124,6 +164,18 @@ MissingClintFup <- function(file,spec,defaultHuman){
   return(out)
 }
 
+
+################################################################################
+################################################################################
+
+#' Title
+#'
+#' @param file
+#' @param column_names
+#'
+#' @return
+#' @export
+#'
 DataInputType <- function(file,column_names){
 
   # --- DETERMINE FILE ENTRY DATA TYPES
@@ -156,12 +208,35 @@ DataInputType <- function(file,column_names){
   return(out)
 }
 
+
+################################################################################
+################################################################################
+
+#' Determine if the data type is appropriate
+#'
+#' @param x A vector
+#' @param y A vector
+#'
+#' @return TRUE or FALSE
+#' @export
+#'
 type_func <- function(x,y){
 
   if (y %in% x) TRUE
   else FALSE
 }
 
+
+################################################################################
+################################################################################
+
+#' Generate a list of acceptable input data types for the compound file user
+#' upload
+#'
+#' @return A list of all acceptable data types for each column in the 'httk'
+#' package's chem.physical_and_invitro.data
+#' @export
+#'
 DataTypeList <- function(){
 
   # --- TYPES OF ACCEPTABLE COLUMN OUTPUTS
@@ -243,20 +318,76 @@ DataTypeList <- function(){
   return(lst)
 }
 
+
+################################################################################
+################################################################################
+
+#' Has the user selected a dosing frequency?
+#'
+#' @param value A Shiny input ID corresponding to an input object
+#' @param input The reactive inputs associated with the session
+#' @param message A character string to return to the user if condition is true
+#'
+#' @return If condition if FALSE, then return the message. If the condition is
+#' TRUE, return nothing.
+#' @export
+#'
 multdose_Select <- function(value,input,message = "The dosing frequency must be selected"){
   if (input$dosenum == "Multiple Doses" && value == "Select") message
 }
 
+
+################################################################################
+################################################################################
+
+#' Has the user entered dosing amounts and times?
+#'
+#' @param value A Shiny input ID corresponding to an input object
+#' @param input The reactive inputs associated with the session
+#' @param message A character string to return to the user if condition is true
+#'
+#' @return If condition if FALSE, then return the message. If the condition is
+#' TRUE, return nothing.
+#' @export
+#'
 multdose_odd <- function(value,input,message = "The dosing administration amounts and times must be entered"){
   if (input$dosenum == "Multiple Doses" && input$multdose == "No" && value == "") message
 }
 
+
+################################################################################
+################################################################################
+
+#' Was the human species selected when running the fetal_pbtk model?
+#'
+#' @param value A Shiny input ID corresponding to an input object
+#' @param input The reactive inputs associated with the session
+#' @param message A character string to return to the user if condition is true
+#'
+#' @return If condition if FALSE, then return the message. If the condition is
+#' TRUE, return nothing.
+#' @export
+#'
 fetal_cond <- function(value,input,message = "The 'Human' species must be selected to run the fetal_pbtk model"){
   if (!is.null(value)){
     if (value == "fetal_pbtk" && input$spec != "Human") message
   }
 }
 
+
+################################################################################
+################################################################################
+
+#' Has the user entered a beginning output time of 91 days or later?
+#'
+#' @param value A Shiny input ID corresponding to an input object
+#' @param input The reactive inputs associated with the session
+#' @param message A character string to return to the user if condition is true
+#'
+#' @return If condition if FALSE, then return the message. If the condition is
+#' TRUE, return nothing.
+#' @export
+#'
 returntimes_cond <- function(value,input,message = "A beginning output time of 91 days (13 weeks) or later must be entered"){
 
   if (input$model == "fetal_pbtk" && value != ''){
@@ -268,6 +399,18 @@ returntimes_cond <- function(value,input,message = "A beginning output time of 9
   }
 }
 
+
+################################################################################
+################################################################################
+
+#' Title
+#'
+#' @param value A Shiny input ID corresponding to an input object
+#' @param input The reactive inputs associated with the session
+#'
+#' @return
+#' @export
+#'
 BioUpload_Check <- function(value,input){
 
   if (!is.null(value)){
@@ -301,6 +444,19 @@ BioUpload_Check <- function(value,input){
   }
 }
 
+
+################################################################################
+################################################################################
+
+#' Has the user defined an FSBf value?
+#'
+#' @param value A Shiny input ID corresponding to an input object
+#' @param input The reactive inputs associated with the session
+#'
+#' @return If condition if FALSE, then return the message. If the condition is
+#' TRUE, return nothing.
+#' @export
+#'
 FSBf_Check <- function(value,input){
 
   if (!is.null(input$HondaIVIVE)){
@@ -312,6 +468,18 @@ FSBf_Check <- function(value,input){
   }
 }
 
+
+################################################################################
+################################################################################
+
+#' Title
+#'
+#' @param value A Shiny input ID corresponding to an input object
+#' @param input The reactive inputs associated with the session
+#'
+#' @return
+#' @export
+#'
 ExposureUpload_Check <- function(value,input){
 
   if (!is.null(value)){
@@ -364,10 +532,34 @@ ExposureUpload_Check <- function(value,input){
   }
 }
 
+
+################################################################################
+################################################################################
+
+#' Title
+#'
+#' @param iv_adme
+#' @param identifier
+#'
+#' @return
+#' @export
+#'
 addrule_adme_ics <- function(iv_adme,identifier){
   iv_adme$add_rule(identifier,shinyvalidate::sv_required())
 }
 
+
+################################################################################
+################################################################################
+
+#' Title
+#'
+#' @param identifier
+#' @param pars
+#'
+#' @return
+#' @export
+#'
 adme_ic_errormess <- function(identifier,pars){
   if (is.na(pars[[identifier]])){
     shiny::validate(shiny::need(!is.na(pars[[identifier]]),message = paste("")))
