@@ -1,4 +1,19 @@
-caption_text <- function(func, model){
+
+################################################################################
+################################################################################
+
+#' Create the text for a figure/table caption
+#'
+#' @param func User selection with the input$func ID; either "Concentration-time
+#' profiles", "Steady state concentrations", "In vitro in vivo extrapolation
+#' (IVIVE)", and "Parameter calculations"
+#' @param model User selection with the input$model ID; either "3compartmentss",
+#' "Schmitt","1compartment","3compartment", "pbtk" or "fetal_pbtk"
+#'
+#' @return A string with text describing the returned concentration of the model.
+#' @export
+#'
+caption_text <- function(func,model){
 
   if (func == "ADME"){
 
@@ -19,6 +34,19 @@ caption_text <- function(func, model){
 
 }
 
+
+################################################################################
+################################################################################
+
+#' Check if any inputs that are common among all four modules are invalid or
+#' missing
+#'
+#' @param pars A list of all user input parameters for the entire app
+#'
+#' @return A blank error message to the user that halts computation until the
+#' user fixes the input error.
+#' @export
+#'
 validate_text_Common <- function(pars){
 
   if (pars[["func"]] == 'Select'){
@@ -160,6 +188,19 @@ validate_text_Common <- function(pars){
   }
 }
 
+
+################################################################################
+################################################################################
+
+#' Check if any inputs specific to the concentration-time profile module are
+#' invalid or missing
+#'
+#' @param pars A list of all user input parameters for the entire app
+#'
+#' @return A blank error message to the user that halts computation until the
+#' user fixes the input error.
+#' @export
+#'
 validate_text_ADME <- function(pars){
 
   if (pars[["dosenum"]] == 'Select'){
@@ -203,6 +244,19 @@ validate_text_ADME <- function(pars){
   purrr::map2(unlist(names_ICs()[[1]]),rep(list(pars),45),adme_ic_errormess)
 }
 
+
+################################################################################
+################################################################################
+
+#' Check if any inputs specific to the steady state concentrations module are
+#' invalid or missing
+#'
+#' @param pars A list of all user input parameters for the entire app
+#'
+#' @return A blank error message to the user that halts computation until the
+#' user fixes the input error.
+#' @export
+#'
 validate_text_SS <- function(pars){
 
   if (is.na(pars[["dailydose"]])){
@@ -213,6 +267,19 @@ validate_text_SS <- function(pars){
   }
 }
 
+
+################################################################################
+################################################################################
+
+#' Check if any inputs specific to the in vitro in vivo extrapolation (IVIVE)
+#' module are invalid or missing
+#'
+#' @param pars A list of all user input parameters for the entire app
+#'
+#' @return A blank error message to the user that halts computation until the
+#' user fixes the input error.
+#' @export
+#'
 validate_text_IVIVE <- function(pars){
 
   if (is.null(pars[["BioactiveFile"]])){
@@ -320,6 +387,19 @@ validate_text_IVIVE <- function(pars){
   }
 }
 
+
+################################################################################
+################################################################################
+
+#' Check if any inputs specific to the parameter calculations module are invalid
+#' or missing
+#'
+#' @param pars A list of all user input parameters for the entire app
+#'
+#' @return A blank error message to the user that halts computation until the
+#' user fixes the input error.
+#' @export
+#'
 validate_text_PC <- function(pars){
 
   if (is.na(pars[["Clint_Pval"]])){

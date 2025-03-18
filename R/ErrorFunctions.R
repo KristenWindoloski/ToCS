@@ -87,13 +87,20 @@ UploadComps_Check <- function(value,input){
 ################################################################################
 ################################################################################
 
-#' Title
+#' Are there any required hepatic clearance (Clint) or fraction unbound in plasma
+#' (fup) values missing from the compounds file uploaded by the user?
 #'
-#' @param file
-#' @param spec
-#' @param defaultHuman
+#' @param file The data frame with compound physical-chemical data uploaded by
+#' the user
+#' @param spec The species selected by the user; either "Dog","Human","Mouse",
+#' "Rabbit", "Rat"
+#' @param defaultHuman The default to human status selected by the user; either
+#' "Yes" if the user wants to use human in vitro data in place of missing animal
+#' in vitro data or "No" to only use animal in vitro data
 #'
-#' @return
+#' @return If any required data is missing, then this function returns a message
+#' detailing the missing data. If all required data is present, then no message
+#' is outputted.
 #' @export
 #'
 MissingClintFup <- function(file,spec,defaultHuman){
@@ -168,12 +175,16 @@ MissingClintFup <- function(file,spec,defaultHuman){
 ################################################################################
 ################################################################################
 
-#' Title
+#' Are the entries in the uploaded compound data file the correct kind of data?
 #'
-#' @param file
-#' @param column_names
+#' @param file The data frame with compound physical-chemical data uploaded by
+#' the user
+#' @param column_names A vector of the column names of the 'file' data frame
 #'
-#' @return
+#' @return If any data type in 'file' is not an appropriate data type for that
+#' column, then this function returns a message detailing that there's an incorrect
+#' data type. If all data types are appropriate in the 'file', then no message
+#' is outputted.
 #' @export
 #'
 DataInputType <- function(file,column_names){
@@ -403,12 +414,15 @@ returntimes_cond <- function(value,input,message = "A beginning output time of 9
 ################################################################################
 ################################################################################
 
-#' Title
+#' Does the uploaded bioactivity file have the correct formatting and data type
+#' as well as no missing data?
 #'
 #' @param value A Shiny input ID corresponding to an input object
 #' @param input The reactive inputs associated with the session
 #'
-#' @return
+#' @return If the uploaded bioactivity file is missing data or has incorrect
+#' formatting, then this function returns a message detailing the problem. If all
+#' aspects of the bioactivity file are appropriate, then no message is outputted.
 #' @export
 #'
 BioUpload_Check <- function(value,input){
@@ -472,12 +486,15 @@ FSBf_Check <- function(value,input){
 ################################################################################
 ################################################################################
 
-#' Title
+#' Does the uploaded exposure file have the correct formatting and data type
+#' as well as no missing required data?
 #'
 #' @param value A Shiny input ID corresponding to an input object
 #' @param input The reactive inputs associated with the session
 #'
-#' @return
+#' @return If the uploaded exposure file is missing needed data or has incorrect
+#' formatting, then this function returns a message detailing the problem. If all
+#' aspects of the exposure file are appropriate, then no message is outputted.
 #' @export
 #'
 ExposureUpload_Check <- function(value,input){
@@ -536,12 +553,13 @@ ExposureUpload_Check <- function(value,input){
 ################################################################################
 ################################################################################
 
-#' Title
+#' Add a validation rule to an ADME module initial condition input identifier
 #'
-#' @param iv_adme
-#' @param identifier
+#' @param iv_adme The ADME shinyvalidate input validator object
+#' @param identifier The vector of all initial condition names
 #'
-#' @return
+#' @return The ADME shinyvalidate input validator object with a new rule where an
+#' input in the initial condition box is required (i.e. cannot be left blank)
 #' @export
 #'
 addrule_adme_ics <- function(iv_adme,identifier){
@@ -552,12 +570,14 @@ addrule_adme_ics <- function(iv_adme,identifier){
 ################################################################################
 ################################################################################
 
-#' Title
+#' Add an error message for an ADME initial condition input identifier and pause
+#' the application from computing
 #'
-#' @param identifier
-#' @param pars
+#' @param identifier The name of an initial condition compartment in the pars()
+#' list
+#' @param pars A list of all user input parameters for the entire app
 #'
-#' @return
+#' @return An empty message to the user if the parameter is NA
 #' @export
 #'
 adme_ic_errormess <- function(identifier,pars){
