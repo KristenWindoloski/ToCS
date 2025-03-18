@@ -2,13 +2,21 @@
 % Please edit documentation in R/ErrorFunctions.R
 \name{adme_ic_errormess}
 \alias{adme_ic_errormess}
-\title{Title}
+\title{Add an error message for an ADME initial condition input identifier and pause
+the application from computing}
 \usage{
 adme_ic_errormess(identifier, pars)
 }
 \arguments{
-\item{pars}{}
+\item{identifier}{The name of an initial condition compartment in the pars()
+list}
+
+\item{pars}{A list of all user input parameters for the entire app}
+}
+\value{
+An empty message to the user if the parameter is NA
 }
 \description{
-Title
+Add an error message for an ADME initial condition input identifier and pause
+the application from computing
 }

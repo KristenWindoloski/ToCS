@@ -2,13 +2,28 @@
 % Please edit documentation in R/ErrorFunctions.R
 \name{MissingClintFup}
 \alias{MissingClintFup}
-\title{Title}
+\title{Are there any required hepatic clearance (Clint) or fraction unbound in plasma
+(fup) values missing from the compounds file uploaded by the user?}
 \usage{
 MissingClintFup(file, spec, defaultHuman)
 }
 \arguments{
-\item{defaultHuman}{}
+\item{file}{The data frame with compound physical-chemical data uploaded by
+the user}
+
+\item{spec}{The species selected by the user; either "Dog","Human","Mouse",
+"Rabbit", "Rat"}
+
+\item{defaultHuman}{The default to human status selected by the user; either
+"Yes" if the user wants to use human in vitro data in place of missing animal
+in vitro data or "No" to only use animal in vitro data}
+}
+\value{
+If any required data is missing, then this function returns a message
+detailing the missing data. If all required data is present, then no message
+is outputted.
 }
 \description{
-Title
+Are there any required hepatic clearance (Clint) or fraction unbound in plasma
+(fup) values missing from the compounds file uploaded by the user?
 }

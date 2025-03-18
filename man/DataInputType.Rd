@@ -2,13 +2,22 @@
 % Please edit documentation in R/ErrorFunctions.R
 \name{DataInputType}
 \alias{DataInputType}
-\title{Title}
+\title{Are the entries in the uploaded compound data file the correct kind of data?}
 \usage{
 DataInputType(file, column_names)
 }
 \arguments{
-\item{column_names}{}
+\item{file}{The data frame with compound physical-chemical data uploaded by
+the user}
+
+\item{column_names}{A vector of the column names of the 'file' data frame}
+}
+\value{
+If any data type in 'file' is not an appropriate data type for that
+column, then this function returns a message detailing that there's an incorrect
+data type. If all data types are appropriate in the 'file', then no message
+is outputted.
 }
 \description{
-Title
+Are the entries in the uploaded compound data file the correct kind of data?
 }

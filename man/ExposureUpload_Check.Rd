@@ -2,7 +2,8 @@
 % Please edit documentation in R/ErrorFunctions.R
 \name{ExposureUpload_Check}
 \alias{ExposureUpload_Check}
-\title{Title}
+\title{Does the uploaded exposure file have the correct formatting and data type
+as well as no missing required data?}
 \usage{
 ExposureUpload_Check(value, input)
 }
@@ -11,6 +12,12 @@ ExposureUpload_Check(value, input)
 
 \item{input}{The reactive inputs associated with the session}
 }
+\value{
+If the uploaded exposure file is missing needed data or has incorrect
+formatting, then this function returns a message detailing the problem. If all
+aspects of the exposure file are appropriate, then no message is outputted.
+}
 \description{
-Title
+Does the uploaded exposure file have the correct formatting and data type
+as well as no missing required data?
 }

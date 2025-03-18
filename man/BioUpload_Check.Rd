@@ -2,7 +2,8 @@
 % Please edit documentation in R/ErrorFunctions.R
 \name{BioUpload_Check}
 \alias{BioUpload_Check}
-\title{Title}
+\title{Does the uploaded bioactivity file have the correct formatting and data type
+as well as no missing data?}
 \usage{
 BioUpload_Check(value, input)
 }
@@ -11,6 +12,12 @@ BioUpload_Check(value, input)
 
 \item{input}{The reactive inputs associated with the session}
 }
+\value{
+If the uploaded bioactivity file is missing data or has incorrect
+formatting, then this function returns a message detailing the problem. If all
+aspects of the bioactivity file are appropriate, then no message is outputted.
+}
 \description{
-Title
+Does the uploaded bioactivity file have the correct formatting and data type
+as well as no missing data?
 }

@@ -2,13 +2,19 @@
 % Please edit documentation in R/ErrorFunctions.R
 \name{addrule_adme_ics}
 \alias{addrule_adme_ics}
-\title{Title}
+\title{Add a validation rule to an ADME module initial condition input identifier}
 \usage{
 addrule_adme_ics(iv_adme, identifier)
 }
 \arguments{
-\item{identifier}{}
+\item{iv_adme}{The ADME shinyvalidate input validator object}
+
+\item{identifier}{The vector of all initial condition names}
+}
+\value{
+The ADME shinyvalidate input validator object with a new rule where an
+input in the initial condition box is required (i.e. cannot be left blank)
 }
 \description{
-Title
+Add a validation rule to an ADME module initial condition input identifier
 }
