@@ -95,8 +95,9 @@ the ways that the user can access the ToCS GUI:
       green *Code* button. If the user is familar with Git, then they
       can clone the ToCS Git repository to their local computer.
       Otherwise, the user should click *Download Zip*. Wherever the user
-      saves the folder, they should right click on it and unzip the
-      folder.
+      saves the folder, double click on the *ToCS_main* folder. Inside
+      this folder is a folder called *ToCS-main*. Move this inner folder
+      to a desired location (desktop, Documents, etc.).
 
     - Open R or RStudio.
 
@@ -110,18 +111,12 @@ the ways that the user can access the ToCS GUI:
       install.packages("X")
       ```
 
-    - Change your working directory to the ToCS folder by typing the
-      following into the R command line (console) (replacing “filepath”
-      with your computer’s file path to the ToCS folder)
+    - Open the ToCS project folder by clicking *File -\> Open Project*.
+      Then search for the *ToCS-main* folder that was extracted from the
+      downloaded zip file. Select *ToCS-main*. This opens the ToCS
+      project in R.
 
-      ``` r
-      setwd("filepath")
-      ```
-
-    - Open the ToCS project folder by clicking *File -\> Open Project
-      -\> ToCS-main*.
-
-    - Load all files in the project directory into R by pressing
+    - Next, load all files in the project directory into R by pressing
       Ctrl+Shift+L or typing the following into the R command line
       (console)
 
@@ -129,11 +124,11 @@ the ways that the user can access the ToCS GUI:
       devtools::load_all(.)
       ```
 
-    - To open the GUI, type the following into the R command line
+    - Then to open the GUI, type the following into the R command line
       (console)
 
       ``` r
-      ToCS()
+      run_ToCS()
       ```
 
 <!-- -->
@@ -155,7 +150,7 @@ the ways that the user can access the ToCS GUI:
       ToCS()
       ```
 
-Any of the three mathods above (if available) should result in the ToCS
+Any of the three methods above (if available) should result in the ToCS
 interface appearing. If the user successfully opens the app, their
 screen should look like the image below.
 
