@@ -19,8 +19,6 @@
 #' @return A data frame with the names of all compounds the user wants to simulate
 #' @export
 #'
-#' @examples None
-#'
 CompoundList <- function(preload_comp, uploaded_comps){
 
   #-----------------------------------
@@ -85,8 +83,6 @@ CompoundList <- function(preload_comp, uploaded_comps){
 #'
 #' @return A list of parameters to pass into modules
 #' @export
-#'
-#' @examples None
 #'
 UpdatePars <- function(pars){
 
@@ -256,8 +252,6 @@ UpdatePars <- function(pars){
 #' @return A named vector of initial conditions for a specific model
 #' @export
 #'
-#' @examples None
-#'
 InitVals_Par <- function(model,ICopts,pars){
 
   if (model == "1compartment") {
@@ -328,10 +322,6 @@ InitVals_Par <- function(model,ICopts,pars){
 #' dosing.matrix, and forcings.
 #' @export
 #'
-#' @examples DosingPar("Single Dose",1,NULL,NULL,NULL,NULL)
-#' DosingPar("Multiple Doses",NULL,"Yes",6,2,NULL)
-#' DosingPar("Multiple Doses",NULL,"No",NULL,NULL,c(0,0.25,0.5,1,1.25,1.5,1,1,1,1,1,1))
-#'
 DosingPar <- function(dosenum,initdose,multdose,multdosetime,multdoseamount,multdoseodd){
 
 
@@ -370,8 +360,6 @@ DosingPar <- function(dosenum,initdose,multdose,multdosetime,multdoseamount,mult
 #' @return A vector of times to output the ADME concentration-time profile solution
 #' @export
 #'
-#' @examples None
-#'
 OutputTimes_Par <- function(pars){
 
   # --- The user does not specify output times and the model is not for pregnancy
@@ -407,8 +395,6 @@ OutputTimes_Par <- function(pars){
 #' @return A pop-up notification to the user
 #' @export
 #'
-#' @examples Notify_Computing()
-#'
 Notify_Computing <- function(){
   shiny::showNotification("Computing solution - this may take a moment. Plots and tables will be updated once completed.", type = "message", duration = NULL)
 }
@@ -422,8 +408,6 @@ Notify_Computing <- function(){
 #'
 #' @return A pop-up notification to the user
 #' @export
-#'
-#' @examples Notify_ParError()
 #'
 Notify_ParError <- function(){
   shiny::showNotification("Invalid Inputs: Check all previous tabs for missing or invalid parameters. Changing some parameters such as the output, species,
@@ -440,8 +424,6 @@ Notify_ParError <- function(){
 #'
 #' @return A vector of y-axis breaks
 #' @export
-#'
-#' @examples log10breaks(ydata = c(0.1,0.004,15,130,0.0005))
 #'
 log10breaks <- function(ydata) {
 
@@ -463,8 +445,6 @@ log10breaks <- function(ydata) {
 #'
 #' @return A plot that is plt with a log10 y-axis
 #' @export
-#'
-#' @examples None
 #'
 plot_logscale <- function(plt,sol_vec){
 

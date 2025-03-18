@@ -880,15 +880,15 @@ FillExposureData <- function(exposure_df){
   dup_rows <- unique(indicies[which(duplicated(indicies[,1])),1])
   for (i in dup_rows) {
     if (is.na(exposure_df$Lower[i]) && is.na(exposure_df$Median[i]) && !is.na(exposure_df$Upper[i])){
-      exposure_df$Lower[i] <- exposure_df$Upper[i] - 1e-8
+      exposure_df$Lower[i] <- exposure_df$Upper[i] - 1e-12
       exposure_df$Median[i] <- median(c(exposure_df$Upper[i],exposure_df$Lower[i]))
     }
     else if (is.na(exposure_df$Lower[i]) && !is.na(exposure_df$Median[i]) && is.na(exposure_df$Upper[i])){
-      exposure_df$Lower[i] <- exposure_df$Median[i] - 1e-8
-      exposure_df$Upper[i] <- exposure_df$Median[i] + 1e-8
+      exposure_df$Lower[i] <- exposure_df$Median[i] - 1e-12
+      exposure_df$Upper[i] <- exposure_df$Median[i] + 1e-12
     }
     else if (!is.na(exposure_df$Lower[i]) && is.na(exposure_df$Median[i]) && is.na(exposure_df$Upper[i])){
-      exposure_df$Upper[i] <- exposure_df$Lower[i] + 1e-8
+      exposure_df$Upper[i] <- exposure_df$Lower[i] + 1e-12
       exposure_df$Median[i] <- median(c(exposure_df$Upper[i],exposure_df$Lower[i]))
     }
   }
@@ -897,13 +897,13 @@ FillExposureData <- function(exposure_df){
   nondup_rows <- unique(indicies[!(indicies[,1] %in% dup_rows),1])
   for (j in nondup_rows){
     if (is.na(exposure_df$Lower[j])){
-      exposure_df$Lower[j] <- exposure_df$Median[j] - 1e-8
+      exposure_df$Lower[j] <- exposure_df$Median[j] - 1e-12
     }
     else if (is.na(exposure_df$Median[j])){
       exposure_df$Median[j] <- median(c(exposure_df$Upper[j],exposure_df$Lower[j]))
     }
     else if (is.na(exposure_df$Upper[j])){
-      exposure_df$Upper[j] <- exposure_df$Median[j] + 1e-8
+      exposure_df$Upper[j] <- exposure_df$Median[j] + 1e-12
     }
 
   }
