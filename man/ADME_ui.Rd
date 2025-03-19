@@ -24,3 +24,7 @@ users to download time course data and simulation parameters, and a table with
 toxicokinetic summary statistics (Cmax, Tmax, AUC). The user interface contents
 of each drop down is then filled by a separate UI module.
 }
+\seealso{
+\code{\link[=ADME_MultPlt_ui]{ADME_MultPlt_ui()}}, \code{\link[=ADME_IndPlt_ui]{ADME_IndPlt_ui()}}, \code{\link[=ADME_TCData_ui]{ADME_TCData_ui()}}, and
+\code{\link[=ADME_TKTable_ui]{ADME_TKTable_ui()}}, which are all called by this function
+}

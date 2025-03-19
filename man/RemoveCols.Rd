@@ -18,5 +18,12 @@ after the AUC column are removed if the model is not "fetal_pbtk" and if the
 model is "fetal_pbtk", then all columns after Qthyroid are removed.
 }
 \description{
-Remove columns from the concentration-time profile solution matrix
+This function cuts off columns that are considered 'extra' from the
+concentration-time profile solution matrix outputted from httk's solve_model
+function. This includes columns that are essentially 'repeat' quantities (i.e.
+removes a column specifying the amount of a chemical in compartment i when
+the concentration of the chemical in compartment i is already outputted).
+}
+\seealso{
+\code{\link[=Run_ADME_model]{Run_ADME_model()}}, which calls the current function
 }

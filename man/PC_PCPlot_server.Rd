@@ -19,3 +19,6 @@ includes three elements
 \description{
 Server function for the parameter calculations partition coefficient plot
 }
+\seealso{
+\code{\link[=plotPCs]{plotPCs()}}, which is called by this function
+}

@@ -13,9 +13,11 @@ ADME_TCData_ui(id)
 User interface for the data download drop down with two download buttons
 }
 \description{
-#' #' @description
 This function outputs the user interface for the concentration-time profile
 data download drop down in the results card under the 'Run Simulation' tab.
 The interface has two outputs: a download button for concentration-time profile
 data and a download button for simulation parameters.
+}
+\seealso{
+\code{\link[=ADME_ui]{ADME_ui()}}, which calls this function
 }

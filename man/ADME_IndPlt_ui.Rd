@@ -18,3 +18,6 @@ individual plots drop down in the results card under the 'Run Simulation' tab.
 The interface has four outputs: a plot download button, plotting text (if
 applicable), plots, and a plotting caption.
 }
+\seealso{
+\code{\link[=ADME_ui]{ADME_ui()}}, which calls this function
+}

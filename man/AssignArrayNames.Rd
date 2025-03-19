@@ -25,6 +25,9 @@ each model compartment and columns being Tmax, Cmax, and AUC}
 A list of two arrays, the model solution array and the TK summary array
 }
 \description{
-Assign dimension names to the model solution and toxicokinetic (TK) summary
-arrays
+This function names the rows, columns, and pages of the model solution and TK
+summary arrays
+}
+\seealso{
+\code{\link[=modsol]{modsol()}}, which calls the current function
 }

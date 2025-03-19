@@ -21,3 +21,7 @@ This function generates the outputs defined in the IVIVE_Plot_ui()
 function. This connects the download button with the plot to download,
 generates the IVIVE dose plot, and creates the text for the plot caption.
 }
+\seealso{
+\code{\link[=IVIVEplotting]{IVIVEplotting()}} and \code{\link[=IVIVEplot_caption]{IVIVEplot_caption()}}, which are both called by
+this function
+}

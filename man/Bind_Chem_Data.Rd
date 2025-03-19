@@ -2,8 +2,7 @@
 % Please edit documentation in R/ADME_outputfuncs.R
 \name{Bind_Chem_Data}
 \alias{Bind_Chem_Data}
-\title{Combine data frames of user-selected simulation parameters and chemical-physical
-compound data}
+\title{Combine simulation parameters and chemical-physical compound data data frames}
 \usage{
 Bind_Chem_Data(pars, pars_df)
 }
@@ -18,6 +17,12 @@ A data frame with all relevant simulation parameters chosen by the user
 and all physical-chemical data used for the simulated compounds
 }
 \description{
-Combine data frames of user-selected simulation parameters and chemical-physical
-compound data
+This function adds the columns of the chemical-physical compound data (found
+in the chem.physical_and_invitro.data data frame from the httk R package) for
+simulated compounds to the simulation parameters data frame. Thus, each row
+of the outputted data frame shows all simulation parameters and chemical data
+used to simulate a single compound in ToCS.
+}
+\seealso{
+\code{\link[=StorePars_ADME]{StorePars_ADME()}}, which calls the current function
 }

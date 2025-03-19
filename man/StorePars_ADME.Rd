@@ -18,3 +18,7 @@ This function collects all user-selected parameters and compound data relevant
 to the concentration-time profile simulation and compiles it into one data
 frame.
 }
+\seealso{
+\code{\link[=modsol]{modsol()}}, which calls the current function, and \code{\link[=Bind_Chem_Data]{Bind_Chem_Data()}},
+which the current function calls
+}

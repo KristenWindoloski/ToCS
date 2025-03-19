@@ -2,7 +2,7 @@
 % Please edit documentation in R/ADME_outputfuncs.R
 \name{Create_Plotting_df}
 \alias{Create_Plotting_df}
-\title{Reformat the ADME solution array}
+\title{Reformat the ADME solution array for a specific compartment}
 \usage{
 Create_Plotting_df(i, n, sol_array, chemnames, numtimes)
 }
@@ -18,11 +18,15 @@ Create_Plotting_df(i, n, sol_array, chemnames, numtimes)
 \item{numtimes}{A vector containing the times the solution is evaluated}
 }
 \value{
-A data frame that reformats the sol_array so concentration-time profiles can be plotted according to compound
+A data frame with concentration-time profile data for compartment
+i and it contains three columns: time, yvalues, and compound.
 }
 \description{
-Reformat the ADME solution array
+This function rearranges the concentration-time profile solution array (where
+each page represents a compound, each column a model compartment, and each
+row a time point) into a data frame with three columns (time, yvalues, and
+compound name) for the ith model compartment.
 }
-\examples{
-None
+\seealso{
+\code{\link[=plottingfunc_all]{plottingfunc_all()}}, which calls this function
 }

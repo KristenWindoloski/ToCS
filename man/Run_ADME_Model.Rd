@@ -20,7 +20,11 @@ under the curve of the plasma compartment. Each row represents a concentration
 at the listed time.
 }
 \description{
-This function solves the PBTK model to generate concentration-time profiles for
+This function solves a model to generate concentration-time profiles for
 the list of selected compounds. These concentrations are generated using the
 'httk' package's 'solve_model' function for the selected model and parameters.
+}
+\seealso{
+\code{\link[=modsol]{modsol()}}, which this function is called by and \code{\link[=RemoveCols]{RemoveCols()}}, which
+the current function calls
 }

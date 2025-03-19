@@ -2,7 +2,8 @@
 % Please edit documentation in R/ADME_outputfuncs.R
 \name{Dosing_Output}
 \alias{Dosing_Output}
-\title{Turn dosing parameters into solve_model input format}
+\title{Turn dosing parameters into a format that can be outputted by a list in the
+simulation parameters data frame}
 \usage{
 Dosing_Output(pars)
 }
@@ -14,5 +15,10 @@ A list of dosing parameters (initial.dose, doses.per.day, daily.dose,
 and dosing.matrix)
 }
 \description{
-Turn dosing parameters into solve_model input format
+This function converts the user-selected dosing parameters into an acceptably
+formatted list for export by the user if they want to download their simulation
+parameters.
+}
+\seealso{
+\code{\link[=StorePars_ADME]{StorePars_ADME()}}, which calls the current function
 }

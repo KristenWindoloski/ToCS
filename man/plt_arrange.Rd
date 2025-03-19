@@ -17,5 +17,10 @@ compartment}
 A list of arranged individual concentration-time profile plots
 }
 \description{
-Arrange individual compound plots
+This function takes the list of plots for a single compound and arranges them
+into one plot. The single final plot is then stored in a list to be rendered
+when called in the module output.
+}
+\seealso{
+\code{\link[=ADME_IndPlt_server]{ADME_IndPlt_server()}}, which calls the current function.
 }

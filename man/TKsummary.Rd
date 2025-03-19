@@ -21,3 +21,6 @@ maximal concentration), Cmax (maximal concentration), and AUC (area under the
 curve) for each compound in all model output compartments. AUC is calculated
 using the AUC function from the 'DescTools' R package with the trapezoid method
 }
+\seealso{
+\code{\link[=modsol]{modsol()}}, which calls the current function
+}

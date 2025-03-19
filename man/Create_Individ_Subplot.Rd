@@ -29,5 +29,10 @@ A ggplot2 plotting object with a concentration-time profile curve in
 compartment j for compound i.
 }
 \description{
-Generate a single concentration-time profile curve using ggplot2
+This function generates a ggplot plotting object that displays the concentration-time
+profile curve for the ith compound in the jth model compartment outputted
+from httk's solve_model function.
+}
+\seealso{
+\code{\link[=plottingfunc_individual]{plottingfunc_individual()}}, which calls the current function
 }

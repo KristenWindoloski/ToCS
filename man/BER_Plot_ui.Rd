@@ -13,7 +13,6 @@ BER_Plot_ui(id)
 User interface for the BER plot drop down with three elements
 }
 \description{
-#' @description
 This function outputs the user interface for the BER plot drop down in the
 results card under the 'Run Simulation' tab. The interface has three outputs:
 a plot download button, a plot with BER values, and a plot caption.

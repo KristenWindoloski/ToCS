@@ -18,3 +18,6 @@ user fixes the input error.
 Check if any inputs specific to the concentration-time profile module are
 invalid or missing
 }
+\seealso{
+\code{\link[=ADME_server]{ADME_server()}} and \code{\link[=ADME_TCData_Server]{ADME_TCData_Server()}}, which call this function
+}

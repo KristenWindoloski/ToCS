@@ -10,7 +10,7 @@ ADME_TKTable_server(id, adme_args)
 \arguments{
 \item{id}{Shiny identifier name; must be the same id used as in ADME_TKTable_ui()}
 
-\item{adme_argsA}{Shiny reactive list with the output of modsol() and all shiny
+\item{adme_args}{Shiny reactive list with the output of modsol() and all shiny
 parameters in pars()}
 }
 \value{
@@ -18,8 +18,10 @@ Server outputs for the concentration-time profile toxicokinetic summary
 drop down which includes three outputs
 }
 \description{
-#' @description
 This function generates the outputs defined in the ADME_TKTable_ui()
 function. This connects the download button, data table, and caption defined
 in the UI to the outputs that fill those spots.
+}
+\seealso{
+\code{\link[=ADME_server]{ADME_server()}}, which calls this function
 }

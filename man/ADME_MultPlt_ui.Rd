@@ -18,3 +18,6 @@ multi-plot drop down in the results card under the 'Run Simulation' tab.
 The interface has three outputs: a download plot button, a plot, and a plot
 caption.
 }
+\seealso{
+\code{\link[=ADME_ui]{ADME_ui()}}, which calls this function
+}

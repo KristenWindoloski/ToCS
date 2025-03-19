@@ -20,3 +20,6 @@ toxicokinetic table drop down in the results card under the 'Run Simulation' tab
 The interface has three outputs: a download button to download the table, the
 table of toxicokinetic summary statistics, and a table caption.
 }
+\seealso{
+\code{\link[=ADME_ui]{ADME_ui()}}, which calls this function
+}

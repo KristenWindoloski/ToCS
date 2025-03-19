@@ -21,3 +21,7 @@ oral equivalent dose (OED) table, one for an OED plot, one for a bioactivity
 exposure ratio (BER) table, and one for a BER plot. The user interface contents
 of each drop down is then filled by a separate UI module.
 }
+\seealso{
+\code{\link[=IVIVE_Table_ui]{IVIVE_Table_ui()}}, \code{\link[=IVIVE_Plot_ui]{IVIVE_Plot_ui()}}, \code{\link[=BER_Table_ui]{BER_Table_ui()}}, and
+\code{\link[=BER_Plot_ui]{BER_Plot_ui()}}, which are all called by this function
+}

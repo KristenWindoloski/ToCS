@@ -20,3 +20,7 @@ A string with text describing the returned concentration of the model.
 \description{
 Create the text for a figure/table caption
 }
+\seealso{
+\code{\link[=ADME_MultPlt_server]{ADME_MultPlt_server()}} and \code{\link[=ADME_IndPlt_server]{ADME_IndPlt_server()}}, which calls the
+current function.
+}

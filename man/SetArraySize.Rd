@@ -14,10 +14,14 @@ a time step and columns represent a model compartment}
 \item{n}{The number of compounds to be simulated}
 }
 \value{
-A list of two empty arrays, one for the model solution and the other
+A list of two arrays, one for the model solution and the other
 for the toxicokinetic summary data
 }
 \description{
-Set the dimensions of the arrays for the model solution and the toxicokinetic
-summary data
+This function creates the arrays (filled with zeros) that will be used to store
+the outputted model solution from httk's solve_model and outputted toxicokinetic
+summary information.
+}
+\seealso{
+\code{\link[=modsol]{modsol()}}, which calls the current function
 }

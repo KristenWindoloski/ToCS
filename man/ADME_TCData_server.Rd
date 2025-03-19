@@ -20,3 +20,7 @@ down which includes two elements
 This function generates the outputs defined in the ADME_TCData_ui()
 function. This connects the two download buttons with the data to download.
 }
+\seealso{
+\code{\link[=validate_text_ADME]{validate_text_ADME()}} and \code{\link[=ADME_server]{ADME_server()}}, which are called by this
+function
+}

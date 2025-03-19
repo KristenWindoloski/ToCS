@@ -20,5 +20,11 @@ A list that contains other lists. Each list element makes up one full
 plotting figure for one compound (i.e. a plot with subplots).
 }
 \description{
-Generate the plots for the individual plots drop down
+This function creates N plots, where N is the number of compounds simulated in
+the concentration-time profile simulations. The plot list for each compound
+consists of an individual plotting object for each model compartment.
+}
+\seealso{
+\code{\link[=Create_Individ_Subplot]{Create_Individ_Subplot()}} and \code{\link[=Set_Indvid_Plot]{Set_Indvid_Plot()}}, which the current
+function calls. \code{\link[=ADME_IndPlt_server]{ADME_IndPlt_server()}}, which calls the current function.
 }

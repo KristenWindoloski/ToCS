@@ -21,3 +21,7 @@ This function generates the outputs defined in the ADME_MultPlt_ui()
 function. This connects the download button, plot, and plot caption to the
 elements that fill their spaces.
 }
+\seealso{
+\code{\link[=plottingfunc_all]{plottingfunc_all()}} and \code{\link[=caption_text]{caption_text()}}, which are called by the
+current function, and \code{\link[=ADME_server]{ADME_server()}}, which calls this function
+}

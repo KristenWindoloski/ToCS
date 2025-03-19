@@ -22,3 +22,12 @@ function as well as the TKsummary function to actually calculate the
 concentration-time profiles and toxicokinetic summaries, but it then formats
 those and other outputs to return to the main module server to distribute.
 }
+\seealso{
+\code{\link[=Run_Model_ADME]{Run_Model_ADME()}}
+\code{\link[=SetArraySize]{SetArraySize()}}
+\code{\link[=TKsummary]{TKsummary()}}
+\code{\link[=AssignArrayNames]{AssignArrayNames()}}
+\code{\link[=Rearr_TKSumArray]{Rearr_TKSumArray()}}
+\code{\link[=StorePars_ADME]{StorePars_ADME()}}, all of which the current function calls.
+\code{\link[=ADME_server]{ADME_server()}}, which calls the current function.
+}

@@ -17,5 +17,10 @@ A list containing the inputted plot list with the legends on each
 compound plot removed and a new subplot with the plotting legend
 }
 \description{
-Remove current plot legend and generate individual plot legends
+This function extracts the plotting legend from the individ_plt_lst, creates
+a new plotting object with just the legend, and then removes all the legends
+from the remaining plot.
+}
+\seealso{
+\code{\link[=plottingfunc_individual]{plottingfunc_individual()}}, which calls the current function
 }

@@ -16,8 +16,10 @@ parameters in pars(), and the logscale() input by the user}
 Server outputs for the BER plot drop down which includes three elements
 }
 \description{
-#' @description
 This function generates the outputs defined in the IVIVE_Table_ui()
 function. This connects the download buttons with the plot to download,
 generates the plot content, and creates the text for the plot caption.
+}
+\seealso{
+\code{\link[=BERplotting]{BERplotting()}}, which is called by this function
 }

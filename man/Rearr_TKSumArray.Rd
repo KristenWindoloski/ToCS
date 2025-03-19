@@ -19,5 +19,10 @@ n is the compounds of simulated compounds) with each compound having a Tmax,
 Cmax, and AUC column
 }
 \description{
-Rearrange the toxicokinetic (TK) array into a TK matrix
+This function changes the inputted toxicokinetic summary array into a matrix
+and assigns names to the matrix's rows (compartment names) and columns
+(tkstatistic.compoundname).
+}
+\seealso{
+\code{\link[=modsol]{modsol()}}, which calls the current function
 }

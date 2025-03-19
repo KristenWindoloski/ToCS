@@ -27,3 +27,8 @@ UI objects for the IVIVE 'Results' card under the 'Run Simulation' tab. The
 contents of each UI object (drop down) are then filled by four separate
 server modules.
 }
+\seealso{
+\code{\link[=validate_text_IVIVE]{validate_text_IVIVE()}}, \code{\link[=IVIVEsol]{IVIVEsol()}}, \code{\link[=IVIVE_Table_server]{IVIVE_Table_server()}},
+\code{\link[=IVIVE_Plot_server]{IVIVE_Plot_server()}}, \code{\link[=BER_Table_server]{BER_Table_server()}}, and \code{\link[=BER_Plot_server]{BER_Plot_server()}}, which
+are all called by this function
+}

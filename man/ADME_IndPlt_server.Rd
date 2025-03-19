@@ -21,3 +21,8 @@ This function generates the outputs defined in the ADME_IndPlt_ui()
 function. This connects the download button, plot text, plot, and plot
 caption to the elements that fill their spaces.
 }
+\seealso{
+\code{\link[=plottingfunc_all]{plottingfunc_all()}},\code{\link[=plottingfunc_individual]{plottingfunc_individual()}}, \code{\link[=plt_arrange]{plt_arrange()}},
+\code{\link[=caption_text]{caption_text()}}, which are all called by this function. \code{\link[=ADME_server]{ADME_server()}},
+which calls this function.
+}

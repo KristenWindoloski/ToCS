@@ -19,5 +19,14 @@ legends) and the second element being a data frame of hexadecimal RGB
 triplet colors that defines the plotting color for each compound
 }
 \description{
-Generate the ggplot2 plotting object for the multi-curve plot
+This function creates plots (number of plots = number of model compartments
+outputted from httk's solve_model function) that display the concentration-
+time profile curves for all simulated compounds within each model compartment.
+Plots are created using ggplot from the ggplot2 R package. A list of plots are
+returned (one plot per compartment plus a plot displaying the plot legend).
+}
+\seealso{
+\code{\link[=Create_Plotting_df]{Create_Plotting_df()}} and \code{\link[=Set_Plot_Legend_Color]{Set_Plot_Legend_Color()}}, which the
+current function calls. \code{\link[=ADME_MultPlt_server]{ADME_MultPlt_server()}} and \link{ADME_IndPlt_server}, which
+call the current function.
 }
