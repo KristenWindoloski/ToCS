@@ -10,6 +10,8 @@
 #'
 #' @return User interface layout for the steady state concentrations module on the 'Run Simulation'
 #' tab; includes one plot and two table drop down panels
+#' @seealso [SS_ConcPlot_ui()], [SS_ConcTable_ui()], and [SS_DayTable_ui()],
+#' which are all called by this function
 #' @export
 #'
 SS_ui <- function(id) {
@@ -42,6 +44,9 @@ SS_ui <- function(id) {
 #'
 #' @return Server output for the steady state concentrations module on the 'Run Simulation'
 #' tab; includes one plot and two table drop down panels
+#' @seealso [validate_text_SS()], [SS_sol()], [SS_ConcPlot_server()],
+#' [SS_ConcTable_server()], and [SS_DayTable_server()], which are all called by
+#' this function
 #' @export
 #'
 SS_server <- function(id,pars,runsim,logscale) {

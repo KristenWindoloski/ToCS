@@ -5,7 +5,7 @@
 
 #' User interface function for the BER plot
 #'
-#' #' @description
+#' @description
 #' This function outputs the user interface for the BER plot drop down in the
 #' results card under the 'Run Simulation' tab. The interface has three outputs:
 #' a plot download button, a plot with BER values, and a plot caption.
@@ -29,7 +29,7 @@ BER_Plot_ui <- function(id){
 
 #' Server function for the BER plot
 #'
-#' #' @description
+#' @description
 #' This function generates the outputs defined in the IVIVE_Table_ui()
 #' function. This connects the download buttons with the plot to download,
 #' generates the plot content, and creates the text for the plot caption.
@@ -39,6 +39,7 @@ BER_Plot_ui <- function(id){
 #' parameters in pars(), and the logscale() input by the user
 #'
 #' @return Server outputs for the BER plot drop down which includes three elements
+#' @seealso [BERplotting()], which is called by this function
 #' @export
 #'
 BER_Plot_server <- function(id,ivive_args){

@@ -15,6 +15,7 @@
 #' @param id Shiny identifier name; must be the same id used as in ADME_IndPlt_server()
 #'
 #' @return User interface for the individual plots drop down with four elements
+#' @seealso [ADME_ui()], which calls this function
 #' @export
 #'
 ADME_IndPlt_ui <- function(id){
@@ -44,6 +45,9 @@ ADME_IndPlt_ui <- function(id){
 #'
 #' @return Server outputs for the concentration-time profile individual plots
 #' drop down which includes four elements
+#' @seealso [plottingfunc_all()],[plottingfunc_individual()], [plt_arrange()],
+#' [caption_text()], which are all called by this function. [ADME_server()],
+#' which calls this function.
 #' @export
 #'
 ADME_IndPlt_server <- function(id,adme_args){

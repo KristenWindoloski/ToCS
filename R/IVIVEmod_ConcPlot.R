@@ -39,6 +39,8 @@ IVIVE_Plot_ui <- function(id){
 #' parameters in pars(), and the logscale() input by the user
 #'
 #' @return Server outputs for the IVIVE plot drop down which includes three elements
+#' @seealso [IVIVEplotting()] and [IVIVEplot_caption()], which are both called by
+#' this function
 #' @export
 #'
 IVIVE_Plot_server <- function(id,ivive_args){

@@ -19,6 +19,8 @@
 #'
 #' @return Four user interface drop down tabs identifying space for two plots, two
 #' download buttons, and one table of concentration-time profile results.
+#' @seealso [ADME_MultPlt_ui()], [ADME_IndPlt_ui()], [ADME_TCData_ui()], and
+#' [ADME_TKTable_ui()], which are all called by this function
 #' @export
 #'
 ADME_ui <- function(id) {
@@ -57,6 +59,9 @@ ADME_ui <- function(id) {
 #' @return The four server outputs that fill the main concentration-time profile
 #' user interface function consisting of two plots, two download buttons, and
 #' one table of concentration-time profile results
+#' @seealso [validate_text_ADME()], [modsol()], [ADME_MultPlt_server()],
+#' [ADME_IndPlt_server()], [ADME_TCData_server()], and [ADME_TKTable_server()],
+#' which are all called by this function
 #' @export
 #'
 ADME_server <- function(id,pars,runsim) {

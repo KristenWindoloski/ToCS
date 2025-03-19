@@ -18,6 +18,8 @@
 #'
 #' @return Four user interface drop down tabs identifying space for two plots
 #' and two tables of IVIVE results.
+#' @seealso [IVIVE_Table_ui()], [IVIVE_Plot_ui()], [BER_Table_ui()], and
+#' [BER_Plot_ui()], which are all called by this function
 #' @export
 #'
 IVIVE_ui <- function(id) {
@@ -58,6 +60,9 @@ IVIVE_ui <- function(id) {
 #'
 #' @return The four server outputs that fill the main IVIVE user interface
 #' function consisting of two plots and two tables of IVIVE results
+#' @seealso [validate_text_IVIVE()], [IVIVEsol()], [IVIVE_Table_server()],
+#' [IVIVE_Plot_server()], [BER_Table_server()], and [BER_Plot_server()], which
+#' are all called by this function
 #' @export
 #'
 IVIVE_server <- function(id,pars,runsim,logscale) {

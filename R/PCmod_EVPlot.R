@@ -5,6 +5,13 @@
 
 #' User interface function for the parameter calculations parameter plot
 #'
+#' @description
+#' This function outputs the structure of the user interface for the Parameter
+#' Calculations 'Results' card under the 'Run Simulation' tab. Three drop down
+#' tabs appear: a download plot button, a plot of parameter values, and a plot
+#' caption. The user interface contents of each drop down is then filled by a
+#' separate UI module.
+#'
 #' @param id Shiny identifier name; must be the same id used as in PC_EVPlot_server()
 #'
 #' @return User interface for the parameter plot drop down with three elements
@@ -24,12 +31,20 @@ PC_EVPlot_ui <- function(id){
 
 #' Server function for the parameter calculations parameter plot
 #'
+#' @description
+#' This function creates the UI object the four parameter values (elimination rate, volume
+#' of distribution, half-life, and plasma clearance) contents of
+#' the UI objects for the Parameter Calculations 'Results' card under the 'Run
+#' Simulation' tab. The contents of each UI object (drop down) are then filled
+#' by four separate server modules.
+#'
 #' @param id Shiny identifier name; must be the same id used as in PC_EVPlot_ui()
 #' @param pc_args A Shiny reactive list with the output of Parsol(), all shiny
 #' parameters in pars(), and the logscale() input by the user
 #'
 #' @return Server outputs for the parameter plot drop down which includes three
 #' elements
+#' @seealso [plotPar()], which is called by this function
 #' @export
 #'
 PC_EVPlot_server <- function(id,pc_args){

@@ -15,6 +15,7 @@
 #' @param id Shiny identifier name; must be the same id used as in ADME_MultPlt_server()
 #'
 #' @return User interface for the multi-plot drop down which has three elements
+#' @seealso [ADME_ui()], which calls this function
 #' @export
 #'
 ADME_MultPlt_ui <- function(id){
@@ -43,6 +44,8 @@ ADME_MultPlt_ui <- function(id){
 #'
 #' @return Server outputs for the concentration-time profile multi-plot drop down
 #'  which includes three elements
+#' @seealso [plottingfunc_all()] and [caption_text()], which are called by the
+#' current function, and [ADME_server()], which calls this function
 #' @export
 #'
 ADME_MultPlt_server <- function(id, adme_args){

@@ -33,6 +33,7 @@ SS_ConcPlot_ui <- function(id){
 #' @return Server function for the steady state concentrations plot which includes
 #' four elements: a plot download button, the steady state concentrations plot,
 #' and a plot caption
+#' @seealso [scat_plot()]
 #' @export
 #'
 SS_ConcPlot_server <- function(id,ss_args){

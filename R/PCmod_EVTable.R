@@ -5,6 +5,13 @@
 
 #' User interface function for the parameter calculation parameter table
 #'
+#' #' @description
+#' This function calculates the four parameter values (elimination rate, volume
+#' of distribution, half-life, and plasma clearance) and outputs the contents of
+#' the UI objects for the Parameter Calculations 'Results' card under the 'Run
+#' Simulation' tab. The contents of each UI object (drop down) are then filled
+#' by four separate server modules.
+#'
 #' @param id Shiny identifier name; must be the same id used as in PC_EVTable_server()
 #'
 #' @return User interface for the parameter table drop down with three elements

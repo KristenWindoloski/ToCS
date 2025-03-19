@@ -18,6 +18,8 @@
 #'
 #' @return Five user interface drop down tabs identifying space for two plots,
 #' two tables, and a download button of parameter calculation results.
+#' @seealso [PC_EVPlot_ui()], [PC_EVTable_ui()], [PC_PCPlot_ui()], [PC_PCTable_ui()],
+#' and [PC_Pars_ui()], which are all called by this function
 #' @export
 #'
 PC_ui <- function(id) {
@@ -55,6 +57,9 @@ PC_ui <- function(id) {
 #' @return The five server outputs that fill the main Parameter Calculations
 #' user interface function consisting of two plots, two tables, and a download
 #' button of simulation parameters of Parameter Calculation results
+#' @seealso [validate_text_pc()], [Parsol()], [PC_EVPlot_server()], [PC_EVTable_server()],
+#' [PC_PCPlot_server()], [PC_PCTable_server()], and [PC_Pars_server()], which
+#' are all called by this function
 #' @export
 #'
 PC_server <- function(id,pars,runsim,logscale) {

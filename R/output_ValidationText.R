@@ -11,6 +11,8 @@
 #' "Schmitt","1compartment","3compartment", "pbtk" or "fetal_pbtk"
 #'
 #' @return A string with text describing the returned concentration of the model.
+#' @seealso [ADME_MultPlt_server()] and [ADME_IndPlt_server()], which calls the
+#' current function.
 #' @export
 #'
 caption_text <- function(func,model){
@@ -199,6 +201,7 @@ validate_text_Common <- function(pars){
 #'
 #' @return A blank error message to the user that halts computation until the
 #' user fixes the input error.
+#' @seealso [ADME_server()] and [ADME_TCData_Server()], which call this function
 #' @export
 #'
 validate_text_ADME <- function(pars){

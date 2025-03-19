@@ -1,7 +1,14 @@
 ################################################################################
 ################################################################################
 
-#' Reformat the ADME solution array
+#' Reformat the ADME solution array for a specific compartment
+#'
+#' @description
+#' This function rearranges the concentration-time profile solution array (where
+#' each page represents a compound, each column a model compartment, and each
+#' row a time point) into a data frame with three columns (time, yvalues, and
+#' compound name) for the ith model compartment.
+#'
 #'
 #' @param i A number representing the index of the current model state to be plotted
 #' @param n A number representing the number of compounds being plotted
@@ -9,7 +16,9 @@
 #' @param chemnames A vector containing the names of the compounds being simulated
 #' @param numtimes A vector containing the times the solution is evaluated
 #'
-#' @return A data frame that reformats the sol_array so concentration-time profiles can be plotted according to compound
+#' @return A data frame with concentration-time profile data for compartment
+#' i and it contains three columns: time, yvalues, and compound.
+#' @seealso [plottingfunc_all()], which calls this function
 #' @export
 #'
 Create_Plotting_df <- function(i,n,sol_array,chemnames,numtimes){
@@ -41,14 +50,22 @@ Create_Plotting_df <- function(i,n,sol_array,chemnames,numtimes){
 
 #' Remove plot legends and determine plot color
 #'
-#' @param plt_lst A list of ggplot2 plotting objects where each list element is
-#' the plot of a single compound and is composed of subplots
-#' @param n_states Number of model compartments/outputs
+#' @description
+#' This function extracts the line color legend from a plot, transfers that legend
+#' to a new panel on the plot, and then removes all the other legends from the
+#' plot so there is only one legend on the entire plot.
 #'
-#' @return A list containing two elements, the first one being the inputted plot
+#'
+#' @param plt_lst A list of ggplot2 plotting objects. Each list element is
+#' a ggplot2 plotting object of a single compound and is composed of subplots
+#' @param n_states Number of model compartments/outputs for the simulated model
+#' from httk's 'solve_model' function.
+#'
+#' @return A list containing two elements. The first one is the inputted plot
 #' list with the legends on each compound plot removed and a new subplot with the
-#' plotting legend and the second element being a data frame of hexadecimal RGB
-#' triplet colors that defines the plotting color for each compound.
+#' plotting legend. The second element is a data frame of hexadecimal RGB triplet
+#' colors that defines the plotting color for each compound.
+#' @seealso [plottingfunc_all()], which calls this function
 #' @export
 #'
 Set_Plot_Legend_Color <- function(plt_lst,n_states){
@@ -74,6 +91,14 @@ Set_Plot_Legend_Color <- function(plt_lst,n_states){
 
 #' Generate the ggplot2 plotting object for the multi-curve plot
 #'
+#' @description
+#' This function creates plots (number of plots = number of model compartments
+#' outputted from httk's solve_model function) that display the concentration-
+#' time profile curves for all simulated compounds within each model compartment.
+#' Plots are created using ggplot from the ggplot2 R package. A list of plots are
+#' returned (one plot per compartment plus a plot displaying the plot legend).
+#'
+#'
 #' @param sol_array The concentration-time profile solution array where entries
 #' signify the concentration of a compound at a specific time in a particular
 #' compartment. Pages of the array correspond to compounds, rows to time points,
@@ -83,6 +108,9 @@ Set_Plot_Legend_Color <- function(plt_lst,n_states){
 #' list with each element of the list representing a different compound (no plot
 #' legends) and the second element being a data frame of hexadecimal RGB
 #' triplet colors that defines the plotting color for each compound
+#' @seealso [Create_Plotting_df()] and [Set_Plot_Legend_Color()], which the
+#' current function calls. [ADME_MultPlt_server()] and [ADME_IndPlt_server], which
+#' call the current function.
 #' @export
 #'
 plottingfunc_all <- function(sol_array){
@@ -122,6 +150,12 @@ plottingfunc_all <- function(sol_array){
 
 #' Generate a single concentration-time profile curve using ggplot2
 #'
+#' @description
+#' This function generates a ggplot plotting object that displays the concentration-time
+#' profile curve for the ith compound in the jth model compartment outputted
+#' from httk's solve_model function.
+#'
+#'
 #' @param i Index corresponding to the ith compound simulated
 #' @param j Index corresponding to the jth model compartment
 #' @param comp_sol A data frame of the matrix solution of concentration-time
@@ -136,6 +170,7 @@ plottingfunc_all <- function(sol_array){
 #'
 #' @return A ggplot2 plotting object with a concentration-time profile curve in
 #' compartment j for compound i.
+#' @seealso [plottingfunc_individual()], which calls the current function
 #' @export
 #'
 Create_Individ_Subplot <- function(i,j,comp_sol,compound_names,plt_colors,col_names){
@@ -158,12 +193,19 @@ Create_Individ_Subplot <- function(i,j,comp_sol,compound_names,plt_colors,col_na
 
 #' Remove current plot legend and generate individual plot legends
 #'
+#' @description
+#' This function extracts the plotting legend from the individ_plt_lst, creates
+#' a new plotting object with just the legend, and then removes all the legends
+#' from the remaining plot.
+#'
+#'
 #' @param individ_plt_lst A list of ggplot2 plotting objects where each list element is
 #' the plot of a single compound and is composed of subplots
 #' @param n_states Number of model compartments/outputs
 #'
 #' @return A list containing the inputted plot list with the legends on each
 #' compound plot removed and a new subplot with the plotting legend
+#' @seealso [plottingfunc_individual()], which calls the current function
 #' @export
 #'
 Set_Individ_Plot <- function(individ_plt_lst,n_states){
@@ -171,7 +213,7 @@ Set_Individ_Plot <- function(individ_plt_lst,n_states){
   # --- Save legend to plot later
   individ_plt_lst[[n_states+1]] <- cowplot::get_plot_component(individ_plt_lst[[1]],"guide-box",return_all = TRUE)[[1]]
 
-  # --- Add legend to current plots
+  # --- Remove legend to current plots
   for (j in 1:n_states) {
     individ_plt_lst[[j]] <- individ_plt_lst[[j]] + ggplot2::theme(legend.position = "none")
   }
@@ -187,6 +229,12 @@ Set_Individ_Plot <- function(individ_plt_lst,n_states){
 
 #' Generate the plots for the individual plots drop down
 #'
+#' @description
+#' This function creates N plots, where N is the number of compounds simulated in
+#' the concentration-time profile simulations. The plot list for each compound
+#' consists of an individual plotting object for each model compartment.
+#'
+#'
 #' @param sol_array The concentration-time profile solution array where entries
 #' signify the concentration of a compound at a specific time in a particular
 #' compartment. Pages of the array correspond to compounds, rows to time points,
@@ -196,6 +244,8 @@ Set_Individ_Plot <- function(individ_plt_lst,n_states){
 #'
 #' @return A list that contains other lists. Each list element makes up one full
 #' plotting figure for one compound (i.e. a plot with subplots).
+#' @seealso [Create_Individ_Subplot()] and [Set_Indvid_Plot()], which the current
+#' function calls. [ADME_IndPlt_server()], which calls the current function.
 #' @export
 #'
 plottingfunc_individual <- function(sol_array, plt_colors){
@@ -247,6 +297,12 @@ plottingfunc_individual <- function(sol_array, plt_colors){
 
 #' Arrange individual compound plots
 #'
+#' @description
+#' This function takes the list of plots for a single compound and arranges them
+#' into one plot. The single final plot is then stored in a list to be rendered
+#' when called in the module output.
+#'
+#'
 #' @param plt_list The list of individual plots (ggplot2 objects) to output, where
 #' each list object is the main plotting object for one compound. Each compound's
 #' plotting object is itself a list with elements being a subplot (ggplot2 object)
@@ -254,6 +310,7 @@ plottingfunc_individual <- function(sol_array, plt_colors){
 #' compartment
 #'
 #' @return A list of arranged individual concentration-time profile plots
+#' @seealso [ADME_IndPlt_server()], which calls the current function.
 #' @export
 #'
 plt_arrange <- function(plt_list){
@@ -285,6 +342,7 @@ plt_arrange <- function(plt_list){
 #' @return A matrix of TK summary values with three columns (Tmax, Cmax, and AUC)
 #' and the number of rows equal to the number of model output compartments (number
 #' of columns of modelsol)
+#' @seealso [modsol()], which calls the current function
 #' @export
 #'
 TKsummary <- function(modsol) {
@@ -336,6 +394,14 @@ TKsummary <- function(modsol) {
 #' profile solution, a matrix of the toxicokinetic summary, and a data frame of
 #' simulation parameters and physical-chemical data for compounds used in the
 #' simulation
+#' @seealso [Run_Model_ADME()]
+#' [SetArraySize()]
+#' [TKsummary()]
+#' [AssignArrayNames()]
+#' [Rearr_TKSumArray()]
+#' [StorePars_ADME()], all of which the current function calls.
+#' [ADME_server()], which calls the current function.
+#'
 #' @export
 #'
 modsol <- function(pars){
@@ -387,7 +453,7 @@ modsol <- function(pars){
 #' Solve the ADME model
 #'
 #' @description
-#' This function solves the PBTK model to generate concentration-time profiles for
+#' This function solves a model to generate concentration-time profiles for
 #' the list of selected compounds. These concentrations are generated using the
 #' 'httk' package's 'solve_model' function for the selected model and parameters.
 #'
@@ -401,6 +467,8 @@ modsol <- function(pars){
 #' concentrations for each model compartment, plasma concentration, and area
 #' under the curve of the plasma compartment. Each row represents a concentration
 #' at the listed time.
+#' @seealso [modsol()], which this function is called by and [RemoveCols()], which
+#' the current function calls
 #' @export
 #'
 Run_ADME_Model <- function(i,pars){
@@ -439,6 +507,14 @@ Run_ADME_Model <- function(i,pars){
 
 #' Remove columns from the concentration-time profile solution matrix
 #'
+#' @description
+#' This function cuts off columns that are considered 'extra' from the
+#' concentration-time profile solution matrix outputted from httk's solve_model
+#' function. This includes columns that are essentially 'repeat' quantities (i.e.
+#' removes a column specifying the amount of a chemical in compartment i when
+#' the concentration of the chemical in compartment i is already outputted).
+#'
+#'
 #' @param sol The solution matrix from httk's 'solve_model' function
 #' @param model The simulated model; either "1compartment","3compartment","pbtk",
 #' "fetal_pbtk"
@@ -446,6 +522,7 @@ Run_ADME_Model <- function(i,pars){
 #' @return The trimmed solution matrix with less columns than sol; All columns
 #' after the AUC column are removed if the model is not "fetal_pbtk" and if the
 #' model is "fetal_pbtk", then all columns after Qthyroid are removed.
+#' @seealso [Run_ADME_model()], which calls the current function
 #' @export
 #'
 RemoveCols <- function(sol,model){
@@ -466,12 +543,19 @@ RemoveCols <- function(sol,model){
 #' Set the dimensions of the arrays for the model solution and the toxicokinetic
 #' summary data
 #'
+#' @description
+#' This function creates the arrays (filled with zeros) that will be used to store
+#' the outputted model solution from httk's solve_model and outputted toxicokinetic
+#' summary information.
+#'
+#'
 #' @param modelsol The matrix resulting from solve_model, where rows represent
 #' a time step and columns represent a model compartment
 #' @param n The number of compounds to be simulated
 #'
-#' @return A list of two empty arrays, one for the model solution and the other
+#' @return A list of two arrays, one for the model solution and the other
 #' for the toxicokinetic summary data
+#' @seealso [modsol()], which calls the current function
 #' @export
 #'
 SetArraySize <- function(modelsol,n){
@@ -496,6 +580,11 @@ SetArraySize <- function(modelsol,n){
 #' Assign dimension names to the model solution and toxicokinetic (TK) summary
 #' arrays
 #'
+#' @description
+#' This function names the rows, columns, and pages of the model solution and TK
+#' summary arrays
+#'
+#'
 #' @param sol The solution array for all compounds; each page of the array is a
 #' matrix that's the concentration-time solution from solve_model for a particular
 #' compound
@@ -507,6 +596,7 @@ SetArraySize <- function(modelsol,n){
 #' @param pars A list of all user input parameters for the entire app
 #'
 #' @return A list of two arrays, the model solution array and the TK summary array
+#' @seealso [modsol()], which calls the current function
 #' @export
 #'
 AssignArrayNames <- function(sol,modsol,tk_sum_array,pars){
@@ -530,6 +620,12 @@ AssignArrayNames <- function(sol,modsol,tk_sum_array,pars){
 
 #' Rearrange the toxicokinetic (TK) array into a TK matrix
 #'
+#' @description
+#' This function changes the inputted toxicokinetic summary array into a matrix
+#' and assigns names to the matrix's rows (compartment names) and columns
+#' (tkstatistic.compoundname).
+#'
+#'
 #' @param tk_sum_array The array of TK summary data where each page of the array
 #' represents the TK summary of a particular compound with rows representing
 #' each model compartment and columns being Tmax, Cmax, and AUC
@@ -538,6 +634,7 @@ AssignArrayNames <- function(sol,modsol,tk_sum_array,pars){
 #' @return A matrix with rows representing model compartments and 3n columns (where
 #' n is the compounds of simulated compounds) with each compound having a Tmax,
 #' Cmax, and AUC column
+#' @seealso [modsol()], which calls the current function
 #' @export
 #'
 Rearr_TKSumArray <- function(tk_sum_array,pars){
@@ -561,12 +658,20 @@ Rearr_TKSumArray <- function(tk_sum_array,pars){
 ################################################################################
 ################################################################################
 
-#' Turn dosing parameters into solve_model input format
+#' Turn dosing parameters into a format that can be outputted by a list in the
+#' simulation parameters data frame
+#'
+#' @description
+#' This function converts the user-selected dosing parameters into an acceptably
+#' formatted list for export by the user if they want to download their simulation
+#' parameters.
+#'
 #'
 #' @param pars A list of all user input parameters for the entire app
 #'
 #' @return A list of dosing parameters (initial.dose, doses.per.day, daily.dose,
 #' and dosing.matrix)
+#' @seealso [StorePars_ADME()], which calls the current function
 #' @export
 #'
 Dosing_Output <- function(pars){
@@ -598,8 +703,15 @@ Dosing_Output <- function(pars){
 ################################################################################
 ################################################################################
 
-#' Combine data frames of user-selected simulation parameters and chemical-physical
-#' compound data
+#' Combine simulation parameters and chemical-physical compound data data frames
+#'
+#' @description
+#' This function adds the columns of the chemical-physical compound data (found
+#' in the chem.physical_and_invitro.data data frame from the httk R package) for
+#' simulated compounds to the simulation parameters data frame. Thus, each row
+#' of the outputted data frame shows all simulation parameters and chemical data
+#' used to simulate a single compound in ToCS.
+#'
 #'
 #' @param pars A list of all user input parameters for the entire app
 #' @param pars_df A data frame with simulation parameters generated in the
@@ -607,6 +719,7 @@ Dosing_Output <- function(pars){
 #'
 #' @return A data frame with all relevant simulation parameters chosen by the user
 #' and all physical-chemical data used for the simulated compounds
+#' @seealso [StorePars_ADME()], which calls the current function
 #' @export
 #'
 Bind_Chem_Data <- function(pars,pars_df){
@@ -633,6 +746,8 @@ Bind_Chem_Data <- function(pars,pars_df){
 #'
 #' @return A data frame with all relevant simulation parameters chosen by the user
 #' and all physical-chemical data used for the simulated compounds
+#' @seealso [modsol()], which calls the current function, and [Bind_Chem_Data()],
+#' which the current function calls
 #' @export
 #'
 StorePars_ADME <- function(pars){

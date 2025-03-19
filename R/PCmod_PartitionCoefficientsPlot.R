@@ -32,6 +32,7 @@ PC_PCPlot_ui <- function(id){
 #'
 #' @return Server outputs for the partition coefficient plot drop down which
 #' includes three elements
+#' @seealso [plotPCs()], which is called by this function
 #' @export
 #'
 PC_PCPlot_server <- function(id,pc_args){
