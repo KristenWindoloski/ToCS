@@ -20,3 +20,6 @@ A numerical value, which is the volume of distribution for compound i
 This function calculates the volume of distribution of a compound using the
 'httk' package's 'calc_vdist' function.
 }
+\seealso{
+\code{\link[=Parsol]{Parsol()}}, which calls the current function
+}

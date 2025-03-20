@@ -20,3 +20,6 @@ A numerical value, which is the plasma total clearance for compound i
 This function calculates the total plasma clearance of a compound using the
 'httk' package's 'calc_total_clearance' function.
 }
+\seealso{
+\code{\link[=Parsol]{Parsol()}}, which calls the current function
+}

@@ -21,3 +21,6 @@ Chemical-physical data is taken from the 'httk' package's
 chem.physical_and_invitro.data data frame, where the data was either uploaded
 by the GUI user or already present when httk was loaded.
 }
+\seealso{
+\code{\link[=Parsol]{Parsol()}}, which calls the current function
+}

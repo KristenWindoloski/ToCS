@@ -24,3 +24,7 @@ with both OED and exposure data
 Plot the oral equivalent dose (OED) for each chemical when the user uploads
 exposure data
 }
+\seealso{
+\code{\link[=FillExposureData]{FillExposureData()}}, which is called by the current function, and
+\code{\link[=IVIVEplotting]{IVIVEplotting()}}, which calls the current function
+}

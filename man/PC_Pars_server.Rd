@@ -18,3 +18,6 @@ Server outputs for the parameter download drop down with one element
 \description{
 Server function for the parameter calculations simulation parameters
 }
+\seealso{
+\code{\link[=PC_server]{PC_server()}}, which calls the current function
+}

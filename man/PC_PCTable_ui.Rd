@@ -18,3 +18,6 @@ three elements
 User interface function for the parameter calculations partition coefficients
 table
 }
+\seealso{
+\code{\link[=PC_ui]{PC_ui()}}, which calls the current function
+}

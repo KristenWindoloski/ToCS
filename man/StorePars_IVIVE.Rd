@@ -23,3 +23,6 @@ data for simulated compounds into one data frame. The returned parameters are
 only those used to generate the simulation, and the chemical-physical data is
 retrieved from the 'httk' package's 'chem.physical_and_invitro.data' data frame.
 }
+\seealso{
+\code{\link[=IVIVEsol]{IVIVEsol()}}, which calls the current function
+}

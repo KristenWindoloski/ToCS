@@ -24,5 +24,6 @@ Simulation' tab. The contents of each UI object (drop down) are then filled
 by four separate server modules.
 }
 \seealso{
-\code{\link[=plotPar]{plotPar()}}, which is called by this function
+\code{\link[=plotPar]{plotPar()}}, which is called by the current function, and \code{\link[=PC_server]{PC_server()}},
+which calls the current function
 }

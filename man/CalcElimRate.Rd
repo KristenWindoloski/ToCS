@@ -19,3 +19,6 @@ A numerical value, which is the elimination rate for compound i
 This function calculates the elimination rate of a compound using the 'httk'
 package's 'calc_elimination_rate' function.
 }
+\seealso{
+\code{\link[=Parsol]{Parsol()}}, which calls the current function
+}

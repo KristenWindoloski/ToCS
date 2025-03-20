@@ -22,3 +22,8 @@ compounds' elimination rates, volumes of distribution, half lives, and total
 plasma clearances. The data frames are set up in this function, and then other
 functions are called to do the calculation for these parameters.
 }
+\seealso{
+\code{\link[=PC_server]{PC_server()}}, which calls the current function, and \code{\link[=CalcElimRate]{CalcElimRate()}},
+\code{\link[=CalcVdist]{CalcVdist()}}, \code{\link[=CalcHalfLife]{CalcHalfLife()}}, \code{\link[=CalcClearance]{CalcClearance()}}, \code{\link[=CalcPCs]{CalcPCs()}}, and \code{\link[=StorePars_PC]{StorePars_PC()}},
+which the current function calls
+}

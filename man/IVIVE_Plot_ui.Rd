@@ -18,3 +18,6 @@ This function outputs the user interface for the IVIVE plot drop down in the
 results card under the 'Run Simulation' tab. The interface has three outputs:
 a plot download button, a plot with calculated IVIVE doses, and a plot caption.
 }
+\seealso{
+\code{\link[=IVIVE_ui]{IVIVE_ui()}}, which calls the current function
+}

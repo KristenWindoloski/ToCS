@@ -19,3 +19,6 @@ order as the original chemical list, updates the data if the model output units
 are different than the default of mg/kg/day, and calculates the maximal exposure
 data estimate for each compound. The updated exposure data frame is returned.
 }
+\seealso{
+\code{\link[=IVIVEsol]{IVIVEsol()}}, which calls the current function
+}

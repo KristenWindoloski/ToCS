@@ -21,5 +21,6 @@ function. This connects the download buttons with the plot to download,
 generates the plot content, and creates the text for the plot caption.
 }
 \seealso{
-\code{\link[=BERplotting]{BERplotting()}}, which is called by this function
+\code{\link[=BERplotting]{BERplotting()}}, which is called by this function, and \code{\link[=IVIVE_server]{IVIVE_server()}},
+which calls the current function
 }

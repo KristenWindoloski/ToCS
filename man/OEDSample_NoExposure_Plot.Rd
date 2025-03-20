@@ -21,3 +21,6 @@ A ggplot2 plotting object
 \description{
 Plot the oral equivalent dose samples when the user does not upload exposure data
 }
+\seealso{
+\code{\link[=IVIVEplotting]{IVIVEplotting()}}, which calls the current function
+}

@@ -19,3 +19,7 @@ small deviation (1e-8) from the non-NA elements of the data frame for that
 particular chemical. This is done so that the exposure data can be plotted as
 line and point ranges.
 }
+\seealso{
+\code{\link[=OEDSample_Exposure_Plot]{OEDSample_Exposure_Plot()}} and \code{\link[=OEDPoint_Exposure_Plot]{OEDPoint_Exposure_Plot()}}, which
+calls the current function
+}

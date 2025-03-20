@@ -28,3 +28,7 @@ This function calculates the oral equivalent dose (OED) and bioactivity exposure
 is calculated using the OED quantile selected by the user. If no exposure
 data is uploaded by the user, then the BER is not calculated.
 }
+\seealso{
+\code{\link[=CalcOED]{CalcOED()}}, which is called by the current function, and \code{\link[=IVIVEsol]{IVIVEsol()}},
+which calls the current function
+}

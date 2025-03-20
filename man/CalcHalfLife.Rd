@@ -20,3 +20,6 @@ A numerical value, which is the half-life for compound i
 This function calculates the half-life of a compound using the 'httk' package's
 'calc_half_life' function.
 }
+\seealso{
+\code{\link[=Parsol]{Parsol()}}, which calls the current function
+}

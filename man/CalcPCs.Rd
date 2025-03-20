@@ -20,3 +20,6 @@ This function calculates the tissue to unbound plasma partition coefficients
 of a given chemical. This is done using the 'httk' package's
 'predict_partitioning_schmitt' function.
 }
+\seealso{
+\code{\link[=Parsol]{Parsol()}}, which calls the current function
+}

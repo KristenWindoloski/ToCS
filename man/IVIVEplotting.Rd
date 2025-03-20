@@ -26,3 +26,9 @@ A ggplot2 plotting object
 \description{
 Plot the oral equivalent dose (OED) and exposure data (if applicable)
 }
+\seealso{
+\code{\link[=IVIVE_Plot_server]{IVIVE_Plot_server()}}, which calls the current function, and
+\code{\link[=OEDPoint_Exposure_Plot]{OEDPoint_Exposure_Plot()}}, \code{\link[=OEDPoint_NoExposure_Plot]{OEDPoint_NoExposure_Plot()}}, \code{\link[=Plotdf_Prep]{Plotdf_Prep()}},
+\code{\link[=OEDSample_Exposure_Plot]{OEDSample_Exposure_Plot()}}, \code{\link[=OEDSample_NoExposure_Plot]{OEDSample_NoExposure_Plot()}}, and
+\code{\link[=IVIVEplot_logscale]{IVIVEplot_logscale()}}, which are called by the current function
+}

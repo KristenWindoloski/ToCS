@@ -16,3 +16,7 @@ and simulation and chemical-physical parameters used in the simulation
 \description{
 Calculate the steady state concentration solutions
 }
+\seealso{
+\code{\link[=SS_server]{SS_server()}}, which calls the current function, and \code{\link[=CalcAnalyticCss]{CalcAnalyticCss()}},
+\code{\link[=CalcCssDay]{CalcCssDay()}}, and \code{\link[=StorePars_SS]{StorePars_SS()}}, which the current function calls
+}

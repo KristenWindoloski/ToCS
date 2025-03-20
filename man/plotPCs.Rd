@@ -26,3 +26,7 @@ compounds. Each plot represents a different tissue and that tissue's partition
 coefficients are arranged in ascending order. The plots are plotted on a log10
 y-axis scale, if desired by the user.
 }
+\seealso{
+\code{\link[=PC_PCPlot_server]{PC_PCPlot_server()}}, which calls the current function, and
+\code{\link[=plot_logscale]{plot_logscale()}}, which the current function calls
+}

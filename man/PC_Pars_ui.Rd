@@ -17,3 +17,6 @@ User interface for the parameter download drop down with one element
 User interface function for the paramater calculations simulation parameters
 download option
 }
+\seealso{
+\code{\link[=PC_ui]{PC_ui()}}, which calls the current function
+}

@@ -43,3 +43,7 @@ y-axis scale
 This function converts the y-axis scale on a plot object from a linear to a
 log10 y-axis.
 }
+\seealso{
+\code{\link[=log10breaks]{log10breaks()}}, which is called by the current function, and \code{\link[=IVIVEplotting]{IVIVEplotting()}},
+which calls the current function
+}

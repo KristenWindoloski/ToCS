@@ -19,3 +19,7 @@ chemicals. The compounds are arranged in ascending order and then plotted using
 ggplot2. A red line is also plotted at BER = 1, indicating the threshold where
 compounds below the red line should be prioritized for further assessment.
 }
+\seealso{
+\code{\link[=BER_Plot_server]{BER_Plot_server()}}, which calls the current function, and \code{\link[=log10breaks]{log10breaks()}},
+which is called by the current function
+}

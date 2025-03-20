@@ -21,3 +21,6 @@ This function generates the outputs defined in the BER_Table_ui()
 function. This connects the download buttons with the table to download,
 fills the data table with content, and creates the text for the table caption.
 }
+\seealso{
+\code{\link[=IVIVE_server]{IVIVE_server()}}, which calls the current function
+}

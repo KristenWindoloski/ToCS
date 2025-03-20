@@ -17,3 +17,6 @@ This function generates the caption for the IVIVE oral equivalent dose plot
 output. The caption differs depending on whether a single OED or a vector of
 OEDs is returned as well as whether exposure data is available.
 }
+\seealso{
+\code{\link[=IVIVE_Plot_server]{IVIVE_Plot_server()}}, which calls the current function
+}

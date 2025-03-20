@@ -18,3 +18,6 @@ results card under the 'Run Simulation' tab. The interface has four outputs:
 a table download button, a simulation parameters download button, a table with
 calculated IVIVE doses, and a table caption.
 }
+\seealso{
+\code{\link[=IVIVE_ui]{IVIVE_ui()}}, which calls the current function
+}

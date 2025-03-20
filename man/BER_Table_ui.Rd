@@ -18,3 +18,6 @@ This function outputs the user interface for the BER table drop down in the
 results card under the 'Run Simulation' tab. The interface has three outputs:
 a table download button, a table with calculated BERs, and a table caption.
 }
+\seealso{
+\code{\link[=IVIVE_ui]{IVIVE_ui()}}, which calls the current function
+}

@@ -20,3 +20,6 @@ the UI objects for the Parameter Calculations 'Results' card under the 'Run
 Simulation' tab. The contents of each UI object (drop down) are then filled
 by four separate server modules.
 }
+\seealso{
+\code{\link[=PC_ui]{PC_ui()}}, which calls the current function
+}

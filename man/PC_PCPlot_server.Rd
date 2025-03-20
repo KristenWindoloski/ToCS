@@ -20,5 +20,6 @@ includes three elements
 Server function for the parameter calculations partition coefficient plot
 }
 \seealso{
-\code{\link[=plotPCs]{plotPCs()}}, which is called by this function
+\code{\link[=plotPCs]{plotPCs()}}, which is called by this function, and \code{\link[=PC_server]{PC_server()}},
+which calls the current function
 }

@@ -24,3 +24,7 @@ with exposure data
 \description{
 Plot the oral equivalent dose samples and user-uploaded exposure data estimates
 }
+\seealso{
+\code{\link[=FillExposureData]{FillExposureData()}}, which is called by the current function, and
+\code{\link[=IVIVEplotting]{IVIVEplotting()}}, which calls the current function
+}

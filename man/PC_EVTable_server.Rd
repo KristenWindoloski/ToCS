@@ -18,3 +18,6 @@ Server outputs for the parameter table with three elements
 \description{
 Server function for the parameter calculations parameter table
 }
+\seealso{
+\code{\link[=PC_server]{PC_server()}}, which calls the current function
+}

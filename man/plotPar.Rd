@@ -28,3 +28,7 @@ distribution, half-life, and total plasma clearance values for a list of
 compounds. Each plot has its values arranged in ascending order and plot on a
 log10 y-axis scale, if desired by the user.
 }
+\seealso{
+\code{\link[=PC_EVPlot_server]{PC_EVPlot_server()}}, which calls the current function, and \code{\link[=plot_logscale]{plot_logscale()}},
+which the current function calls
+}

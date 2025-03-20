@@ -19,3 +19,6 @@ tabs appear: a download plot button, a plot of parameter values, and a plot
 caption. The user interface contents of each drop down is then filled by a
 separate UI module.
 }
+\seealso{
+\code{\link[=PC_ui]{PC_ui()}}, which calls the current function
+}

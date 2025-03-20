@@ -21,3 +21,6 @@ A ggplot2 plotting object
 Plot the oral equivalent dose (OED) for each chemical when there is no exposure
 data uploaded
 }
+\seealso{
+\code{\link[=IVIVEplotting]{IVIVEplotting()}}, which calls the current function
+}

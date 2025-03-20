@@ -24,3 +24,6 @@ assumption uses the 'httk' package's 'armitage_eval' function to perform the
 conversion. If the 'Honda1' assumption is not chosen, then the original
 'bioactive_df' data frame is returned.
 }
+\seealso{
+\code{\link[=IVIVEsol]{IVIVEsol()}}, which calls the current function
+}

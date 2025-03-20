@@ -28,3 +28,7 @@ quantile OED as well a data frame of bioactivity exposure ratios (BERs). The
 BER is calculated using the 5th quantile OED. If no exposure data is uploaded
 by the user, then no bioactivity exposure ratios are returned.
 }
+\seealso{
+\code{\link[=CalcOED]{CalcOED()}}, which is called by the current function, and \code{\link[=IVIVEsol]{IVIVEsol()}},
+which calls the current function
+}

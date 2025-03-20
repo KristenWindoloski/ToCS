@@ -23,3 +23,6 @@ are returned instead of a singular OED per compound. The compounds are arranged
 in ascending order based on the median OED sample for each compound and then
 the data frame with the 5th quantile OED is arranged in that same order.
 }
+\seealso{
+\code{\link[=IVIVEplotting]{IVIVEplotting()}}, which calls the current function
+}

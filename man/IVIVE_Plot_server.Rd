@@ -23,5 +23,5 @@ generates the IVIVE dose plot, and creates the text for the plot caption.
 }
 \seealso{
 \code{\link[=IVIVEplotting]{IVIVEplotting()}} and \code{\link[=IVIVEplot_caption]{IVIVEplot_caption()}}, which are both called by
-this function
+this function, and \code{\link[=IVIVE_server]{IVIVE_server()}}, which calls the current function
 }
