@@ -20,7 +20,8 @@
 #' @return Four user interface drop down tabs identifying space for two plots, two
 #' download buttons, and one table of concentration-time profile results.
 #' @seealso [ADME_MultPlt_ui()], [ADME_IndPlt_ui()], [ADME_TCData_ui()], and
-#' [ADME_TKTable_ui()], which are all called by this function
+#' [ADME_TKTable_ui()], which are all called by this function, and [RS_Results()],
+#' which calls the current function
 #' @export
 #'
 ADME_ui <- function(id) {

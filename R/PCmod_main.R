@@ -59,7 +59,8 @@ PC_ui <- function(id) {
 #' button of simulation parameters of Parameter Calculation results
 #' @seealso [validate_text_pc()], [Parsol()], [PC_EVPlot_server()], [PC_EVTable_server()],
 #' [PC_PCPlot_server()], [PC_PCTable_server()], and [PC_Pars_server()], which
-#' are all called by this function
+#' are all called by this function, and [RS_Results()], which calls the current
+#' function
 #' @export
 #'
 PC_server <- function(id,pars,runsim,logscale) {

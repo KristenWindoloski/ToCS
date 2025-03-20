@@ -6,6 +6,11 @@
 #' App ui function
 #'
 #' @return User interface
+#' @seealso [GP_Instructions()], [GP_Output()], [GP_Species()], [MS_Dosing()],
+#' [MS_Model()], [CS_Instructions()], [CS_PreloadedCompounds()], [CS_UploadedData()],
+#' [AP_ModelConditions()], [AP_ModelSolver()], [AP_Bioavailability()], [AP_OutputSpecification()],
+#' [RS_Actions()], [RS_SelectedCompounds()], and [RS_Results()], which are called
+#' by the current function
 #' @export
 #'
 #' @examples app_ui()

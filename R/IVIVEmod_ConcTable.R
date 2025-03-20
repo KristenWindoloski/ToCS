@@ -15,6 +15,7 @@
 #' @param id Shiny identifier name; must be the same id used as in IVIVE_Table_server()
 #'
 #' @return User interface for the IVIVE table drop down with four elements
+#' @seealso [IVIVE_ui()], which calls the current function
 #' @export
 #'
 IVIVE_Table_ui <- function(id){
@@ -42,6 +43,7 @@ IVIVE_Table_ui <- function(id){
 #' parameters in pars(), and the logscale() input by the user
 #'
 #' @return Server outputs for the IVIVE table drop down which includes four elements
+#' @seealso [IVIVE_server()], which calls the current function
 #' @export
 #'
 IVIVE_Table_server <- function(id,ivive_args){

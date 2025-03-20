@@ -14,6 +14,8 @@
 #'
 #' @return A list with steady state concentrations, steady state characteristics,
 #' and simulation and chemical-physical parameters used in the simulation
+#' @seealso [SS_server()], which calls the current function, and [CalcAnalyticCss()],
+#' [CalcCssDay()], and [StorePars_SS()], which the current function calls
 #' @export
 #'
 SS_sol <- function(pars){
@@ -69,6 +71,7 @@ SS_sol <- function(pars){
 #'
 #' @return A numerical value representing the analytical steady state concentration
 #' in the specified units
+#' @seealso [SS_sol()], which calls the current function
 #' @export
 #'
 CalcAnalyticCss <- function(pars,i){
@@ -107,6 +110,7 @@ CalcAnalyticCss <- function(pars,i){
 #' simulation, the fraction of the true steady state reached on the steady state
 #' day, the maximum concentration of the simulation, and the day steady state
 #' was reached
+#' @seealso [SS_sol()], which calls the current function
 #' @export
 #'
 CalcCssDay <- function(pars,i){
@@ -135,6 +139,7 @@ CalcCssDay <- function(pars,i){
 #'
 #' @return A data frame of simulation parameters and chemical-physical data for
 #' the chemicals simulated
+#' @seealso [SS_sol()], which calls the current function
 #' @export
 #'
 StorePars_SS <- function(pars){
@@ -184,6 +189,8 @@ StorePars_SS <- function(pars){
 #'
 #' @return A scatter plot object of steady state concentrations, either with a
 #' linear or log10 scale y-axis
+#' @seealso [SS_ConcPlot_server()], which calls the current function, and [plot_labels()]
+#' and [plot_logscale()], which are called by the current function
 #' @export
 #'
 scat_plot <- function(sol,pars,logscale){
@@ -217,6 +224,7 @@ scat_plot <- function(sol,pars,logscale){
 #' @param pars A list of all user input parameters for the entire app
 #'
 #' @return A list containing plots labels for the title and y-axis.
+#' @seealso [scat_plot()], which calls the current function
 #' @export
 #'
 plot_labels <- function(pars){

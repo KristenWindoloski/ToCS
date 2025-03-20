@@ -258,6 +258,7 @@ validate_text_ADME <- function(pars){
 #'
 #' @return A blank error message to the user that halts computation until the
 #' user fixes the input error.
+#' @seealso [SS_server()], which calls the current function
 #' @export
 #'
 validate_text_SS <- function(pars){
@@ -281,6 +282,7 @@ validate_text_SS <- function(pars){
 #'
 #' @return A blank error message to the user that halts computation until the
 #' user fixes the input error.
+#' @seealso [IVIVE_server()], which calls the current function
 #' @export
 #'
 validate_text_IVIVE <- function(pars){
@@ -401,6 +403,7 @@ validate_text_IVIVE <- function(pars){
 #'
 #' @return A blank error message to the user that halts computation until the
 #' user fixes the input error.
+#' @seealso [PC_server()], which calls the current function
 #' @export
 #'
 validate_text_PC <- function(pars){

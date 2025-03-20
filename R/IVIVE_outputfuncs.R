@@ -19,6 +19,10 @@
 #' the bioactive concentration data frame, a data frame with simulation parameters
 #' and physical-chemical data for chemicals simulated, a data frame with bioactivity
 #' exposure ratios (BER), and a data frame with user-uploaded exposure data
+#' @seealso [IVIVE_server()], which calls the current function and
+#' [ConvertBioactive()], [PrepExposureData()], [Calc_OEDBER_RS_False()],
+#' [Calc_OEDBER_RS_True()], and [StoreIVIVE_Pars()], which the current function
+#' calls.
 #' @export
 #'
 IVIVEsol <- function(pars){
@@ -81,6 +85,8 @@ IVIVEsol <- function(pars){
 #' bioactive concentration (in uM units) for each chemical to simulate
 #'
 #' @return A numeric value or vector of values, depending on the parameter
+#' @seealso [Calc_OEDBER_RS_False()] and [Calc_OEDBER_RS_True()], which call the
+#' current function
 #' @export
 #'
 CalcOED <- function(i,pars,bioactive_df){
@@ -134,6 +140,7 @@ CalcOED <- function(i,pars,bioactive_df){
 #'
 #' @return A data frame with the chemical name, CAS number, and bioactive
 #' concentration
+#' @seealso [IVIVEsol()], which calls the current function
 #' @export
 #'
 ConvertBioactive <- function(pars,bioactive_df){
@@ -175,6 +182,7 @@ ConvertBioactive <- function(pars,bioactive_df){
 #'
 #' @return A data frame with simulation parameters and physical-chemical data
 #' for simulated compounds
+#' @seealso [IVIVEsol()], which calls the current function
 #' @export
 #'
 StorePars_IVIVE <- function(pars,bioactive_df){
@@ -237,6 +245,10 @@ StorePars_IVIVE <- function(pars,bioactive_df){
 #' @param expdata A data frame with chemical names and exposure data estimates
 #'
 #' @return A ggplot2 plotting object
+#' @seealso [IVIVE_Plot_server()], which calls the current function, and
+#' [OEDPoint_Exposure_Plot()], [OEDPoint_NoExposure_Plot()], [Plotdf_Prep()],
+#' [OEDSample_Exposure_Plot()], [OEDSample_NoExposure_Plot()], and
+#' [IVIVEplot_logscale()], which are called by the current function
 #' @export
 #'
 IVIVEplotting <- function(OED_data,BioactiveConc,pars,logscale,expdata){
@@ -303,6 +315,7 @@ IVIVEplotting <- function(OED_data,BioactiveConc,pars,logscale,expdata){
 #' @param title_exp The plot's title expression
 #'
 #' @return A ggplot2 plotting object
+#' @seealso [IVIVEplotting()], which calls the current function
 #' @export
 #'
 OEDPoint_NoExposure_Plot <- function(OED_data,y_exp,title_exp){
@@ -331,6 +344,8 @@ OEDPoint_NoExposure_Plot <- function(OED_data,y_exp,title_exp){
 #'
 #' @return A list with two elements: a ggplot2 plotting object and a data frame
 #' with both OED and exposure data
+#' @seealso [FillExposureData()], which is called by the current function, and
+#' [IVIVEplotting()], which calls the current function
 #' @export
 #'
 OEDPoint_Exposure_Plot <- function(OED_data,expdata,y_exp,title_exp){
@@ -374,6 +389,8 @@ OEDPoint_Exposure_Plot <- function(OED_data,expdata,y_exp,title_exp){
 #'
 #' @return A list with two elements: a ggplot2 plotting object and a data frame
 #' with exposure data
+#' @seealso [FillExposureData()], which is called by the current function, and
+#' [IVIVEplotting()], which calls the current function
 #' @export
 #'
 OEDSample_Exposure_Plot <- function(OEDSamples_df,Q5_OED_df,expdata,y_exp,title_exp){
@@ -419,6 +436,7 @@ OEDSample_Exposure_Plot <- function(OEDSamples_df,Q5_OED_df,expdata,y_exp,title_
 #' @param title_exp The plot's title expression
 #'
 #' @return A ggplot2 plotting object
+#' @seealso [IVIVEplotting()], which calls the current function
 #' @export
 #'
 OEDSample_NoExposure_Plot <- function(OEDSamples_df,Q5_OED_df,y_exp,title_exp){
@@ -459,6 +477,8 @@ OEDSample_NoExposure_Plot <- function(OEDSamples_df,Q5_OED_df,y_exp,title_exp){
 #'
 #' @return A plot object of OEDs and exposure data (if applicable) with a log10
 #' y-axis scale
+#' @seealso [log10breaks()], which is called by the current function, and [IVIVEplotting()],
+#' which calls the current function
 #' @export
 #'
 IVIVEplot_logscale <- function(plt,pars,OEDSamples_df,combined_df,OED_data,expdata,Q5_OED_df){
@@ -550,6 +570,7 @@ IVIVEplot_labels <- function(pars){
 #' @param pars A list of all user input parameters for the entire app
 #'
 #' @return A text caption for Figure 1
+#' @seealso [IVIVE_Plot_server()], which calls the current function
 #' @export
 #'
 IVIVEplot_caption <- function(pars){
@@ -609,6 +630,7 @@ IVIVEplot_caption <- function(pars){
 #'
 #' @return A list with two elements: the OED samples and the 5th quantile OEDs
 #' arranged by median value
+#' @seealso [IVIVEplotting()], which calls the current function
 #' @export
 #'
 Plotdf_Prep <- function(df,pars){
@@ -666,6 +688,8 @@ Plotdf_Prep <- function(df,pars){
 #'
 #' @return A ggplot plotting object with all BERs plotted and a red line indicating
 #' the chemical prioritization cutoff
+#' @seealso [BER_Plot_server()], which calls the current function, and [log10breaks()],
+#' which is called by the current function
 #' @export
 #'
 BERplotting <- function(BERdata){
@@ -710,6 +734,7 @@ BERplotting <- function(BERdata){
 #' @param pars A list of all user input parameters for the entire app
 #'
 #' @return A data frame with exposure data
+#' @seealso [IVIVEsol()], which calls the current function
 #' @export
 #'
 PrepExposureData <- function(pars){
@@ -764,6 +789,8 @@ PrepExposureData <- function(pars){
 #'
 #' @return A list with two elements: a data frame with oral equivalent doses and
 #' a data frame with bioactivity exposure ratios
+#' @seealso [CalcOED()], which is called by the current function, and [IVIVEsol()],
+#' which calls the current function
 #' @export
 #'
 Calc_OEDBER_RS_False <- function(n,pars,bioactive_conc,exposuredata){
@@ -814,6 +841,8 @@ Calc_OEDBER_RS_False <- function(n,pars,bioactive_conc,exposuredata){
 #'
 #' @return A list with two elements: an array with oral equivalent doses and
 #' a data frame with bioactivity exposure ratios
+#' @seealso [CalcOED()], which is called by the current function, and [IVIVEsol()],
+#' which calls the current function
 #' @export
 #'
 Calc_OEDBER_RS_True <- function(n,pars,bioactive_conc,exposuredata){
@@ -869,6 +898,8 @@ Calc_OEDBER_RS_True <- function(n,pars,bioactive_conc,exposuredata){
 #'
 #' @return A data frame with chemical names and exposure estimates.
 #' There should be no NA values in the outputted data frame.
+#' @seealso [OEDSample_Exposure_Plot()] and [OEDPoint_Exposure_Plot()], which
+#' calls the current function
 #' @export
 #'
 FillExposureData <- function(exposure_df){

@@ -13,6 +13,7 @@
 #' @param id Shiny identifier name; must be the same id used as in IVIVE_Plot_server()
 #'
 #' @return User interface for the IVIVE plot drop down with four elements
+#' @seealso [IVIVE_ui()], which calls the current function
 #' @export
 #'
 IVIVE_Plot_ui <- function(id){
@@ -40,7 +41,7 @@ IVIVE_Plot_ui <- function(id){
 #'
 #' @return Server outputs for the IVIVE plot drop down which includes three elements
 #' @seealso [IVIVEplotting()] and [IVIVEplot_caption()], which are both called by
-#' this function
+#' this function, and [IVIVE_server()], which calls the current function
 #' @export
 #'
 IVIVE_Plot_server <- function(id,ivive_args){

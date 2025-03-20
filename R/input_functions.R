@@ -8,8 +8,6 @@
 #' @return A list of parameter id names
 #' @export
 #'
-#' @examples ParNames()
-#'
 ParNames <- function(){
   GenPars <- c("func","spec","defaulttoHuman")
   CompoundSelectPars <- c("HondaIVIVE","FSBf","httkPreloadComps","file1","insilicopars")
@@ -34,8 +32,6 @@ ParNames <- function(){
 #' @return Text describing the major uses of ToCS, where to find additional
 #' resources, and where to report bugs
 #' @export
-#'
-#' @examples Instructions_GenPars()
 #'
 Instructions_GenPars <- function(){
   htmltools::tagList(shiny::helpText("Fill out the prompts on each of the above tabs moving left to right. Then,
@@ -64,8 +60,6 @@ Instructions_GenPars <- function(){
 #' @return Text notifying the user of compound requirements
 #' @export
 #'
-#' @examples Instructions_CompSelect_Part1()
-#'
 Instructions_CompSelect_Part1 <- function(){
     htmltools::h6(shiny::strong("You must choose at least one compound from the preloaded compounds,
             upload a CSV file with data for at least one compound not included
@@ -81,8 +75,6 @@ Instructions_CompSelect_Part1 <- function(){
 #' @return Text notifying the user of uploaded compound data instructions
 #' @export
 #'
-#' @examples Instructions_CompSelect_Part2()
-#'
 Instructions_CompSelect_Part2 <- function(){
   shiny::helpText("Click on the appropriate link(s) below to download guidance on how to upload data under the 'Uploaded Data' card.
                   Follow the 'Instructions' document in the downloaded folder to correctly format the file you want to upload.")
@@ -97,8 +89,6 @@ Instructions_CompSelect_Part2 <- function(){
 #' @return Text notifying the user of the 'Run Simulation' button
 #' @export
 #'
-#' @examples Instructions_RunSim()
-#'
 Instructions_RunSim <- function(){
   shiny::helpText("Click on the 'Run Simulation' button when all information has been entered.")
 }
@@ -111,8 +101,6 @@ Instructions_RunSim <- function(){
 #'
 #' @return Text notifying the user of the 'Reset Session' button
 #' @export
-#'
-#' @examples Instructions_Reset()
 #'
 Instructions_Reset <- function(){
   shiny::helpText("Click on the button below to reset your session. This will clear all
@@ -174,7 +162,7 @@ selectInput_Species <- function(id){
 #' @return Drop down menu for the human data preference use in ToCS, if applicable
 #' @export
 #'
-#' @examples selectInput_DefaultToHuman("defaulttoHuman")
+#' @examples selectInput_DefaultToHuman("defaulttohuman")
 #'
 selectInput_DefaultToHuman <- function(id){
   shiny::selectInput(id,
@@ -363,6 +351,7 @@ getCASnums <- function(func,species,model,defaulttohuman){
 #'
 #' @examples getPiped(c("135410-20-7","94-82-6","30560-19-1","71751-41-2","34256-82-1"),"NULL")
 #' getPiped(c("15972-60-8","116-06-3","834-12-8","33089-61-1","1912-24-9"),"Honda1")
+#'
 getPiped <- function(CASnums,honda,comptype){
 
   # --- Available preloaded compounds if the Honda1 condition for IVIVE is selected
@@ -627,6 +616,7 @@ textInput_DoseMatrix <- function(id){
 #' @param spec The user-selected species
 #'
 #' @return A drop down list
+#' @seealso [app_server()], which calls the current function
 #' @export
 #'
 #' @examples Model_Input("Concentration-time profiles","Human")

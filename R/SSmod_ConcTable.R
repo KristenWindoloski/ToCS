@@ -10,7 +10,7 @@
 #' @return User interface for the steady state concentrations table which includes
 #' four elements: a table download button, a simulation parameters download button,
 #' the steady state concentrations table, and a table caption
-#'
+#' @seealso [SS_ui()], which calls the current function
 #' @export
 #'
 SS_ConcTable_ui <- function(id){
@@ -35,6 +35,7 @@ SS_ConcTable_ui <- function(id){
 #' @return Server outputs for the steady state concentrations table which includes
 #' four elements: a table download button, a simulation parameters download button,
 #' the steady state concentrations table, and a table caption
+#' @seealso [SS_server()], which calls the current function
 #' @export
 #'
 SS_ConcTable_server <- function(id, ss_args){

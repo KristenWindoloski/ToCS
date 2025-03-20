@@ -19,7 +19,8 @@
 #' @return Four user interface drop down tabs identifying space for two plots
 #' and two tables of IVIVE results.
 #' @seealso [IVIVE_Table_ui()], [IVIVE_Plot_ui()], [BER_Table_ui()], and
-#' [BER_Plot_ui()], which are all called by this function
+#' [BER_Plot_ui()], which are all called by the current function, and [RS_Results()],
+#' which calls the current function
 #' @export
 #'
 IVIVE_ui <- function(id) {

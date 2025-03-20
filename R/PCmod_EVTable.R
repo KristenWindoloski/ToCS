@@ -15,6 +15,7 @@
 #' @param id Shiny identifier name; must be the same id used as in PC_EVTable_server()
 #'
 #' @return User interface for the parameter table drop down with three elements
+#' @seealso [PC_ui()], which calls the current function
 #' @export
 #'
 PC_EVTable_ui <- function(id){
@@ -36,6 +37,7 @@ PC_EVTable_ui <- function(id){
 #' parameters in pars(), and the logscale() input by the user
 #'
 #' @return Server outputs for the parameter table with three elements
+#' @seealso [PC_server()], which calls the current function
 #' @export
 #'
 PC_EVTable_server <- function(id, pc_args){

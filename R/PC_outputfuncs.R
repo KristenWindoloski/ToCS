@@ -18,6 +18,9 @@
 #' volumes of distribution, half life, and total clearance measures, a data
 #' frame with calculated partition coefficients, and a data frame with simulation
 #' parameters and chemical-physical data
+#' @seealso [PC_server()], which calls the current function, and [CalcElimRate()],
+#' [CalcVdist()], [CalcHalfLife()], [CalcClearance()], [CalcPCs()], and [StorePars_PC()],
+#' which the current function calls
 #' @export
 #'
 Parsol <- function(pars){
@@ -79,6 +82,7 @@ Parsol <- function(pars){
 #' simulate
 #'
 #' @return A numerical value, which is the elimination rate for compound i
+#' @seealso [Parsol()], which calls the current function
 #' @export
 #'
 CalcElimRate <- function(pars,i){
@@ -107,6 +111,7 @@ CalcElimRate <- function(pars,i){
 #' simulate
 #'
 #' @return A numerical value, which is the volume of distribution for compound i
+#' @seealso [Parsol()], which calls the current function
 #' @export
 #'
 CalcVdist <- function(pars,i){
@@ -133,6 +138,7 @@ CalcVdist <- function(pars,i){
 #' simulate
 #'
 #' @return A numerical value, which is the half-life for compound i
+#' @seealso [Parsol()], which calls the current function
 #' @export
 #'
 CalcHalfLife <- function(pars,i){
@@ -161,6 +167,7 @@ CalcHalfLife <- function(pars,i){
 #' simulate
 #'
 #' @return A numerical value, which is the plasma total clearance for compound i
+#' @seealso [Parsol()], which calls the current function
 #' @export
 #'
 CalcClearance <- function(pars,i){
@@ -188,6 +195,7 @@ CalcClearance <- function(pars,i){
 #' simulate
 #'
 #' @return A list, which consists of the partition coefficients for compound i
+#' @seealso [Parsol()], which calls the current function
 #' @export
 #'
 CalcPCs <- function(pars,i){
@@ -219,6 +227,7 @@ CalcPCs <- function(pars,i){
 #'
 #' @return A data frame with simulation parameters and physical-chemical
 #' data from the compounds simulated
+#' @seealso [Parsol()], which calls the current function
 #' @export
 #'
 StorePars_PC <- function(pars){
@@ -263,6 +272,8 @@ StorePars_PC <- function(pars){
 #'
 #' @return A list of four ggplot2 objects for plots of elimination rate, volume
 #' of distribution, half life, and total plasma clearance
+#' @seealso [PC_EVPlot_server()], which calls the current function, and [plot_logscale()],
+#' which the current function calls
 #' @export
 #'
 plotPar <- function(soldata,pars,logscale){
@@ -345,6 +356,8 @@ plotPar <- function(soldata,pars,logscale){
 #'
 #' @return A list of four ggplot2 objects for plots of elimination rate, volume
 #' of distribution, half life, and total plasma clearance
+#' @seealso [PC_PCPlot_server()], which calls the current function, and
+#' [plot_logscale()], which the current function calls
 #' @export
 #'
 plotPCs <- function(soldata,pars,logscale){

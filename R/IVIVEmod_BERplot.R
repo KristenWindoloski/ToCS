@@ -13,6 +13,7 @@
 #' @param id Shiny identifier name; must be the same id used as in BER_Plot_server()
 #'
 #' @return User interface for the BER plot drop down with three elements
+#' @seealso [IVIVE_ui()], which calls the current function
 #' @export
 #'
 BER_Plot_ui <- function(id){
@@ -39,7 +40,8 @@ BER_Plot_ui <- function(id){
 #' parameters in pars(), and the logscale() input by the user
 #'
 #' @return Server outputs for the BER plot drop down which includes three elements
-#' @seealso [BERplotting()], which is called by this function
+#' @seealso [BERplotting()], which is called by this function, and [IVIVE_server()],
+#' which calls the current function
 #' @export
 #'
 BER_Plot_server <- function(id,ivive_args){

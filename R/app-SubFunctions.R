@@ -10,6 +10,8 @@
 #'
 #' @return Text with instructions for the user on how to use the app, where to get
 #' help, and where to report bugs
+#' @seealso [app_ui()], which calls the current function, and [Instructions_GenPars()],
+#' which is called by the current function
 #' @export
 #'
 GP_Instructions <- function(){
@@ -23,6 +25,8 @@ GP_Instructions <- function(){
 #' User interface for the 'Output' card on the 'General Parameters' tab
 #'
 #' @return The 'Output' card with the function selection option
+#' @seealso [app_ui()], which calls the current function, and [selectInput_Function()],
+#' which is called by the current function
 #' @export
 #'
 GP_Output <- function(){
@@ -37,6 +41,8 @@ GP_Output <- function(){
 #' User interface for the 'Species' card on the 'General Parameters' tab
 #'
 #' @return The 'Species' card with species selection options
+#' @seealso [app_ui()], which calls the current function, and [selectInput_Species()]
+#' and [selectInput_DefaultToHuman()], which are called by the current function
 #' @export
 #'
 GP_Species <- function(){
@@ -54,6 +60,11 @@ GP_Species <- function(){
 #'
 #' @return The 'Dosing' card with dosing selection options depending on the
 #' module function chosen
+#' @seealso [app_ui()], which calls the current function, and [selectInput_DoseRoute()],
+#' [selectInput_ADMEdoseunits()], [selectInput_NumDoses()], [numericInput_InitialDose()],
+#' [selectInput_MultipleDosesQ()], [numericInput_MultiDoseAmount()],
+#' [sliderInput_MultiDoseTime()], [textInput_DoseMatrix()], and
+#'  [numericInput_DailyDose()], which are called by the current function
 #' @export
 #'
 MS_Dosing <- function(){
@@ -85,6 +96,9 @@ MS_Dosing <- function(){
 #'
 #' @return The 'Model' card with model selection options depending on the module
 #' function chosen
+#' @seealso [app_ui()], which calls the current function, and [selectInput_InSilicoPars()],
+#' [numericInput_SimTime()], [selectInput_ReturnSamps()], and [numericInput_Quantile()],
+#' which are called by the current function
 #' @export
 #'
 MS_Model <- function(){
@@ -108,6 +122,8 @@ MS_Model <- function(){
 #'
 #' @return The 'Instructions' card with instructions for selecting and uploading
 #' compound data, including folders with sample data
+#' @seealso [app_ui()], which calls the current function, and [Instructions_CompSelect_Part1()],
+#' which is called by the current function
 #' @export
 #'
 CS_Instructions <- function(){
@@ -132,6 +148,8 @@ CS_Instructions <- function(){
 #' @return The 'Preloaded Compounds' card that allows the user to select desired
 #' chemicals to simulate from a list as well as any chemical-related simulation
 #' preferences
+#' @seealso [app_ui()], which calls the current function, and [selectInput_HondaCond()]
+#' and [selectInput_CompPreference()], which are called by the current function
 #' @export
 #'
 CS_PreloadedCompounds <- function(){
@@ -152,6 +170,8 @@ CS_PreloadedCompounds <- function(){
 #' @return The 'Uploaded Data' card which gives the user the option to upload a
 #' file with new chemicals and their data. If the IVIVE module is chosen, then
 #' users can also upload bioactivity and exposure data.
+#' @seealso [app_ui()], which calls the current function, and [fileInput_BioactiveConc()]
+#' and [fileInput_ExposureData()], which are called by the current function
 #' @export
 #'
 CS_UploadedData <- function(){
@@ -172,6 +192,11 @@ CS_UploadedData <- function(){
 #'
 #' @return The 'Model Conditions' card which allows the user to select various
 #' different model conditions depending upon the module function chosen
+#' @seealso [app_ui()], which calls the current function, and [selectInput_InitialCondCustom()],
+#' [numericInput_ICvalue()], [selectInput_rb2p()], [numericInput_Samples()],
+#' [selectInput_Bioactive()], [numericInput_ClintPval()], [numericInput_Alpha()],
+#' [numericInput_MinFub()], [selectInput_RestrictClear()], [selectInput_AdjFub()],
+#' [selectInput_Regression()], which are called by the current function
 #' @export
 #'
 AP_ModelConditions <- function(ic_names,ic_comps){
@@ -211,6 +236,9 @@ AP_ModelConditions <- function(ic_names,ic_comps){
 #'
 #' @return The 'Model Solver' card which allows the user options to select various
 #' solver conditions if the concentration-time profiles module function is chosen
+#' @seealso [app_ui()], which calls the current function, and [selectInput_ODEmethod()],
+#' [numericInput_SolSteps()], [sliderInput_RTol()], and [sliderInput_ATol()],
+#' which are called by the current function
 #' @export
 #'
 AP_ModelSolver <- function(){
@@ -233,6 +261,9 @@ AP_ModelSolver <- function(){
 #' @return The 'Bioavailability' card which offers users the option to customize
 #' five bioavailability parameters, unless the parameter calculations module
 #' function is chosen
+#' @seealso [app_ui()], which calls the current function, and [numericInput_CacoDefault()],
+#' [selectInput_Fabs()], [selectInput_Fgut()], [selectInput_Overwrite()], and
+#' [selectInput_Keep100()], which are called by the current function
 #' @export
 #'
 AP_Bioavailability <- function(){
@@ -253,6 +284,9 @@ AP_Bioavailability <- function(){
 #'
 #' @return The 'Output Specification' card which offers the users different
 #' selection options regarding the output for different module functions chosen
+#' @seealso [app_ui()], which calls the current function, and [textInput_OutputTimes()],
+#' [selectInput_SSoutunits()], [selectInput_OutConc()], [selectInput_Tissue()],
+#' and [selectInput_IVIVEoutunits()], which are called by the current function
 #' @export
 #'
 AP_OutputSpecification <- function(){
@@ -284,6 +318,9 @@ AP_OutputSpecification <- function(){
 #' run simulations, two buttons for the user to press to run or reset the
 #' simulation, and the option to log scale plots (if applicable for the module
 #' chosen)
+#' @seealso [app_ui()], which calls the current function, and [Instructions_RunSim()],
+#' [Instructions_Reset()], and [checkboxInput_Log()], which are called by the
+#' current function
 #' @export
 #'
 RS_Actions <- function(){
@@ -304,6 +341,7 @@ RS_Actions <- function(){
 #'
 #' @return The 'Selected Compounds' card which shows a table of all compounds
 #' selected by the user for simulation
+#' @seealso [app_ui()], which calls the current function
 #' @export
 #'
 RS_SelectedCompounds <- function(){
@@ -319,6 +357,8 @@ RS_SelectedCompounds <- function(){
 #'
 #' @return The 'Results' card which displays a number of drop down menus filled
 #' with output results depending on the module function chosen
+#' @seealso [app_ui()], which calls the current function, and [ADME_ui()],
+#' [SS_ui()], [IVIVE_ui()], and [PC_ui()], which are called by the current function
 #' @export
 #'
 RS_Results <- function(){
@@ -363,6 +403,7 @@ RS_Results <- function(){
 #' @return The user interface objects (drop down selections) for the 'Preloaded
 #' Compounds' card on the 'Compound Selection' tab. The objects outputted vary
 #' depending on the user's input selection.
+#' @seealso [app_server()], which calls the current function
 #' @export
 #'
 PreloadComps_UI <- function(func,spec,defaulthuman,model,insilicopars,honda,comptype){
@@ -415,6 +456,7 @@ PreloadComps_UI <- function(func,spec,defaulthuman,model,insilicopars,honda,comp
 #'
 #' @return A data frame with a single column of compound names in alphabetical
 #' order
+#' @seealso [app_server()], which calls the current function
 #' @export
 #'
 CompileCompLst <- function(func,spec,defaulthuman,model,insilico,preloadcomps,file,honda){
@@ -442,6 +484,7 @@ CompileCompLst <- function(func,spec,defaulthuman,model,insilico,preloadcomps,fi
 #'
 #' @return A named list of all parameters in the GUI to be used in the main
 #' module functions
+#' @seealso [app_server()], which calls the current function
 #' @export
 #'
 GatherInputVars <- function(input,compoundlist){
@@ -481,6 +524,7 @@ CompilePars <- function(VarName,input){
 #'
 #' @return Cleared inputs for the applicable function when a main input is
 #' changed
+#' @seealso [app_server()], which calls the current function
 #' @export
 #'
 UpdateInputs <- function(input,session){
@@ -569,6 +613,7 @@ UpdateComps <- function(session){
 #' See global.R and input_functions.R for more information.
 #'
 #' @return Validation rules attached to each child input validator
+#' @seealso [app_server()], which calls the current function
 #' @export
 #'
 InputRules_Children <- function(iv_common,iv_adme,iv_ss,iv_ivive,iv_pc,input,ic_names){
@@ -640,6 +685,7 @@ InputRules_Children <- function(iv_common,iv_adme,iv_ss,iv_ivive,iv_pc,input,ic_
 #' parameters, preloaded compounds, and uploaded compounds)
 #'
 #' @return Validation rules attached to the four parent input validators
+#' @seealso [app_server()], which calls the current function
 #' @export
 #'
 InputRules_Parents <- function(parent_adme_iv,iv_adme,
@@ -686,6 +732,7 @@ InputRules_Parents <- function(parent_adme_iv,iv_adme,
 #'
 #' @return The module outputs for the selected module or an error notification
 #' indicating missing or invalid parameters
+#' @seealso [app_server()], which calls the current function
 #' @export
 #'
 Run_Simulation <- function(parent_adme_iv,

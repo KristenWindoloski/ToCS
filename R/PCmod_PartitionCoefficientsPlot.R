@@ -10,6 +10,7 @@
 #'
 #' @return User interface for the partition coefficient plot drop down with three
 #' elements
+#' @seealso [PC_ui()], which calls the current function
 #' @export
 #'
 PC_PCPlot_ui <- function(id){
@@ -32,7 +33,8 @@ PC_PCPlot_ui <- function(id){
 #'
 #' @return Server outputs for the partition coefficient plot drop down which
 #' includes three elements
-#' @seealso [plotPCs()], which is called by this function
+#' @seealso [plotPCs()], which is called by this function, and [PC_server()],
+#' which calls the current function
 #' @export
 #'
 PC_PCPlot_server <- function(id,pc_args){

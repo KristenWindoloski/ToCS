@@ -9,6 +9,7 @@
 #'
 #' @return The user interface for the days to steady state table which includes
 #' three outputs: a table download button, a table, and a table caption
+#' @seealso [SS_ui()], which calls the current function
 #' @export
 #'
 SS_DayTable_ui <- function(id){
@@ -31,6 +32,7 @@ SS_DayTable_ui <- function(id){
 #'
 #' @return The server function for the days to steady state table which includes
 #' three outputs: a table download button, a table, and a table caption
+#' @seealso [SS_server()], which calls the current function
 #' @export
 #'
 SS_DayTable_server <- function(id, ss_args){

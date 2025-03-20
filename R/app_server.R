@@ -10,6 +10,9 @@
 #' @param session Session identifier
 #'
 #' @return Various server outputs
+#' @seealso [Model_Input()], [PreloadComps_UI()], [CompileCompLst()], [UpdateInputs()],
+#' [GatherInputVars()], [InputRules_Children()], [InputRules_Parents()], and
+#' [RunSimulation()]
 #' @export
 #'
 #' @examples server(input, output, session)

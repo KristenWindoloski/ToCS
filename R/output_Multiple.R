@@ -423,6 +423,7 @@ Notify_ParError <- function(){
 #' @param ydata A vector of y-coordinate data to be plotted
 #'
 #' @return A vector of y-axis breaks
+#' @seealso [IVIVEplot_logscale()] and [BERplotting()], which call the current function
 #' @export
 #'
 log10breaks <- function(ydata) {
@@ -444,6 +445,8 @@ log10breaks <- function(ydata) {
 #' @param sol_vec A vector of y-values to be plotted on plt
 #'
 #' @return A plot that is plt with a log10 y-axis
+#' @seealso [scat_plot()], [plotPar()], and [plotPCs()], which calls the current
+#' function
 #' @export
 #'
 plot_logscale <- function(plt,sol_vec){

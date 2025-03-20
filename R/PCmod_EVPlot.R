@@ -15,6 +15,7 @@
 #' @param id Shiny identifier name; must be the same id used as in PC_EVPlot_server()
 #'
 #' @return User interface for the parameter plot drop down with three elements
+#' @seealso [PC_ui()], which calls the current function
 #' @export
 #'
 PC_EVPlot_ui <- function(id){
@@ -44,7 +45,8 @@ PC_EVPlot_ui <- function(id){
 #'
 #' @return Server outputs for the parameter plot drop down which includes three
 #' elements
-#' @seealso [plotPar()], which is called by this function
+#' @seealso [plotPar()], which is called by the current function, and [PC_server()],
+#' which calls the current function
 #' @export
 #'
 PC_EVPlot_server <- function(id,pc_args){
