@@ -12,7 +12,3 @@ Text notifying the user of uploaded compound data instructions
 \description{
 Generate text to notify the user of where to see sample uploaded compound data
 }
-\examples{
-Instructions_CompSelect_Part2()
-
-}

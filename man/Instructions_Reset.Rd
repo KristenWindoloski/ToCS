@@ -12,7 +12,3 @@ Text notifying the user of the 'Reset Session' button
 \description{
 Generate text for the 'Reset Session' button
 }
-\examples{
-Instructions_Reset()
-
-}

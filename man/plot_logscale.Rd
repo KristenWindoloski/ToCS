@@ -17,3 +17,7 @@ A plot that is plt with a log10 y-axis
 \description{
 Generate a plot with a log10 scale y-axis
 }
+\seealso{
+\code{\link[=scat_plot]{scat_plot()}}, \code{\link[=plotPar]{plotPar()}}, and \code{\link[=plotPCs]{plotPCs()}}, which calls the current
+function
+}

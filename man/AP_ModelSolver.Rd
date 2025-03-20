@@ -13,3 +13,8 @@ solver conditions if the concentration-time profiles module function is chosen
 \description{
 User interface for the 'Model Solver' card on the 'Advanced Parameters' tab
 }
+\seealso{
+\code{\link[=app_ui]{app_ui()}}, which calls the current function, and \code{\link[=selectInput_ODEmethod]{selectInput_ODEmethod()}},
+\code{\link[=numericInput_SolSteps]{numericInput_SolSteps()}}, \code{\link[=sliderInput_RTol]{sliderInput_RTol()}}, and \code{\link[=sliderInput_ATol]{sliderInput_ATol()}},
+which are called by the current function
+}

@@ -13,3 +13,7 @@ help, and where to report bugs
 \description{
 User interface for the 'Instructions' card on the 'General Parameters' tab
 }
+\seealso{
+\code{\link[=app_ui]{app_ui()}}, which calls the current function, and \code{\link[=Instructions_GenPars]{Instructions_GenPars()}},
+which is called by the current function
+}

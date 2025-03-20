@@ -39,3 +39,6 @@ indicating missing or invalid parameters
 \description{
 Run the selected module with all user selected inputs
 }
+\seealso{
+\code{\link[=app_server]{app_server()}}, which calls the current function
+}

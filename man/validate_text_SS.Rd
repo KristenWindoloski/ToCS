@@ -18,3 +18,6 @@ user fixes the input error.
 Check if any inputs specific to the steady state concentrations module are
 invalid or missing
 }
+\seealso{
+\code{\link[=SS_server]{SS_server()}}, which calls the current function
+}

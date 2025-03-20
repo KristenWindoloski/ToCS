@@ -15,3 +15,8 @@ chosen)
 \description{
 User interface for the 'Actions' card on the 'Run Simulation' tab
 }
+\seealso{
+\code{\link[=app_ui]{app_ui()}}, which calls the current function, and \code{\link[=Instructions_RunSim]{Instructions_RunSim()}},
+\code{\link[=Instructions_Reset]{Instructions_Reset()}}, and \code{\link[=checkboxInput_Log]{checkboxInput_Log()}}, which are called by the
+current function
+}

@@ -23,3 +23,7 @@ linear or log10 scale y-axis
 Create a scatter plot of steady state concentrations for the steady state
 concentrations module
 }
+\seealso{
+\code{\link[=SS_ConcPlot_server]{SS_ConcPlot_server()}}, which calls the current function, and \code{\link[=plot_labels]{plot_labels()}}
+and \code{\link[=plot_logscale]{plot_logscale()}}, which are called by the current function
+}

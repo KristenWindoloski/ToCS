@@ -13,3 +13,6 @@ selected by the user for simulation
 \description{
 User interface for the 'Selected Compounds' card on the 'Run Simulation' tab
 }
+\seealso{
+\code{\link[=app_ui]{app_ui()}}, which calls the current function
+}

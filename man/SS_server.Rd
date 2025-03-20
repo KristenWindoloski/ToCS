@@ -27,6 +27,6 @@ three submodules
 }
 \seealso{
 \code{\link[=validate_text_SS]{validate_text_SS()}}, \code{\link[=SS_sol]{SS_sol()}}, \code{\link[=SS_ConcPlot_server]{SS_ConcPlot_server()}},
-\code{\link[=SS_ConcTable_server]{SS_ConcTable_server()}}, and \code{\link[=SS_DayTable_server]{SS_DayTable_server()}}, which are all called by
-this function
+\code{\link[=SS_ConcTable_server]{SS_ConcTable_server()}}, and \code{\link[=SS_DayTable_server]{SS_DayTable_server()}}, which are called by the
+current function
 }

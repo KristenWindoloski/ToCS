@@ -26,5 +26,6 @@ of each drop down is then filled by a separate UI module.
 }
 \seealso{
 \code{\link[=ADME_MultPlt_ui]{ADME_MultPlt_ui()}}, \code{\link[=ADME_IndPlt_ui]{ADME_IndPlt_ui()}}, \code{\link[=ADME_TCData_ui]{ADME_TCData_ui()}}, and
-\code{\link[=ADME_TKTable_ui]{ADME_TKTable_ui()}}, which are all called by this function
+\code{\link[=ADME_TKTable_ui]{ADME_TKTable_ui()}}, which are all called by this function, and \code{\link[=RS_Results]{RS_Results()}},
+which calls the current function
 }

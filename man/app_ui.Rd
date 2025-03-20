@@ -15,3 +15,10 @@ App ui function
 \examples{
 app_ui()
 }
+\seealso{
+\code{\link[=GP_Instructions]{GP_Instructions()}}, \code{\link[=GP_Output]{GP_Output()}}, \code{\link[=GP_Species]{GP_Species()}}, \code{\link[=MS_Dosing]{MS_Dosing()}},
+\code{\link[=MS_Model]{MS_Model()}}, \code{\link[=CS_Instructions]{CS_Instructions()}}, \code{\link[=CS_PreloadedCompounds]{CS_PreloadedCompounds()}}, \code{\link[=CS_UploadedData]{CS_UploadedData()}},
+\code{\link[=AP_ModelConditions]{AP_ModelConditions()}}, \code{\link[=AP_ModelSolver]{AP_ModelSolver()}}, \code{\link[=AP_Bioavailability]{AP_Bioavailability()}}, \code{\link[=AP_OutputSpecification]{AP_OutputSpecification()}},
+\code{\link[=RS_Actions]{RS_Actions()}}, \code{\link[=RS_SelectedCompounds]{RS_SelectedCompounds()}}, and \code{\link[=RS_Results]{RS_Results()}}, which are called
+by the current function
+}

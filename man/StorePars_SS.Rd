@@ -18,3 +18,6 @@ the chemicals simulated
 Store all relevant module parameters and physical-chemical in a data frame
 for user download
 }
+\seealso{
+\code{\link[=SS_sol]{SS_sol()}}, which calls the current function
+}

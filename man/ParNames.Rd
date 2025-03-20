@@ -12,7 +12,3 @@ A list of parameter id names
 \description{
 Compile the names of all user-selected parameters across all modules
 }
-\examples{
-ParNames()
-
-}

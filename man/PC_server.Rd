@@ -29,5 +29,6 @@ Calculation module's Run Simulation' tab
 \seealso{
 \code{\link[=validate_text_pc]{validate_text_pc()}}, \code{\link[=Parsol]{Parsol()}}, \code{\link[=PC_EVPlot_server]{PC_EVPlot_server()}}, \code{\link[=PC_EVTable_server]{PC_EVTable_server()}},
 \code{\link[=PC_PCPlot_server]{PC_PCPlot_server()}}, \code{\link[=PC_PCTable_server]{PC_PCTable_server()}}, and \code{\link[=PC_Pars_server]{PC_Pars_server()}}, which
-are all called by this function
+are all called by this function, and \code{\link[=RS_Results]{RS_Results()}}, which calls the current
+function
 }

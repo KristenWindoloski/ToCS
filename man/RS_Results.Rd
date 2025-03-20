@@ -13,3 +13,7 @@ with output results depending on the module function chosen
 \description{
 User interface for the 'Results' card on the 'Run Simulation' tab
 }
+\seealso{
+\code{\link[=app_ui]{app_ui()}}, which calls the current function, and \code{\link[=ADME_ui]{ADME_ui()}},
+\code{\link[=SS_ui]{SS_ui()}}, \code{\link[=IVIVE_ui]{IVIVE_ui()}}, and \code{\link[=PC_ui]{PC_ui()}}, which are called by the current function
+}

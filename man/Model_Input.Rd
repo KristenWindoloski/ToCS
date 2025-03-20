@@ -22,3 +22,6 @@ Model_Input("Concentration-time profiles","Human")
 Model_Input("Parameter calculations","Rat")
 
 }
+\seealso{
+\code{\link[=app_server]{app_server()}}, which calls the current function
+}

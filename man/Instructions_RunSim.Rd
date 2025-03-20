@@ -12,7 +12,3 @@ Text notifying the user of the 'Run Simulation' button
 \description{
 Generate text for the 'Run Simulation' button
 }
-\examples{
-Instructions_RunSim()
-
-}

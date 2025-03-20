@@ -13,3 +13,10 @@ module function chosen
 \description{
 User interface for the 'Dosing' card on the 'Model Specifications' tab
 }
+\seealso{
+\code{\link[=app_ui]{app_ui()}}, which calls the current function, and \code{\link[=selectInput_DoseRoute]{selectInput_DoseRoute()}},
+\code{\link[=selectInput_ADMEdoseunits]{selectInput_ADMEdoseunits()}}, \code{\link[=selectInput_NumDoses]{selectInput_NumDoses()}}, \code{\link[=numericInput_InitialDose]{numericInput_InitialDose()}},
+\code{\link[=selectInput_MultipleDosesQ]{selectInput_MultipleDosesQ()}}, \code{\link[=numericInput_MultiDoseAmount]{numericInput_MultiDoseAmount()}},
+\code{\link[=sliderInput_MultiDoseTime]{sliderInput_MultiDoseTime()}}, \code{\link[=textInput_DoseMatrix]{textInput_DoseMatrix()}}, and
+\code{\link[=numericInput_DailyDose]{numericInput_DailyDose()}}, which are called by the current function
+}

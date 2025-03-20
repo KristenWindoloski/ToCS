@@ -16,3 +16,7 @@ preferences
 User interface for the 'Preloaded Compounds' card on the 'Compound Selection'
 tab
 }
+\seealso{
+\code{\link[=app_ui]{app_ui()}}, which calls the current function, and \code{\link[=selectInput_HondaCond]{selectInput_HondaCond()}}
+and \code{\link[=selectInput_CompPreference]{selectInput_CompPreference()}}, which are called by the current function
+}

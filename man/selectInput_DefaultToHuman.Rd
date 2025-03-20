@@ -18,6 +18,6 @@ Generate the 'use of human data in place of animal data if unavailable' drop
 down menu
 }
 \examples{
-selectInput_DefaultToHuman("defaulttoHuman")
+selectInput_DefaultToHuman("defaulttohuman")
 
 }

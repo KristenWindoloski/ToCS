@@ -14,3 +14,8 @@ function is chosen
 \description{
 User interface for the 'Bioavailability' card on the 'Advanced Parameters' tab
 }
+\seealso{
+\code{\link[=app_ui]{app_ui()}}, which calls the current function, and \code{\link[=numericInput_CacoDefault]{numericInput_CacoDefault()}},
+\code{\link[=selectInput_Fabs]{selectInput_Fabs()}}, \code{\link[=selectInput_Fgut]{selectInput_Fgut()}}, \code{\link[=selectInput_Overwrite]{selectInput_Overwrite()}}, and
+\code{\link[=selectInput_Keep100]{selectInput_Keep100()}}, which are called by the current function
+}

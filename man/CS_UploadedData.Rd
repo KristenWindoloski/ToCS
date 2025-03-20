@@ -14,3 +14,7 @@ users can also upload bioactivity and exposure data.
 \description{
 User interface for the 'Uploaded Data' card on the 'Compound Selection' tab
 }
+\seealso{
+\code{\link[=app_ui]{app_ui()}}, which calls the current function, and \code{\link[=fileInput_BioactiveConc]{fileInput_BioactiveConc()}}
+and \code{\link[=fileInput_ExposureData]{fileInput_ExposureData()}}, which are called by the current function
+}

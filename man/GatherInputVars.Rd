@@ -20,3 +20,6 @@ module functions
 \description{
 Compile all parameters into one final list
 }
+\seealso{
+\code{\link[=app_server]{app_server()}}, which calls the current function
+}

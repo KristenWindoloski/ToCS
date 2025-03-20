@@ -20,3 +20,6 @@ was reached
 \description{
 Calculate the day steady state is reached
 }
+\seealso{
+\code{\link[=SS_sol]{SS_sol()}}, which calls the current function
+}

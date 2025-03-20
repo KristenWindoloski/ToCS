@@ -18,3 +18,6 @@ in the specified units
 \description{
 Calculate the analytical steady state concentration of a chemical
 }
+\seealso{
+\code{\link[=SS_sol]{SS_sol()}}, which calls the current function
+}

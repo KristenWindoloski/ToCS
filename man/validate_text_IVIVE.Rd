@@ -18,3 +18,6 @@ user fixes the input error.
 Check if any inputs specific to the in vitro in vivo extrapolation (IVIVE)
 module are invalid or missing
 }
+\seealso{
+\code{\link[=IVIVE_server]{IVIVE_server()}}, which calls the current function
+}

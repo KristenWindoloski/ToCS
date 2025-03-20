@@ -19,3 +19,6 @@ changed
 \description{
 Main function to update inputs when a trigger input is changed
 }
+\seealso{
+\code{\link[=app_server]{app_server()}}, which calls the current function
+}

@@ -40,3 +40,6 @@ depending on the user's input selection.
 Compile outputs for the 'Preloaded Compounds' card under the 'Compound Selection'
 card
 }
+\seealso{
+\code{\link[=app_server]{app_server()}}, which calls the current function
+}

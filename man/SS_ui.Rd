@@ -20,5 +20,6 @@ of three submodules
 }
 \seealso{
 \code{\link[=SS_ConcPlot_ui]{SS_ConcPlot_ui()}}, \code{\link[=SS_ConcTable_ui]{SS_ConcTable_ui()}}, and \code{\link[=SS_DayTable_ui]{SS_DayTable_ui()}},
-which are all called by this function
+which are called by the current function, and \code{\link[=RS_Results]{RS_Results()}}, which calls the
+current function
 }

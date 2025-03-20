@@ -13,7 +13,3 @@ resources, and where to report bugs
 \description{
 Generate text for the instructions card under the 'General Parameters' tab
 }
-\examples{
-Instructions_GenPars()
-
-}

@@ -18,3 +18,6 @@ user fixes the input error.
 Check if any inputs specific to the parameter calculations module are invalid
 or missing
 }
+\seealso{
+\code{\link[=PC_server]{PC_server()}}, which calls the current function
+}

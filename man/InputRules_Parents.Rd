@@ -53,3 +53,6 @@ Validation rules attached to the four parent input validators
 Combine common validation rules and individual module validation rules into a
 single comprehensive input validator for each module
 }
+\seealso{
+\code{\link[=app_server]{app_server()}}, which calls the current function
+}

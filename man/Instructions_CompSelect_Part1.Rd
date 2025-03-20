@@ -14,7 +14,3 @@ Text notifying the user of compound requirements
 Generate text to notify user that they must select or upload at least one
 compound to simulate
 }
-\examples{
-Instructions_CompSelect_Part1()
-
-}

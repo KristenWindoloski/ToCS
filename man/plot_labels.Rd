@@ -15,3 +15,6 @@ A list containing plots labels for the title and y-axis.
 \description{
 Steady state module plot labeling function
 }
+\seealso{
+\code{\link[=scat_plot]{scat_plot()}}, which calls the current function
+}

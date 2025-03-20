@@ -15,3 +15,10 @@ different model conditions depending upon the module function chosen
 User interface for the 'Model Conditions' card on the 'Advanced Parameters'
 tab
 }
+\seealso{
+\code{\link[=app_ui]{app_ui()}}, which calls the current function, and \code{\link[=selectInput_InitialCondCustom]{selectInput_InitialCondCustom()}},
+\code{\link[=numericInput_ICvalue]{numericInput_ICvalue()}}, \code{\link[=selectInput_rb2p]{selectInput_rb2p()}}, \code{\link[=numericInput_Samples]{numericInput_Samples()}},
+\code{\link[=selectInput_Bioactive]{selectInput_Bioactive()}}, \code{\link[=numericInput_ClintPval]{numericInput_ClintPval()}}, \code{\link[=numericInput_Alpha]{numericInput_Alpha()}},
+\code{\link[=numericInput_MinFub]{numericInput_MinFub()}}, \code{\link[=selectInput_RestrictClear]{selectInput_RestrictClear()}}, \code{\link[=selectInput_AdjFub]{selectInput_AdjFub()}},
+\code{\link[=selectInput_Regression]{selectInput_Regression()}}, which are called by the current function
+}

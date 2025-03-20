@@ -12,3 +12,7 @@ The 'Species' card with species selection options
 \description{
 User interface for the 'Species' card on the 'General Parameters' tab
 }
+\seealso{
+\code{\link[=app_ui]{app_ui()}}, which calls the current function, and \code{\link[=selectInput_Species]{selectInput_Species()}}
+and \code{\link[=selectInput_DefaultToHuman]{selectInput_DefaultToHuman()}}, which are called by the current function
+}

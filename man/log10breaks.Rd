@@ -15,3 +15,6 @@ A vector of y-axis breaks
 \description{
 Generate a vector of 10^x breakpoints for the y-axis of a plot
 }
+\seealso{
+\code{\link[=IVIVEplot_logscale]{IVIVEplot_logscale()}} and \code{\link[=BERplotting]{BERplotting()}}, which call the current function
+}

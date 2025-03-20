@@ -46,3 +46,6 @@ simulate. It checks the function's input parameters for validity. Then, if
 applicable, the user's uploaded file of chemical data is uploaded and merged
 any preloaded chemicals selected by the user.
 }
+\seealso{
+\code{\link[=app_server]{app_server()}}, which calls the current function
+}

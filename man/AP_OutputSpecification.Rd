@@ -15,3 +15,8 @@ selection options regarding the output for different module functions chosen
 User interface for the 'Output Specification' card on the 'Advanced Parameters'
 tab
 }
+\seealso{
+\code{\link[=app_ui]{app_ui()}}, which calls the current function, and \code{\link[=textInput_OutputTimes]{textInput_OutputTimes()}},
+\code{\link[=selectInput_SSoutunits]{selectInput_SSoutunits()}}, \code{\link[=selectInput_OutConc]{selectInput_OutConc()}}, \code{\link[=selectInput_Tissue]{selectInput_Tissue()}},
+and \code{\link[=selectInput_IVIVEoutunits]{selectInput_IVIVEoutunits()}}, which are called by the current function
+}

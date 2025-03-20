@@ -21,5 +21,6 @@ and a plot caption
 Server function for the steady state concentrations plot
 }
 \seealso{
-\code{\link[=scat_plot]{scat_plot()}}
+\code{\link[=scat_plot]{scat_plot()}}, which the current function calls, and \code{\link[=SS_server]{SS_server()}},
+which calls the current function
 }

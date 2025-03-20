@@ -13,3 +13,8 @@ function chosen
 \description{
 User interface for the 'Model' card on the 'Model Specifications' tab
 }
+\seealso{
+\code{\link[=app_ui]{app_ui()}}, which calls the current function, and \code{\link[=selectInput_InSilicoPars]{selectInput_InSilicoPars()}},
+\code{\link[=numericInput_SimTime]{numericInput_SimTime()}}, \code{\link[=selectInput_ReturnSamps]{selectInput_ReturnSamps()}}, and \code{\link[=numericInput_Quantile]{numericInput_Quantile()}},
+which are called by the current function
+}

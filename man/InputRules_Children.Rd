@@ -43,3 +43,6 @@ Validation rules attached to each child input validator
 \description{
 Generate input validation rules for each individual module
 }
+\seealso{
+\code{\link[=app_server]{app_server()}}, which calls the current function
+}
