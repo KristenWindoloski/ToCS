@@ -5,6 +5,12 @@
 
 #' App ui function
 #'
+#' @description
+#' This function is the top-level ui function for the ToCS application and
+#' dictates where the outputs from the app_server function will be displayed.
+#' Calls to all other ui functions stem from this function.
+#'
+#'
 #' @return User interface
 #' @seealso [GP_Instructions()], [GP_Output()], [GP_Species()], [MS_Dosing()],
 #' [MS_Model()], [CS_Instructions()], [CS_PreloadedCompounds()], [CS_UploadedData()],

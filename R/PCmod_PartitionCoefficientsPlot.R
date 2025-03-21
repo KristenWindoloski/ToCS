@@ -6,6 +6,11 @@
 #' User interface function for the parameter calculations partition coefficient
 #' plot
 #'
+#' @description
+#' This function contains the user interface elements for the parameter calculations
+#' partition coefficient plot. This interface itself contains three UI elements: a
+#' download button, a plot, and a plot caption.
+#'
 #' @param id Shiny identifier name; must be the same id used as in PC_PCPlot_server()
 #'
 #' @return User interface for the partition coefficient plot drop down with three
@@ -26,6 +31,11 @@ PC_PCPlot_ui <- function(id){
 ############################################
 
 #' Server function for the parameter calculations partition coefficient plot
+#'
+#' @description
+#' This function contains the output elements for the parameter calculations
+#' partition coefficient plot. This server contains three output elements: a
+#' download button, a plot, and a plot caption.
 #'
 #' @param id Shiny identifier name; must be the same id used as in PC_PCPlot_ui()
 #' @param pc_args A Shiny reactive list with the output of Parsol(), all shiny

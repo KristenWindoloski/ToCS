@@ -235,6 +235,12 @@ StorePars_IVIVE <- function(pars,bioactive_df){
 
 #' Plot the oral equivalent dose (OED) and exposure data (if applicable)
 #'
+#' @description
+#' This function plots all OEDs and any uploaded exposure data. How the OEDs are
+#' plotted is dependent upon the user-selected output type (single OED quantile
+#' or all OED samples). Exposure data (if applicable) is plotted as a point range.
+#'
+#'
 #' @param OED_data A data frame of chemical names and their OEDs (either one per
 #' chemical or many per chemical if samples were returned); The first output
 #' from the IVIVEsol function
@@ -310,6 +316,11 @@ IVIVEplotting <- function(OED_data,BioactiveConc,pars,logscale,expdata){
 #' Plot the oral equivalent dose (OED) for each chemical when there is no exposure
 #' data uploaded
 #'
+#' @description
+#' This function generates the OED point ggplot object when no exposure data is
+#' uploaded by the user.
+#'
+#'
 #' @param OED_data A data frame with chemical names and their OEDs
 #' @param y_exp The plot's y-axis label expression
 #' @param title_exp The plot's title expression
@@ -336,6 +347,10 @@ OEDPoint_NoExposure_Plot <- function(OED_data,y_exp,title_exp){
 
 #' Plot the oral equivalent dose (OED) for each chemical when the user uploads
 #' exposure data
+#'
+#' @description
+#' This function generates the OED point ggplot object when exposure data is
+#' uploaded by the user.
 #'
 #' @param OED_data A data frame with chemical names and their OEDs
 #' @param expdata A data frame with chemical names and their exposure estimates
@@ -380,6 +395,10 @@ OEDPoint_Exposure_Plot <- function(OED_data,expdata,y_exp,title_exp){
 ################################################################################
 
 #' Plot the oral equivalent dose samples and user-uploaded exposure data estimates
+#'
+#' @description
+#' This function generates the OED samples ggplot object no exposure data is
+#' uploaded by the user.
 #'
 #' @param OEDSamples_df A data frame with chemical names and their OED samples
 #' @param Q5_OED_df A data frame with chemical names and their 5th OED quantile value
@@ -429,6 +448,10 @@ OEDSample_Exposure_Plot <- function(OEDSamples_df,Q5_OED_df,expdata,y_exp,title_
 ################################################################################
 
 #' Plot the oral equivalent dose samples when the user does not upload exposure data
+#'
+#' @description
+#' This function generates the OED samples ggplot object when no exposure data is
+#' uploaded by the user.
 #'
 #' @param OEDSamples_df A data frame with chemical names and their OED samples
 #' @param Q5_OED_df A data frame with chemical names and their 5th OED quantile value

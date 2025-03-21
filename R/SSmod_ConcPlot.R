@@ -5,6 +5,12 @@
 
 #' User interface for the steady state concentrations plot
 #'
+#' @description
+#' This function contains the user interface elements for the steady state
+#' concentrations plot. This interface itself contains three UI elements: a
+#' download button, a plot, and a plot caption.
+#'
+#'
 #' @param id Shiny identifier name; must match the identifier in the SS_ConcPlot_server()
 #'
 #' @return User interface for the steady state concentrations plot which includes
@@ -26,6 +32,11 @@ SS_ConcPlot_ui <- function(id){
 ###################################
 
 #' Server function for the steady state concentrations plot
+#'
+#' @description
+#' This function contains the output elements for the steady state
+#' concentrations plot. This server contains three output elements: a
+#' download button, a plot, and a plot caption.
 #'
 #' @param id Shiny identifier name; must match the identifier in the SS_ConcPlot_ui()
 #' @param ss_args A Shiny reactive list with the output of SS_sol(), all shiny

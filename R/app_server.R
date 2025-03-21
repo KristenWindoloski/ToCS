@@ -5,6 +5,12 @@
 
 #' App server function
 #'
+#' @description
+#' This function is the top-level server function for the ToCS application and
+#' dictates the outputs to be displayed in the app_ui function. Calls to all other
+#' server functions stem from this function.
+#'
+#'
 #' @param input Input objects from the user interface
 #' @param output Output objects from the server
 #' @param session Session identifier

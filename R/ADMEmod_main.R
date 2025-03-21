@@ -62,7 +62,8 @@ ADME_ui <- function(id) {
 #' one table of concentration-time profile results
 #' @seealso [validate_text_ADME()], [modsol()], [ADME_MultPlt_server()],
 #' [ADME_IndPlt_server()], [ADME_TCData_server()], and [ADME_TKTable_server()],
-#' which are all called by this function
+#' which are called by this function, and [Run_Simulation()], which calls the
+#' current function
 #' @export
 #'
 ADME_server <- function(id,pars,runsim) {

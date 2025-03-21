@@ -6,6 +6,7 @@
 #' Compile the names of all user-selected parameters across all modules
 #'
 #' @return A list of parameter id names
+#' @seealso [GatherInputVars()], which calls the current function
 #' @export
 #'
 ParNames <- function(){
@@ -31,6 +32,7 @@ ParNames <- function(){
 #'
 #' @return Text describing the major uses of ToCS, where to find additional
 #' resources, and where to report bugs
+#' @seealso [Instructions_GenPars()], which calls the current function
 #' @export
 #'
 Instructions_GenPars <- function(){
@@ -58,6 +60,7 @@ Instructions_GenPars <- function(){
 #' compound to simulate
 #'
 #' @return Text notifying the user of compound requirements
+#' @seealso [CS_Instructions()], which calls the current function
 #' @export
 #'
 Instructions_CompSelect_Part1 <- function(){
@@ -73,6 +76,7 @@ Instructions_CompSelect_Part1 <- function(){
 #' Generate text to notify the user of where to see sample uploaded compound data
 #'
 #' @return Text notifying the user of uploaded compound data instructions
+#' @seealso [CS_Instructions()], which calls the current function
 #' @export
 #'
 Instructions_CompSelect_Part2 <- function(){
@@ -87,6 +91,7 @@ Instructions_CompSelect_Part2 <- function(){
 #' Generate text for the 'Run Simulation' button
 #'
 #' @return Text notifying the user of the 'Run Simulation' button
+#' @seealso [RS_Actions()], which calls the current function
 #' @export
 #'
 Instructions_RunSim <- function(){
@@ -100,6 +105,7 @@ Instructions_RunSim <- function(){
 #' Generate text for the 'Reset Session' button
 #'
 #' @return Text notifying the user of the 'Reset Session' button
+#' @seealso [RS_Actions()], which calls the current function
 #' @export
 #'
 Instructions_Reset <- function(){
@@ -117,6 +123,7 @@ Instructions_Reset <- function(){
 #' @param id Shiny identifier name
 #'
 #' @return Drop down menu for the desired output of ToCS
+#' @seealso [GP_Output()], which calls the current function
 #' @export
 #'
 #' @examples selectInput_Function("func")
@@ -139,6 +146,7 @@ selectInput_Function <- function(id){
 #' @param id Shiny identifier name
 #'
 #' @return Drop down menu for the desired species to simulate in ToCS
+#' @seealso [GP_Species()], which calls the current function
 #' @export
 #'
 #' @examples selectInput_Species("spec")
@@ -160,6 +168,7 @@ selectInput_Species <- function(id){
 #' @param id Shiny identifier name
 #'
 #' @return Drop down menu for the human data preference use in ToCS, if applicable
+#' @seealso [GP_Species()], which calls the current function
 #' @export
 #'
 #' @examples selectInput_DefaultToHuman("defaulttohuman")
@@ -183,6 +192,7 @@ selectInput_DefaultToHuman <- function(id){
 #' @return Drop down menu with options to either use in silico generated clint
 #' (instrinic hepatic clearance) and fup (fraction unbound in plasma) in absence
 #' of in vitro data for the selected species
+#' @seealso [MS_Model()], which calls the current function
 #' @export
 #'
 #' @examples selectInput_InSilicoPars("insilicopars")
@@ -210,6 +220,7 @@ selectInput_InSilicoPars <- function(id){
 #' @return Drop down menu with options to either set simulated chemicals as a
 #' demo list, select chemicals from the entire available list, or select chemicals
 #' from a list of food or food-related chemicals only
+#' @seealso [CS_PreloadedCompounds()], which calls the current function
 #' @export
 #'
 #' @examples selectInput_CompPreference("PreferredCompLst")
@@ -228,6 +239,13 @@ selectInput_CompPreference <- function(id){
 
 #' Generate the drop down list of preloaded compounds available to simulate in httk
 #'
+#' @description
+#' This function creates the drop down list of preloaded compounds for users to
+#' select from under the 'Preloaded Compounds' card on the 'Compound Selection'
+#' tab. Four sets of in silico parameters (three for clint and fup values, one
+#' for caco2 values) will be loaded if desired by the user.
+#'
+#'
 #' @param func The user-selected desired output
 #' @param species The user-selected species
 #' @param defaulthuman The user-selected human in vitro data preference if an
@@ -239,6 +257,8 @@ selectInput_CompPreference <- function(id){
 #' Honda3, or Honda4), if applicable
 #'
 #' @return A drop down list of preloaded available compounds within ToCS
+#' @seealso [PreloadComps_UI()], which calls the current function, and [getCASnums()]
+#' and [getPiped()], wich the current function calls
 #' @export
 #'
 #' @examples PreloadCompsInput("Concentration-time profiles","Human","Yes","No, do not load in silico parameters","pbtk","NULL")
@@ -304,8 +324,12 @@ PreloadCompsInput <- function(func,species,defaulthuman,insilico,model,honda,com
 ################################################################################
 ################################################################################
 
-#' Generate a vector of CASRNs that are available for the user selected output,
-#' species, model, and human in vitro data preference
+#' Generate a vector of CAS numbers to simulate
+#'
+#' @description
+#' This function creates a vector of CASRNs that are available for the user-selected
+#' output, species, model, and human in vitro data preference.
+#'
 #'
 #' @param func The user-selected desired output
 #' @param species The user-selected species
@@ -314,6 +338,7 @@ PreloadCompsInput <- function(func,species,defaulthuman,insilico,model,honda,com
 #' animal species is selected
 #'
 #' @return A vector of CASRNs for compounds that are available to simulate in ToCS
+#' @seealso [PreloadCompsInput()], which calls the current function
 #' @export
 #'
 #' @examples getCASnums("Concentration-time profiles","Human","pbtk",TRUE)
@@ -338,7 +363,13 @@ getCASnums <- function(func,species,model,defaulttohuman){
 ################################################################################
 ################################################################################
 
-#' Generate the final list of available compounds to simulate in httk
+#' Generate the final list of available compounds available for simulation
+#'
+#' @description
+#' This function narrows down the list of compounds from the getCASnums function
+#' by taking into account any IVIVE conditions that the user selected or if the
+#' user is only interested in a list of food relevant chemicals.
+#'
 #'
 #' @param CASnums The CASRN numbers of compounds that have enough data in httk
 #' to simulate for the user's selected parameters
@@ -347,6 +378,9 @@ getCASnums <- function(func,species,model,defaulttohuman){
 #'
 #' @return A vector of CASRN and compound name pairings for compounds with enough
 #' available data to simulate in httk
+#' @seealso [PreloadCompsInput()], which calls the current function, and
+#' [DirectFoodAdditives()] and [IndirectFoodAdditives()] data frames, which are
+#' called by the current function
 #' @export
 #'
 #' @examples getPiped(c("135410-20-7","94-82-6","30560-19-1","71751-41-2","34256-82-1"),"NULL")
@@ -392,6 +426,7 @@ getPiped <- function(CASnums,honda,comptype){
 #' @param id Shiny identifier name
 #'
 #' @return A browser and file upload box
+#' @seealso [CS_UploadedData()], which calls the current function
 #' @export
 #'
 #' @examples fileInput_UploadedComps("file1")
@@ -416,6 +451,7 @@ fileInput_UploadedComps <- function(id){
 #' @param id Shiny identifier name
 #'
 #' @return A drop drop list
+#' @seealso [MS_Dosing()], which calls the current function
 #' @export
 #'
 #' @examples selectInput_DoseRoute("doseroute")
@@ -437,6 +473,7 @@ selectInput_DoseRoute <- function(id){
 #' @param id Shiny identifier name
 #'
 #' @return A numeric input box
+#' @seealso [MS_Dosing()], which calls the current function
 #' @export
 #'
 #' @examples numericInput_DailyDose("dailydose")
@@ -459,6 +496,7 @@ numericInput_DailyDose <- function(id){
 #' @param id Shiny identifier name
 #'
 #' @return A drop down list
+#' @seealso [MS_Dosing()], which calls the current function
 #' @export
 #'
 #' @examples selectInput_ADMEdoseunits("doseunits")
@@ -479,6 +517,7 @@ selectInput_ADMEdoseunits <- function(id){
 #' @param id Shiny identifier name
 #'
 #' @return A drop down list
+#' @seealso [MS_Dosing()], which calls the current function
 #' @export
 #'
 #' @examples selectInput_NumDoses("dosenum")
@@ -500,6 +539,7 @@ selectInput_NumDoses <- function(id){
 #' @param id Shiny identifier name
 #'
 #' @return A numeric input box
+#' @seealso [MS_Dosing()], which calls the current function
 #' @export
 #'
 #' @examples numericInput_InitialDose("initdose")
@@ -523,6 +563,7 @@ numericInput_InitialDose <- function(id){
 #' @param id Shiny identifier name
 #'
 #' @return A drop down list
+#' @seealso [MS_Dosing()], which calls the current function
 #' @export
 #'
 #' @examples selectInput_MultipleDosesQ("multdose")
@@ -545,6 +586,7 @@ selectInput_MultipleDosesQ <- function(id){
 #' @param id Shiny identifier name
 #'
 #' @return A numeric input box
+#' @seealso [MS_Dosing()], which calls the current function
 #' @export
 #'
 #' @examples numericInput_MultiDoseAmount("mult_doseamount")
@@ -569,6 +611,7 @@ numericInput_MultiDoseAmount <- function(id){
 #' @param id Shiny identifier name
 #'
 #' @return A slider input
+#' @seealso [MS_Dosing()], which calls the current function
 #' @export
 #'
 #' @examples sliderInput_MultiDoseTime("mult_dosetime")
@@ -592,6 +635,7 @@ sliderInput_MultiDoseTime <- function(id){
 #' @param id Shiny identifier name
 #'
 #' @return A text input box
+#' @seealso [MS_Dosing()], which calls the current function
 #' @export
 #'
 #' @examples textInput_DoseMatrix("multdose_odd")
@@ -663,6 +707,7 @@ Model_Input <- function(func,spec){
 #' @param id Shiny identifier name
 #'
 #' @return A numeric input box
+#' @seealso [MS_Model()], which calls the current function
 #' @export
 #'
 #' @examples numericInput_SimTime("simtime")
@@ -685,6 +730,7 @@ numericInput_SimTime <- function(id){
 #' @param id Shiny identifier name
 #'
 #' @return A text input box
+#' @seealso [AP_OutputSpecification()], which calls the current function
 #' @export
 #'
 #' @examples textInput_OutputTimes("returntimes")
@@ -707,6 +753,7 @@ textInput_OutputTimes <- function(id){
 #' @param id Shiny identifier name
 #'
 #' @return A drop down list
+#' @seealso [AP_ModelSolver()], which calls the current function
 #' @export
 #'
 #' @examples selectInput_ODEmethod("odemethod")
@@ -732,6 +779,7 @@ selectInput_ODEmethod <- function(id){
 #' @param id Shiny identifier name
 #'
 #' @return A numeric input box
+#' @seealso [AP_ModelSolver()], which calls the current function
 #' @export
 #'
 #' @examples numericInput_SolSteps("solversteps")
@@ -755,6 +803,7 @@ numericInput_SolSteps <- function(id){
 #' @param id Shiny identifier name
 #'
 #' @return A slider input
+#' @seealso [AP_ModelSolver()], which calls the current function
 #' @export
 #'
 #' @examples sliderInput_RTol("rtol")
@@ -778,6 +827,7 @@ sliderInput_RTol <- function(id){
 #' @param id Shiny identifier name
 #'
 #' @return A slider input
+#' @seealso [AP_ModelSolver()], which calls the current function
 #' @export
 #'
 #' @examples sliderInput_ATol("atol")
@@ -802,6 +852,7 @@ sliderInput_ATol <- function(id){
 #' @param id Shiny identifier name
 #'
 #' @return A drop down list
+#' @seealso [AP_ModelConditions()], which calls the current function
 #' @export
 #'
 #' @examples selectInput_InitialCondCustom("init_cond_opts")
@@ -820,11 +871,16 @@ selectInput_InitialCondCustom <- function(id){
 ################################################################################
 ################################################################################
 
-#' Generates a list of compartment names and variable names of the compartments
-#' in the model to be used to generate initial condition options to the user
-#' during concentration-time profile simulations
+#' Generate a vector of model compartment variables and names
+#'
+#' @description
+#' This function creates a list of compartment names and variable names of the
+#' compartments in the model to be used to generate initial condition options
+#' to the user during concentration-time profile simulations; used in the global.R \
+#' file.
 #'
 #' @return A list of full compartment names and variable names of compartments
+#' @seealso [validate_text_ADME()], which calls the current function
 #' @export
 #'
 #' @examples names_ICs()
@@ -877,6 +933,7 @@ names_ICs <- function(){
 #' @param compartment Model compartment name
 #'
 #' @return A numeric input box
+#' @seealso [AP_ModelConditions()], which calls the current function
 #' @export
 #'
 #' @examples numericInput_ICvalue("One_gut","gut")
@@ -934,6 +991,7 @@ numericInput_ICvalue <- function(id, compartment){
 #' @param id Shiny identifier name
 #'
 #' @return A numeric input box
+#' @seealso [AP_Bioavailability()], which calls the current function
 #' @export
 #'
 #' @examples numericInput_CacoDefault("caco2default")
@@ -960,6 +1018,7 @@ numericInput_CacoDefault <- function(id){
 #' @param id Shiny identifier name
 #'
 #' @return A drop down list
+#' @seealso [AP_Bioavailability()], which calls the current function
 #' @export
 #'
 #' @examples selectInput_Fabs("caco_fabs")
@@ -987,6 +1046,7 @@ selectInput_Fabs <- function(id){
 #' @param id Shiny identifier name
 #'
 #' @return A drop down list
+#' @seealso [AP_Bioavailability()], which calls the current function
 #' @export
 #'
 #' @examples selectInput_Fgut("caco_fgut")
@@ -1012,6 +1072,7 @@ selectInput_Fgut <- function(id){
 #' @param id Shiny identifier name
 #'
 #' @return A drop down list
+#' @seealso [AP_Bioavailability()], which calls the current function
 #' @export
 #'
 #' @examples selectInput_Overwrite("caco_overwriteinvivo")
@@ -1035,6 +1096,7 @@ selectInput_Overwrite <- function(id){
 #' @param id Shiny identifier name
 #'
 #' @return A drop down list
+#' @seealso [AP_Bioavailability()], which calls the current function
 #' @export
 #'
 #' @examples selectInput_Keep100("caco_keep100")
@@ -1059,6 +1121,7 @@ selectInput_Keep100 <- function(id) {
 #' @param id Shiny identifier name
 #'
 #' @return A drop down list
+#' @seealso [AP_OutputSpecification()], which calls the current function
 #' @export
 #'
 #' @examples selectInput_SSoutunits("modelSSout_units")
@@ -1080,6 +1143,7 @@ selectInput_SSoutunits <- function(id){
 #' @param id Shiny identifier name
 #'
 #' @return A drop down list
+#' @seealso [AP_OutputSpecification()], which calls the current function
 #' @export
 #'
 #' @examples selectInput_OutConc("output_concSS")
@@ -1104,6 +1168,7 @@ selectInput_OutConc <- function(id){
 #' @param id Shiny identifier
 #'
 #' @return A drop down list
+#' @seealso [AP_OutputSpecification()], which calls the current function
 #' @export
 #'
 #' @examples selectInput_Tissue("tissueSS")
@@ -1129,6 +1194,7 @@ selectInput_Tissue <- function(id){
 #' @param id Shiny identifier name
 #'
 #' @return A drop down list
+#' @seealso [AP_ModelConditions()], which calls the current function
 #' @export
 #'
 #' @examples selectInput_rb2p("rb2p")
@@ -1153,6 +1219,7 @@ selectInput_rb2p <- function(id){
 #' @param id Shiny identifier name
 #'
 #' @return A drop down list
+#' @seealso [AP_ModelConditions()], which calls the current function
 #' @export
 #'
 #' @examples selectInput_RestrictClear("restrict_clear")
@@ -1176,6 +1243,7 @@ selectInput_RestrictClear <- function(id){
 #' @param id Shiny identifier name
 #'
 #' @return A drop down list
+#' @seealso [AP_ModelConditions()], which calls the current function
 #' @export
 #'
 #' @examples selectInput_AdjFub("adj_fub")
@@ -1199,6 +1267,7 @@ selectInput_AdjFub <- function(id){
 #' @param id Shiny identifier name
 #'
 #' @return A numeric input box
+#' @seealso [AP_ModelConditions()], which calls the current function
 #' @export
 #'
 #' @examples numericInput_MinFub("min_fub")
@@ -1224,6 +1293,7 @@ numericInput_MinFub <- function(id){
 #' @param id Shiny identifier name
 #'
 #' @return A drop down list
+#' @seealso [AP_ModelConditions()], which calls the current function
 #' @export
 #'
 #' @examples selectInput_Regression("regression")
@@ -1247,6 +1317,7 @@ selectInput_Regression <- function(id){
 #' @param id Shiny identifier name
 #'
 #' @return A numeric input box
+#' @seealso [AP_ModelConditions()], which calls the current function
 #' @export
 #'
 #' @examples numericInput_ClintPval("Clint_Pval")
@@ -1273,6 +1344,7 @@ numericInput_ClintPval <- function(id){
 #' @param id Shiny identifier name
 #'
 #' @return A numeric input box
+#' @seealso [AP_ModelConditions()], which calls the current function
 #' @export
 #'
 #' @examples numericInput_Alpha("AlphaPar")
@@ -1298,6 +1370,7 @@ numericInput_Alpha <- function(id){
 #' @param id Shiny identifier name
 #'
 #' @return A browser and file upload box
+#' @seealso [CS_UploadedData()], which calls the current function
 #' @export
 #'
 #' @examples fileInput_BioactiveConc("BioactiveFile")
@@ -1321,6 +1394,7 @@ fileInput_BioactiveConc <- function(id){
 #' @param id Shiny identifier name
 #'
 #' @return A drop down list
+#' @seealso [AP_ModelConditions()], which calls the current function
 #' @export
 #'
 #' @examples selectInput_Bioactive("bioactiveIVIVE")
@@ -1343,6 +1417,7 @@ selectInput_Bioactive <- function(id){
 #' @param id Shiny identifier name
 #'
 #' @return A numeric input box
+#' @seealso [AP_ModelConditions()], which calls the current function
 #' @export
 #'
 #' @examples numericInput_Samples("samples")
@@ -1369,6 +1444,7 @@ numericInput_Samples <- function(id){
 #' @param id Shiny identifier name
 #'
 #' @return A drop down list
+#' @seealso [MS_Model()], which calls the current function
 #' @export
 #'
 #' @examples selectInput_ReturnSamps("returnsamples")
@@ -1392,6 +1468,7 @@ selectInput_ReturnSamps <- function(id){
 #' @param id Shiny identifier name
 #'
 #' @return A numeric input box
+#' @seealso [MS_Model()], which calls the current function
 #' @export
 #'
 #' @examples numericInput_Quantile("quantile")
@@ -1417,9 +1494,11 @@ numericInput_Quantile <- function(id){
 #' @param id Shiny identifier name
 #'
 #' @return A drop down list
+#' @seealso [AP_OutputSpecification()], which calls the current function
 #' @export
 #'
 #' @examples selectInput_IVIVEoutunits("modelIVIVEout_units")
+#'
 selectInput_IVIVEoutunits <- function(id){
   shiny::selectInput(id,
               label = "Select the dose output units from either mg/kg BW/day
@@ -1438,6 +1517,7 @@ selectInput_IVIVEoutunits <- function(id){
 #' @param id Shiny identifier name
 #'
 #' @return A drop down list
+#' @seealso [CS_PreloadedCompounds()], which calls the current function
 #' @export
 #'
 #' @examples selectInput_HondaCond("HondaIVIVE")
@@ -1468,6 +1548,7 @@ selectInput_HondaCond <- function(id){
 #' @param id Shiny identifier name
 #'
 #' @return A numeric input box
+#' @seealso [PreloadComps_UI()], which calls the current function
 #' @export
 #'
 #' @examples numericInput_FSBf("FSBf")
@@ -1493,6 +1574,7 @@ numericInput_FSBf <- function(id){
 #' @param id Shiny identifier name
 #'
 #' @return A browse and file upload box
+#' @seealso [CS_UploadedData()], which calls the current function
 #' @export
 #'
 #' @examples fileInput_ExposureData("fileExposure")
@@ -1516,9 +1598,11 @@ fileInput_ExposureData <- function(id){
 #' @param id Shiny identifier name
 #'
 #' @return A checkbox input
+#' @seealso [RS_Actions()], which calls the current function
 #' @export
 #'
 #' @examples checkboxInput_Log("logscale")
+#'
 checkboxInput_Log <- function(id){
   shiny::checkboxInput(id,
                 label = "Check the box to display plots with a log10 scale y-axis.",

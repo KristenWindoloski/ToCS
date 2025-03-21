@@ -19,7 +19,8 @@
 #' @return Five user interface drop down tabs identifying space for two plots,
 #' two tables, and a download button of parameter calculation results.
 #' @seealso [PC_EVPlot_ui()], [PC_EVTable_ui()], [PC_PCPlot_ui()], [PC_PCTable_ui()],
-#' and [PC_Pars_ui()], which are all called by this function
+#' and [PC_Pars_ui()], which are all called by this function, and [RS_Results()],
+#' which calls the current function
 #' @export
 #'
 PC_ui <- function(id) {
@@ -48,6 +49,12 @@ PC_ui <- function(id) {
 #' Main server function to set up the 'Results' card under the Parameter
 #' Calculation module's Run Simulation' tab
 #'
+#' @description
+#' This function acts as the main function to fill the user interface for the
+#' parameter calculations module. The server outputs include five elements: two
+#' plots, two tables, and a download button. Each server element has its own
+#' server function.
+#'
 #' @param id Shiny identifier name; must be the same id used as in PC_ui()
 #' @param pars A list of all user input parameters for the entire app
 #' @param runsim Action button titled 'Run Simulation' pressed by the user
@@ -59,8 +66,8 @@ PC_ui <- function(id) {
 #' button of simulation parameters of Parameter Calculation results
 #' @seealso [validate_text_pc()], [Parsol()], [PC_EVPlot_server()], [PC_EVTable_server()],
 #' [PC_PCPlot_server()], [PC_PCTable_server()], and [PC_Pars_server()], which
-#' are all called by this function, and [RS_Results()], which calls the current
-#' function
+#' are all called by this function, and [Run_Simulation()], which calls the
+#' current function
 #' @export
 #'
 PC_server <- function(id,pars,runsim,logscale) {

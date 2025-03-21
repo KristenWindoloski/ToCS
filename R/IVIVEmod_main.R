@@ -63,7 +63,8 @@ IVIVE_ui <- function(id) {
 #' function consisting of two plots and two tables of IVIVE results
 #' @seealso [validate_text_IVIVE()], [IVIVEsol()], [IVIVE_Table_server()],
 #' [IVIVE_Plot_server()], [BER_Table_server()], and [BER_Plot_server()], which
-#' are all called by this function
+#' are all called by this function, and [Run_Simulation()], which calls the current
+#' function
 #' @export
 #'
 IVIVE_server <- function(id,pars,runsim,logscale) {

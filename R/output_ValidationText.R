@@ -4,6 +4,11 @@
 
 #' Create the text for a figure/table caption
 #'
+#' @description
+#' This function the correct AUC output concentration to go in a caption in the
+#' concentration-time profiles module plot and table.
+#'
+#'
 #' @param func User selection with the input$func ID; either "Concentration-time
 #' profiles", "Steady state concentrations", "In vitro in vivo extrapolation
 #' (IVIVE)", and "Parameter calculations"
@@ -43,10 +48,17 @@ caption_text <- function(func,model){
 #' Check if any inputs that are common among all four modules are invalid or
 #' missing
 #'
+#' @description
+#' This function validates that all common user-selected parameters across all
+#' modules are acceptable. If not, the simulator will not compute until any
+#' errors in inputs are fixed.
+#'
+#'
 #' @param pars A list of all user input parameters for the entire app
 #'
 #' @return A blank error message to the user that halts computation until the
 #' user fixes the input error.
+#' @seealso [CompileCompLst()], which calls the current function
 #' @export
 #'
 validate_text_Common <- function(pars){
@@ -197,11 +209,18 @@ validate_text_Common <- function(pars){
 #' Check if any inputs specific to the concentration-time profile module are
 #' invalid or missing
 #'
+#' @description
+#' This function validates that all user-selected parameters across the
+#' concentration-time profile module are acceptable. If not, the simulator will
+#' not compute until any errors in inputs are fixed.
+#'
 #' @param pars A list of all user input parameters for the entire app
 #'
 #' @return A blank error message to the user that halts computation until the
 #' user fixes the input error.
-#' @seealso [ADME_server()] and [ADME_TCData_Server()], which call this function
+#' @seealso [ADME_server()] and [ADME_TCData_Server()], which call the current
+#' function, and [names_ICs()] and [adme_ic_errormess()], which the current
+#' function calls
 #' @export
 #'
 validate_text_ADME <- function(pars){
@@ -254,6 +273,11 @@ validate_text_ADME <- function(pars){
 #' Check if any inputs specific to the steady state concentrations module are
 #' invalid or missing
 #'
+#' @description
+#' This function validates that all user-selected parameters across the
+#' steady state concentrations module are acceptable. If not, the simulator will
+#' not compute until any errors in inputs are fixed.
+#'
 #' @param pars A list of all user input parameters for the entire app
 #'
 #' @return A blank error message to the user that halts computation until the
@@ -277,6 +301,11 @@ validate_text_SS <- function(pars){
 
 #' Check if any inputs specific to the in vitro in vivo extrapolation (IVIVE)
 #' module are invalid or missing
+#'
+#' @description
+#' This function validates that all user-selected parameters across the
+#' IVIVE module are acceptable. If not, the simulator will not compute until any
+#' errors in inputs are fixed.
 #'
 #' @param pars A list of all user input parameters for the entire app
 #'
@@ -398,6 +427,11 @@ validate_text_IVIVE <- function(pars){
 
 #' Check if any inputs specific to the parameter calculations module are invalid
 #' or missing
+#'
+#' @description
+#' This function validates that all user-selected parameters across the
+#' parameter calculations module are acceptable. If not, the simulator will not
+#' compute until any errors in inputs are fixed.
 #'
 #' @param pars A list of all user input parameters for the entire app
 #'

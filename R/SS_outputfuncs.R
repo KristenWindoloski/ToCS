@@ -10,6 +10,13 @@
 
 #' Calculate the steady state concentration solutions
 #'
+#' @description
+#' This function is the main steady state module solution function from which the
+#' server outputs are derived. This function orders the calculation of steady state
+#' concentrations and the number of days to steady state. It formats the outputs
+#' for appropriate display in the interface.
+#'
+#'
 #' @param pars A list of all user input parameters for the entire app
 #'
 #' @return A list with steady state concentrations, steady state characteristics,
@@ -66,6 +73,12 @@ SS_sol <- function(pars){
 
 #' Calculate the analytical steady state concentration of a chemical
 #'
+#' @description
+#' This function calculates the analytical steady state concentration of an
+#' individual compound using all user-selected parameters. The 'httk' function
+#' calc_analytic_css is used to generate the output.
+#'
+#'
 #' @param pars A list of all user input parameters for the entire app
 #' @param i Chemical index on the simulated chemicals list
 #'
@@ -103,6 +116,11 @@ CalcAnalyticCss <- function(pars,i){
 
 #' Calculate the day steady state is reached
 #'
+#' @description
+#' This function calculates the days to steady state of an individual compound
+#' as well as other related steady state attributes using all user-selected
+#' parameters. The 'httk' function calc_css is used to generate the output.
+#'
 #' @param pars A list of all user input parameters for the entire app
 #' @param i Chemical index on the simulated chemicals list
 #'
@@ -134,6 +152,12 @@ CalcCssDay <- function(pars,i){
 
 #' Store all relevant module parameters and physical-chemical in a data frame
 #' for user download
+#'
+#' @description
+#' This function stores all user-selected simulation parameters for the steady
+#' state concentrations module as well as all physical-chemical data for simulated
+#' compounds into one data frame.
+#'
 #'
 #' @param pars A list of all user input parameters for the entire app
 #'
@@ -182,6 +206,12 @@ StorePars_SS <- function(pars){
 #' Create a scatter plot of steady state concentrations for the steady state
 #' concentrations module
 #'
+#' @description
+#' This function generates the scatter plot ggplot object containing the steady
+#' state concentrations for all simulated compounds. The plot has a log10 y-axis
+#' scale if desired by the user.
+#'
+#'
 #' @param sol A data frame of steady state concentrations
 #' @param pars A list of all user input parameters for the entire app
 #' @param logscale The log10 y-axis scale checkbox input to signify whether the
@@ -220,6 +250,11 @@ scat_plot <- function(sol,pars,logscale){
 ################################################################################
 
 #' Steady state module plot labeling function
+#'
+#' @description
+#' This function generates the plotting labels (y-axis and title expressions) for
+#' the steady state concentrations plot.
+#'
 #'
 #' @param pars A list of all user input parameters for the entire app
 #'

@@ -5,12 +5,10 @@
 
 #' User interface function for the parameter calculation parameter table
 #'
-#' #' @description
-#' This function calculates the four parameter values (elimination rate, volume
-#' of distribution, half-life, and plasma clearance) and outputs the contents of
-#' the UI objects for the Parameter Calculations 'Results' card under the 'Run
-#' Simulation' tab. The contents of each UI object (drop down) are then filled
-#' by four separate server modules.
+#' @description
+#' This function contains the user interface elements for the parameter calculations
+#' parameter table. This interface itself contains three UI elements: a
+#' table download button, a table, and a table caption.
 #'
 #' @param id Shiny identifier name; must be the same id used as in PC_EVTable_server()
 #'
@@ -31,6 +29,11 @@ PC_EVTable_ui <- function(id){
 ##########################################
 
 #' Server function for the parameter calculations parameter table
+#'
+#' @description
+#' This function contains the output elements for the parameter calculations
+#' parameter table. This server contains three output elements: a
+#' table download button, a table, and a table caption.
 #'
 #' @param id Shiny identifier name; must be the same id used as in PC_EVTable_ui()
 #' @param pc_args A Shiny reactive list with the output of Parsol(), all shiny
