@@ -10,7 +10,8 @@ GP_Species()
 The 'Species' card with species selection options
 }
 \description{
-User interface for the 'Species' card on the 'General Parameters' tab
+This function outputs the user interface for the 'Species' card on the
+'General Parameters' tab of the GUI.
 }
 \seealso{
 \code{\link[=app_ui]{app_ui()}}, which calls the current function, and \code{\link[=selectInput_Species]{selectInput_Species()}}

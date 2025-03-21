@@ -15,9 +15,10 @@ plot_logscale(plt, sol_vec)
 A plot that is plt with a log10 y-axis
 }
 \description{
-Generate a plot with a log10 scale y-axis
+This function transforms a given plot so that its y-axis scale is a log10 scale
+instead of a linear scale.
 }
 \seealso{
 \code{\link[=scat_plot]{scat_plot()}}, \code{\link[=plotPar]{plotPar()}}, and \code{\link[=plotPCs]{plotPCs()}}, which calls the current
-function
+function, and \code{\link[=log10breaks]{log10breaks()}}, which the current function calls
 }

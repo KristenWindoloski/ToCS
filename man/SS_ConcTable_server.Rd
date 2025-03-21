@@ -18,7 +18,10 @@ four elements: a table download button, a simulation parameters download button,
 the steady state concentrations table, and a table caption
 }
 \description{
-Server function for the steady state concentrations table
+This function contains the output elements for the steady state
+concentrations table. This server contains four output elements: a
+table download button, a simulation download button, a table, and a table
+caption.
 }
 \seealso{
 \code{\link[=SS_server]{SS_server()}}, which calls the current function

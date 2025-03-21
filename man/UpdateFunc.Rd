@@ -14,5 +14,9 @@ Clear "model", "in silico parameter preference", and "preloaded
 compounds" selections and return to their default values
 }
 \description{
-Reset inputs if a new main GUI function is selected
+This function updates the model, insilico parameters, and preloaded compound
+selections if the 'output' function is changed from its original selection.
+}
+\seealso{
+\code{\link[=UpdateInputs]{UpdateInputs()}}, which calls the current function
 }

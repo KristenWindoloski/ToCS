@@ -11,7 +11,8 @@ The 'Selected Compounds' card which shows a table of all compounds
 selected by the user for simulation
 }
 \description{
-User interface for the 'Selected Compounds' card on the 'Run Simulation' tab
+This function outputs the user interface for the 'Selected Compounds' card on the
+'Run Simulation' tab of the GUI.
 }
 \seealso{
 \code{\link[=app_ui]{app_ui()}}, which calls the current function

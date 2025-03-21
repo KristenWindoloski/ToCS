@@ -18,8 +18,12 @@ A named list of all parameters in the GUI to be used in the main
 module functions
 }
 \description{
-Compile all parameters into one final list
+This function puts all user-selected parameters for all modules into a single
+parameter list to pass through the functions that generate model outputs. The
+list of parameters has each parameter in a form that the httk functions can
+read them.
 }
 \seealso{
-\code{\link[=app_server]{app_server()}}, which calls the current function
+\code{\link[=app_server]{app_server()}}, which calls the current function, and \code{\link[=ParNames]{ParNames()}},
+\code{\link[=CompilePars]{CompilePars()}}, and \code{\link[=UpdatePars]{UpdatePars()}}, which are called by the current function
 }

@@ -10,7 +10,9 @@ app_ui()
 User interface
 }
 \description{
-App ui function
+This function is the top-level ui function for the ToCS application and
+dictates where the outputs from the app_server function will be displayed.
+Calls to all other ui functions stem from this function.
 }
 \examples{
 app_ui()

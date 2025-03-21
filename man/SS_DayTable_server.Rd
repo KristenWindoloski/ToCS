@@ -17,7 +17,9 @@ The server function for the days to steady state table which includes
 three outputs: a table download button, a table, and a table caption
 }
 \description{
-The server function for the days to steady state table
+This function contains the output elements for the days to steady state table.
+This server contains three output elements: a table download button, a table,
+and a table caption.
 }
 \seealso{
 \code{\link[=SS_server]{SS_server()}}, which calls the current function

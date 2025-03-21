@@ -15,8 +15,9 @@ User interface layout for the steady state concentrations module on the 'Run Sim
 tab; includes one plot and two table drop down panels
 }
 \description{
-User interface layout for the steady state concentrations module and is composed
-of three submodules
+This function acts as the main function to set up the user interface for the
+steady state concentrations module. The UI layout includes three elements: a
+plot and two tables. Each UI element has its own UI function.
 }
 \seealso{
 \code{\link[=SS_ConcPlot_ui]{SS_ConcPlot_ui()}}, \code{\link[=SS_ConcTable_ui]{SS_ConcTable_ui()}}, and \code{\link[=SS_DayTable_ui]{SS_DayTable_ui()}},

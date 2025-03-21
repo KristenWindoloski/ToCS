@@ -14,5 +14,10 @@ Clear the "preloaded compounds" selection and return it to its default
 value
 }
 \description{
-Reset the "preloaded compounds" input selection
+This function updates the preloaded compound selections if the default to human,
+in silico parameters, or model selections are changed from their original
+selection.
+}
+\seealso{
+\code{\link[=UpdateInputs]{UpdateInputs()}}, which calls the current function
 }

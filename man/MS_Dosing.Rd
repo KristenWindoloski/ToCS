@@ -11,7 +11,8 @@ The 'Dosing' card with dosing selection options depending on the
 module function chosen
 }
 \description{
-User interface for the 'Dosing' card on the 'Model Specifications' tab
+This function outputs the user interface for the 'Dosing' card on the
+'Model Specifications' tab of the GUI.
 }
 \seealso{
 \code{\link[=app_ui]{app_ui()}}, which calls the current function, and \code{\link[=selectInput_DoseRoute]{selectInput_DoseRoute()}},

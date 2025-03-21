@@ -15,9 +15,12 @@ A blank error message to the user that halts computation until the
 user fixes the input error.
 }
 \description{
-Check if any inputs specific to the concentration-time profile module are
-invalid or missing
+This function validates that all user-selected parameters across the
+concentration-time profile module are acceptable. If not, the simulator will
+not compute until any errors in inputs are fixed.
 }
 \seealso{
-\code{\link[=ADME_server]{ADME_server()}} and \code{\link[=ADME_TCData_Server]{ADME_TCData_Server()}}, which call this function
+\code{\link[=ADME_server]{ADME_server()}} and \code{\link[=ADME_TCData_Server]{ADME_TCData_Server()}}, which call the current
+function, and \code{\link[=names_ICs]{names_ICs()}} and \code{\link[=adme_ic_errormess]{adme_ic_errormess()}}, which the current
+function calls
 }

@@ -12,7 +12,8 @@ file with new chemicals and their data. If the IVIVE module is chosen, then
 users can also upload bioactivity and exposure data.
 }
 \description{
-User interface for the 'Uploaded Data' card on the 'Compound Selection' tab
+This function outputs the user interface for the 'UploadedData' card on the
+'Compound Selection' tab of the GUI.
 }
 \seealso{
 \code{\link[=app_ui]{app_ui()}}, which calls the current function, and \code{\link[=fileInput_BioactiveConc]{fileInput_BioactiveConc()}}

@@ -15,7 +15,10 @@ four elements: a table download button, a simulation parameters download button,
 the steady state concentrations table, and a table caption
 }
 \description{
-User interface for the steady state concentrations table
+This function contains the user interface elements for the steady state
+concentrations table. This interface itself contains four UI elements: a
+table download button, a simulation parameters download button, a table, and
+a table caption.
 }
 \seealso{
 \code{\link[=SS_ui]{SS_ui()}}, which calls the current function

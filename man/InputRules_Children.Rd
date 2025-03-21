@@ -41,8 +41,15 @@ See global.R and input_functions.R for more information.}
 Validation rules attached to each child input validator
 }
 \description{
-Generate input validation rules for each individual module
+This function generates the rules for each input selection that the user
+must follow or the program will not run. This includes not leaving parameters
+blank, having them be the correct type of input, and that they're formatted
+correctly. For file uploads, it checks the inputted file. Error messages are
+shown to the user if the input rules are broken.
 }
 \seealso{
-\code{\link[=app_server]{app_server()}}, which calls the current function
+\code{\link[=app_server]{app_server()}}, which calls the current function, and \code{\link[=not_null]{not_null()}},
+\code{\link[=UploadComps_Check]{UploadComps_Check()}}, \code{\link[=multdose_Select]{multdose_Select()}}, \code{\link[=multdose_odd]{multdose_odd()}}, \code{\link[=fetal_cond]{fetal_cond()}},
+\code{\link[=returntimes_cond]{returntimes_cond()}}, \code{\link[=addrule_adme_ics]{addrule_adme_ics()}}, \code{\link[=BioUpload_Check]{BioUpload_Check()}}, \code{\link[=FSBf_Check]{FSBf_Check()}},
+and \code{\link[=ExposureUpload_Check]{ExposureUpload_Check()}}, which are called by the current function
 }

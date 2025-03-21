@@ -2,8 +2,8 @@
 % Please edit documentation in R/app-SubFunctions.R
 \name{PreloadComps_UI}
 \alias{PreloadComps_UI}
-\title{Compile outputs for the 'Preloaded Compounds' card under the 'Compound Selection'
-card}
+\title{Compile two outputs for the 'Preloaded Compounds' card under the 'Compound
+Selection' card}
 \usage{
 PreloadComps_UI(func, spec, defaulthuman, model, insilicopars, honda, comptype)
 }
@@ -37,9 +37,10 @@ Compounds' card on the 'Compound Selection' tab. The objects outputted vary
 depending on the user's input selection.
 }
 \description{
-Compile outputs for the 'Preloaded Compounds' card under the 'Compound Selection'
-card
+This function presents the user interface for the preloaded compounds section
+of the 'Preloaded Compounds' card under the 'Compound Selection' tab
 }
 \seealso{
-\code{\link[=app_server]{app_server()}}, which calls the current function
+\code{\link[=app_server]{app_server()}}, which calls the current function, and \code{\link[=numericInput_FSBf]{numericInput_FSBf()}}
+and \code{\link[=PreloadCompsInput]{PreloadCompsInput()}}, which are called by the current function
 }

@@ -18,7 +18,9 @@ four elements: a plot download button, the steady state concentrations plot,
 and a plot caption
 }
 \description{
-Server function for the steady state concentrations plot
+This function contains the output elements for the steady state
+concentrations plot. This server contains three output elements: a
+download button, a plot, and a plot caption.
 }
 \seealso{
 \code{\link[=scat_plot]{scat_plot()}}, which the current function calls, and \code{\link[=SS_server]{SS_server()}},

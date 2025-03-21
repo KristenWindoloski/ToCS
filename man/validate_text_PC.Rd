@@ -15,8 +15,9 @@ A blank error message to the user that halts computation until the
 user fixes the input error.
 }
 \description{
-Check if any inputs specific to the parameter calculations module are invalid
-or missing
+This function validates that all user-selected parameters across the
+parameter calculations module are acceptable. If not, the simulator will not
+compute until any errors in inputs are fixed.
 }
 \seealso{
 \code{\link[=PC_server]{PC_server()}}, which calls the current function

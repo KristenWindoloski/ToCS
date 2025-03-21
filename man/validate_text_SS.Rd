@@ -15,8 +15,9 @@ A blank error message to the user that halts computation until the
 user fixes the input error.
 }
 \description{
-Check if any inputs specific to the steady state concentrations module are
-invalid or missing
+This function validates that all user-selected parameters across the
+steady state concentrations module are acceptable. If not, the simulator will
+not compute until any errors in inputs are fixed.
 }
 \seealso{
 \code{\link[=SS_server]{SS_server()}}, which calls the current function

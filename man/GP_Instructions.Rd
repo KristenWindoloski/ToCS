@@ -11,7 +11,8 @@ Text with instructions for the user on how to use the app, where to get
 help, and where to report bugs
 }
 \description{
-User interface for the 'Instructions' card on the 'General Parameters' tab
+This function outputs the user interface for the 'Instructions' card on the
+'General Parameters' tab of the GUI.
 }
 \seealso{
 \code{\link[=app_ui]{app_ui()}}, which calls the current function, and \code{\link[=Instructions_GenPars]{Instructions_GenPars()}},

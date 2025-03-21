@@ -13,8 +13,8 @@ chemicals to simulate from a list as well as any chemical-related simulation
 preferences
 }
 \description{
-User interface for the 'Preloaded Compounds' card on the 'Compound Selection'
-tab
+This function outputs the user interface for the 'Preloaded Compounds' card on the
+'Compound Selection' tab of the GUI.
 }
 \seealso{
 \code{\link[=app_ui]{app_ui()}}, which calls the current function, and \code{\link[=selectInput_HondaCond]{selectInput_HondaCond()}}

@@ -11,7 +11,8 @@ The 'Model' card with model selection options depending on the module
 function chosen
 }
 \description{
-User interface for the 'Model' card on the 'Model Specifications' tab
+This function outputs the user interface for the 'Model' card on the
+'Model Specifications' tab of the GUI.
 }
 \seealso{
 \code{\link[=app_ui]{app_ui()}}, which calls the current function, and \code{\link[=selectInput_InSilicoPars]{selectInput_InSilicoPars()}},

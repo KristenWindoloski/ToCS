@@ -22,11 +22,12 @@ Server output for the steady state concentrations module on the 'Run Simulation'
 tab; includes one plot and two table drop down panels
 }
 \description{
-Server output for the steady state concentrations module and is composed of
-three submodules
+This function acts as the main function to fill the user interface for the
+steady state concentrations module. The server outputs include three elements: a
+plot and two tables. Each server element has its own server function.
 }
 \seealso{
 \code{\link[=validate_text_SS]{validate_text_SS()}}, \code{\link[=SS_sol]{SS_sol()}}, \code{\link[=SS_ConcPlot_server]{SS_ConcPlot_server()}},
 \code{\link[=SS_ConcTable_server]{SS_ConcTable_server()}}, and \code{\link[=SS_DayTable_server]{SS_DayTable_server()}}, which are called by the
-current function
+current function, and \code{\link[=Run_Simulation]{Run_Simulation()}}, which calls the current function
 }

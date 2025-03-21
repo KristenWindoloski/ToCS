@@ -13,7 +13,8 @@ simulation, and the option to log scale plots (if applicable for the module
 chosen)
 }
 \description{
-User interface for the 'Actions' card on the 'Run Simulation' tab
+This function outputs the user interface for the 'Actions' card on the
+'Run Simulation' tab of the GUI.
 }
 \seealso{
 \code{\link[=app_ui]{app_ui()}}, which calls the current function, and \code{\link[=Instructions_RunSim]{Instructions_RunSim()}},

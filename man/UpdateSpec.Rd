@@ -14,5 +14,9 @@ Clear "model" and "preloaded compounds" selections and return to their
 default values
 }
 \description{
-Reset inputs if a new species is selected
+This function updates the model and preloaded compound selections if the
+'species' function is changed from its original selection.
+}
+\seealso{
+\code{\link[=UpdateInputs]{UpdateInputs()}}, which calls the current function
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/output_Multiple.R
 \name{log10breaks}
 \alias{log10breaks}
-\title{Generate a vector of 10^x breakpoints for the y-axis of a plot}
+\title{Create log10 break points for a plot scale}
 \usage{
 log10breaks(ydata)
 }
@@ -13,8 +13,9 @@ log10breaks(ydata)
 A vector of y-axis breaks
 }
 \description{
-Generate a vector of 10^x breakpoints for the y-axis of a plot
+This function creates a vector of 10^x breakpoints for the y-axis of a plot
 }
 \seealso{
-\code{\link[=IVIVEplot_logscale]{IVIVEplot_logscale()}} and \code{\link[=BERplotting]{BERplotting()}}, which call the current function
+\code{\link[=plot_logscale]{plot_logscale()}}, \code{\link[=IVIVEplot_logscale]{IVIVEplot_logscale()}} and \code{\link[=BERplotting]{BERplotting()}}, which
+call the current function
 }

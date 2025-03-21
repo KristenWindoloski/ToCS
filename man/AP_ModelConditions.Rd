@@ -12,8 +12,8 @@ The 'Model Conditions' card which allows the user to select various
 different model conditions depending upon the module function chosen
 }
 \description{
-User interface for the 'Model Conditions' card on the 'Advanced Parameters'
-tab
+This function outputs the user interface for the 'Model Conditions' card on the
+'Advanced Parameters' tab of the GUI.
 }
 \seealso{
 \code{\link[=app_ui]{app_ui()}}, which calls the current function, and \code{\link[=selectInput_InitialCondCustom]{selectInput_InitialCondCustom()}},

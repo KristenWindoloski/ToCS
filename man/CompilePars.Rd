@@ -16,5 +16,8 @@ entered as 'input')}
 A value for the given parameter
 }
 \description{
-Parse together the input ID name of a user selection
+Compile the input ID name for each user-selected parameter
+}
+\seealso{
+\code{\link[=GatherInputVars]{GatherInputVars()}}, which calls the current function
 }

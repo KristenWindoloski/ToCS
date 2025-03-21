@@ -11,7 +11,8 @@ The 'Model Solver' card which allows the user options to select various
 solver conditions if the concentration-time profiles module function is chosen
 }
 \description{
-User interface for the 'Model Solver' card on the 'Advanced Parameters' tab
+This function outputs the user interface for the 'Model Solver' card on the
+'Advanced Parameters' tab of the GUI.
 }
 \seealso{
 \code{\link[=app_ui]{app_ui()}}, which calls the current function, and \code{\link[=selectInput_ODEmethod]{selectInput_ODEmethod()}},

@@ -18,7 +18,8 @@ profiles", "Steady state concentrations", "In vitro in vivo extrapolation
 A string with text describing the returned concentration of the model.
 }
 \description{
-Create the text for a figure/table caption
+This function the correct AUC output concentration to go in a caption in the
+concentration-time profiles module plot and table.
 }
 \seealso{
 \code{\link[=ADME_MultPlt_server]{ADME_MultPlt_server()}} and \code{\link[=ADME_IndPlt_server]{ADME_IndPlt_server()}}, which calls the

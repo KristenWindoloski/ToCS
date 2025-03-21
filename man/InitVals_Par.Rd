@@ -2,7 +2,7 @@
 % Please edit documentation in R/output_Multiple.R
 \name{InitVals_Par}
 \alias{InitVals_Par}
-\title{Create the named vector of initial conditions needed for ADME simulations}
+\title{Create a vector of initial conditions}
 \usage{
 InitVals_Par(model, ICopts, pars)
 }
@@ -18,5 +18,10 @@ conditions other than the default, which is zero for all model states}
 A named vector of initial conditions for a specific model
 }
 \description{
-Create the named vector of initial conditions needed for ADME simulations
+This function creates a named vector of initial conditions for the selected
+model in concentration-time profile simulations. The names correspond to model
+compartments.
+}
+\seealso{
+\code{\link[=UpdatePars]{UpdatePars()}}, which calls the current function
 }

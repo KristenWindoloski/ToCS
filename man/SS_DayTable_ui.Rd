@@ -14,7 +14,9 @@ The user interface for the days to steady state table which includes
 three outputs: a table download button, a table, and a table caption
 }
 \description{
-User interface for the days to steady state table
+This function contains the user interface elements for the days to steady state
+table. This interface itself contains three UI elements: a table download
+button, a table, and a table caption.
 }
 \seealso{
 \code{\link[=SS_ui]{SS_ui()}}, which calls the current function

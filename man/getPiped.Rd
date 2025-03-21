@@ -2,7 +2,7 @@
 % Please edit documentation in R/input_functions.R
 \name{getPiped}
 \alias{getPiped}
-\title{Generate the final list of available compounds to simulate in httk}
+\title{Generate the final list of available compounds available for simulation}
 \usage{
 getPiped(CASnums, honda, comptype)
 }
@@ -18,10 +18,17 @@ A vector of CASRN and compound name pairings for compounds with enough
 available data to simulate in httk
 }
 \description{
-Generate the final list of available compounds to simulate in httk
+This function narrows down the list of compounds from the getCASnums function
+by taking into account any IVIVE conditions that the user selected or if the
+user is only interested in a list of food relevant chemicals.
 }
 \examples{
 getPiped(c("135410-20-7","94-82-6","30560-19-1","71751-41-2","34256-82-1"),"NULL")
 getPiped(c("15972-60-8","116-06-3","834-12-8","33089-61-1","1912-24-9"),"Honda1")
 
+}
+\seealso{
+\code{\link[=PreloadCompsInput]{PreloadCompsInput()}}, which calls the current function, and
+\code{\link[=DirectFoodAdditives]{DirectFoodAdditives()}} and \code{\link[=IndirectFoodAdditives]{IndirectFoodAdditives()}} data frames, which are
+called by the current function
 }

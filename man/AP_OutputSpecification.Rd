@@ -12,8 +12,8 @@ The 'Output Specification' card which offers the users different
 selection options regarding the output for different module functions chosen
 }
 \description{
-User interface for the 'Output Specification' card on the 'Advanced Parameters'
-tab
+This function outputs the user interface for the 'Output Specification' card
+on the 'Advanced Parameters' tab of the GUI.
 }
 \seealso{
 \code{\link[=app_ui]{app_ui()}}, which calls the current function, and \code{\link[=textInput_OutputTimes]{textInput_OutputTimes()}},

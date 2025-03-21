@@ -2,8 +2,7 @@
 % Please edit documentation in R/output_Multiple.R
 \name{OutputTimes_Par}
 \alias{OutputTimes_Par}
-\title{Generate a vector specifying times to output the time course solution in the
-ADME module simulation}
+\title{Generate a vector of output times}
 \usage{
 OutputTimes_Par(pars)
 }
@@ -14,6 +13,10 @@ OutputTimes_Par(pars)
 A vector of times to output the ADME concentration-time profile solution
 }
 \description{
-Generate a vector specifying times to output the time course solution in the
-ADME module simulation
+This function creates a vector of output times for the concentration-time profiles
+module. The vector entries depend on the user's model, simulation time, and
+return time specifications.
+}
+\seealso{
+\code{\link[=UpdatePars]{UpdatePars()}}, which calls the current function
 }

@@ -17,8 +17,11 @@ Cleared inputs for the applicable function when a main input is
 changed
 }
 \description{
-Main function to update inputs when a trigger input is changed
+This function resets the user-selected values of certain parameters depending
+on the change of another main parameters. This function ensures that the user
+makes appropriate parameter selections based on the other parameters selected.
 }
 \seealso{
-\code{\link[=app_server]{app_server()}}, which calls the current function
+\code{\link[=app_server]{app_server()}}, which calls the current function, and \code{\link[=UpdateFunc]{UpdateFunc()}},
+\code{\link[=UpdateSpec]{UpdateSpec()}}, and \code{\link[=UpdateComps]{UpdateComps()}}, which are called by the current function
 }

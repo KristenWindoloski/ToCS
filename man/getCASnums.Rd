@@ -2,8 +2,7 @@
 % Please edit documentation in R/input_functions.R
 \name{getCASnums}
 \alias{getCASnums}
-\title{Generate a vector of CASRNs that are available for the user selected output,
-species, model, and human in vitro data preference}
+\title{Generate a vector of CAS numbers to simulate}
 \usage{
 getCASnums(func, species, model, defaulttohuman)
 }
@@ -21,11 +20,14 @@ animal species is selected}
 A vector of CASRNs for compounds that are available to simulate in ToCS
 }
 \description{
-Generate a vector of CASRNs that are available for the user selected output,
-species, model, and human in vitro data preference
+This function creates a vector of CASRNs that are available for the user-selected
+output, species, model, and human in vitro data preference.
 }
 \examples{
 getCASnums("Concentration-time profiles","Human","pbtk",TRUE)
 getCASnums("Steady state concentrations","Rat","1compartment",FALSE)
 
+}
+\seealso{
+\code{\link[=PreloadCompsInput]{PreloadCompsInput()}}, which calls the current function
 }

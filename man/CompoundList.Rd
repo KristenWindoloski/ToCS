@@ -19,6 +19,11 @@ in the preloaded compounds drop down list}
 A data frame with the names of all compounds the user wants to simulate
 }
 \description{
-Compile a data frame of compound names to simulate (both compounds uploaded
-by the user and any preloaded httk compounds selected)
+This function compiles the list of chemical names that the user wants to simulate.
+It combines both any preloaded compounds selected by the user and any uploaded
+compounds that a user uploaded in a CSV file. Compounds are then arranged in
+ascending order by name.
+}
+\seealso{
+\code{\link[=CompileCompLst]{CompileCompLst()}}, which calls the current function
 }

@@ -11,7 +11,8 @@ The 'Results' card which displays a number of drop down menus filled
 with output results depending on the module function chosen
 }
 \description{
-User interface for the 'Results' card on the 'Run Simulation' tab
+This function outputs the user interface for the 'Results' card on the
+'Run Simulation' tab of the GUI.
 }
 \seealso{
 \code{\link[=app_ui]{app_ui()}}, which calls the current function, and \code{\link[=ADME_ui]{ADME_ui()}},

@@ -2,8 +2,7 @@
 % Please edit documentation in R/output_Multiple.R
 \name{UpdatePars}
 \alias{UpdatePars}
-\title{Compile the list of all GUI parameters and adjust any parameters from the user
-selection wording to a function-ready input for all simulation modules}
+\title{Compile a final list of all parameters}
 \usage{
 UpdatePars(pars)
 }
@@ -14,6 +13,11 @@ UpdatePars(pars)
 A list of parameters to pass into modules
 }
 \description{
-Compile the list of all GUI parameters and adjust any parameters from the user
-selection wording to a function-ready input for all simulation modules
+This function creates a final list of all user-selected parameters to use in
+simulation. It adjusts any parameters from the user selection to a function-ready
+input for all simulation modules.
+}
+\seealso{
+\code{\link[=GatherInputVars]{GatherInputVars()}}, which calls the current function, and \code{\link[=DosingPar]{DosingPar()}},
+\code{\link[=InitVals_Par]{InitVals_Par()}}, and \code{\link[=OutputTimes_Par]{OutputTimes_Par()}}, which the current function calls
 }

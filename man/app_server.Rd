@@ -17,7 +17,9 @@ app_server(input, output, session)
 Various server outputs
 }
 \description{
-App server function
+This function is the top-level server function for the ToCS application and
+dictates the outputs to be displayed in the app_ui function. Calls to all other
+server functions stem from this function.
 }
 \examples{
 server(input, output, session)

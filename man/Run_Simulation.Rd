@@ -37,8 +37,13 @@ The module outputs for the selected module or an error notification
 indicating missing or invalid parameters
 }
 \description{
-Run the selected module with all user selected inputs
+This function returns the module-appropriate output to the 'Results' card under
+the 'Run Simulation' tab, in the form of either plots/table/text or an error
+message if the user did not select/fix errors with input parameters or uploaded
+files.
 }
 \seealso{
-\code{\link[=app_server]{app_server()}}, which calls the current function
+\code{\link[=app_server]{app_server()}}, which calls the current function, and \code{\link[=ADME_server]{ADME_server()}},
+\code{\link[=Notify_ParError]{Notify_ParError()}}, \code{\link[=SS_server]{SS_server()}}, \code{\link[=IVIVE_server]{IVIVE_server()}}, and \code{\link[=PC_server]{PC_server()}}, which
+are called by the current function
 }

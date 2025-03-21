@@ -2,8 +2,7 @@
 % Please edit documentation in R/output_Multiple.R
 \name{Notify_ParError}
 \alias{Notify_ParError}
-\title{Notify the user that there is are missing or invalid parameters for the simulation
-when the "Run Simulation" button is clicked}
+\title{Notify the user of parameter error}
 \usage{
 Notify_ParError()
 }
@@ -11,6 +10,9 @@ Notify_ParError()
 A pop-up notification to the user
 }
 \description{
-Notify the user that there is are missing or invalid parameters for the simulation
-when the "Run Simulation" button is clicked
+This function notifies the user that there is are missing or invalid parameters
+for the simulation when the "Run Simulation" button is clicked.
+}
+\seealso{
+\code{\link[=Run_Simulation]{Run_Simulation()}}, which calls the current function
 }

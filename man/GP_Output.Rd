@@ -10,7 +10,8 @@ GP_Output()
 The 'Output' card with the function selection option
 }
 \description{
-User interface for the 'Output' card on the 'General Parameters' tab
+This function outputs the user interface for the 'Output' card on the
+'General Parameters' tab of the GUI.
 }
 \seealso{
 \code{\link[=app_ui]{app_ui()}}, which calls the current function, and \code{\link[=selectInput_Function]{selectInput_Function()}},

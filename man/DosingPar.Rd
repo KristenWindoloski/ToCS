@@ -2,8 +2,7 @@
 % Please edit documentation in R/output_Multiple.R
 \name{DosingPar}
 \alias{DosingPar}
-\title{Return the list of dosing parameters needed for the ADME dosing parameter in
-httk's solve_model function}
+\title{Create a list of dosing parameters}
 \usage{
 DosingPar(
   dosenum,
@@ -39,6 +38,10 @@ The list has five entries: initial.dose, doses.per.day, daily.dose,
 dosing.matrix, and forcings.
 }
 \description{
-Return the list of dosing parameters needed for the ADME dosing parameter in
-httk's solve_model function
+This function creates a list of dosing parameters based on user selections so
+that the outputted list is in the appropriate form to pass through httk's
+solve_model function.
+}
+\seealso{
+\code{\link[=UpdatePars]{UpdatePars()}}, which calls the current function
 }

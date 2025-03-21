@@ -15,6 +15,10 @@ A blank error message to the user that halts computation until the
 user fixes the input error.
 }
 \description{
-Check if any inputs that are common among all four modules are invalid or
-missing
+This function validates that all common user-selected parameters across all
+modules are acceptable. If not, the simulator will not compute until any
+errors in inputs are fixed.
+}
+\seealso{
+\code{\link[=CompileCompLst]{CompileCompLst()}}, which calls the current function
 }
