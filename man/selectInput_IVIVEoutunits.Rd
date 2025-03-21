@@ -19,4 +19,8 @@ extrapolation (IVIVE) simulations
 }
 \examples{
 selectInput_IVIVEoutunits("modelIVIVEout_units")
+
+}
+\seealso{
+\code{\link[=AP_OutputSpecification]{AP_OutputSpecification()}}, which calls the current function
 }

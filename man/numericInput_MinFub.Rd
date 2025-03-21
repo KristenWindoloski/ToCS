@@ -21,3 +21,6 @@ fraction unbound in plasma.
 numericInput_MinFub("min_fub")
 
 }
+\seealso{
+\code{\link[=AP_ModelConditions]{AP_ModelConditions()}}, which calls the current function
+}

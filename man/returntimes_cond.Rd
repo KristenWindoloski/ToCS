@@ -22,5 +22,10 @@ If condition if FALSE, then return the message. If the condition is
 TRUE, return nothing.
 }
 \description{
-Has the user entered a beginning output time of 91 days or later?
+This function relays to the user that return times for the fetal_pbtk model
+must start at 91 days or later. This is a restriction of the model that it
+only outputs times at 13 weeks or later.
+}
+\seealso{
+\code{\link[=InputRules_Children]{InputRules_Children()}}, which calls the current function
 }

@@ -23,3 +23,6 @@ extrapolation (IVIVE) simulation
 selectInput_ReturnSamps("returnsamples")
 
 }
+\seealso{
+\code{\link[=MS_Model]{MS_Model()}}, which calls the current function
+}

@@ -21,3 +21,6 @@ whether to keep F_abs and F_gut at 100\% availability
 selectInput_Keep100("caco_keep100")
 
 }
+\seealso{
+\code{\link[=AP_Bioavailability]{AP_Bioavailability()}}, which calls the current function
+}

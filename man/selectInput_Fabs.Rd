@@ -25,3 +25,6 @@ from the gut lumen into the gut if bioavailability data is unavailable
 selectInput_Fabs("caco_fabs")
 
 }
+\seealso{
+\code{\link[=AP_Bioavailability]{AP_Bioavailability()}}, which calls the current function
+}

@@ -21,3 +21,6 @@ initial condition
 selectInput_InitialCondCustom("init_cond_opts")
 
 }
+\seealso{
+\code{\link[=AP_ModelConditions]{AP_ModelConditions()}}, which calls the current function
+}

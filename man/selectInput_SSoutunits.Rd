@@ -21,3 +21,6 @@ state concentrations output
 selectInput_SSoutunits("modelSSout_units")
 
 }
+\seealso{
+\code{\link[=AP_OutputSpecification]{AP_OutputSpecification()}}, which calls the current function
+}

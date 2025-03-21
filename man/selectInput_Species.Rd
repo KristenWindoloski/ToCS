@@ -19,3 +19,6 @@ Generate the 'Species' drop down menu
 selectInput_Species("spec")
 
 }
+\seealso{
+\code{\link[=GP_Species]{GP_Species()}}, which calls the current function
+}

@@ -23,12 +23,14 @@ user interface function consisting of two plots, two tables, and a download
 button of simulation parameters of Parameter Calculation results
 }
 \description{
-Main server function to set up the 'Results' card under the Parameter
-Calculation module's Run Simulation' tab
+This function acts as the main function to fill the user interface for the
+parameter calculations module. The server outputs include five elements: two
+plots, two tables, and a download button. Each server element has its own
+server function.
 }
 \seealso{
 \code{\link[=validate_text_pc]{validate_text_pc()}}, \code{\link[=Parsol]{Parsol()}}, \code{\link[=PC_EVPlot_server]{PC_EVPlot_server()}}, \code{\link[=PC_EVTable_server]{PC_EVTable_server()}},
 \code{\link[=PC_PCPlot_server]{PC_PCPlot_server()}}, \code{\link[=PC_PCTable_server]{PC_PCTable_server()}}, and \code{\link[=PC_Pars_server]{PC_Pars_server()}}, which
-are all called by this function, and \code{\link[=RS_Results]{RS_Results()}}, which calls the current
-function
+are all called by this function, and \code{\link[=Run_Simulation]{Run_Simulation()}}, which calls the
+current function
 }

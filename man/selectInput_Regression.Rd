@@ -21,3 +21,6 @@ regressions are used in the calculation of partition coefficients
 selectInput_Regression("regression")
 
 }
+\seealso{
+\code{\link[=AP_ModelConditions]{AP_ModelConditions()}}, which calls the current function
+}

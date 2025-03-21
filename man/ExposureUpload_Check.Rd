@@ -18,6 +18,10 @@ formatting, then this function returns a message detailing the problem. If all
 aspects of the exposure file are appropriate, then no message is outputted.
 }
 \description{
-Does the uploaded exposure file have the correct formatting and data type
-as well as no missing required data?
+This function checks whether the uploaded file with exposure data is in the
+correct format, contains no missing data, and has the correct type of data. If
+not, an error message is displayed to the user.
+}
+\seealso{
+\code{\link[=InputRules_Children]{InputRules_Children()}}, which calls the current function
 }

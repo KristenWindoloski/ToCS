@@ -15,8 +15,9 @@ User interface for the partition coefficients table drop down with
 three elements
 }
 \description{
-User interface function for the parameter calculations partition coefficients
-table
+This function contains the user interface elements for the parameter calculations
+partition coefficient table. This interface itself contains three UI elements:
+a table download button, a table, and a table caption.
 }
 \seealso{
 \code{\link[=PC_ui]{PC_ui()}}, which calls the current function

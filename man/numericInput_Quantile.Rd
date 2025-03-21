@@ -21,3 +21,6 @@ quantile used in the in vitro in vivo extrapolation (IVIVE) simulations
 numericInput_Quantile("quantile")
 
 }
+\seealso{
+\code{\link[=MS_Model]{MS_Model()}}, which calls the current function
+}

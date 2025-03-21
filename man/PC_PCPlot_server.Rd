@@ -17,7 +17,9 @@ Server outputs for the partition coefficient plot drop down which
 includes three elements
 }
 \description{
-Server function for the parameter calculations partition coefficient plot
+This function contains the output elements for the parameter calculations
+partition coefficient plot. This server contains three output elements: a
+download button, a plot, and a plot caption.
 }
 \seealso{
 \code{\link[=plotPCs]{plotPCs()}}, which is called by this function, and \code{\link[=PC_server]{PC_server()}},

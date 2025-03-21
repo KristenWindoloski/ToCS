@@ -21,3 +21,6 @@ during the in vitro in vivo extrapolation (IVIVE) simulations
 selectInput_HondaCond("HondaIVIVE")
 
 }
+\seealso{
+\code{\link[=CS_PreloadedCompounds]{CS_PreloadedCompounds()}}, which calls the current function
+}

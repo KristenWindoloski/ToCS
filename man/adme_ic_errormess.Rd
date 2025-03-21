@@ -17,6 +17,10 @@ list}
 An empty message to the user if the parameter is NA
 }
 \description{
-Add an error message for an ADME initial condition input identifier and pause
-the application from computing
+This function checks if the any of the initial condition boxes in the
+concentration-time profile module were left blank. If so, computation is halted
+until the user fixes the error.
+}
+\seealso{
+\code{\link[=validate_text_ADME]{validate_text_ADME()}}, which calls the current function
 }

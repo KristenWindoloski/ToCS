@@ -15,8 +15,9 @@ A data frame of simulation parameters and chemical-physical data for
 the chemicals simulated
 }
 \description{
-Store all relevant module parameters and physical-chemical in a data frame
-for user download
+This function stores all user-selected simulation parameters for the steady
+state concentrations module as well as all physical-chemical data for simulated
+compounds into one data frame.
 }
 \seealso{
 \code{\link[=SS_sol]{SS_sol()}}, which calls the current function

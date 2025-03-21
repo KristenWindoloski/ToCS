@@ -25,3 +25,6 @@ numericInput_ICvalue("Three_AUC","AUC")
 numericInput_ICvalue("P_liver","liver")
 
 }
+\seealso{
+\code{\link[=AP_ModelConditions]{AP_ModelConditions()}}, which calls the current function
+}

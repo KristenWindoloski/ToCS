@@ -17,11 +17,9 @@ Server outputs for the parameter plot drop down which includes three
 elements
 }
 \description{
-This function creates the UI object the four parameter values (elimination rate, volume
-of distribution, half-life, and plasma clearance) contents of
-the UI objects for the Parameter Calculations 'Results' card under the 'Run
-Simulation' tab. The contents of each UI object (drop down) are then filled
-by four separate server modules.
+This function contains the output elements for the parameter calculations
+parameter plot. This server contains three output elements: a
+download button, a plot, and a plot caption.
 }
 \seealso{
 \code{\link[=plotPar]{plotPar()}}, which is called by the current function, and \code{\link[=PC_server]{PC_server()}},

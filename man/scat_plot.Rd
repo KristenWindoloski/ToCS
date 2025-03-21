@@ -20,8 +20,9 @@ A scatter plot object of steady state concentrations, either with a
 linear or log10 scale y-axis
 }
 \description{
-Create a scatter plot of steady state concentrations for the steady state
-concentrations module
+This function generates the scatter plot ggplot object containing the steady
+state concentrations for all simulated compounds. The plot has a log10 y-axis
+scale if desired by the user.
 }
 \seealso{
 \code{\link[=SS_ConcPlot_server]{SS_ConcPlot_server()}}, which calls the current function, and \code{\link[=plot_labels]{plot_labels()}}

@@ -16,5 +16,8 @@ If condition if FALSE, then return the message. If the condition is
 TRUE, return nothing.
 }
 \description{
-Has the user defined an FSBf value?
+This function checks whether the user selected an FSBf value.
+}
+\seealso{
+\code{\link[=InputRules_Children]{InputRules_Children()}}, which calls the current function
 }

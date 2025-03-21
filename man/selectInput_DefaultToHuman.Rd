@@ -21,3 +21,6 @@ down menu
 selectInput_DefaultToHuman("defaulttohuman")
 
 }
+\seealso{
+\code{\link[=GP_Species]{GP_Species()}}, which calls the current function
+}

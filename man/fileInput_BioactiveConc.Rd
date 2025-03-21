@@ -23,3 +23,6 @@ extrapolation (IVIVE) simulation
 fileInput_BioactiveConc("BioactiveFile")
 
 }
+\seealso{
+\code{\link[=CS_UploadedData]{CS_UploadedData()}}, which calls the current function
+}

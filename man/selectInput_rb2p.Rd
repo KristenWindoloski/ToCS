@@ -21,3 +21,6 @@ preferences for the specified model
 selectInput_rb2p("rb2p")
 
 }
+\seealso{
+\code{\link[=AP_ModelConditions]{AP_ModelConditions()}}, which calls the current function
+}

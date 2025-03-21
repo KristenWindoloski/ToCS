@@ -15,8 +15,9 @@ User interface for the partition coefficient plot drop down with three
 elements
 }
 \description{
-User interface function for the parameter calculations partition coefficient
-plot
+This function contains the user interface elements for the parameter calculations
+partition coefficient plot. This interface itself contains three UI elements: a
+download button, a plot, and a plot caption.
 }
 \seealso{
 \code{\link[=PC_ui]{PC_ui()}}, which calls the current function

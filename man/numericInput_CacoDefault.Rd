@@ -21,3 +21,6 @@ membrane permeability value if desired
 numericInput_CacoDefault("caco2default")
 
 }
+\seealso{
+\code{\link[=AP_Bioavailability]{AP_Bioavailability()}}, which calls the current function
+}

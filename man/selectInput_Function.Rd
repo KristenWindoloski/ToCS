@@ -19,3 +19,6 @@ Generate the 'Output' drop down menu
 selectInput_Function("func")
 
 }
+\seealso{
+\code{\link[=GP_Output]{GP_Output()}}, which calls the current function
+}

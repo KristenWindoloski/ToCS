@@ -21,3 +21,6 @@ Generate the 'In silico parameter preference' drop down menu
 selectInput_InSilicoPars("insilicopars")
 
 }
+\seealso{
+\code{\link[=MS_Model]{MS_Model()}}, which calls the current function
+}

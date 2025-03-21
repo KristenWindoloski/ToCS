@@ -21,3 +21,6 @@ select from
 selectInput_RestrictClear("restrict_clear")
 
 }
+\seealso{
+\code{\link[=AP_ModelConditions]{AP_ModelConditions()}}, which calls the current function
+}

@@ -22,5 +22,10 @@ If condition if FALSE, then return the message. If the condition is
 TRUE, return nothing.
 }
 \description{
-Has the user selected and/or uploaded compounds to simulate?
+This function determines whether at least one compound has been set by the
+user to be simulated. The compound may be either from the pre-available drop
+down list or uploaded by the user.
+}
+\seealso{
+\code{\link[=InputRules_Children]{InputRules_Children()}}, which calls the current function
 }

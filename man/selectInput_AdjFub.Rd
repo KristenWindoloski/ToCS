@@ -21,3 +21,6 @@ preferences for the user to select from
 selectInput_AdjFub("adj_fub")
 
 }
+\seealso{
+\code{\link[=AP_ModelConditions]{AP_ModelConditions()}}, which calls the current function
+}

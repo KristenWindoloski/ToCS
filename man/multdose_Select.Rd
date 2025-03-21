@@ -22,5 +22,8 @@ If condition if FALSE, then return the message. If the condition is
 TRUE, return nothing.
 }
 \description{
-Has the user selected a dosing frequency?
+This function relays to the user that a dosing frequency must be chosen.
+}
+\seealso{
+\code{\link[=InputRules_Children]{InputRules_Children()}}, which calls the current function
 }

@@ -19,3 +19,6 @@ Generate a drop down list that describes the dosing frequency for ADME simulatio
 selectInput_NumDoses("dosenum")
 
 }
+\seealso{
+\code{\link[=MS_Dosing]{MS_Dosing()}}, which calls the current function
+}

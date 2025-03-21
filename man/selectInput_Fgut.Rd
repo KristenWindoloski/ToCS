@@ -25,3 +25,6 @@ gut metabolism and clearance if bioavailability data is unavailable
 selectInput_Fgut("caco_fgut")
 
 }
+\seealso{
+\code{\link[=AP_Bioavailability]{AP_Bioavailability()}}, which calls the current function
+}

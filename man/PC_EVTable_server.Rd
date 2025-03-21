@@ -16,7 +16,9 @@ parameters in pars(), and the logscale() input by the user}
 Server outputs for the parameter table with three elements
 }
 \description{
-Server function for the parameter calculations parameter table
+This function contains the output elements for the parameter calculations
+parameter table. This server contains three output elements: a
+table download button, a table, and a table caption.
 }
 \seealso{
 \code{\link[=PC_server]{PC_server()}}, which calls the current function

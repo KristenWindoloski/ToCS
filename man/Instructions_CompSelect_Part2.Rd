@@ -12,3 +12,6 @@ Text notifying the user of uploaded compound data instructions
 \description{
 Generate text to notify the user of where to see sample uploaded compound data
 }
+\seealso{
+\code{\link[=CS_Instructions]{CS_Instructions()}}, which calls the current function
+}

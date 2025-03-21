@@ -21,3 +21,6 @@ steps for the ODE solver in the concentration-time profile simulation
 numericInput_SolSteps("solversteps")
 
 }
+\seealso{
+\code{\link[=AP_ModelSolver]{AP_ModelSolver()}}, which calls the current function
+}

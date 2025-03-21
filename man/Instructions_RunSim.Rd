@@ -12,3 +12,6 @@ Text notifying the user of the 'Run Simulation' button
 \description{
 Generate text for the 'Run Simulation' button
 }
+\seealso{
+\code{\link[=RS_Actions]{RS_Actions()}}, which calls the current function
+}

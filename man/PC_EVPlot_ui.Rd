@@ -13,11 +13,9 @@ PC_EVPlot_ui(id)
 User interface for the parameter plot drop down with three elements
 }
 \description{
-This function outputs the structure of the user interface for the Parameter
-Calculations 'Results' card under the 'Run Simulation' tab. Three drop down
-tabs appear: a download plot button, a plot of parameter values, and a plot
-caption. The user interface contents of each drop down is then filled by a
-separate UI module.
+This function contains the user interface elements for the parameter calculations
+parameter plot. This interface itself contains three UI elements: a
+download button, a plot, and a plot caption.
 }
 \seealso{
 \code{\link[=PC_ui]{PC_ui()}}, which calls the current function

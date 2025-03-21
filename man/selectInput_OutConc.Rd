@@ -22,3 +22,6 @@ selectInput_OutConc("output_concSS")
 selectInput_OutConc("output_concIVIVE")
 
 }
+\seealso{
+\code{\link[=AP_OutputSpecification]{AP_OutputSpecification()}}, which calls the current function
+}

@@ -13,12 +13,9 @@ PC_EVTable_ui(id)
 User interface for the parameter table drop down with three elements
 }
 \description{
-#' @description
-This function calculates the four parameter values (elimination rate, volume
-of distribution, half-life, and plasma clearance) and outputs the contents of
-the UI objects for the Parameter Calculations 'Results' card under the 'Run
-Simulation' tab. The contents of each UI object (drop down) are then filled
-by four separate server modules.
+This function contains the user interface elements for the parameter calculations
+parameter table. This interface itself contains three UI elements: a
+table download button, a table, and a table caption.
 }
 \seealso{
 \code{\link[=PC_ui]{PC_ui()}}, which calls the current function

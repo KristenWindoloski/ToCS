@@ -21,3 +21,6 @@ data
 fileInput_UploadedComps("file1")
 
 }
+\seealso{
+\code{\link[=CS_UploadedData]{CS_UploadedData()}}, which calls the current function
+}

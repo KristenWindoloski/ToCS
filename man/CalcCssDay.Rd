@@ -18,7 +18,9 @@ day, the maximum concentration of the simulation, and the day steady state
 was reached
 }
 \description{
-Calculate the day steady state is reached
+This function calculates the days to steady state of an individual compound
+as well as other related steady state attributes using all user-selected
+parameters. The 'httk' function calc_css is used to generate the output.
 }
 \seealso{
 \code{\link[=SS_sol]{SS_sol()}}, which calls the current function

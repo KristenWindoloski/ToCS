@@ -19,3 +19,6 @@ Generate a drop down list of dose units to select from
 selectInput_ADMEdoseunits("doseunits")
 
 }
+\seealso{
+\code{\link[=MS_Dosing]{MS_Dosing()}}, which calls the current function
+}

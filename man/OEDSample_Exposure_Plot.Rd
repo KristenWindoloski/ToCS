@@ -22,7 +22,8 @@ A list with two elements: a ggplot2 plotting object and a data frame
 with exposure data
 }
 \description{
-Plot the oral equivalent dose samples and user-uploaded exposure data estimates
+This function generates the OED samples ggplot object no exposure data is
+uploaded by the user.
 }
 \seealso{
 \code{\link[=FillExposureData]{FillExposureData()}}, which is called by the current function, and

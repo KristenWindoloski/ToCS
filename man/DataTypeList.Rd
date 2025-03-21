@@ -12,6 +12,9 @@ A list of all acceptable data types for each column in the 'httk'
 package's chem.physical_and_invitro.data
 }
 \description{
-Generate a list of acceptable input data types for the compound file user
-upload
+This function produces a list of acceptable data types for each column of data
+in the user's uploaded compound file.
+}
+\seealso{
+\code{\link[=DataInputType]{DataInputType()}}, which calls the current function
 }

@@ -18,8 +18,8 @@ OEDPoint_NoExposure_Plot(OED_data, y_exp, title_exp)
 A ggplot2 plotting object
 }
 \description{
-Plot the oral equivalent dose (OED) for each chemical when there is no exposure
-data uploaded
+This function generates the OED point ggplot object when no exposure data is
+uploaded by the user.
 }
 \seealso{
 \code{\link[=IVIVEplotting]{IVIVEplotting()}}, which calls the current function

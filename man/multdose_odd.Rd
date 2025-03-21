@@ -22,5 +22,9 @@ If condition if FALSE, then return the message. If the condition is
 TRUE, return nothing.
 }
 \description{
-Has the user entered dosing amounts and times?
+This function relays to the user that dosing administration amounts and times
+have to be chosen.
+}
+\seealso{
+\code{\link[=InputRules_Children]{InputRules_Children()}}, which calls the current function
 }

@@ -19,5 +19,10 @@ data type. If all data types are appropriate in the 'file', then no message
 is outputted.
 }
 \description{
-Are the entries in the uploaded compound data file the correct kind of data?
+This function checks if the data types that are in the uploaded compounds file
+are appropriate for each column of data (i.e. character, numeric, logical).
+}
+\seealso{
+\code{\link[=UploadComps_Check]{UploadComps_Check()}}, which calls the current function, and \code{\link[=DataTypeList]{DataTypeList()}}
+and \code{\link[=type_func]{type_func()}}, which the current function calls
 }

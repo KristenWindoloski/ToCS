@@ -23,3 +23,6 @@ neutral form
 numericInput_Alpha("AlphaPar")
 
 }
+\seealso{
+\code{\link[=AP_ModelConditions]{AP_ModelConditions()}}, which calls the current function
+}

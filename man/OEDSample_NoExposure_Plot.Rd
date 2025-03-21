@@ -19,7 +19,8 @@ OEDSample_NoExposure_Plot(OEDSamples_df, Q5_OED_df, y_exp, title_exp)
 A ggplot2 plotting object
 }
 \description{
-Plot the oral equivalent dose samples when the user does not upload exposure data
+This function generates the OED samples ggplot object when no exposure data is
+uploaded by the user.
 }
 \seealso{
 \code{\link[=IVIVEplotting]{IVIVEplotting()}}, which calls the current function

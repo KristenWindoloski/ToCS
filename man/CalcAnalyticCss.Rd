@@ -16,7 +16,9 @@ A numerical value representing the analytical steady state concentration
 in the specified units
 }
 \description{
-Calculate the analytical steady state concentration of a chemical
+This function calculates the analytical steady state concentration of an
+individual compound using all user-selected parameters. The 'httk' function
+calc_analytic_css is used to generate the output.
 }
 \seealso{
 \code{\link[=SS_sol]{SS_sol()}}, which calls the current function

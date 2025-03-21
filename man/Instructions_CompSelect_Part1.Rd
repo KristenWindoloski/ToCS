@@ -14,3 +14,6 @@ Text notifying the user of compound requirements
 Generate text to notify user that they must select or upload at least one
 compound to simulate
 }
+\seealso{
+\code{\link[=CS_Instructions]{CS_Instructions()}}, which calls the current function
+}

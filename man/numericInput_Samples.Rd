@@ -21,3 +21,6 @@ samples to generate during in vitro in vivo extrapolation (IVIVE) simulations
 numericInput_Samples("samples")
 
 }
+\seealso{
+\code{\link[=AP_ModelConditions]{AP_ModelConditions()}}, which calls the current function
+}

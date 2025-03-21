@@ -24,6 +24,10 @@ detailing the missing data. If all required data is present, then no message
 is outputted.
 }
 \description{
-Are there any required hepatic clearance (Clint) or fraction unbound in plasma
-(fup) values missing from the compounds file uploaded by the user?
+This function checks if the uploaded file with physical-chemical data has
+any missing hepatic clearance or fraction unbound in plasma values. If so, a
+message is returned to the user.
+}
+\seealso{
+\code{\link[=UploadComps_Check]{UploadComps_Check()}}, which calls the current function
 }

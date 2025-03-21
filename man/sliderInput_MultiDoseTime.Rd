@@ -21,3 +21,6 @@ is administered during an ADME simulation
 sliderInput_MultiDoseTime("mult_dosetime")
 
 }
+\seealso{
+\code{\link[=MS_Dosing]{MS_Dosing()}}, which calls the current function
+}

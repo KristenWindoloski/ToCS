@@ -20,3 +20,6 @@ concentration-time profile simulations
 \examples{
 numericInput_SimTime("simtime")
 }
+\seealso{
+\code{\link[=MS_Model]{MS_Model()}}, which calls the current function
+}

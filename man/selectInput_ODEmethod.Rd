@@ -21,3 +21,6 @@ profile simulations
 selectInput_ODEmethod("odemethod")
 
 }
+\seealso{
+\code{\link[=AP_ModelSolver]{AP_ModelSolver()}}, which calls the current function
+}

@@ -13,3 +13,6 @@ resources, and where to report bugs
 \description{
 Generate text for the instructions card under the 'General Parameters' tab
 }
+\seealso{
+\code{\link[=Instructions_GenPars]{Instructions_GenPars()}}, which calls the current function
+}

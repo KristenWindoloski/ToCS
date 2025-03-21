@@ -16,5 +16,9 @@ The ADME shinyvalidate input validator object with a new rule where an
 input in the initial condition box is required (i.e. cannot be left blank)
 }
 \description{
-Add a validation rule to an ADME module initial condition input identifier
+This function checks if the identifier has been been inputted by the user. If
+not, an error message is returned.
+}
+\seealso{
+\code{\link[=InputRules_Children]{InputRules_Children()}}, which calls the current function
 }

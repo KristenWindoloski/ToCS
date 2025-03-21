@@ -21,3 +21,6 @@ to administer of compounds selected for concentration-time profile simulations
 textInput_DoseMatrix("multdose_odd")
 
 }
+\seealso{
+\code{\link[=MS_Dosing]{MS_Dosing()}}, which calls the current function
+}

@@ -14,7 +14,10 @@ A list with steady state concentrations, steady state characteristics,
 and simulation and chemical-physical parameters used in the simulation
 }
 \description{
-Calculate the steady state concentration solutions
+This function is the main steady state module solution function from which the
+server outputs are derived. This function orders the calculation of steady state
+concentrations and the number of days to steady state. It formats the outputs
+for appropriate display in the interface.
 }
 \seealso{
 \code{\link[=SS_server]{SS_server()}}, which calls the current function, and \code{\link[=CalcAnalyticCss]{CalcAnalyticCss()}},

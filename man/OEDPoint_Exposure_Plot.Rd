@@ -21,8 +21,8 @@ A list with two elements: a ggplot2 plotting object and a data frame
 with both OED and exposure data
 }
 \description{
-Plot the oral equivalent dose (OED) for each chemical when the user uploads
-exposure data
+This function generates the OED point ggplot object when exposure data is
+uploaded by the user.
 }
 \seealso{
 \code{\link[=FillExposureData]{FillExposureData()}}, which is called by the current function, and

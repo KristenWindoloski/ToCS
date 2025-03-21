@@ -33,6 +33,11 @@ animal data}
 \item{insilico}{User selection with the input$insilicopars ID; either
 "Yes, load in silico parameters" or "No, do not load in silico parameters"}
 
+\item{preloadcomps}{The list of preloaded compounds selected by the user in
+the form of "CASRN, compound name"}
+
+\item{file}{The file of physical-chemical data uploaded by the user}
+
 \item{honda}{User selection with the input$HondaIVIVE ID; either "NULL","Honda1",
 "Honda2","Honda3","Honda4"}
 }
@@ -47,5 +52,6 @@ applicable, the user's uploaded file of chemical data is uploaded and merged
 any preloaded chemicals selected by the user.
 }
 \seealso{
-\code{\link[=app_server]{app_server()}}, which calls the current function
+\code{\link[=app_server]{app_server()}}, which calls the current function, and \code{\link[=validate_text_Common]{validate_text_Common()}}
+and \code{\link[=CompoundList]{CompoundList()}}, which are called by this function
 }

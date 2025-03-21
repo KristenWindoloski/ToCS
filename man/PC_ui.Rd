@@ -25,5 +25,6 @@ each drop down is then filled by a separate UI module.
 }
 \seealso{
 \code{\link[=PC_EVPlot_ui]{PC_EVPlot_ui()}}, \code{\link[=PC_EVTable_ui]{PC_EVTable_ui()}}, \code{\link[=PC_PCPlot_ui]{PC_PCPlot_ui()}}, \code{\link[=PC_PCTable_ui]{PC_PCTable_ui()}},
-and \code{\link[=PC_Pars_ui]{PC_Pars_ui()}}, which are all called by this function
+and \code{\link[=PC_Pars_ui]{PC_Pars_ui()}}, which are all called by this function, and \code{\link[=RS_Results]{RS_Results()}},
+which calls the current function
 }

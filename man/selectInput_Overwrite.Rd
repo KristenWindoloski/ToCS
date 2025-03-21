@@ -21,3 +21,6 @@ to overwrite in vivo F_abs and F_gut data (if available)
 selectInput_Overwrite("caco_overwriteinvivo")
 
 }
+\seealso{
+\code{\link[=AP_Bioavailability]{AP_Bioavailability()}}, which calls the current function
+}

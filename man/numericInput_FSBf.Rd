@@ -23,3 +23,6 @@ vitro in vivo extrapolation (IVIVE) simulations
 numericInput_FSBf("FSBf")
 
 }
+\seealso{
+\code{\link[=PreloadComps_UI]{PreloadComps_UI()}}, which calls the current function
+}

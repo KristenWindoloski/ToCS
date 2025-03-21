@@ -21,3 +21,6 @@ during steady state concentration simulations
 numericInput_DailyDose("dailydose")
 
 }
+\seealso{
+\code{\link[=MS_Dosing]{MS_Dosing()}}, which calls the current function
+}

@@ -20,3 +20,6 @@ output times, if desired
 \examples{
 textInput_OutputTimes("returntimes")
 }
+\seealso{
+\code{\link[=AP_OutputSpecification]{AP_OutputSpecification()}}, which calls the current function
+}

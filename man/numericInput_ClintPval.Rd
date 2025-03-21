@@ -21,3 +21,6 @@ the hepatic clearance p-value threshold
 numericInput_ClintPval("Clint_Pval")
 
 }
+\seealso{
+\code{\link[=AP_ModelConditions]{AP_ModelConditions()}}, which calls the current function
+}

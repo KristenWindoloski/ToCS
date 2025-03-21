@@ -21,3 +21,6 @@ tolerance for concentration-time profile simulations
 sliderInput_ATol("atol")
 
 }
+\seealso{
+\code{\link[=AP_ModelSolver]{AP_ModelSolver()}}, which calls the current function
+}

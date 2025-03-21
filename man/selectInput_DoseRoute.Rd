@@ -21,3 +21,6 @@ simulation
 selectInput_DoseRoute("doseroute")
 
 }
+\seealso{
+\code{\link[=MS_Dosing]{MS_Dosing()}}, which calls the current function
+}

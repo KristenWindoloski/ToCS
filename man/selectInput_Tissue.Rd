@@ -22,3 +22,6 @@ selectInput_Tissue("tissueSS")
 selectInput_Tissue("tissueIVIVE")
 
 }
+\seealso{
+\code{\link[=AP_OutputSpecification]{AP_OutputSpecification()}}, which calls the current function
+}

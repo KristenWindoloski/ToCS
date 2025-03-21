@@ -20,3 +20,6 @@ concentration is treated as bioactive in vivo
 \examples{
 selectInput_Bioactive("bioactiveIVIVE")
 }
+\seealso{
+\code{\link[=AP_ModelConditions]{AP_ModelConditions()}}, which calls the current function
+}

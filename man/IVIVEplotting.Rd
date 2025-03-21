@@ -24,7 +24,9 @@ of plots to be a log10 scale}
 A ggplot2 plotting object
 }
 \description{
-Plot the oral equivalent dose (OED) and exposure data (if applicable)
+This function plots all OEDs and any uploaded exposure data. How the OEDs are
+plotted is dependent upon the user-selected output type (single OED quantile
+or all OED samples). Exposure data (if applicable) is plotted as a point range.
 }
 \seealso{
 \code{\link[=IVIVE_Plot_server]{IVIVE_Plot_server()}}, which calls the current function, and

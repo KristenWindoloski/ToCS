@@ -15,5 +15,9 @@ type_func(x, y)
 TRUE or FALSE
 }
 \description{
-Determine if the data type is appropriate
+Determines whether data type y is acceptable within the list of data types in
+x.
+}
+\seealso{
+\code{\link[=DataInputType]{DataInputType()}}, which calls the current function
 }

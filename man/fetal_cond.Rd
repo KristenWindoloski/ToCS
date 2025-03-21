@@ -22,5 +22,9 @@ If condition if FALSE, then return the message. If the condition is
 TRUE, return nothing.
 }
 \description{
-Was the human species selected when running the fetal_pbtk model?
+This function tells the user that in order to run the fetal_pbtk model, the
+human species must be chosen.
+}
+\seealso{
+\code{\link[=InputRules_Children]{InputRules_Children()}}, which calls the current function
 }

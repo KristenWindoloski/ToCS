@@ -17,6 +17,11 @@ If condition if FALSE, then return the message. If the condition is
 TRUE, return nothing.
 }
 \description{
-Are there any formatting or data errors in the new compounds file uploaded by
-the user?
+This function checks the uploaded file containing physical-chemical data for
+compounds to simulate. The file is checked for correct formatting, missing
+data, and correct data types.
+}
+\seealso{
+\code{\link[=InputRules_Children]{InputRules_Children()}}, which calls the current function, and \code{\link[=MissingClintFup]{MissingClintFup()}}
+and \code{\link[=DataInputType]{DataInputType()}}, which the current function calls
 }

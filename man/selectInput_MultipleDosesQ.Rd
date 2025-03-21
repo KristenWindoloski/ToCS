@@ -21,3 +21,6 @@ simulations
 selectInput_MultipleDosesQ("multdose")
 
 }
+\seealso{
+\code{\link[=MS_Dosing]{MS_Dosing()}}, which calls the current function
+}

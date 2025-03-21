@@ -12,3 +12,6 @@ Text notifying the user of the 'Reset Session' button
 \description{
 Generate text for the 'Reset Session' button
 }
+\seealso{
+\code{\link[=RS_Actions]{RS_Actions()}}, which calls the current function
+}

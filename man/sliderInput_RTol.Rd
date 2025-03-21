@@ -20,3 +20,6 @@ tolerance for concentration-time profile simulations
 \examples{
 sliderInput_RTol("rtol")
 }
+\seealso{
+\code{\link[=AP_ModelSolver]{AP_ModelSolver()}}, which calls the current function
+}

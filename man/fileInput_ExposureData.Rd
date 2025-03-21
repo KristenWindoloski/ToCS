@@ -21,3 +21,6 @@ data for in vitro in vivo extrapolation (IVIVE) simulations
 fileInput_ExposureData("fileExposure")
 
 }
+\seealso{
+\code{\link[=CS_UploadedData]{CS_UploadedData()}}, which calls the current function
+}

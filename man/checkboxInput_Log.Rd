@@ -19,4 +19,8 @@ on their respective plots
 }
 \examples{
 checkboxInput_Log("logscale")
+
+}
+\seealso{
+\code{\link[=RS_Actions]{RS_Actions()}}, which calls the current function
 }

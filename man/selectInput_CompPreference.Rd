@@ -23,3 +23,6 @@ to choose from
 selectInput_CompPreference("PreferredCompLst")
 
 }
+\seealso{
+\code{\link[=CS_PreloadedCompounds]{CS_PreloadedCompounds()}}, which calls the current function
+}
