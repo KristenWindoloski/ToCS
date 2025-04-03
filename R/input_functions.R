@@ -255,6 +255,8 @@ selectInput_CompPreference <- function(id){
 #' @param model The user-selected species
 #' @param honda The selected IVIVE assumption (either NULL, Honda1, Honda2,
 #' Honda3, or Honda4), if applicable
+#' @param comptype The user-selected subset of compounds to search; either "Choose
+#' from all available chemicals" or "Choose from only food relevant chemicals"
 #'
 #' @return A drop down list of preloaded available compounds within ToCS
 #' @seealso [PreloadComps_UI()], which calls the current function, and [getCASnums()]
@@ -375,6 +377,8 @@ getCASnums <- function(func,species,model,defaulttohuman){
 #' to simulate for the user's selected parameters
 #' @param honda The selected IVIVE assumption (either NULL, Honda1, Honda2,
 #' Honda3, or Honda4), if applicable
+#' @param comptype The user-selected subset of compounds to search; either "Choose
+#' from all available chemicals" or "Choose from only food relevant chemicals"
 #'
 #' @return A vector of CASRN and compound name pairings for compounds with enough
 #' available data to simulate in httk

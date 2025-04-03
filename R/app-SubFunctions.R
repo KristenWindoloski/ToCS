@@ -226,6 +226,8 @@ CS_UploadedData <- function(){
 #' @description
 #' This function outputs the user interface for the 'Model Conditions' card on the
 #' 'Advanced Parameters' tab of the GUI.
+#' @param ic_names A vector of the compartment identifier name used by httk
+#' @param ic_comps A vector of the written out compartment name
 #'
 #' @return The 'Model Conditions' card which allows the user to select various
 #' different model conditions depending upon the module function chosen
