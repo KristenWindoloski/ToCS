@@ -7,6 +7,11 @@ tab}
 \usage{
 AP_ModelConditions(ic_names, ic_comps)
 }
+\arguments{
+\item{ic_names}{A vector of the compartment identifier name used by httk}
+
+\item{ic_comps}{A vector of the written out compartment name}
+}
 \value{
 The 'Model Conditions' card which allows the user to select various
 different model conditions depending upon the module function chosen

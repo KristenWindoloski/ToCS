@@ -29,6 +29,9 @@ parameters if in vitro data is missing}
 
 \item{honda}{The selected IVIVE assumption (either NULL, Honda1, Honda2,
 Honda3, or Honda4), if applicable}
+
+\item{comptype}{The user-selected subset of compounds to search; either "Choose
+from all available chemicals" or "Choose from only food relevant chemicals"}
 }
 \value{
 A drop down list of preloaded available compounds within ToCS

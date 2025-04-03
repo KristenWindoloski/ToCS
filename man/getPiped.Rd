@@ -12,6 +12,9 @@ to simulate for the user's selected parameters}
 
 \item{honda}{The selected IVIVE assumption (either NULL, Honda1, Honda2,
 Honda3, or Honda4), if applicable}
+
+\item{comptype}{The user-selected subset of compounds to search; either "Choose
+from all available chemicals" or "Choose from only food relevant chemicals"}
 }
 \value{
 A vector of CASRN and compound name pairings for compounds with enough
