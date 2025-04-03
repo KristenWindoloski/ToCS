@@ -366,10 +366,12 @@ DosingPar <- function(dosenum,initdose,multdose,multdosetime,multdoseamount,mult
                                    dosing.matrix=NULL,
                                    forcings = NULL)}
     else if (multdose == "No"){
+      dosemat <- unlist(strsplit(multdoseodd,","))
+      dosemat_final <- sapply(dosemat, function(x) eval(parse(text = x)))
       dosinginfo <- list(initial.dose = NULL,
                                    doses.per.day = NULL,
                                    daily.dose = NULL,
-                                   dosing.matrix = matrix(as.numeric(unlist(strsplit(multdoseodd,","))),
+                                   dosing.matrix = matrix(as.numeric(dosemat_final),
                                                           ncol = 2,
                                                           dimnames = list(c(),c("time","dose"))),
                                    forcings = NULL)}}

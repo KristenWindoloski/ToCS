@@ -473,6 +473,7 @@ modsol <- function(pars){
 #'
 Run_ADME_Model <- function(i,pars){
 
+  print(pars[["dosinginfo"]])
   out <- httk::solve_model(chem.name = pars[["CompoundList"]][i,1],
                            route = pars[["doseroute"]],
                            input.units = pars[["doseunits"]],
