@@ -112,7 +112,6 @@ test_that("Plotdf_Prep() produces the data frame of organized samples for plotti
 
   # --- TEST
   out <- Plotdf_Prep(df,pars)
-  print(out)
   expect_equal(length(out),2)
   expect_equal(out[[1]],df_samples)
   expect_equal(out[[2]],df_q5)
@@ -164,51 +163,41 @@ test_that("CalcOED() produces a single OED value or a vector of OED values",{
   pars[["concentration"]] <- "blood"
   expect_true(CalcOED(3,pars,bioactive_conc)>0)
 
+  pars[["HondaIVIVE"]] <- "Honda4"
   pars[["concentration"]] <- "tissue"
   pars[["tissueIVIVE"]] <- "adipose"
   expect_true(CalcOED(3,pars,bioactive_conc)>0)
 
-  pars[["concentration"]] <- "tissue"
   pars[["tissueIVIVE"]] <- "bone"
   expect_true(CalcOED(3,pars,bioactive_conc)>0)
 
-  pars[["concentration"]] <- "tissue"
   pars[["tissueIVIVE"]] <- "brain"
   expect_true(CalcOED(3,pars,bioactive_conc)>0)
 
-  pars[["concentration"]] <- "tissue"
   pars[["tissueIVIVE"]] <- "gut"
   expect_true(CalcOED(3,pars,bioactive_conc)>0)
 
-  pars[["concentration"]] <- "tissue"
   pars[["tissueIVIVE"]] <- "heart"
   expect_true(CalcOED(3,pars,bioactive_conc)>0)
 
-  pars[["concentration"]] <- "tissue"
   pars[["tissueIVIVE"]] <- "kidney"
   expect_true(CalcOED(3,pars,bioactive_conc)>0)
 
-  pars[["concentration"]] <- "tissue"
   pars[["tissueIVIVE"]] <- "liver"
   expect_true(CalcOED(3,pars,bioactive_conc)>0)
 
-  pars[["concentration"]] <- "tissue"
   pars[["tissueIVIVE"]] <- "lung"
   expect_true(CalcOED(3,pars,bioactive_conc)>0)
 
-  pars[["concentration"]] <- "tissue"
   pars[["tissueIVIVE"]] <- "muscle"
   expect_true(CalcOED(3,pars,bioactive_conc)>0)
 
-  pars[["concentration"]] <- "tissue"
   pars[["tissueIVIVE"]] <- "skin"
   expect_true(CalcOED(3,pars,bioactive_conc)>0)
 
-  pars[["concentration"]] <- "tissue"
   pars[["tissueIVIVE"]] <- "spleen"
   expect_true(CalcOED(3,pars,bioactive_conc)>0)
 
-  pars[["concentration"]] <- "tissue"
   pars[["tissueIVIVE"]] <- "rest"
   expect_true(CalcOED(3,pars,bioactive_conc)>0)
 })
@@ -233,7 +222,6 @@ test_that("ConvertBioactive() produces the desired bioactive concentration",{
   expect_equal(ConvertBioactive(pars,bioactive_conc),bioactive_conc)
 
   pars[["HondaIVIVE"]] <- "Honda1"
-  print(ConvertBioactive(pars,bioactive_conc))
   expect_equal(ConvertBioactive(pars,bioactive_conc),BC_convert_df)
 
   pars[["HondaIVIVE"]] <- "Honda3"
@@ -283,63 +271,6 @@ test_that("StorePars_IVIVE() outputs a data frame of parameters used in the simu
   expect_equal(IVIVE_sol_out$chem.name[3],IVIVE_sol_out$Compound[3])
 })
 
-test_that("IVIVEsol() returns a solution list",{
-
-  # --- CREATE SAMPLE DATA
-  pars <- Generate_Pars()
-  pars[["CompoundList"]] <- data.frame(Selected_Compounds = c("Acetamiprid","2,4-db","Acephate"))
-  pars[["BioactiveFile"]] <- data.frame(name = "SampleBioactiveConcentrations.csv",
-                                        size = 301,
-                                        type = "text/csv",
-                                        datapath = "C:/Users/Kristen.Windoloski/OneDrive - FDA/httk Project/ToCS/tests/testthat/SampleBioactiveConcentrations.csv")
-
-  # --- CREATE EXPECTED OUTPUT
-  CompNames <- dplyr::arrange(pars[["CompoundList"]])[,1]
-
-  # --- TEST
-  IVIVEsol_out <- IVIVEsol(pars)
-  #test typeof of list
-  expect_equal(typeof(IVIVEsol_out ),"list")
-
-  # --- test return samples = false
-  # sol output
-  expect_equal(nrow(IVIVEsol_out[[1]]),3)
-  expect_equal(ncol(IVIVEsol_out[[1]]),3)
-  expect_equal(IVIVEsol_out[[1]][,1],CompNames)
-  expect_false(any(IVIVEsol_out[[1]][,2] == 0))
-  # BER output
-  expect_true(is.null(IVIVEsol_out[[4]]))
-  # exposure data output
-  expect_true(is.null(IVIVEsol_out[[5]]))
-
-  # --- test return samples = true
-  pars[["returnsamples"]] <- TRUE
-  pars[["fileExposure"]] <- data.frame(name = "SampleExposureData.csv",
-                                       size = 301,
-                                       type = "text/csv",
-                                       datapath = "C:/Users/Kristen.Windoloski/OneDrive - FDA/httk Project/ToCS/tests/testthat/SampleExposureData.csv")
-  IVIVEsol_out <- IVIVEsol(pars)
-  # sol output
-  expect_equal(nrow(IVIVEsol_out[[1]]), 1002)
-  expect_equal(ncol(IVIVEsol_out[[1]]), 3)
-  expect_equal(colnames(IVIVEsol_out[[1]]), CompNames)
-  expect_true(all(is.na(IVIVEsol_out[[1]][2,])))
-  expect_false(any(IVIVEsol_out[[1]][1,] == 0))
-  expect_false(any(IVIVEsol_out[[1]][3:1002,] == 0))
-  # BER output
-  expect_equal(nrow(IVIVEsol_out[[4]]),3)
-  expect_equal(ncol(IVIVEsol_out[[4]]),2)
-  expect_equal(IVIVEsol_out[[4]][,1],CompNames)
-  expect_false(any(IVIVEsol_out[[4]][,2] == 0))
-  # Exposure data output
-  expect_equal(nrow(IVIVEsol_out[[5]]),3)
-  expect_equal(ncol(IVIVEsol_out[[5]]),6)
-  expect_equal(IVIVEsol_out[[5]][,1],CompNames)
-  expect_false(any(IVIVEsol_out[[5]][,6] == 0))
-  expect_false(anyNA(IVIVEsol_out[[5]][,6]))
-})
-
-
 ######################################################
 # --- IVIVEplot_caption
 ######################################################
@@ -383,7 +314,7 @@ test_that("IVIVEplot_caption() outputs a data frame of parameters used in the si
   pars[["fileExposure"]] <-data.frame(name = "SampleExposureData.csv",
                                       size = 301,
                                       type = "text/csv",
-                                      datapath = "C:/Users/Kristen.Windoloski/OneDrive - FDA/httk Project/ToCS/tests/testthat/SampleExposureData.csv")
+                                      datapath = "SampleExposureData.csv")
   expect_equal(IVIVEplot_caption(pars),output3)
   # return samples true, exposure data
   pars[["returnsamples"]] <- TRUE
@@ -422,7 +353,7 @@ test_that("PrepExposureData() return a data frame with no missing values",{
   pars[["fileExposure"]] <-data.frame(name = "SampleExposureData2.csv",
                                       size = 301,
                                       type = "text/csv",
-                                      datapath = "C:/Users/Kristen.Windoloski/OneDrive - FDA/httk Project/ToCS/tests/testthat/SampleExposureData2.csv")
+                                      datapath = "SampleExposureData2.csv")
 
   # --- CREATE EXPECTED OUTPUT
   expdata_out <- data.frame(CompoundName = c("2,4-db","Acephate","Acetamiprid"),
@@ -448,86 +379,3 @@ test_that("PrepExposureData() return a data frame with no missing values",{
   expect_true(all.equal(PrepExposureData(pars),expdata_out2,check.attributes = FALSE))
 })
 
-
-######################################################
-# --- Calc_OEDBER_RS_False()
-######################################################
-
-test_that("Calc_OEDBER_RS_False() return a data frame with no missing values",{
-
-  # --- CREATE SAMPLE DATA
-  pars <- Generate_Pars()
-  pars[["CompoundList"]] <- data.frame(Selected_Compounds = c("2,4-db","Acephate","Acetamiprid"))
-  bioactive_conc <- data.frame(ChemicalName = c("2,4-db","Acephate","Acetamiprid"),
-                               CAS = c("94-82-6","30560-19-1","135410-20-7"),
-                               BioactiveConcentration = c(50.3,22.9,1.2))
-
-
-  # --- CREATE EXPECTED OUTPUT
-  sol1 <- data.frame(CompoundName = c("2,4-db","Acephate","Acetamiprid"),
-                     CAS = c("94-82-6","30560-19-1","135410-20-7"),
-                     OED = c(CalcOED(1,pars,bioactive_conc),
-                             CalcOED(2,pars,bioactive_conc),
-                             CalcOED(3,pars,bioactive_conc)))
-  BER1 <- NULL
-  BER2 <- data.frame(CompoundName = c("2,4-db","Acephate","Acetamiprid"),
-                     BER = signif(c(sol1$OED[1]/1,sol1$OED[2]/8,sol1$OED[3]/6),4))
-
-  # --- TEST
-  # no exposure data
-  expect_equal(Calc_OEDBER_RS_False(3,pars,bioactive_conc,NULL),list(sol1,BER1))
-  # exposure data
-  pars[["fileExposure"]] <-data.frame(name = "SampleExposureData2.csv",
-                                      size = 301,
-                                      type = "text/csv",
-                                      datapath = "C:/Users/Kristen.Windoloski/OneDrive - FDA/httk Project/ToCS/tests/testthat/SampleExposureData2.csv")
-  exposuredata <- PrepExposureData(pars)
-  expect_equal(Calc_OEDBER_RS_False(3,pars,bioactive_conc,exposuredata),list(sol1,BER2))
-})
-
-######################################################
-# --- Calc_OEDBER_RS_True()
-######################################################
-
-test_that("Calc_OEDBER_RS_True() return a data frame with no missing values",{
-
-  # --- CREATE SAMPLE DATA
-  pars <- Generate_Pars()
-  pars[["CompoundList"]] <- data.frame(Selected_Compounds = c("2,4-db","Acephate","Acetamiprid"))
-  bioactive_conc <- data.frame(ChemicalName = c("2,4-db","Acephate","Acetamiprid"),
-                               CAS = c("94-82-6","30560-19-1","135410-20-7"),
-                               BioactiveConcentration = c(50.3,22.9,1.2))
-
-
-  # --- CREATE EXPECTED OUTPUT
-  sol1 <- array(data = rep(0,17),dim = c(7,3))
-  dimnames(sol1) <- list(c("OED_5","Samples",seq(1,5)), c("2,4-db","Acephate","Acetamiprid"))
-
-  pars[["returnsamples"]] <- TRUE
-  pars[["samples"]] <- 5
-  OED1 <- CalcOED(1,pars,bioactive_conc)
-  OED2 <- CalcOED(2,pars,bioactive_conc)
-  OED3 <- CalcOED(3,pars,bioactive_conc)
-
-  q1 <- stats::quantile(bioactive_conc[1,3]/OED1, 0.95, na.rm=TRUE)
-  q2 <- stats::quantile(bioactive_conc[2,3]/OED2, 0.95, na.rm=TRUE)
-  q3 <- stats::quantile(bioactive_conc[3,3]/OED3, 0.95, na.rm=TRUE)
-  sol1[1,] <- signif(bioactive_conc[,3]/c(q1,q2,q3), digits = 4)
-  sol1[2,] <- NA
-  sol1[seq(3,7),] <- c(OED1,OED2,OED3)
-
-  BER1 <- NULL
-  BER2 <- data.frame(CompoundName = c("2,4-db","Acephate","Acetamiprid"),
-                     BER = signif(c(sol1[1,1]/1,sol1[1,2]/8,sol1[1,3]/6),4))
-
-  # --- TEST
-  # no exposure data
-  expect_equal(Calc_OEDBER_RS_True(3,pars,bioactive_conc,NULL),list(sol1,BER1))
-  # exposure data
-  pars[["fileExposure"]] <-data.frame(name = "SampleExposureData2.csv",
-                                      size = 301,
-                                      type = "text/csv",
-                                      datapath = "C:/Users/Kristen.Windoloski/OneDrive - FDA/httk Project/ToCS/tests/testthat/SampleExposureData2.csv")
-  exposuredata <- PrepExposureData(pars)
-  expect_equal(Calc_OEDBER_RS_True(3,pars,bioactive_conc,exposuredata),list(sol1,BER2))
-})

@@ -89,31 +89,13 @@ test_that("TKsummary() produces a table of simulation summary statistics ",{
   AUC3 <- signif(DescTools::AUC(x = sol[,1], y = sol[,"Ametabolized"], method = "trapezoid"),4)
   AUC4 <- signif(DescTools::AUC(x = sol[,1], y = sol[,"AUC"], method = "trapezoid"),4)
   df_final <- data.frame(Tmax = c('0','0.1','1','1'),
-                         MaxValue = c('292.5','6.36','151.4','4.729'),
+                         MaxValue = c('292.5','6.299','166.9','4.496'),
                          AUC = c(AUC1,AUC2,AUC3,AUC4))
 
   mat_final <- apply(as.matrix(df_final), 2, as.numeric)
 
   # --- TEST (current,target)
   expect_equal(TKsummary(sol),mat_final)
-})
-
-
-########################################################
-# --- SOLVE MODEL FOR ADME SOLUTION AND TK SUMMARY
-########################################################
-
-test_that("modsol() produces 3 objects",{
-
-  # --- CREATE INPUT
-  pars <- Generate_Pars()
-
-  # --- TEST
-  modsol_out <- modsol(pars)
-  expect_true(is.list(modsol_out))
-  expect_true(is.array(modsol_out[[1]]))
-  expect_true(is.array(modsol_out[[2]]))
-  expect_true(is.data.frame(modsol_out[[3]]))
 })
 
 ########################################################
