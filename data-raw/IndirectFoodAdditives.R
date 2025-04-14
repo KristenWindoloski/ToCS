@@ -13,5 +13,8 @@ IndirectFoodAdditives <- IndirectFoodAdditives[-(1:3),]
 # Assign column names
 colnames(IndirectFoodAdditives) <- df_colnames
 
+# Remove white space in CAS column
+IndirectFoodAdditives$`CAS Registry No. (or other ID)` <- gsub(" ","",IndirectFoodAdditives$`CAS Registry No. (or other ID)`)
+
 # Save data frame to data folder for use in ToCS
 usethis::use_data(IndirectFoodAdditives, overwrite = TRUE)
