@@ -1,7 +1,7 @@
 ---
 title: "Concentration-Time Profile Simulation Examples"
 author: "Kristen Windoloski"
-date: "March 13, 2025"
+date: "April 14, 2025"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Concentration-Time_Profiles}
@@ -28,7 +28,7 @@ This vignette provides three examples that use the ToCS app to generate concentr
 
 <br/><br/>
 
-![The opening interface to the ToCS app.](Introduction to ToCS Vignette Images/GUI_Introduction_GenParsPage.png){width="100%"}
+![The opening interface to the ToCS app.](Introduction_to_ToCS_Vignette_Images/GUI_Introduction_GenParsPage.png){width="100%"}
 
 <br/><br/>
 
@@ -96,7 +96,7 @@ Since the main output we want is concentration-time profiles, we select *Concent
 
 <br/><br/>
 
-![A completed opening interface to the ToCS app.](Concentration-Time Profile Vignette Images/Example1/GUI_CTP_GenParsPage.png){width="100%"}
+![A completed opening interface to the ToCS app.](Concentration-Time_Profile_Vignette_Images/Example1/GUI_CTP_GenParsPage.png){width="100%"}
 
 <br/><br/>
 
@@ -109,7 +109,7 @@ On the *Dosing* card, we leave the first two drop down menus as their default va
 
 <br/><br/>
 
-![The completed model specifications tab for the pbtk model with a single oral dose of 5 mg/kg.](Concentration-Time Profile Vignette Images/Example1/GUI_CTP_ModelSpecEx1.png){width="100%"}
+![The completed model specifications tab for the pbtk model with a single oral dose of 5 mg/kg.](Concentration-Time_Profile_Vignette_Images/Example1/GUI_CTP_ModelSpecEx1.png){width="100%"}
 
 <br/><br/>
 
@@ -119,7 +119,7 @@ Since we want to simulate four compounds (abamectin, bisphenol-a, cyanazine, and
 
 <br/><br/>
 
-![The completed compound selection card for example 1.](Concentration-Time Profile Vignette Images/Example1/GUI_CTP_CompoundSelectEx1_Pic2.png){width="100%"}
+![The completed compound selection card for example 1.](Concentration-Time_Profile_Vignette_Images/Example1/GUI_CTP_CompoundSelectEx1_2.png){width="100%"}
 
 <br/><br/>
 
@@ -134,7 +134,7 @@ All input selections are complete and the correct compounds appear under the *Se
 
 <br/><br/>
 
-![The run simulations tab appearance before the "Run Simulation" button under the *Actions* card is clicked.](Concentration-Time Profile Vignette Images/Example1/GUI_CTP_RunSimEx1_1.png){width="100%"}
+![The run simulations tab appearance before the "Run Simulation" button under the *Actions* card is clicked.](Concentration-Time_Profile_Vignette_Images/Example1/GUI_CTP_RunSimEx1_1.png){width="100%"}
 
 <br/><br/>
 
@@ -142,7 +142,7 @@ The image below shows the first drop down in the *Results* card once the simulat
 
 <br/><br/>
 
-![The multi-curve plot output and download option for example 1.](Concentration-Time Profile Vignette Images/Example1/GUI_CTP_RunSimEx1_2.png){width="100%"}
+![The multi-curve plot output and download option for example 1.](Concentration-Time_Profile_Vignette_Images/Example1/GUI_CTP_RunSimEx1_2.png){width="100%"}
 
 <br/><br/>
 
@@ -150,7 +150,7 @@ The second drop down in the *Results* card, as seen below, shows the user the sa
 
 <br/><br/>
 
-![The individual plots output and download option for example 1.](Concentration-Time Profile Vignette Images/Example1/GUI_CTP_RunSimEx1_3.png){width="100%"}
+![The individual plots output and download option for example 1.](Concentration-Time_Profile_Vignette_Images/Example1/GUI_CTP_RunSimEx1_3.png){width="100%"}
 
 <br/><br/>
 
@@ -158,7 +158,7 @@ The third drop down in the *Results* card allows the user to download the time c
 
 <br/><br/>
 
-![The simulation data download feature for example 1.](Concentration-Time Profile Vignette Images/Example1/GUI_CTP_RunSimEx1_4.png){width="100%"}
+![The simulation data download feature for example 1.](Concentration-Time_Profile_Vignette_Images/Example1/GUI_CTP_RunSimEx1_4.png){width="100%"}
 
 <br/><br/>
 
@@ -166,7 +166,7 @@ Opening the bottom drop down in the *Results* card shows a toxicokinetic summary
 
 <br/><br/>
 
-![The toxicokinetic (TK) summary drop down table for example 1.](Concentration-Time Profile Vignette Images/Example1/GUI_CTP_RunSimEx1_5.png){width="100%"}
+![The toxicokinetic (TK) summary drop down table for example 1.](Concentration-Time_Profile_Vignette_Images/Example1/GUI_CTP_RunSimEx1_5.png){width="100%"}
 
 <br/><br/>
 
@@ -186,7 +186,7 @@ As with example 1, we select *Concentration-time profiles* as the desired output
 
 <br/><br/>
 
-![The opening interface to the ToCS app for example 2.](Concentration-Time Profile Vignette Images/Example2/GUI_CTP_GenParsPageEx2.png){width="100%"}
+![The opening interface to the ToCS app for example 2.](Concentration-Time_Profile_Vignette_Images/Example2/GUI_CTP_GenParsPageEx2.png){width="100%"}
 
 <br/><br/>
 
@@ -196,7 +196,7 @@ On the *Dosing* card, we again leave the first two drop down menus at their defa
 
 On the *Model* card, we select *3compartment* model under the first drop down menu. For the second drop down menu, we select *No* since we do not want to use in silico generated parameters. Finally, we enter *3* in the final box under the *Model* card since we want to run the simulation for three days. Therefore, the final interface of the *Model Specifications* tab should look like the image below.
 
-![The completed model specifications tab for example 2.](Concentration-Time Profile Vignette Images/Example2/GUI_CTP_ModelSpecEx2.png){width="100%"}
+![The completed model specifications tab for example 2.](Concentration-Time_Profile_Vignette_Images/Example2/GUI_CTP_ModelSpecEx2.png){width="100%"}
 
 ### Compound Selection Tab
 
@@ -207,7 +207,7 @@ We first try to search for the compounds we desire to simulate by keeping the fi
 ```{r echo = FALSE, results='asis'}
 library(knitr)
 library(kableExtra)
-SampleChemsToUpload <- read.csv("Sample CSV Files/CSV_CTPvignette.csv")
+SampleChemsToUpload <- read.csv("Sample_CSV_Files/CSV_CTPvignette.csv")
 kable(SampleChemsToUpload, caption = "A csv file with chemical information for titanium dioxide and advantame. Data other than the chemical identifiers and molecular weight (MW) are fictional.") %>%    kable_styling() %>%
   scroll_box(width = "100%")
 ```
@@ -218,7 +218,7 @@ Once we have the three compounds selected under the *Preloaded Compounds* card a
 
 <br/><br/>
 
-![The completed compound selection tab for example 2.](Concentration-Time Profile Vignette Images/Example2/GUI_CTP_CompSelectEx2.png){width="100%"}
+![The completed compound selection tab for example 2.](Concentration-Time_Profile_Vignette_Images/Example2/GUI_CTP_CompSelectEx2.png){width="100%"}
 
 <br/><br/>
 
@@ -228,7 +228,7 @@ Suppose that we want to customize parameters other than just the basic simulatio
 
 <br/><br/>
 
-![The completed advanced parameters tab for example 2.](Concentration-Time Profile Vignette Images/Example2/GUI_CTP_AdvParEx2.png){width="100%"}
+![The completed advanced parameters tab for example 2.](Concentration-Time_Profile_Vignette_Images/Example2/GUI_CTP_AdvParEx2.png){width="100%"}
 
 <br/><br/>
 
@@ -238,7 +238,7 @@ Now that we've filled out all simulation information and the correct compounds a
 
 <br/><br/>
 
-![The multi-curve time course plot for example 2.](Concentration-Time Profile Vignette Images/Example2/GUI_CTP_RunSimEx2_2.png){width="100%"}
+![The multi-curve time course plot for example 2.](Concentration-Time_Profile_Vignette_Images/Example2/GUI_CTP_RunSimEx2_2.png){width="100%"}
 
 <br/><br/>
 
@@ -246,7 +246,7 @@ By closing the *Multi-Curve Time Course Plot* drop down, we view the *Individual
 
 <br/><br/>
 
-![The individual time course plots for example 2.](Concentration-Time Profile Vignette Images/Example2/GUI_CTP_RunSimEx2_3.png){width="100%"}
+![The individual time course plots for example 2.](Concentration-Time_Profile_Vignette_Images/Example2/GUI_CTP_RunSimEx2_3.png){width="100%"}
 
 <br/><br/>
 
@@ -254,11 +254,11 @@ The final image below shows the user's option to download the simulation results
 
 <br/><br/>
 
-![The time course data download and simulation parameter data tab for example 2.](Concentration-Time Profile Vignette Images/Example2/GUI_CTP_RunSimEx2_4.png){width="100%"}
+![The time course data download and simulation parameter data tab for example 2.](Concentration-Time_Profile_Vignette_Images/Example2/GUI_CTP_RunSimEx2_4.png){width="100%"}
 
 <br/><br/>
 
-![The TK summary data tab for example 2.](Concentration-Time Profile Vignette Images/Example2/GUI_CTP_RunSimEx2_5.png){width="100%"}
+![The TK summary data tab for example 2.](Concentration-Time_Profile_Vignette_Images/Example2/GUI_CTP_RunSimEx2_5.png){width="100%"}
 
 <br/><br/>
 
@@ -275,7 +275,7 @@ As with the previous examples, we select *Concentration-time profiles* as the de
 
 <br/><br/>
 
-![The completed general parameters tab for example 3.](Concentration-Time Profile Vignette Images/Example3/GUI_CTP_GenParsEx3.png){width="100%"}
+![The completed general parameters tab for example 3.](Concentration-Time_Profile_Vignette_Images/Example3/GUI_CTP_GenParsEx3.png){width="100%"}
 
 <br/><br/>
 
@@ -287,7 +287,7 @@ Under the *Model* card, we select *1compartment* for the first drop down menu. F
 
 <br/><br/>
 
-![The completed model specifications tab for example 3.](Concentration-Time Profile Vignette Images/Example3/GUI_CTP_ModelSpecEx3.png){width="100%"}
+![The completed model specifications tab for example 3.](Concentration-Time_Profile_Vignette_Images/Example3/GUI_CTP_ModelSpecEx3.png){width="100%"}
 
 <br/><br/>
 
@@ -297,7 +297,7 @@ Because we are loading all in silico generated parameters into ToCS, the *Preloa
 
 <br/><br/>
 
-![The completed compound selection tab for example 3.](Concentration-Time Profile Vignette Images/Example3/GUI_CTP_CompSelectEx3.png){width="100%"}
+![The completed compound selection tab for example 3.](Concentration-Time_Profile_Vignette_Images/Example3/GUI_CTP_CompSelectEx3.png){width="100%"}
 
 <br/><br/>
 
@@ -309,7 +309,7 @@ Since we want to output the solution at every hour, we add a list of output time
 
 <br/><br/>
 
-![The completed advanced parameters tab for example 3.](Concentration-Time Profile Vignette Images/Example3/GUI_CTP_AdvParsEx3.png){width="100%"}
+![The completed advanced parameters tab for example 3.](Concentration-Time_Profile_Vignette_Images/Example3/GUI_CTP_AdvParsEx3.png){width="100%"}
 
 <!-- 0,1/24,2/24,3/24,4/24,5/24,0.25,7/24,8/24,9/24,10/24,11/24,0.5,13/24,14/24,15/24,16/24,17/24,0.75,19/24,20/24,21/24,22/24,23/24,1,25/24,26/24,27/24,28/24,29/24,1.25,31/24,32/24,33/24,34/24,35/24,1.5,37/24,38/24,39/24,40/24,41/24,1.75,43/24,44/24,45/24,46/24,47/24,2 -->
 
@@ -324,7 +324,7 @@ Now that all previous tabs are completed and the three compounds we want to simu
 
 <br/><br/>
 
-![The multi-curve time course plot tab results for example 3.](Concentration-Time Profile Vignette Images/Example3/GUI_CTP_RunSimEx3_2.png){width="100%"}
+![The multi-curve time course plot tab results for example 3.](Concentration-Time_Profile_Vignette_Images/Example3/GUI_CTP_RunSimEx3_2.png){width="100%"}
 
 <br/><br/>
 
@@ -332,7 +332,7 @@ Below, we see the results for the individual time course plots drop down menu. T
 
 <br/><br/>
 
-![The individual time course plots tab results for example 3.](Concentration-Time Profile Vignette Images/Example3/GUI_CTP_RunSimEx3_3.png){width="100%"}
+![The individual time course plots tab results for example 3.](Concentration-Time_Profile_Vignette_Images/Example3/GUI_CTP_RunSimEx3_3.png){width="100%"}
 
 <br/><br/>
 
@@ -340,7 +340,7 @@ The two final tabs shown in the image below give the user the options to downloa
 
 <br/><br/>
 
-![The time course data and TK summary data tab results for example 3.](Concentration-Time Profile Vignette Images/Example3/GUI_CTP_RunSimEx3_4.png){width="100%"}
+![The time course data and TK summary data tab results for example 3.](Concentration-Time_Profile_Vignette_Images/Example3/GUI_CTP_RunSimEx3_4.png){width="100%"}
 
 <br/><br/>
 
