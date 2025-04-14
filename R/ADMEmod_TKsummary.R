@@ -77,7 +77,7 @@ ADME_TKTable_server <- function(id,adme_args){
     #--- Downloads TK data summary as a CSV
     output$downloadTK <- shiny::downloadHandler(
       filename = function(){paste("tkdata-",Sys.Date(),".csv", sep = "")},
-      content = function(file){write.csv(sol()[[2]], file)})
+      content = function(file){utils::write.csv(sol()[[2]], file)})
 
   })
 }

@@ -21,7 +21,7 @@
 #' exposure ratios (BER), and a data frame with user-uploaded exposure data
 #' @seealso [IVIVE_server()], which calls the current function and
 #' [ConvertBioactive()], [PrepExposureData()], [Calc_OEDBER_RS_False()],
-#' [Calc_OEDBER_RS_True()], and [StoreIVIVE_Pars()], which the current function
+#' [Calc_OEDBER_RS_True()], and [StorePars_IVIVE()], which the current function
 #' calls.
 #' @export
 #'
@@ -29,7 +29,7 @@ IVIVEsol <- function(pars){
 
   # --- PROCESS BIOACTIVE CONCENTRATIONS FILE
   file <- pars[["BioactiveFile"]]
-  bioactive <- read.csv(file$datapath)
+  bioactive <- utils::read.csv(file$datapath)
 
   # --- REARRANGE ROWS OF BIOACTIVE FILE TO BE IN SAME ORDER AS COMPOUNDS FILE
     # --- CONVERT BIOACTIVE CONCENTRATION IF HONDA1 IS SELECTED
@@ -369,12 +369,12 @@ OEDPoint_Exposure_Plot <- function(OED_data,expdata,y_exp,title_exp){
   OED_data$Upper <- OED_data$OED + 1e-8
   OED_data$Lower <- OED_data$OED - 1e-8
   OED_data$Type <- "OED"
-  OED_data <- OED_data %>% dplyr::relocate(OED, .after = Upper)
+  OED_data <-  magrittr::`%>%`(OED_data, dplyr::relocate(OED, .after = Upper))
   names(OED_data)[names(OED_data) == "OED"] <- "Median"
 
   # --- TRANSFORM EXPOSURE DATA INTO NEEDED FORMAT
   expdata$Type <- "Exposure"
-  expdata <- expdata %>% dplyr::select(-c("maxval"))
+  expdata <- magrittr::`%>%`(expdata, dplyr::select(-c("maxval")))
   expdata <- FillExposureData(expdata)
 
   combined_df <- rbind(OED_data,expdata)
@@ -682,7 +682,7 @@ Plotdf_Prep <- function(df,pars){
   }
 
   OED_Samples_df <- data.frame(CompoundName = ChemNames, CAS = CASvalues, OED = OEDvalues)
-  OED_Samples_df <- na.omit(OED_Samples_df)
+  OED_Samples_df <- stats::na.omit(OED_Samples_df)
 
   # --- ARRANGE LEVELS OF DATA FRAME BASED ON THE MEDIAN SAMPLE OED OF EACH COMPOUND
   OED_Samples_df_rearr <- dplyr::mutate(OED_Samples_df,
@@ -764,7 +764,7 @@ PrepExposureData <- function(pars){
 
     # --- LOAD EXPOSURE DATA
     fileExposure <- pars[["fileExposure"]]
-    exposuredata <- read.csv(fileExposure$datapath)
+    exposuredata <- utils::read.csv(fileExposure$datapath)
 
     # --- REARRANGE ROWS OF EXPOSURE DATA FILE TO BE IN SAME ORDER AS COMPOUNDS FILE
     df <- chem.physical_and_invitro.data[chem.physical_and_invitro.data$Compound %in% pars[["CompoundList"]][,1],]
@@ -779,10 +779,10 @@ PrepExposureData <- function(pars){
       exposuredata$Upper <- signif((1000*exposuredata$Upper)/exposuredata$MW,4)
       exposuredata$Median <- signif((1000*exposuredata$Median)/exposuredata$MW,4)
       exposuredata$Lower <- signif((1000*exposuredata$Lower)/exposuredata$MW,4)
-      exposuredata <- exposuredata %>% dplyr::select(-c(MW))
+      exposuredata <- magrittr::`%>%`(exposuredata, dplyr::select(-c(MW)))
     }
 
-    exposuredata_trimmed <- exposuredata %>% dplyr::select(-c(ChemicalName,CAS))
+    exposuredata_trimmed <- magrittr::`%>%`(exposuredata, dplyr::select(-c(ChemicalName,CAS)))
 
     # --- FIND UPPER EXPOSURE ESTIMATE FOR EACH CHEMICAL
     exposuredata$maxval <- apply(exposuredata_trimmed, 1, max, na.rm=TRUE)
@@ -824,7 +824,7 @@ Calc_OEDBER_RS_False <- function(n,pars,bioactive_conc,exposuredata){
                     OED = rep(0,n))
   shiny::withProgress(message = "Computation in progress. Please wait.", value = 0, {
     for (i in 1:n) {
-      incProgress(1/n, detail = paste("Generating the OED for chemical", i))
+      shiny::incProgress(1/n, detail = paste("Generating the OED for chemical", i))
       sol[i,3] <- CalcOED(i,pars,bioactive_conc)
     }
 
@@ -880,7 +880,7 @@ Calc_OEDBER_RS_True <- function(n,pars,bioactive_conc,exposuredata){
 
     for (i in 1:n) {
 
-      incProgress(1/n, detail = paste("Generating the OEDs for chemical", i))
+      shiny::incProgress(1/n, detail = paste("Generating the OEDs for chemical", i))
 
       OED <- CalcOED(i,pars,bioactive_conc)
 
@@ -935,7 +935,7 @@ FillExposureData <- function(exposure_df){
   for (i in dup_rows) {
     if (is.na(exposure_df$Lower[i]) && is.na(exposure_df$Median[i]) && !is.na(exposure_df$Upper[i])){
       exposure_df$Lower[i] <- exposure_df$Upper[i] - 1e-12
-      exposure_df$Median[i] <- median(c(exposure_df$Upper[i],exposure_df$Lower[i]))
+      exposure_df$Median[i] <- stats::median(c(exposure_df$Upper[i],exposure_df$Lower[i]))
     }
     else if (is.na(exposure_df$Lower[i]) && !is.na(exposure_df$Median[i]) && is.na(exposure_df$Upper[i])){
       exposure_df$Lower[i] <- exposure_df$Median[i] - 1e-12
@@ -943,7 +943,7 @@ FillExposureData <- function(exposure_df){
     }
     else if (!is.na(exposure_df$Lower[i]) && is.na(exposure_df$Median[i]) && is.na(exposure_df$Upper[i])){
       exposure_df$Upper[i] <- exposure_df$Lower[i] + 1e-12
-      exposure_df$Median[i] <- median(c(exposure_df$Upper[i],exposure_df$Lower[i]))
+      exposure_df$Median[i] <- stats::median(c(exposure_df$Upper[i],exposure_df$Lower[i]))
     }
   }
 
@@ -954,7 +954,7 @@ FillExposureData <- function(exposure_df){
       exposure_df$Lower[j] <- exposure_df$Median[j] - 1e-12
     }
     else if (is.na(exposure_df$Median[j])){
-      exposure_df$Median[j] <- median(c(exposure_df$Upper[j],exposure_df$Lower[j]))
+      exposure_df$Median[j] <- stats::median(c(exposure_df$Upper[j],exposure_df$Lower[j]))
     }
     else if (is.na(exposure_df$Upper[j])){
       exposure_df$Upper[j] <- exposure_df$Median[j] + 1e-12

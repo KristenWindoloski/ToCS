@@ -84,7 +84,7 @@ validate_text_Common <- function(pars){
   if (!is.null(pars[["file1"]])){
 
     # --- PROCESS UPLOADED DATA
-    file_df <- read.csv(pars[["file1"]]$datapath)
+    file_df <- utils::read.csv(pars[["file1"]]$datapath)
     file_df[file_df == ""] <- NA
 
     # --- CHECK FOR CORRECT COLUMN NAMES AND COLUMN ORDER
@@ -179,7 +179,7 @@ validate_text_Common <- function(pars){
     httkdata_datatypes <- unname(sapply(chem.physical_and_invitro.data,class))
 
     # --- EXTRACT COLUMNS THAT ARE SUPPOSED TO BE ONLY CHARACTERS
-    file_df_ref <- file_df %>% dplyr::select(dplyr::contains("reference"))
+    file_df_ref <- magrittr::`%>%`(file_df, dplyr::select(dplyr::contains("reference")))
     df_non_ref <- file_df[,c("Compound","CAS","DTXSID","Formula","All.Compound.Names","All.Species","Chemical.Class")]
     char_only_df <- cbind(df_non_ref,file_df_ref)
 
@@ -218,7 +218,7 @@ validate_text_Common <- function(pars){
 #'
 #' @return A blank error message to the user that halts computation until the
 #' user fixes the input error.
-#' @seealso [ADME_server()] and [ADME_TCData_Server()], which call the current
+#' @seealso [ADME_server()] and [ADME_TCData_server()], which call the current
 #' function, and [names_ICs()] and [adme_ic_errormess()], which the current
 #' function calls
 #' @export
@@ -321,7 +321,7 @@ validate_text_IVIVE <- function(pars){
   }
   if (!is.null(pars[["BioactiveFile"]])){
 
-    file_df <- read.csv(pars[["BioactiveFile"]]$datapath)
+    file_df <- utils::read.csv(pars[["BioactiveFile"]]$datapath)
     file_df[file_df == ""] <- NA
 
     # --- CHECK FOR CORRECT COLUMN ORDER
@@ -372,7 +372,7 @@ validate_text_IVIVE <- function(pars){
   if (!is.null(pars[["fileExposure"]])){
 
     # --- PROCESS UPLOADED DATA
-    file_df <- read.csv(pars[["fileExposure"]]$datapath)
+    file_df <- utils::read.csv(pars[["fileExposure"]]$datapath)
     file_df[file_df == ""] <- NA
 
     # --- CHECK FOR CORRECT COLUMN NAMES AND ORDER

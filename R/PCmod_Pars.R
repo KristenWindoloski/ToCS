@@ -49,6 +49,6 @@ PC_Pars_server <- function(id,pc_args){
     #--- Downloads table
     output$downloadSimPars <- shiny::downloadHandler(
       filename = function(){paste("ParameterSimData-",Sys.Date(),".csv", sep = "")},
-      content = function(file){write.csv(sol()[[3]], file)})
+      content = function(file){utils::write.csv(sol()[[3]], file)})
   })
 }

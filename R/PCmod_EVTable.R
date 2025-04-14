@@ -72,6 +72,6 @@ PC_EVTable_server <- function(id, pc_args){
     #--- Downloads table
     output$downloadPartable <- shiny::downloadHandler(
       filename = function(){paste("Pardata-",Sys.Date(),".csv", sep = "")},
-      content = function(file){write.csv(sol()[[1]], file)})
+      content = function(file){utils::write.csv(sol()[[1]], file)})
   })
 }

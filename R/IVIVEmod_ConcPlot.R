@@ -46,7 +46,7 @@ IVIVE_Plot_ui <- function(id){
 #'
 IVIVE_Plot_server <- function(id,ivive_args){
 
-  moduleServer(id, function(input, output, session) {
+  shiny::moduleServer(id, function(input, output, session) {
 
     #--- Reactives set to be used
     sol <- shiny::reactive({ivive_args()[[1]]})

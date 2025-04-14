@@ -881,7 +881,7 @@ Run_Simulation <- function(parent_adme_iv,
     }
     else {
       Notify_ParError()
-      req(parent_adme_iv$is_valid())
+      shiny::req(parent_adme_iv$is_valid())
     }
   }
   else if (input$func == "Steady state concentrations"){
@@ -890,7 +890,7 @@ Run_Simulation <- function(parent_adme_iv,
     }
     else {
       Notify_ParError()
-      req(parent_ss_iv$is_valid())
+      shiny::req(parent_ss_iv$is_valid())
     }
   }
   else if (input$func == "In vitro in vivo extrapolation (IVIVE)"){
@@ -900,7 +900,7 @@ Run_Simulation <- function(parent_adme_iv,
     }
     else {
       Notify_ParError()
-      req(parent_ivive_iv$is_valid())
+      shiny::req(parent_ivive_iv$is_valid())
     }
   }
   else if (input$func == "Parameter calculations"){

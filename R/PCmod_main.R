@@ -64,7 +64,7 @@ PC_ui <- function(id) {
 #' @return The five server outputs that fill the main Parameter Calculations
 #' user interface function consisting of two plots, two tables, and a download
 #' button of simulation parameters of Parameter Calculation results
-#' @seealso [validate_text_pc()], [Parsol()], [PC_EVPlot_server()], [PC_EVTable_server()],
+#' @seealso [validate_text_PC()], [Parsol()], [PC_EVPlot_server()], [PC_EVTable_server()],
 #' [PC_PCPlot_server()], [PC_PCTable_server()], and [PC_Pars_server()], which
 #' are all called by this function, and [Run_Simulation()], which calls the
 #' current function

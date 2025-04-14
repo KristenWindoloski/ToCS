@@ -263,9 +263,6 @@ selectInput_CompPreference <- function(id){
 #' and [getPiped()], wich the current function calls
 #' @export
 #'
-#' @examples PreloadCompsInput("Concentration-time profiles","Human","Yes","No, do not load in silico parameters","pbtk","NULL")
-#' PreloadCompsInput("In vitro in vivo extrapolation (IVIVE)","Human","Yes","Yes, load in silico parameters","3compartmentss","Honda1")
-#'
 PreloadCompsInput <- function(func,species,defaulthuman,insilico,model,honda,comptype){
 
   # --- Reset the chem.physical_and_invitro.data table in case any
@@ -279,15 +276,15 @@ PreloadCompsInput <- function(func,species,defaulthuman,insilico,model,honda,com
     shiny::withProgress(message = "Loading the the of available chemicals to simulate under the 'Preloaded Compounds' card. Please wait.",
                         value = 0, {
 
-      incProgress(1/5, detail = paste("Loading in silico parameter set", 1))
+      shiny::incProgress(1/5, detail = paste("Loading in silico parameter set", 1))
       httk::load_sipes2017(overwrite = FALSE)
-      incProgress(1/5, detail = paste("Loading in silico parameter set", 2))
+      shiny::incProgress(1/5, detail = paste("Loading in silico parameter set", 2))
       httk::load_pradeep2020(overwrite = FALSE)
-      incProgress(1/5, detail = paste("Loading in silico parameter set", 3))
+      shiny::incProgress(1/5, detail = paste("Loading in silico parameter set", 3))
       httk::load_dawson2021(overwrite = FALSE)
-      incProgress(1/5, detail = paste("Loading in silico parameter set", 4))
+      shiny::incProgress(1/5, detail = paste("Loading in silico parameter set", 4))
       httk::load_honda2023(overwrite = FALSE)
-      incProgress(1/5, detail = paste("All in silico parameter sets loaded"))
+      shiny::incProgress(1/5, detail = paste("All in silico parameter sets loaded"))
       })
   }
 
@@ -400,15 +397,15 @@ getPiped <- function(CASnums,honda,comptype){
   else{
 
     if (comptype == "Choose from only food relevant chemicals"){
-      FoodCAS <- unique(c(DirectFoodAdditives$CAS.Reg.No..or.other.ID.,IndirectFoodAdditives$CAS.Registry.No...or.other.ID.))
+      FoodCAS <- unique(c(DirectFoodAdditives$`CAS Reg No (or other ID)`,IndirectFoodAdditives$`CAS Registry No. (or other ID)`))
       CASnums <- CASnums[CASnums %in% FoodCAS]
     }
 
     if (honda == "Honda1"){
-      chemlist <- httk::chem.physical_and_invitro.data %>% dplyr::filter(CAS %in% CASnums,
-                                                                  !is.na(logHenry),
-                                                                  !is.na(httk::chem.physical_and_invitro.data$logWSol),
-                                                                  !is.na(httk::chem.physical_and_invitro.data$MP))
+      chemlist <- magrittr::`%>%`(httk::chem.physical_and_invitro.data, dplyr::filter(CAS %in% CASnums,
+                                                                                      !is.na(logHenry),
+                                                                                      !is.na(httk::chem.physical_and_invitro.data$logWSol),
+                                                                                      !is.na(httk::chem.physical_and_invitro.data$MP)))
       piped <- paste(chemlist$CAS, chemlist$Compound, sep = ", ")
     }
     else {

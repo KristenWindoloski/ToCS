@@ -48,7 +48,7 @@ CompoundList <- function(preload_comp, uploaded_comps){
   else{
 
     # Load in uploaded compounds
-    compounds_file <- read.csv(uploaded_comps$datapath)
+    compounds_file <- utils::read.csv(uploaded_comps$datapath)
 
     # Set as data frames to combine rows later
     preload_df <- data.frame(Selected_Compounds = compounds_preload)

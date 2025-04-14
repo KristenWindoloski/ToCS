@@ -55,7 +55,7 @@ UploadComps_Check <- function(value,input){
   if (!is.null(value)){
 
     # --- PROCESS UPLOADED DATA
-    file_df <- read.csv(value$datapath)
+    file_df <- utils::read.csv(value$datapath)
     file_df[file_df == ""] <- NA
 
     # --- CHECK FOR CORRECT COLUMN NAMES AND COLUMN ORDER
@@ -224,7 +224,7 @@ DataInputType <- function(file,column_names){
   httkdata_datatypes <- unname(sapply(chem.physical_and_invitro.data,class))
 
   # --- EXTRACT COLUMNS THAT ARE SUPPOSED TO BE ONLY CHARACTERS
-  file_df_ref <- file %>% dplyr::select(dplyr::contains("reference"))
+  file_df_ref <- magrittr::`%>%`(file, dplyr::select(dplyr::contains("reference")))
   df_non_ref <- file[,c("Compound","CAS","DTXSID","Formula","All.Compound.Names","All.Species","Chemical.Class")]
   char_only_df <- cbind(df_non_ref,file_df_ref)
 
@@ -502,7 +502,7 @@ BioUpload_Check <- function(value,input){
   if (!is.null(value)){
 
     # --- PROCESS UPLOADED DATA
-    file_df <- read.csv(value$datapath)
+    file_df <- utils::read.csv(value$datapath)
     file_df[file_df == ""] <- NA
 
     # --- CHECK FOR CORRECT COLUMN NAMES AND ORDER
@@ -585,7 +585,7 @@ ExposureUpload_Check <- function(value,input){
   if (!is.null(value)){
 
     # --- PROCESS UPLOADED DATA
-    file_df <- read.csv(value$datapath)
+    file_df <- utils::read.csv(value$datapath)
     file_df[file_df == ""] <- NA
 
     # --- CHECK FOR CORRECT COLUMN NAMES AND ORDER

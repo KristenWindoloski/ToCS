@@ -18,7 +18,7 @@
 #' @return Various server outputs
 #' @seealso [Model_Input()], [PreloadComps_UI()], [CompileCompLst()], [UpdateInputs()],
 #' [GatherInputVars()], [InputRules_Children()], [InputRules_Parents()], and
-#' [RunSimulation()]
+#' [Run_Simulation()]
 #' @export
 #'
 #' @examples server(input, output, session)
@@ -55,7 +55,7 @@ app_server <- function(input, output, session) {
   UpdateInputs(input,session)
 
   # --- GATHER ALL INPUT VARIABLES
-  AllInputs <- eventReactive(input$runsim,{GatherInputVars(input,CompLst())})
+  AllInputs <- shiny::eventReactive(input$runsim,{GatherInputVars(input,CompLst())})
 
   # --- DEFINE INPUT ERRORS FOR EACH MODULE
   iv_common <- shinyvalidate::InputValidator$new()

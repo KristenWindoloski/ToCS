@@ -73,21 +73,21 @@ SS_ConcTable_server <- function(id, ss_args){
     #--- Creates download button
     output$downloadSStable_cond <- shiny::renderUI({
       shiny::req(sol(), runsim())
-      downloadButton(session$ns("downloadSS"), "Download Table 1")})
+      shiny::downloadButton(session$ns("downloadSS"), "Download Table 1")})
 
     #--- Downloads SS table
     output$downloadSS <- shiny::downloadHandler(
       filename = function(){paste("SteadyStateData-",Sys.Date(),".csv", sep = "")},
-      content = function(file){write.csv(sol()[[1]], file)})
+      content = function(file){utils::write.csv(sol()[[1]], file)})
 
     #--- Creates download button
     output$downloadSStable_pars <- shiny::renderUI({
       shiny::req(sol(), runsim())
-      downloadButton(session$ns("downloadSSpars"), "Download Simulation Parameters")})
+      shiny::downloadButton(session$ns("downloadSSpars"), "Download Simulation Parameters")})
 
     #--- Downloads SS simulation parameters
     output$downloadSSpars <- shiny::downloadHandler(
       filename = function(){paste("SteadyStatePars-",Sys.Date(),".csv", sep = "")},
-      content = function(file){write.csv(sol()[[3]], file)})
+      content = function(file){utils::write.csv(sol()[[3]], file)})
   })
 }

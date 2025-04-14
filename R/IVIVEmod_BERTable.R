@@ -72,7 +72,7 @@ BER_Table_server <- function(id,ivive_args){
       #--- Downloads table of BER values
       output$downloadBER <- shiny::downloadHandler(
         filename = function(){paste("BERData-",Sys.Date(),".csv", sep = "")},
-        content = function(file){write.csv(sol()[[4]], file)})
+        content = function(file){utils::write.csv(sol()[[4]], file)})
     }
     else{
       output$BERtableCaption <- shiny::renderText({

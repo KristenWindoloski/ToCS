@@ -244,7 +244,7 @@ Set_Individ_Plot <- function(individ_plt_lst,n_states){
 #'
 #' @return A list that contains other lists. Each list element makes up one full
 #' plotting figure for one compound (i.e. a plot with subplots).
-#' @seealso [Create_Individ_Subplot()] and [Set_Indvid_Plot()], which the current
+#' @seealso [Create_Individ_Subplot()] and [Set_Individ_Plot()], which the current
 #' function calls. [ADME_IndPlt_server()], which calls the current function.
 #' @export
 #'
@@ -272,7 +272,7 @@ plottingfunc_individual <- function(sol_array, plt_colors){
     for (i in 1:num_compounds) {
 
       # --- Increment the progress bar and update detail text
-      incProgress(1/num_compounds, detail = paste("Generating plot for chemical", i))
+      shiny::incProgress(1/num_compounds, detail = paste("Generating plot for chemical", i))
 
       # --- Extract model solution for compound i and create blank plot list
       comp_sol <- as.data.frame(sol_array[,,i], col.names = col_names)
@@ -394,7 +394,7 @@ TKsummary <- function(modsol) {
 #' profile solution, a matrix of the toxicokinetic summary, and a data frame of
 #' simulation parameters and physical-chemical data for compounds used in the
 #' simulation
-#' @seealso [Run_Model_ADME()]
+#' @seealso [Run_ADME_Model()]
 #' [SetArraySize()]
 #' [TKsummary()]
 #' [AssignArrayNames()]
@@ -414,7 +414,7 @@ modsol <- function(pars){
     for (i in 1:n) {
 
       # --- Increment the progress bar and update detail text
-      incProgress(1/n, detail = paste("Generating the concentration-time profile for chemical", i))
+      shiny::incProgress(1/n, detail = paste("Generating the concentration-time profile for chemical", i))
 
       # --- Solve model for compound i
       modsolution <- Run_ADME_Model(i,pars)
@@ -473,7 +473,6 @@ modsol <- function(pars){
 #'
 Run_ADME_Model <- function(i,pars){
 
-  print(pars[["dosinginfo"]])
   out <- httk::solve_model(chem.name = pars[["CompoundList"]][i,1],
                            route = pars[["doseroute"]],
                            input.units = pars[["doseunits"]],
@@ -523,7 +522,7 @@ Run_ADME_Model <- function(i,pars){
 #' @return The trimmed solution matrix with less columns than sol; All columns
 #' after the AUC column are removed if the model is not "fetal_pbtk" and if the
 #' model is "fetal_pbtk", then all columns after Qthyroid are removed.
-#' @seealso [Run_ADME_model()], which calls the current function
+#' @seealso [Run_ADME_Model()], which calls the current function
 #' @export
 #'
 RemoveCols <- function(sol,model){

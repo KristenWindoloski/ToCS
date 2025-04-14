@@ -61,7 +61,7 @@ ADME_TCData_server <- function(id,adme_args){
     #--- Downloads time-course simulation data
     output$downloadADME <- shiny::downloadHandler(
       filename = function(){paste("ADMEdata-",Sys.Date(),".csv", sep = "")},
-      content = function(file){write.csv(sol()[[1]], file)})
+      content = function(file){utils::write.csv(sol()[[1]], file)})
 
     #--- Creates download button
     output$downloadADME_pars <- shiny::renderUI({

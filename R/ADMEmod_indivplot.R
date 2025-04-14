@@ -76,7 +76,7 @@ ADME_IndPlt_server <- function(id,adme_args){
 
     #--- Creates the user interface adaptable to the number of plots needed
     #--- and outputs the names of the plots needed
-    output$plots <- renderUI({
+    output$plots <- shiny::renderUI({
 
         n <- num_ADMEplots()
         individ_plt_name_lst <- list()
@@ -89,7 +89,7 @@ ADME_IndPlt_server <- function(id,adme_args){
 
     #--- Outputs warning if more than 20 compounds are asked for
     #--- Will only return the first 20 plots
-    output$plottextWarning <- renderText({
+    output$plottextWarning <- shiny::renderText({
       if (length(ADME2plots_list()) > 20){
         paste("Maximum number of individual compound plots reached. Only the first 20 will be plotted below.
               Please click the 'Download ADME time course data' to independently plot the remaining compounds.")
@@ -138,7 +138,7 @@ ADME_IndPlt_server <- function(id,adme_args){
           for (i in 1:num_ADMEplots()) {
 
             # --- Increment the progress bar and update detail text
-            incProgress(1/(num_ADMEplots()+1), detail = paste("Generating plot file for chemical", i))
+            shiny::incProgress(1/(num_ADMEplots()+1), detail = paste("Generating plot file for chemical", i))
 
             f <- paste("Compound_", i, ".jpg", sep="")
             ggplot2::ggsave(f, plot = reactive_pltname_list()[[i]], height = 12, width = 16, dpi = 1200)
@@ -147,8 +147,8 @@ ADME_IndPlt_server <- function(id,adme_args){
 
           # Zip the files
           # --- Increment the progress bar and update detail text
-          incProgress(1/(num_ADMEplots()+1), detail = paste("Zipping file together"))
-          zip(file, savedfiles)})
+          shiny::incProgress(1/(num_ADMEplots()+1), detail = paste("Zipping file together"))
+          utils::zip(file, savedfiles)})
         })
   })
 }

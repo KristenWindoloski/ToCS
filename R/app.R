@@ -151,7 +151,7 @@
 #   #   # GATHER ALL INPUT VARIABLES
 #   #   ##########################################################################
 #   #
-#   #   AllInputs <- eventReactive(input$runsim,{GatherInputVars(input,CompLst())})
+#   #   AllInputs <- shiny::eventReactive(input$runsim,{GatherInputVars(input,CompLst())})
 #   #
 #   #   ##########################################################################
 #   #   # DEFINE INPUT ERRORS FOR EACH MODULE

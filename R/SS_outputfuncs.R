@@ -46,7 +46,7 @@ SS_sol <- function(pars){
     for (i in (1:n)) {
 
       # --- Increment the progress bar and update detail text
-      incProgress(1/n, detail = paste("Generating the steady state concentrations for chemical", i))
+      shiny::incProgress(1/n, detail = paste("Generating the steady state concentrations for chemical", i))
 
       #--- Calculate the steady state concentration and save in data frame
       sol[i,2] <- CalcAnalyticCss(pars,i)
@@ -59,7 +59,7 @@ SS_sol <- function(pars){
   # --- Sort data frames from smallest to largest
   sol_ascend <- dplyr::arrange(sol, SteadyState)
   css_char_ascend <- dplyr::arrange(css_char, CssDay)
-  css_char_ascend <- css_char_ascend %>% dplyr::relocate("CssDay", .after = "CompoundName")
+  css_char_ascend <- magrittr::`%>%`(css_char_ascend, dplyr::relocate("CssDay", .after = "CompoundName"))
 
   # --- Create a data frame with all used parameters and chemical data
   pars_df <- StorePars_SS(pars)

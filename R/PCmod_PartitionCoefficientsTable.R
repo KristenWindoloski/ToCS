@@ -80,6 +80,6 @@ PC_PCTable_server <- function(id,pc_args){
     #--- Downloads partition coefficient table
     output$downloadPCtable <- shiny::downloadHandler(
       filename = function(){paste("PCdata-",Sys.Date(),".csv", sep = "")},
-      content = function(file){write.csv(sol()[[2]], file)})
+      content = function(file){utils::write.csv(sol()[[2]], file)})
   })
 }

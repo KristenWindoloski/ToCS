@@ -77,6 +77,6 @@ SS_DayTable_server <- function(id, ss_args){
     #--- Downloads table
     output$downloadSSDay <- shiny::downloadHandler(
       filename = function(){paste("SSDayData-",Sys.Date(),".csv", sep = "")},
-      content = function(file){write.csv(sol()[[2]], file)})
+      content = function(file){utils::write.csv(sol()[[2]], file)})
   })
 }

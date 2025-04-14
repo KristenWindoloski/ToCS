@@ -50,7 +50,7 @@ Parsol <- function(pars){
     for (i in 1:n) {
 
       # --- Increment the progress bar and update detail text
-      incProgress(1/n, detail = paste("Generating parameters for chemical", i))
+      shiny::incProgress(1/n, detail = paste("Generating parameters for chemical", i))
 
       df1[i,2] <- CalcElimRate(pars,i)
       df1[i,3] <- CalcVdist(pars,i)
