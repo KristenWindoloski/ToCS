@@ -27,5 +27,5 @@ server(input, output, session)
 \seealso{
 \code{\link[=Model_Input]{Model_Input()}}, \code{\link[=PreloadComps_UI]{PreloadComps_UI()}}, \code{\link[=CompileCompLst]{CompileCompLst()}}, \code{\link[=UpdateInputs]{UpdateInputs()}},
 \code{\link[=GatherInputVars]{GatherInputVars()}}, \code{\link[=InputRules_Children]{InputRules_Children()}}, \code{\link[=InputRules_Parents]{InputRules_Parents()}}, and
-\code{\link[=RunSimulation]{RunSimulation()}}
+\code{\link[=Run_Simulation]{Run_Simulation()}}
 }

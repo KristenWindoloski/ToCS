@@ -20,7 +20,7 @@ concentration-time profile module are acceptable. If not, the simulator will
 not compute until any errors in inputs are fixed.
 }
 \seealso{
-\code{\link[=ADME_server]{ADME_server()}} and \code{\link[=ADME_TCData_Server]{ADME_TCData_Server()}}, which call the current
+\code{\link[=ADME_server]{ADME_server()}} and \code{\link[=ADME_TCData_server]{ADME_TCData_server()}}, which call the current
 function, and \code{\link[=names_ICs]{names_ICs()}} and \code{\link[=adme_ic_errormess]{adme_ic_errormess()}}, which the current
 function calls
 }

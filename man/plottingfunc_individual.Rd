@@ -25,6 +25,6 @@ the concentration-time profile simulations. The plot list for each compound
 consists of an individual plotting object for each model compartment.
 }
 \seealso{
-\code{\link[=Create_Individ_Subplot]{Create_Individ_Subplot()}} and \code{\link[=Set_Indvid_Plot]{Set_Indvid_Plot()}}, which the current
+\code{\link[=Create_Individ_Subplot]{Create_Individ_Subplot()}} and \code{\link[=Set_Individ_Plot]{Set_Individ_Plot()}}, which the current
 function calls. \code{\link[=ADME_IndPlt_server]{ADME_IndPlt_server()}}, which calls the current function.
 }

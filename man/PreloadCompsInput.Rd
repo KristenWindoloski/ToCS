@@ -42,11 +42,6 @@ select from under the 'Preloaded Compounds' card on the 'Compound Selection'
 tab. Four sets of in silico parameters (three for clint and fup values, one
 for caco2 values) will be loaded if desired by the user.
 }
-\examples{
-PreloadCompsInput("Concentration-time profiles","Human","Yes","No, do not load in silico parameters","pbtk","NULL")
-PreloadCompsInput("In vitro in vivo extrapolation (IVIVE)","Human","Yes","Yes, load in silico parameters","3compartmentss","Honda1")
-
-}
 \seealso{
 \code{\link[=PreloadComps_UI]{PreloadComps_UI()}}, which calls the current function, and \code{\link[=getCASnums]{getCASnums()}}
 and \code{\link[=getPiped]{getPiped()}}, wich the current function calls

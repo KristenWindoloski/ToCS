@@ -25,5 +25,5 @@ removes a column specifying the amount of a chemical in compartment i when
 the concentration of the chemical in compartment i is already outputted).
 }
 \seealso{
-\code{\link[=Run_ADME_model]{Run_ADME_model()}}, which calls the current function
+\code{\link[=Run_ADME_Model]{Run_ADME_Model()}}, which calls the current function
 }

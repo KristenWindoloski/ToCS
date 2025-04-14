@@ -29,7 +29,7 @@ plots, two tables, and a download button. Each server element has its own
 server function.
 }
 \seealso{
-\code{\link[=validate_text_pc]{validate_text_pc()}}, \code{\link[=Parsol]{Parsol()}}, \code{\link[=PC_EVPlot_server]{PC_EVPlot_server()}}, \code{\link[=PC_EVTable_server]{PC_EVTable_server()}},
+\code{\link[=validate_text_PC]{validate_text_PC()}}, \code{\link[=Parsol]{Parsol()}}, \code{\link[=PC_EVPlot_server]{PC_EVPlot_server()}}, \code{\link[=PC_EVTable_server]{PC_EVTable_server()}},
 \code{\link[=PC_PCPlot_server]{PC_PCPlot_server()}}, \code{\link[=PC_PCTable_server]{PC_PCTable_server()}}, and \code{\link[=PC_Pars_server]{PC_Pars_server()}}, which
 are all called by this function, and \code{\link[=Run_Simulation]{Run_Simulation()}}, which calls the
 current function

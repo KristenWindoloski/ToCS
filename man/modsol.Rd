@@ -23,7 +23,7 @@ concentration-time profiles and toxicokinetic summaries, but it then formats
 those and other outputs to return to the main module server to distribute.
 }
 \seealso{
-\code{\link[=Run_Model_ADME]{Run_Model_ADME()}}
+\code{\link[=Run_ADME_Model]{Run_ADME_Model()}}
 \code{\link[=SetArraySize]{SetArraySize()}}
 \code{\link[=TKsummary]{TKsummary()}}
 \code{\link[=AssignArrayNames]{AssignArrayNames()}}
