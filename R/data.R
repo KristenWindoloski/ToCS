@@ -11,7 +11,6 @@
 #'   those substances that do not have a CAS Registry Number (977nnn-nn-n series).}
 #'   \item{Substance}{The name of the ingredient as recognized by the FDA's Human
 #'   Foods Program}
-#'   \item{Other Names}{Other name identifiers the substance is known by.}
 #'   \item{Used for (Technical Effect)}{The physical or technical effects the
 #'   substance has in or on food.}
 #'   \item{Reg col01, Reg col02, Reg col03, Reg col04, Reg col05, Reg col06}{1
@@ -61,7 +60,6 @@
 #'   \item{Reg prohibited189}{Prohibited substance regulation (21 CFR Part 189).}
 #'   \item{regs Labeling-Standards}{Food labeling and standards regulations
 #'   (21 CFR Parts 100-169).}
-#'   \item{Other Names}{Other name identifiers the substance is known by.}
 #'   \item{SYN01, SYN02, SYN03,SYN04, SYN05, SYN06,SYN07, SYN08, SYN09,SYN10,
 #'   SYN12, SYN13,SYN14, SYN15, SYN16,SYN17, SYN18, SYN19}{Synonyms for the
 #'   substance name.}
