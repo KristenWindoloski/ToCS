@@ -8,10 +8,10 @@ IndirectFoodAdditives <- read.csv("data-raw/FDA_InventoryOfFoodContactSubstances
 df_colnames <- IndirectFoodAdditives[3,]
 
 # Remove download information from data frame
-IndirectFoodAdditives <- IndirectFoodAdditives[-(1:3),]
+IndirectFoodAdditives <- IndirectFoodAdditives[-(1:3),-(32)]
 
 # Assign column names
-colnames(IndirectFoodAdditives) <- df_colnames
+colnames(IndirectFoodAdditives) <- df_colnames[c(1:2,4:37)]
 
 # Remove white space in CAS column
 IndirectFoodAdditives$`CAS Registry No. (or other ID)` <- gsub(" ","",IndirectFoodAdditives$`CAS Registry No. (or other ID)`)
