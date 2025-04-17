@@ -21,7 +21,6 @@
 #' [Run_Simulation()]
 #' @export
 #'
-#' @examples server(input, output, session)
 app_server <- function(input, output, session) {
 
   # --- RESET BUTTON OUTPUT

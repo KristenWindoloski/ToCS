@@ -19,7 +19,6 @@
 #' by the current function
 #' @export
 #'
-#' @examples app_ui()
 app_ui <- function(){
 
   ui <- bslib::page_navbar(title = "Toxicokinetic Chemical Simulator (ToCS)",

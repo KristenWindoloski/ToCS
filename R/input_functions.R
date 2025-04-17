@@ -384,8 +384,10 @@ getCASnums <- function(func,species,model,defaulttohuman){
 #' called by the current function
 #' @export
 #'
-#' @examples getPiped(c("135410-20-7","94-82-6","30560-19-1","71751-41-2","34256-82-1"),"NULL")
-#' getPiped(c("15972-60-8","116-06-3","834-12-8","33089-61-1","1912-24-9"),"Honda1")
+#' @examples getPiped(c("135410-20-7","94-82-6","30560-19-1","71751-41-2","34256-82-1"),
+#' "NULL","Choose from only food relevant chemicals")
+#' getPiped(c("15972-60-8","116-06-3","834-12-8","33089-61-1","1912-24-9"),"Honda1",
+#' "Choose from all available chemicals")
 #'
 getPiped <- function(CASnums,honda,comptype){
 
