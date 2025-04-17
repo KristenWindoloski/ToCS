@@ -14,9 +14,6 @@ This function is the top-level ui function for the ToCS application and
 dictates where the outputs from the app_server function will be displayed.
 Calls to all other ui functions stem from this function.
 }
-\examples{
-app_ui()
-}
 \seealso{
 \code{\link[=GP_Instructions]{GP_Instructions()}}, \code{\link[=GP_Output]{GP_Output()}}, \code{\link[=GP_Species]{GP_Species()}}, \code{\link[=MS_Dosing]{MS_Dosing()}},
 \code{\link[=MS_Model]{MS_Model()}}, \code{\link[=CS_Instructions]{CS_Instructions()}}, \code{\link[=CS_PreloadedCompounds]{CS_PreloadedCompounds()}}, \code{\link[=CS_UploadedData]{CS_UploadedData()}},

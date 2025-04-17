@@ -23,7 +23,6 @@ and GRAS regulations (21 CFR Parts 170-186).}
 \item{Reg prohibited189}{Prohibited substance regulation (21 CFR Part 189).}
 \item{regs Labeling-Standards}{Food labeling and standards regulations
 (21 CFR Parts 100-169).}
-\item{Other Names}{Other name identifiers the substance is known by.}
 \item{SYN01, SYN02, SYN03,SYN04, SYN05, SYN06,SYN07, SYN08, SYN09,SYN10,
 SYN12, SYN13,SYN14, SYN15, SYN16,SYN17, SYN18, SYN19}{Synonyms for the
 substance name.}

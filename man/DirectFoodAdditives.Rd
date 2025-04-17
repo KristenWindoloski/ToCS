@@ -14,7 +14,6 @@ for the substance or a numerical code assigned by the Human Foods Program to
 those substances that do not have a CAS Registry Number (977nnn-nn-n series).}
 \item{Substance}{The name of the ingredient as recognized by the FDA's Human
 Foods Program}
-\item{Other Names}{Other name identifiers the substance is known by.}
 \item{Used for (Technical Effect)}{The physical or technical effects the
 substance has in or on food.}
 \item{Reg col01, Reg col02, Reg col03, Reg col04, Reg col05, Reg col06}{1

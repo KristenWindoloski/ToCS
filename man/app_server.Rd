@@ -21,9 +21,6 @@ This function is the top-level server function for the ToCS application and
 dictates the outputs to be displayed in the app_ui function. Calls to all other
 server functions stem from this function.
 }
-\examples{
-server(input, output, session)
-}
 \seealso{
 \code{\link[=Model_Input]{Model_Input()}}, \code{\link[=PreloadComps_UI]{PreloadComps_UI()}}, \code{\link[=CompileCompLst]{CompileCompLst()}}, \code{\link[=UpdateInputs]{UpdateInputs()}},
 \code{\link[=GatherInputVars]{GatherInputVars()}}, \code{\link[=InputRules_Children]{InputRules_Children()}}, \code{\link[=InputRules_Parents]{InputRules_Parents()}}, and
