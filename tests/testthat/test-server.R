@@ -171,14 +171,38 @@ test_that("output$comptext outputs a table of compounds to simulate",{
 # TEST ADME MODULE
 ##########################################################################
 
-### STILL WORKING ON THE BELOW TEST - NEED TO TROUBLESHOOT
-
-# test_that("output$tksummaryCaption reactive returns caption text",{
+# ### STILL WORKING ON THE BELOW TEST - NEED TO TROUBLESHOOT
+#
+# test_that("output$tksummaryCaption reactive returns table caption text",{
 #
 #   adme_args <- shiny::reactiveVal()
-#   shiny::testServer(ADME_TKTable_server,args = list(var = adme_args), exp = {
+#   shiny::testServer(ADME_TKTable_server(),args = list(var = adme_args), exp = {
 #
-#     adme_args(list(1,2,3))
+#     # --- GENERATE INPUT PARAMETERS
+#     pars <- list(runsim = 1,model = "pbtk")
+#     adme_args(list(1,pars))
+#
+#     # --- TEST
+#     out <- paste("Table 1: Table of summary statistics (Tmax - time to maximal concentration,
+#       MaxValue - maximal amount (A, umol) or concentration (C, uM), AUC - area
+#       under the curve (uM*days)) for each compartment for each selected compound.")
+#
+#     session$flushReact()
+#     expect_equal(output$tksummaryCaption,out)
+#   })
+# })
+#
+# ### STILL WORKING ON THE BELOW TEST - NEED TO TROUBLESHOOT
+#
+# test_that("output$ADME1plotsCaption reactive returns plot caption text",{
+#
+#   adme_args <- shiny::reactiveVal()
+#   shiny::testServer(ADME_MultPlt_server(),args = list(var = adme_args), exp = {
+#
+#     # --- GENERATE INPUT PARAMETERS
+#     pars <- list(runsim = 1,model = "pbtk")
+#     adme_args(list(1,pars))
+#
 #     # --- TEST
 #     out <- paste("Table 1: Table of summary statistics (Tmax - time to maximal concentration,
 #       MaxValue - maximal amount (A, umol) or concentration (C, uM), AUC - area
