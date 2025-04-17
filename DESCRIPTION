@@ -12,18 +12,19 @@ Description: A graphical user interface that utilizes the EPA's high-throughput
             and then select all the input parameters and preferences. Once ready, 
             they hit a 'run simulation' button and are able to download any 
             outputted plots, tables, or input data.
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 Depends:
-    httk (>= 2.5.0)
+    httk (>= 2.5.0),
+    R (>= 2.10)
 Imports: 
     bslib,
     cowplot,
     DescTools,
     dplyr,
+    DT,
     forcats,
     ggplot2,
     gridExtra,
@@ -36,6 +37,10 @@ Imports:
     shinyvalidate,
     stats
 Suggests: 
+    kableExtra,
     knitr,
-    rmarkdown
+    rmarkdown,
+    rvest,
+    testthat
 VignetteBuilder: knitr
+LazyData: true
