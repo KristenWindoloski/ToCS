@@ -33,7 +33,5 @@ getPiped(c("15972-60-8","116-06-3","834-12-8","33089-61-1","1912-24-9"),"Honda1"
 
 }
 \seealso{
-\code{\link[=PreloadCompsInput]{PreloadCompsInput()}}, which calls the current function, and
-\code{\link[=DirectFoodAdditives]{DirectFoodAdditives()}} and \code{\link[=IndirectFoodAdditives]{IndirectFoodAdditives()}} data frames, which are
-called by the current function
+\code{\link[=PreloadCompsInput]{PreloadCompsInput()}}, which calls the current function
 }
