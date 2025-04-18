@@ -278,6 +278,9 @@ StorePars_PC <- function(pars){
 #'
 plotPar <- function(soldata,pars,logscale){
 
+  # --- Declare variables (avoids 'no visible binding for global variable' note in R CMD check)
+  CompoundName <- EliminationRate <- VolumeOfDistribution <- HalfLife <- TotalClearance <- NULL
+
   df_elim <- dplyr::select(soldata, CompoundName, EliminationRate)
   df_elim <- dplyr::arrange(df_elim, EliminationRate)
   df_elim$CompoundName <- factor(df_elim$CompoundName, levels = df_elim$CompoundName)
@@ -361,6 +364,9 @@ plotPar <- function(soldata,pars,logscale){
 #' @export
 #'
 plotPCs <- function(soldata,pars,logscale){
+
+  # --- Declare variables (avoids 'no visible binding for global variable' note in R CMD check)
+  TissuePC <- logHenry <- CompoundName <- EliminationRate <- VolumeOfDistribution <- HalfLife <- TotalClearance <- NULL
 
   # --- Create empty list to be filled with number of plots (each plot will have multiple curves on it)
   plt_lst = vector('list', 13)

@@ -379,9 +379,7 @@ getCASnums <- function(func,species,model,defaulttohuman){
 #'
 #' @return A vector of CASRN and compound name pairings for compounds with enough
 #' available data to simulate in httk
-#' @seealso [PreloadCompsInput()], which calls the current function, and
-#' [DirectFoodAdditives()] and [IndirectFoodAdditives()] data frames, which are
-#' called by the current function
+#' @seealso [PreloadCompsInput()], which calls the current function
 #' @export
 #'
 #' @examples getPiped(c("135410-20-7","94-82-6","30560-19-1","71751-41-2","34256-82-1"),
@@ -390,6 +388,9 @@ getCASnums <- function(func,species,model,defaulttohuman){
 #' "Choose from all available chemicals")
 #'
 getPiped <- function(CASnums,honda,comptype){
+
+  # --- Declare variables (avoids 'no visible binding for global variable' note in R CMD check)
+  CAS <- logHenry <- NULL
 
   # --- Available preloaded compounds if the Honda1 condition for IVIVE is selected
   if (is.null(CASnums)){

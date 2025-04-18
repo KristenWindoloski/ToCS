@@ -23,6 +23,9 @@
 #'
 Create_Plotting_df <- function(i,n,sol_array,chemnames,numtimes){
 
+  # --- Declare variables (avoids 'no visible binding for global variable in R CMD check)
+  Compound <- NULL
+
   # --- Create empty vectors
   yvals = c()
   compound_name_compartment = c()
@@ -115,6 +118,9 @@ Set_Plot_Legend_Color <- function(plt_lst,n_states){
 #'
 plottingfunc_all <- function(sol_array){
 
+  # --- Declare variables (avoids 'no visible binding for global variable' note in R CMD check)
+  Time <- Yvalues <- Compound <- NULL
+
   # --- Set needed variables; subtracted 1 from num_states because 'time' is one of the columns
   cn <- dimnames(sol_array)[2]
   col_names <- cn[[1]]
@@ -174,6 +180,9 @@ plottingfunc_all <- function(sol_array){
 #' @export
 #'
 Create_Individ_Subplot <- function(i,j,comp_sol,compound_names,plt_colors,col_names){
+
+  # --- Declare variables (avoids 'no visible binding for global variable in R CMD check)
+  Time <- Ydata <- NULL
 
   # --- Create data frame with plotting data for compound i
   compound_compartment_df <- data.frame(Time = comp_sol[,1],

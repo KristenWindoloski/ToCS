@@ -259,6 +259,8 @@ StorePars_IVIVE <- function(pars,bioactive_df){
 #'
 IVIVEplotting <- function(OED_data,BioactiveConc,pars,logscale,expdata){
 
+  OED <- NULL
+
   # --- SET PLOT LABEL NAMES
   plt_labels <- IVIVEplot_labels(pars)
   y_exp <- plt_labels[[2]]
@@ -331,6 +333,9 @@ IVIVEplotting <- function(OED_data,BioactiveConc,pars,logscale,expdata){
 #'
 OEDPoint_NoExposure_Plot <- function(OED_data,y_exp,title_exp){
 
+  # --- Declare variables (avoids 'no visible binding for global variable' note in R CMD check)
+  OED <- CompoundName <- NULL
+
   # --- PLOT DATA
   plt <- ggplot2::ggplot(data = OED_data, ggplot2::aes(x = CompoundName, y = OED),) +
     ggplot2::geom_point(size = 4) +
@@ -364,6 +369,9 @@ OEDPoint_NoExposure_Plot <- function(OED_data,y_exp,title_exp){
 #' @export
 #'
 OEDPoint_Exposure_Plot <- function(OED_data,expdata,y_exp,title_exp){
+
+  # --- Declare variables (avoids 'no visible binding for global variable' note in R CMD check)
+  OED <- Upper <- CompoundName <- Median <- Type <- Lower <- NULL
 
   # --- TRANSFORM OED_DATA INTO NEEDED FORMAT
   OED_data$Upper <- OED_data$OED + 1e-8
@@ -413,6 +421,9 @@ OEDPoint_Exposure_Plot <- function(OED_data,expdata,y_exp,title_exp){
 #' @export
 #'
 OEDSample_Exposure_Plot <- function(OEDSamples_df,Q5_OED_df,expdata,y_exp,title_exp){
+
+  # --- Declare variables (avoids 'no visible binding for global variable' note in R CMD check)
+  OED <- CompoundName <- Type <- Lower <- Upper <- NULL
 
   OEDSamples_df$Type <- "OED"
   Q5_OED_df$Type <- "OED"
@@ -464,6 +475,9 @@ OEDSample_Exposure_Plot <- function(OEDSamples_df,Q5_OED_df,expdata,y_exp,title_
 #'
 OEDSample_NoExposure_Plot <- function(OEDSamples_df,Q5_OED_df,y_exp,title_exp){
 
+  # --- Declare variables (avoids 'no visible binding for global variable' note in R CMD check)
+  CompoundName <- OED <- NULL
+
   # --- PLOT
   plt <- ggplot2::ggplot(OEDSamples_df, ggplot2::aes(x = CompoundName, y = OED)) +
     ggplot2::geom_boxplot() +
@@ -505,6 +519,9 @@ OEDSample_NoExposure_Plot <- function(OEDSamples_df,Q5_OED_df,y_exp,title_exp){
 #' @export
 #'
 IVIVEplot_logscale <- function(plt,pars,OEDSamples_df,combined_df,OED_data,expdata,Q5_OED_df){
+
+  # --- Declare variables (avoids 'no visible binding for global variable in R CMD check)
+  .x <- NULL
 
   if (pars[["returnsamples"]] == TRUE){
     if (!is.null(pars[["fileExposure"]])){
@@ -658,6 +675,9 @@ IVIVEplot_caption <- function(pars){
 #'
 Plotdf_Prep <- function(df,pars){
 
+  # --- Declare variables (avoids 'no visible binding for global variable' note in R CMD check)
+  OED <- CompoundName <- NULL
+
   # --- EXTRACT OUT 5TH QUANTILE OED DOSE FROM SOLUTION DATA FRAME
   q5_OED <- df[1,]
 
@@ -717,6 +737,9 @@ Plotdf_Prep <- function(df,pars){
 #'
 BERplotting <- function(BERdata){
 
+  # --- Declare variables (avoids 'no visible binding for global variable' note in R CMD check)
+  BER <- CompoundName <- .x <- NULL
+
   # --- ARRANGE BER DATA FOR PLOTTING
   BERdata <- dplyr::arrange(BERdata, BER)
   BERdata$CompoundName <- factor(BERdata$CompoundName, levels = BERdata$CompoundName)
@@ -762,32 +785,35 @@ BERplotting <- function(BERdata){
 #'
 PrepExposureData <- function(pars){
 
-    # --- LOAD EXPOSURE DATA
-    fileExposure <- pars[["fileExposure"]]
-    exposuredata <- utils::read.csv(fileExposure$datapath)
+  # --- Declare variables (avoids 'no visible binding for global variable' note in R CMD check)
+  MW <- ChemicalName <- CAS <- NULL
 
-    # --- REARRANGE ROWS OF EXPOSURE DATA FILE TO BE IN SAME ORDER AS COMPOUNDS FILE
-    df <- chem.physical_and_invitro.data[chem.physical_and_invitro.data$Compound %in% pars[["CompoundList"]][,1],]
-    df <- df[match(pars[["CompoundList"]][,1], df$Compound),]
-    exposuredata <- exposuredata[match(df$CAS, exposuredata$CAS),]
+  # --- LOAD EXPOSURE DATA
+  fileExposure <- pars[["fileExposure"]]
+  exposuredata <- utils::read.csv(fileExposure$datapath)
 
-    # --- CONVERT UNITS TO UMOL/KG/DAY IF NEEDED
-    if (pars[["modelIVIVEout_units"]] == "umolpkgpday"){
-      df <- chem.physical_and_invitro.data[chem.physical_and_invitro.data$CAS %in% exposuredata$CAS,]
-      df <- df[match(exposuredata$CAS,df$CAS),]
-      exposuredata$MW <- df$MW
-      exposuredata$Upper <- signif((1000*exposuredata$Upper)/exposuredata$MW,4)
-      exposuredata$Median <- signif((1000*exposuredata$Median)/exposuredata$MW,4)
-      exposuredata$Lower <- signif((1000*exposuredata$Lower)/exposuredata$MW,4)
-      exposuredata <- magrittr::`%>%`(exposuredata, dplyr::select(-c(MW)))
-    }
+  # --- REARRANGE ROWS OF EXPOSURE DATA FILE TO BE IN SAME ORDER AS COMPOUNDS FILE
+  df <- chem.physical_and_invitro.data[chem.physical_and_invitro.data$Compound %in% pars[["CompoundList"]][,1],]
+  df <- df[match(pars[["CompoundList"]][,1], df$Compound),]
+  exposuredata <- exposuredata[match(df$CAS, exposuredata$CAS),]
 
-    exposuredata_trimmed <- magrittr::`%>%`(exposuredata, dplyr::select(-c(ChemicalName,CAS)))
+  # --- CONVERT UNITS TO UMOL/KG/DAY IF NEEDED
+  if (pars[["modelIVIVEout_units"]] == "umolpkgpday"){
+    df <- chem.physical_and_invitro.data[chem.physical_and_invitro.data$CAS %in% exposuredata$CAS,]
+    df <- df[match(exposuredata$CAS,df$CAS),]
+    exposuredata$MW <- df$MW
+    exposuredata$Upper <- signif((1000*exposuredata$Upper)/exposuredata$MW,4)
+    exposuredata$Median <- signif((1000*exposuredata$Median)/exposuredata$MW,4)
+    exposuredata$Lower <- signif((1000*exposuredata$Lower)/exposuredata$MW,4)
+    exposuredata <- magrittr::`%>%`(exposuredata, dplyr::select(-c(MW)))
+  }
 
-    # --- FIND UPPER EXPOSURE ESTIMATE FOR EACH CHEMICAL
-    exposuredata$maxval <- apply(exposuredata_trimmed, 1, max, na.rm=TRUE)
-    names(exposuredata)[names(exposuredata) == "ChemicalName"] <- "CompoundName"
-    return(exposuredata)
+  exposuredata_trimmed <- magrittr::`%>%`(exposuredata, dplyr::select(-c(ChemicalName,CAS)))
+
+  # --- FIND UPPER EXPOSURE ESTIMATE FOR EACH CHEMICAL
+  exposuredata$maxval <- apply(exposuredata_trimmed, 1, max, na.rm=TRUE)
+  names(exposuredata)[names(exposuredata) == "ChemicalName"] <- "CompoundName"
+  return(exposuredata)
 }
 
 ################################################################################

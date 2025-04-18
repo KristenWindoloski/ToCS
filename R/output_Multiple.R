@@ -29,6 +29,9 @@
 #'
 CompoundList <- function(preload_comp, uploaded_comps){
 
+  # --- Declare variables (avoids 'no visible binding for global variable in R CMD check)
+  Selected_Compounds <- NULL
+
   #-----------------------------------
   #--- LOAD ANY PRELOADED COMPOUNDS
   #-----------------------------------
@@ -486,6 +489,9 @@ log10breaks <- function(ydata) {
 #' @export
 #'
 plot_logscale <- function(plt,sol_vec){
+
+  # --- Declare variables (avoids 'no visible binding for global variable' note in R CMD check)
+  .x <- NULL
 
   break_seq <- log10breaks(sol_vec)
 

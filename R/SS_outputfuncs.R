@@ -27,6 +27,9 @@
 #'
 SS_sol <- function(pars){
 
+  # --- Declare variables (avoids 'no visible binding for global variable' note in R CMD check)
+  SteadyState <- CssDay <- NULL
+
   # Get row, column, and page dimensions for arrays used to store solutions
   n <- nrow(pars[["CompoundList"]])
 
@@ -224,6 +227,9 @@ StorePars_SS <- function(pars){
 #' @export
 #'
 scat_plot <- function(sol,pars,logscale){
+
+  # --- Declare variables (avoids 'no visible binding for global variable' note in R CMD check)
+  CompoundName <- SteadyState <- NULL
 
   # --- Set Label Names
   plt_dynamic_labels <- plot_labels(pars)
