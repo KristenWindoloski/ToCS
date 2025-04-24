@@ -23,11 +23,6 @@ A vector of CASRNs for compounds that are available to simulate in ToCS
 This function creates a vector of CASRNs that are available for the user-selected
 output, species, model, and human in vitro data preference.
 }
-\examples{
-getCASnums("Concentration-time profiles","Human","pbtk",TRUE)
-getCASnums("Steady state concentrations","Rat","1compartment",FALSE)
-
-}
 \seealso{
 \code{\link[=PreloadCompsInput]{PreloadCompsInput()}}, which calls the current function
 }
