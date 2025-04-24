@@ -340,8 +340,6 @@ PreloadCompsInput <- function(func,species,defaulthuman,insilico,model,honda,com
 #' @seealso [PreloadCompsInput()], which calls the current function
 #' @export
 #'
-#' @examples getCASnums("Concentration-time profiles","Human","pbtk",TRUE)
-#' getCASnums("Steady state concentrations","Rat","1compartment",FALSE)
 #'
 getCASnums <- function(func,species,model,defaulttohuman){
 
@@ -382,10 +380,6 @@ getCASnums <- function(func,species,model,defaulttohuman){
 #' @seealso [PreloadCompsInput()], which calls the current function
 #' @export
 #'
-#' @examples getPiped(c("135410-20-7","94-82-6","30560-19-1","71751-41-2","34256-82-1"),
-#' "NULL","Choose from only food relevant chemicals")
-#' getPiped(c("15972-60-8","116-06-3","834-12-8","33089-61-1","1912-24-9"),"Honda1",
-#' "Choose from all available chemicals")
 #'
 getPiped <- function(CASnums,honda,comptype){
 
@@ -405,14 +399,14 @@ getPiped <- function(CASnums,honda,comptype){
     }
 
     if (honda == "Honda1"){
-      chemlist <- magrittr::`%>%`(httk::chem.physical_and_invitro.data, dplyr::filter(CAS %in% CASnums,
-                                                                                      !is.na(logHenry),
-                                                                                      !is.na(httk::chem.physical_and_invitro.data$logWSol),
-                                                                                      !is.na(httk::chem.physical_and_invitro.data$MP)))
+      chemlist <- magrittr::`%>%`(chem.physical_and_invitro.data, dplyr::filter(CAS %in% CASnums,
+                                                                                !is.na(logHenry),
+                                                                                !is.na(chem.physical_and_invitro.data$logWSol),
+                                                                                !is.na(httk::chem.physical_and_invitro.data$MP)))
       piped <- paste(chemlist$CAS, chemlist$Compound, sep = ", ")
     }
     else {
-      chemlist <- httk::chem.physical_and_invitro.data[httk::chem.physical_and_invitro.data$CAS %in% CASnums,]
+      chemlist <- chem.physical_and_invitro.data[chem.physical_and_invitro.data$CAS %in% CASnums,]
       piped <- paste(chemlist$CAS, chemlist$Compound, sep = ", ")
     }
   }

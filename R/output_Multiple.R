@@ -69,8 +69,8 @@ CompoundList <- function(preload_comp, uploaded_comps){
       else{
         chem.physical_and_invitro.data <- rbind(chem.physical_and_invitro.data, compounds_file[i,])
       }
-      # Assigns to the user's global environment - do NOT think this will work if app is on the web
-      assign('chem.physical_and_invitro.data',chem.physical_and_invitro.data,envir=.GlobalEnv)
+      # Assigns the current chem.data data frame with any new chemicals to our created environment
+      .GlobalEnv$chem.physical_and_invitro.data <- chem.physical_and_invitro.data
     }
 
     # Add uploaded compound names to any preloaded compounds

@@ -224,7 +224,7 @@ StorePars_IVIVE <- function(pars,bioactive_df){
                         default.to.human = pars[["defaulttoHuman"]],
                         minimum.Funbound.plasma = pars[["min_fub"]],
                         regression = pars[["regression"]])
-  chemdata <- httk::chem.physical_and_invitro.data[httk::chem.physical_and_invitro.data$Compound %in% pars[["CompoundList"]][,1],]
+  chemdata <- chem.physical_and_invitro.data[chem.physical_and_invitro.data$Compound %in% pars[["CompoundList"]][,1],]
   chemdata <- chemdata[order(match(chemdata$Compound,pars_df$chem.name)),]
   pars_df <-cbind(pars_df,chemdata)
 
