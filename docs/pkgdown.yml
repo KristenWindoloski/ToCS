@@ -1,0 +1,13 @@
+pandoc: '3.2'
+pkgdown: 2.1.1
+pkgdown_sha: ~
+articles:
+  articles/Concentration-Time_Profiles: Concentration-Time_Profiles.html
+  articles/Introduction_to_ToCS: Introduction_to_ToCS.html
+  articles/IVIVE: IVIVE.html
+  articles/Parameter_Calculations: Parameter_Calculations.html
+  articles/Steady_State_Concentrations: Steady_State_Concentrations.html
+last_built: 2025-05-05T14:40Z
+urls:
+  reference: https://kristenwindoloski.github.io/ToCS/reference
+  article: https://kristenwindoloski.github.io/ToCS/articles
