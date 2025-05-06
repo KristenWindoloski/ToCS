@@ -338,6 +338,7 @@ PreloadCompsInput <- function(func,species,defaulthuman,insilico,model,honda,com
 #'
 #' @return A vector of CASRNs for compounds that are available to simulate in ToCS
 #' @seealso [PreloadCompsInput()], which calls the current function
+#' @import httk
 #' @export
 #'
 #'
@@ -674,7 +675,10 @@ Model_Input <- function(func,spec){
       choice_lst <- list("Select","1compartment","3compartment","pbtk")
     }
   }
-  else if (func == "Steady state concentrations" || func == "In vitro in vivo extrapolation (IVIVE)"){
+  else if (func == "Steady state concentrations"){
+    choice_lst = list("Select","1compartment","3compartment","pbtk")
+  }
+  else if (func == "In vitro in vivo extrapolation (IVIVE)"){
     choice_lst = list("Select","3compartmentss","1compartment","3compartment","pbtk")
   }
 
