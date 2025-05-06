@@ -287,7 +287,8 @@ AP_ModelConditions <- function(ic_names,ic_comps){
 AP_ModelSolver <- function(){
   bslib::card(bslib::card_header("MODEL SOLVER"),
               shiny::conditionalPanel(condition = "input.func == 'Concentration-time profiles'",
-                                      selectInput_ODEmethod("odemethod"),
+                                      # selectInput_ODEmethod("odemethod"),
+                                      shiny::uiOutput("ODEmethod"),
                                       numericInput_SolSteps("solversteps"),
                                       sliderInput_RTol("rtol"),
                                       sliderInput_ATol("atol")),

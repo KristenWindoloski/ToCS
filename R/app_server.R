@@ -44,6 +44,11 @@ app_server <- function(input, output, session) {
                     input$model,input$insilicopars,input$HondaIVIVE,
                     input$CompType)})
 
+  # --- GENERATES THE ODE SOLVER METHOD OUTPUT
+  output$ODEmethod <- shiny::renderUI({
+    ODEmethod_Input("odemethod",input$model)
+  })
+
   # --- COMPILES LIST OF ALL COMPOUNDS TO RUN
   CompLst <- shiny::reactive({
     CompileCompLst(input$func,input$spec,input$defaulttoHuman,input$model,

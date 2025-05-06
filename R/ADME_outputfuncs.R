@@ -537,7 +537,7 @@ Run_ADME_Model <- function(i,pars){
 RemoveCols <- function(sol,model){
 
   if (model == "fetal_pbtk"){
-    index <- which(colnames(sol) == "Qthyroid")
+    index <- which(colnames(sol) == "Rfblood2plasma")
   }
   else {
     index <- which(colnames(sol) == "AUC")

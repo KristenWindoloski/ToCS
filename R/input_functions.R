@@ -753,22 +753,32 @@ textInput_OutputTimes <- function(id){
 #' profile simulations
 #'
 #' @param id Shiny identifier name
+#' @param model The chosen model ("1compartment","3compartment", "pbtk", or
+#' "fetal_pbtk")
 #'
 #' @return A drop down list
 #' @seealso [AP_ModelSolver()], which calls the current function
 #' @export
 #'
-#' @examples selectInput_ODEmethod("odemethod")
+#' @examples selectInput_ODEmethod("odemethod","pbtk")
 #'
-selectInput_ODEmethod <- function(id){
+ODEmethod_Input <- function(id,model){
+
+  if (model == "fetal_pbtk"){
+    selectdefault = "lsode"
+  }
+  else{
+    selectdefault = "lsoda"
+  }
   shiny::selectInput(id,
-              label = "Select the ODE solver method. See R documentation on the
+                     label = "Select the ODE solver method. See R documentation on the
                       'deSolve' function for method details.",
-              choices = list("lsoda", "lsode", "lsodes","lsodar","vode","daspk",
-                             "euler", "rk4", "ode23", "ode45", "radau",
-                             "bdf", "bdf_d", "adams","impAdams","impAdams_d",
-                             "iteration"),
-              selected = "lsoda")
+                     choices = list("lsoda", "lsode", "lsodes","lsodar","vode","daspk",
+                                    "euler", "rk4", "ode23", "ode45", "radau",
+                                    "bdf", "bdf_d", "adams","impAdams","impAdams_d",
+                                    "iteration"),
+                     selected = selectdefault)
+
 }
 
 
