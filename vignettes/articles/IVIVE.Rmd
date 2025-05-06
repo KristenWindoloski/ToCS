@@ -22,7 +22,7 @@ This vignette provides three examples that use the ToCS app to generate oral equ
 
 <br/><br/>
 
-![The opening interface to the ToCS app.](Images/GUI_Introduction_GenParsPage.png){width="100%"}
+![The opening interface to the ToCS app.](../../man/figures/GUI_Introduction_GenParsPage.png){width="100%"}
 
 <br/><br/>
 
@@ -36,7 +36,7 @@ Since we want to perform IVIVE, we select the *In vitro in vivo extrapolation (I
 
 <br/><br/>
 
-![The completed General Parameters tab for example 1.](Images/GUI_IVIVE_GenParsEx1.png){width="100%"}
+![The completed General Parameters tab for example 1.](../../man/figures/GUI_IVIVE_GenParsEx1.png){width="100%"}
 
 <br/><br/>
 
@@ -48,7 +48,7 @@ Then, the third drop down menu asks the user whether they want to return a singl
 
 <br/><br/>
 
-![The completed model specifications tab for example 1 showing the model card.](Images/GUI_IVIVE_ModelSpecEx1_1.png){width="100%"}
+![The completed model specifications tab for example 1 showing the model card.](../../man/figures/GUI_IVIVE_ModelSpecEx1_1.png){width="100%"}
 
 <br/><br/>
 
@@ -114,7 +114,7 @@ For help with exposure file formatting, please refer to the *Introduction to ToC
 
 <br/><br/>
 
-![The completed compound selection tab for example 1.](Images/GUI_IVIVE_CompSelectEx1.png){width="100%"}
+![The completed compound selection tab for example 1.](../../man/figures/GUI_IVIVE_CompSelectEx1.png){width="100%"}
 
 <br/><br/>
 
@@ -124,7 +124,7 @@ We will leave all options on this tab at their default values and proceed to the
 
 <br/><br/>
 
-![The completed advanced parameters tab for example 1.](Images/GUI_IVIVE_AdvParsEx1.png){width="100%"}
+![The completed advanced parameters tab for example 1.](../../man/figures/GUI_IVIVE_AdvParsEx1.png){width="100%"}
 
 <br/><br/>
 
@@ -134,7 +134,7 @@ Now that all user parameter selections have been made and all compounds appear u
 
 <br/><br/>
 
-![The completed run simulation tab for example 1 showing the expanded OED table tab.](Images/GUI_IVIVE_RunSimEx1_1.png){width="100%"}
+![The completed run simulation tab for example 1 showing the expanded OED table tab.](../../man/figures/GUI_IVIVE_RunSimEx1_1.png){width="100%"}
 
 <br/><br/>
 
@@ -142,7 +142,7 @@ The image below is the completed OED plot tab, which shows the OED (in blue) for
 
 <br/><br/>
 
-![The completed run simulation tab for example 1 showing the expanded OED plot tab where the plot has a linear scale y-axis.](Images/GUI_IVIVE_RunSimEx1_2.png){width="100%"}
+![The completed run simulation tab for example 1 showing the expanded OED plot tab where the plot has a linear scale y-axis.](../../man/figures/GUI_IVIVE_RunSimEx1_2.png){width="100%"}
 
 <br/><br/>
 
@@ -150,7 +150,7 @@ Therefore, we can click the box under the *Actions* card to change the scale of 
 
 <br/><br/>
 
-![The completed run simulation tab for example 1 showing the expanded OED plot tab where the plot has a log10 scale y-axis.](Images/GUI_IVIVE_RunSimEx1_3.png){width="100%"}
+![The completed run simulation tab for example 1 showing the expanded OED plot tab where the plot has a log10 scale y-axis.](../../man/figures/GUI_IVIVE_RunSimEx1_3.png){width="100%"}
 
 <br/><br/>
 
@@ -159,7 +159,7 @@ The image below shows the bioactivity exposure ratio (BER) table output for the 
 
 <br/><br/>
 
-![The completed run simulation tab for example 1 showing the expanded bioactivity exposure ratio (BER) table tab.](Images/GUI_IVIVE_RunSimEx1_4.png){width="100%"}
+![The completed run simulation tab for example 1 showing the expanded bioactivity exposure ratio (BER) table tab.](../../man/figures/GUI_IVIVE_RunSimEx1_4.png){width="100%"}
 
 <br/><br/>
 
@@ -167,7 +167,7 @@ The final output for the IVIVE module is given below and shows a plot of the BER
 
 <br/><br/>
 
-![The completed run simulation tab for example 1 showing the expanded BER plot tab where the plot has a log10 scale y-axis.](Images/GUI_IVIVE_RunSimEx1_5.png){width="100%"}
+![The completed run simulation tab for example 1 showing the expanded BER plot tab where the plot has a log10 scale y-axis.](../../man/figures/GUI_IVIVE_RunSimEx1_5.png){width="100%"}
 
 <br/><br/>
 
@@ -185,7 +185,7 @@ Since we want to perform IVIVE, we select the *In vitro in vivo extrapolation (I
 
 <br/><br/>
 
-![The completed General Parameters tab for example 2.](Images/GUI_IVIVE_GenParsEx1.png){width="100%"}
+![The completed General Parameters tab for example 2.](../../man/figures/GUI_IVIVE_GenParsEx1.png){width="100%"}
 
 <br/><br/>
 
@@ -195,7 +195,7 @@ Under the *Dosing* card, there are no options to select from. Under the *Model* 
 
 <br/><br/>
 
-![The completed model specifications tab for example 2.](Images/GUI_IVIVE_ModelSpecEx2.png){width="100%"}
+![The completed model specifications tab for example 2.](../../man/figures/GUI_IVIVE_ModelSpecEx2.png){width="100%"}
 
 <br/><br/>
 
@@ -238,7 +238,7 @@ For more details on the format of this file, please review the *Introduction to 
 
 <br/><br/>
 
-![The completed compound selection tab for example 2.](Images/GUI_IVIVE_CompSelectEx2.png){width="100%"}
+![The completed compound selection tab for example 2.](../../man/figures/GUI_IVIVE_CompSelectEx2.png){width="100%"}
 
 <br/><br/>
 
@@ -248,7 +248,7 @@ To speed up the computation time of the program, let's change the number of Mont
 
 <br/><br/>
 
-![The completed advanced parameters tab for example 2.](Images/GUI_IVIVE_AdvParsEx2.png){width="100%"}
+![The completed advanced parameters tab for example 2.](../../man/figures/GUI_IVIVE_AdvParsEx2.png){width="100%"}
 
 <br/><br/>
 
@@ -258,7 +258,7 @@ Now that all user parameter selections have been made and all compounds appear u
 
 <br/><br/>
 
-![The completed run simulation tab for example 2 showing the expanded OED table tab.](Images/GUI_IVIVE_RunSimEx2_1.png){width="100%"}
+![The completed run simulation tab for example 2 showing the expanded OED table tab.](../../man/figures/GUI_IVIVE_RunSimEx2_1.png){width="100%"}
 
 <br/><br/>
 
@@ -266,7 +266,7 @@ The image below is the completed OED plot tab, which shows boxplots describing t
 
 <br/><br/>
 
-![The completed run simulation tab for example 2 showing the expanded OED plot tab where the OED plot has a linear scale y-axis and showcases the OED distributions against the chemical exposure estimate distributions.](Images/GUI_IVIVE_RunSimEx2_2.png){width="100%"}
+![The completed run simulation tab for example 2 showing the expanded OED plot tab where the OED plot has a linear scale y-axis and showcases the OED distributions against the chemical exposure estimate distributions.](../../man/figures/GUI_IVIVE_RunSimEx2_2.png){width="100%"}
 
 <br/><br/>
 
@@ -274,7 +274,7 @@ Therefore, we can click the box under the *Actions* card to change the scale of 
 
 <br/><br/>
 
-![The completed run simulation tab for example 2 showing the expanded OED plot tab where the plot has a log10 scale y-axis.](Images/GUI_IVIVE_RunSimEx2_3.png){width="100%"}
+![The completed run simulation tab for example 2 showing the expanded OED plot tab where the plot has a log10 scale y-axis.](../../man/figures/GUI_IVIVE_RunSimEx2_3.png){width="100%"}
 
 <br/><br/>
 
@@ -282,7 +282,7 @@ The table below shows the calculated bioactivity exposure ratios (BERs) for the 
 
 <br/><br/>
 
-![The completed run simulation tab for example 2 showing the expanded BER table tab.](Images/GUI_IVIVE_RunSimEx2_4.png){width="100%"}
+![The completed run simulation tab for example 2 showing the expanded BER table tab.](../../man/figures/GUI_IVIVE_RunSimEx2_4.png){width="100%"}
 
 <br/><br/>
 
@@ -290,7 +290,7 @@ The image below shows the final output of the IVIVE module which is a plot of th
 
 <br/><br/>
 
-![The completed run simulation tab for example 2 showing the expanded BER plot tab where the plot has a log10 scale y-axis.](Images/GUI_IVIVE_RunSimEx2_5.png){width="100%"}
+![The completed run simulation tab for example 2 showing the expanded BER plot tab where the plot has a log10 scale y-axis.](../../man/figures/GUI_IVIVE_RunSimEx2_5.png){width="100%"}
 
 <br/><br/>
 
@@ -306,7 +306,7 @@ Since we want to perform IVIVE, we select the *In vitro in vivo extrapolation (I
 
 <br/><br/>
 
-![The completed General Parameters tab for example 3.](Images/GUI_IVIVE_GenParsEx1.png){width="100%"}
+![The completed General Parameters tab for example 3.](../../man/figures/GUI_IVIVE_GenParsEx1.png){width="100%"}
 
 <br/><br/>
 
@@ -316,7 +316,7 @@ Under the *Dosing* card, there are no options to select from. Under the *Model* 
 
 <br/><br/>
 
-![The completed model specifications tab for example 3.](Images/GUI_IVIVE_ModelSpecEx3.png){width="100%"}
+![The completed model specifications tab for example 3.](../../man/figures/GUI_IVIVE_ModelSpecEx3.png){width="100%"}
 
 <br/><br/>
 
@@ -341,7 +341,7 @@ For formatting instructions, please either download the *Bioactivity Data File F
 
 <br/><br/>
 
-![The completed compound selection tab for example 3.](Images/GUI_IVIVE_CompSelectEx3.png){width="100%"}
+![The completed compound selection tab for example 3.](../../man/figures/GUI_IVIVE_CompSelectEx3.png){width="100%"}
 
 <br/><br/>
 
@@ -351,7 +351,7 @@ Since we want to output the OED in the liver, we select *tissue* under the secon
 
 <br/><br/>
 
-![The completed advanced parameters tab for example 3.](Images/GUI_IVIVE_AdvParsEx3.png){width="100%"}
+![The completed advanced parameters tab for example 3.](../../man/figures/GUI_IVIVE_AdvParsEx3.png){width="100%"}
 
 <br/><br/>
 
@@ -361,7 +361,7 @@ Now that all user parameter selections have been made and all compounds appear u
 
 <br/><br/>
 
-![The completed run simulation tab for example 3 showing the expanded OED table tab.](Images/GUI_IVIVE_RunSimEx3_1.png){width="100%"}
+![The completed run simulation tab for example 3 showing the expanded OED table tab.](../../man/figures/GUI_IVIVE_RunSimEx3_1.png){width="100%"}
 
 <br/><br/>
 
@@ -369,7 +369,7 @@ The image below is the completed OED plot tab, which shows a plot of the 10th qu
 
 <br/><br/>
 
-![The completed run simulation tab for example 3 showing the expanded OED plot tab where the plot has a linear scale y-axis.](Images/GUI_IVIVE_RunSimEx3_2.png){width="100%"}
+![The completed run simulation tab for example 3 showing the expanded OED plot tab where the plot has a linear scale y-axis.](../../man/figures/GUI_IVIVE_RunSimEx3_2.png){width="100%"}
 
 <br/><br/>
 
@@ -377,7 +377,7 @@ Therefore, we can click the box under the *Actions* card to change the scale of 
 
 <br/><br/>
 
-![The completed run simulation tab for example 3 showing the expanded OED plot tab where the plot has a log10 scale y-axis.](Images/GUI_IVIVE_RunSimEx3_3.png){width="100%"}
+![The completed run simulation tab for example 3 showing the expanded OED plot tab where the plot has a log10 scale y-axis.](../../man/figures/GUI_IVIVE_RunSimEx3_3.png){width="100%"}
 
 <br/><br/>
 
@@ -385,7 +385,7 @@ The final two tabs on the IVIVE module exhibit the bioactivity exposure ratio (B
 
 <br/><br/>
 
-![The completed run simulation tab for example 3 showing the expanded BER table and plot tabs, which notifies the user that the calculations were not computed due to lack of exposure data.](Images/GUI_IVIVE_RunSimEx3_4.png){width="100%"}
+![The completed run simulation tab for example 3 showing the expanded BER table and plot tabs, which notifies the user that the calculations were not computed due to lack of exposure data.](../../man/figures/GUI_IVIVE_RunSimEx3_4.png){width="100%"}
 
 <br/><br/>
 
