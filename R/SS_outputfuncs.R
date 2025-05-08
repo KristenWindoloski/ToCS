@@ -108,7 +108,7 @@ CalcAnalyticCss <- function(pars,i){
                                                 Caco2.Fgut = pars[["caco_fgut"]],
                                                 overwrite.invivo = pars[["caco_overwriteinvivo"]],
                                                 keepit100 = pars[["caco_keep100"]]),
-                           parameterize.args = list(default.to.human = pars[["defaulttoHuman"]],
+                           parameterize.args.list = list(default.to.human = pars[["defaulttoHuman"]],
                                                     adjusted.Funbound.plasma = pars[["adj_fub"]],
                                                     minimum.Funbound.plasma = pars[["min_fub"]],
                                                     regression = pars[["regression"]]))

@@ -114,7 +114,7 @@ CalcOED <- function(i,pars,bioactive_df){
                                                        overwrite.invivo = pars[["caco_overwriteinvivo"]],
                                                        keepit100 = pars[["caco_keep100"]]),
                                   calc.analytic.css.arg.list = list(adjusted.Funbound.plasma = pars[["adj_fub"]]),
-                                  parameterize.arg.list = list(default.to.human = pars[["defaulttoHuman"]],
+                                  parameterize.args.list = list(default.to.human = pars[["defaulttoHuman"]],
                                                                minimum.Funbound.plasma = pars[["min_fub"]],
                                                                regression = pars[["regression"]]),
                                   samples = pars[["samples"]])

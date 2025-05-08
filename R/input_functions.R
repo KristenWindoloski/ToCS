@@ -252,7 +252,7 @@ selectInput_CompPreference <- function(id){
 #' animal species is selected
 #' @param insilico The user-selected preference for use of in silico generated
 #' parameters if in vitro data is missing
-#' @param model The user-selected species
+#' @param model The user-selected model
 #' @param honda The selected IVIVE assumption (either NULL, Honda1, Honda2,
 #' Honda3, or Honda4), if applicable
 #' @param comptype The user-selected subset of compounds to search; either "Choose
@@ -271,32 +271,13 @@ PreloadCompsInput <- function(func,species,defaulthuman,insilico,model,honda,com
   httk::reset_httk()
 
   # --- Load in in silico fup, clint, and caco2 if selected
+  # --- Get CAS numbers for all compounds with enough data to run simulations
   if(insilico == "Yes, load in silico parameters"){
-
-    shiny::withProgress(message = "Loading the the of available chemicals to simulate under the 'Preloaded Compounds' card. Please wait.",
-                        value = 0, {
-
-      shiny::incProgress(1/5, detail = paste("Loading in silico parameter set", 1))
-      httk::load_sipes2017(overwrite = FALSE)
-      shiny::incProgress(1/5, detail = paste("Loading in silico parameter set", 2))
-      httk::load_pradeep2020(overwrite = FALSE)
-      shiny::incProgress(1/5, detail = paste("Loading in silico parameter set", 3))
-      httk::load_dawson2021(overwrite = FALSE)
-      shiny::incProgress(1/5, detail = paste("Loading in silico parameter set", 4))
-      httk::load_honda2023(overwrite = FALSE)
-      shiny::incProgress(1/5, detail = paste("All in silico parameter sets loaded"))
-      })
+    CASnums <- loadInSilicoPars(func,species,model,defaulthuman)
   }
-
-  # --- Transform default to human response
-  if (defaulthuman == "Yes"){
-    defaulttohuman <- TRUE
-  } else{
-    defaulttohuman <- FALSE
+  else {
+    CASnums <- getCASnums(func,species,model,defaulthuman)
   }
-
-  # --- Get CAS numbers that the model for the given species and model selected will run for
-  CASnums <- getCASnums(func,species,model,defaulttohuman)
 
   # --- Get all available preloaded compounds
   piped <- getPiped(CASnums,honda,comptype)
@@ -317,6 +298,64 @@ PreloadCompsInput <- function(func,species,defaulthuman,insilico,model,honda,com
                 selected = '',
                 multiple = TRUE)
     }
+}
+
+
+################################################################################
+################################################################################
+
+#' Load in silico clint, fup, and caco-2 values
+#'
+#' @description
+#' This function loads in silico-generated clint, fup, and caco-2 values for
+#' compounds in httk's chem.physical_and_invitro.data that are lacking enough
+#' data to run simulations. After loading the in silico data, the list of
+#' compounds is paired down to only those with enough parameter data now that
+#' the in silico data has been loaded.
+#'
+#'
+#' @param func The user-selected desired output
+#' @param species The user-selected species
+#' @param model The user-selected model
+#' @param defaulthuman The user-selected human in vitro data preference if an
+#' animal species is selected
+#'
+#' @return A vector of CAS numbers, each of which has enough data to run a simulation
+#' @export
+#'
+loadInSilicoPars <- function(func,species,model,defaulthuman){
+
+  # --- Satisfy R CMD Check
+  Human.Clint <- Human.Funbound.plasma <- MW <- logP <- NULL
+
+  # --- Determine CAS that DON'T have enough data to run simulations
+  testrows <- magrittr::`%>%`(httk::chem.physical_and_invitro.data,
+                              dplyr::filter((is.na(Human.Clint) | is.na(Human.Funbound.plasma) | Human.Funbound.plasma == 0),
+                                            !is.na(MW),
+                                            !is.na(logP),
+                                            !grepl(CAS,pattern = "CAS"),
+                                            !grepl(CAS,pattern = "cas"),
+                                            grepl(CAS.Checksum, pattern = "TRUE")))
+  loadCAS <- testrows$CAS
+
+  shiny::withProgress(message = "Loading the the of available chemicals to simulate under the 'Preloaded Compounds' card. Please wait.",
+                      value = 0, {
+
+                        shiny::incProgress(1/5, detail = paste("Loading in silico parameter set", 1))
+                        httk::load_sipes2017(overwrite = FALSE, chem_include = loadCAS)
+                        shiny::incProgress(1/5, detail = paste("Loading in silico parameter set", 2))
+                        httk::load_pradeep2020(overwrite = FALSE, chem_include = loadCAS)
+                        shiny::incProgress(1/5, detail = paste("Loading in silico parameter set", 3))
+                        httk::load_dawson2021(overwrite = FALSE, chem_include = loadCAS)
+                        shiny::incProgress(1/5, detail = paste("Loading in silico parameter set", 4))
+
+                        # --- Get CAS numbers that the model for the given species and model selected will run for
+                        CASnums <- getCASnums(func,species,model,defaulthuman)
+
+                        httk::load_honda2023(overwrite = FALSE, chem_include = CASnums)
+                        shiny::incProgress(1/5, detail = paste("All in silico parameter sets loaded"))
+                      })
+  return(CASnums)
 }
 
 
@@ -344,6 +383,13 @@ PreloadCompsInput <- function(func,species,defaulthuman,insilico,model,honda,com
 #'
 getCASnums <- function(func,species,model,defaulttohuman){
 
+  # --- Transform default to human response
+  if (defaulttohuman == "Yes"){
+    defaulttohuman <- TRUE
+  } else{
+    defaulttohuman <- FALSE
+  }
+
   CASnums <- httk::get_cheminfo(species = species,
                                 model = model,
                                 default.to.human = defaulttohuman)
@@ -354,6 +400,13 @@ getCASnums <- function(func,species,model,defaulttohuman){
                                           default.to.human = defaulttohuman)
     CASnums <- intersect(CASnums,CASnums_3compss)
   }
+
+  df <- chem.physical_and_invitro.data[chem.physical_and_invitro.data$CAS %in% CASnums,]
+  df <- magrittr::`%>%`(df,dplyr::filter(!grepl(CAS,pattern = "CAS"),
+                                              !grepl(CAS,pattern = "cas"),
+                                              grepl(CAS.Checksum, pattern = "TRUE")))
+  CASnums <- df$CAS
+
   return(CASnums)
 }
 
@@ -764,12 +817,12 @@ textInput_OutputTimes <- function(id){
 #'
 ODEmethod_Input <- function(id,model){
 
-  if (model == "fetal_pbtk"){
-    selectdefault = "lsode"
-  }
-  else{
-    selectdefault = "lsoda"
-  }
+  selectdefault <- "lsoda"
+
+    if (model == "fetal_pbtk"){
+      selectdefault = "lsode"
+    }
+
   shiny::selectInput(id,
                      label = "Select the ODE solver method. See R documentation on the
                       'deSolve' function for method details.",

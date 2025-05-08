@@ -499,7 +499,7 @@ Run_ADME_Model <- function(i,pars){
                            restrictive.clearance = pars[["restrict_clear"]],
                            adjusted.Funbound.plasma = pars[["adj_fub"]],
                            minimum.Funbound.plasma = pars[["min_fub"]],
-                           parameterize.arg.list = list(default.to.human = pars[["defaulttoHuman"]],
+                           parameterize.args.list = list(default.to.human = pars[["defaulttoHuman"]],
                                                         regression = pars[["regression"]],
                                                         Caco2.options = list(Caco2.Pab.default = pars[["caco2default"]],
                                                                              Caco2.Fabs = pars[["caco_fabs"]],
@@ -760,6 +760,8 @@ Bind_Chem_Data <- function(pars,pars_df){
 #' @export
 #'
 StorePars_ADME <- function(pars){
+
+  print(pars)
 
   dosinginfo <- Dosing_Output(pars)
 

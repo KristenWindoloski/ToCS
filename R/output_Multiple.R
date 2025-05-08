@@ -193,6 +193,15 @@ UpdatePars <- function(pars){
   #----- MODEL SOLVER PARAMETERS
   #------------------------------------
 
+  if (is.null(pars[["odemethod"]])){
+    if(pars[["model"]] != "fetal_pbtk"){
+      pars[["odemethod"]] <- "lsoda"
+    }
+    else{
+      pars[["odemethod"]] = "lsode"
+    }
+  }
+
   # --- RELATIVE TOLERANCE
   pars[["rtol"]] <- 10^pars[["rtol"]]
 
