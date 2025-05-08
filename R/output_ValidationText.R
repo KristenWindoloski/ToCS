@@ -24,10 +24,7 @@ caption_text <- function(func,model){
 
   if (func == "ADME"){
 
-    if (model == 'pbtk'){
-      AUCoutput <- "venous plasma concentration."
-    }
-    else if (model == 'fetal_pbtk'){
+    if (model == 'pbtk' || model == 'fetal_pbtk' || model == "full_pregnancy"){
       AUCoutput <- "venous plasma concentration."
     }
     else if (model == '3compartment') {
@@ -228,7 +225,7 @@ validate_text_ADME <- function(pars){
   if (pars[["dosenum"]] == 'Select'){
     shiny::validate(shiny::need(pars[["dosenum"]] != 'Select',message = paste("")))
   }
-  if (pars[["dosenum"]] == 'Multiple Doses' && pars[["multdose"]] == 'Select'){
+  if (pars[["dosenum"]] == 'Multiple Doses' && pars[["multdose"]] == 'Select' && pars[["model"]] != 'full_pregnancy'){
     shiny::validate(shiny::need(pars[["multdose"]] != 'Select',message = paste("")))
   }
   if (pars[["dosenum"]] == 'Multiple Doses' && pars[["multdose"]] == 'No' && pars[["multdose_odd"]] == ''){

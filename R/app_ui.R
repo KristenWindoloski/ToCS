@@ -41,8 +41,8 @@ app_ui <- function(){
                      ##########################################################################
 
                      bslib::nav_panel(title = "Model Specifications",
-                                      bslib::layout_columns(MS_Dosing(),
-                                                            MS_Model(),
+                                      bslib::layout_columns(MS_Model(),
+                                                            MS_Dosing(),
                                                             col_widths = c(6,6))),
 
                      ##########################################################################

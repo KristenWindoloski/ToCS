@@ -482,7 +482,15 @@ modsol <- function(pars){
 #'
 Run_ADME_Model <- function(i,pars){
 
-  out <- httk::solve_model(chem.name = pars[["CompoundList"]][i,1],
+  if (pars[["model"]] == "full_pregnancy"){
+
+    out <- httk::solve_full_pregnancy(chem.name = pars[["CompoundList"]][i,1],
+                                      dose = pars[["dosinginfo"]][[1]],
+                                      daily.dose = pars[["dosinginfo"]][[3]],
+                                      doses.per.day = pars[["dosinginfo"]][[2]])
+  }
+  else{
+    out <- httk::solve_model(chem.name = pars[["CompoundList"]][i,1],
                            route = pars[["doseroute"]],
                            input.units = pars[["doseunits"]],
                            dosing = pars[["dosinginfo"]],
@@ -506,6 +514,8 @@ Run_ADME_Model <- function(i,pars){
                                                                              Caco2.Fgut = pars[["caco_fgut"]],
                                                                              overwrite.invivo = pars[["caco_overwriteinvivo"]],
                                                                              keepit100 = pars[["caco_keep100"]])))
+  }
+
 
   out <- RemoveCols(out,pars[["model"]])
 }
@@ -536,7 +546,7 @@ Run_ADME_Model <- function(i,pars){
 #'
 RemoveCols <- function(sol,model){
 
-  if (model == "fetal_pbtk"){
+  if (model == "fetal_pbtk" || model == "full_pregnancy"){
     index <- which(colnames(sol) == "Rfblood2plasma")
   }
   else {
@@ -760,8 +770,6 @@ Bind_Chem_Data <- function(pars,pars_df){
 #' @export
 #'
 StorePars_ADME <- function(pars){
-
-  print(pars)
 
   dosinginfo <- Dosing_Output(pars)
 

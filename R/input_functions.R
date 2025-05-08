@@ -390,6 +390,10 @@ getCASnums <- function(func,species,model,defaulttohuman){
     defaulttohuman <- FALSE
   }
 
+  if (model == "full_pregnancy"){
+    model <- "fetal_pbtk"
+  }
+
   CASnums <- httk::get_cheminfo(species = species,
                                 model = model,
                                 default.to.human = defaulttohuman)
@@ -722,7 +726,7 @@ Model_Input <- function(func,spec){
 
   if (func == "Concentration-time profiles"){
     if (spec == "Human"){
-      choice_lst <- list("Select","1compartment","3compartment","pbtk","fetal_pbtk")
+      choice_lst <- list("Select","1compartment","3compartment","pbtk","fetal_pbtk","full_pregnancy")
     }
     else{
       choice_lst <- list("Select","1compartment","3compartment","pbtk")
@@ -806,22 +810,14 @@ textInput_OutputTimes <- function(id){
 #' profile simulations
 #'
 #' @param id Shiny identifier name
-#' @param model The chosen model ("1compartment","3compartment", "pbtk", or
-#' "fetal_pbtk")
 #'
 #' @return A drop down list
 #' @seealso [AP_ModelSolver()], which calls the current function
 #' @export
 #'
-#' @examples selectInput_ODEmethod("odemethod","pbtk")
+#' @examples selectInput_ODEmethod("odemethod")
 #'
-ODEmethod_Input <- function(id,model){
-
-  selectdefault <- "lsoda"
-
-    if (model == "fetal_pbtk"){
-      selectdefault = "lsode"
-    }
+selectInput_ODEmethod <- function(id){
 
   shiny::selectInput(id,
                      label = "Select the ODE solver method. See R documentation on the
@@ -830,7 +826,7 @@ ODEmethod_Input <- function(id,model){
                                     "euler", "rk4", "ode23", "ode45", "radau",
                                     "bdf", "bdf_d", "adams","impAdams","impAdams_d",
                                     "iteration"),
-                     selected = selectdefault)
+                     selected = "lsoda")
 
 }
 

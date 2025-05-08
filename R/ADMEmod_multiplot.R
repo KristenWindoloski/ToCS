@@ -76,9 +76,24 @@ ADME_MultPlt_server <- function(id, adme_args){
     output$ADME1plotsCaption <- shiny::renderText({
       shiny::req(sol(),runsim(),model())
       AUCoutput <- caption_text("ADME",model())
-      paste("Figure 1: Plot of the time course predictions for selected compounds. The y-axis indicates the output type
+      if (model() == "full_pregnancy"){
+        paste("Figure 1: Plot of the time course predictions for selected compounds. The y-axis indicates the output type
             (A = amount (umol), C = concentration (uM)) and compartments for the selected model. The AUC plot shows the
-            area under the curve of the ", AUCoutput)})
+            area under the curve of the ", AUCoutput, " Y-labels that contain 'conceptus' represent the conceptus amount
+            or concentration. Y-labels that contain an 'f' represent respective fetal compartments. The model transitions
+            from conceptus to fetal on day 91.")
+      }
+      else if (model() == "fetal_pbtk"){
+        paste("Figure 1: Plot of the time course predictions for selected compounds. The y-axis indicates the output type
+            (A = amount (umol), C = concentration (uM)) and compartments for the selected model. The AUC plot shows the
+            area under the curve of the ", AUCoutput, " Y-labels that contain an 'f' represent respective fetal compartments.")
+      }
+      else{
+        paste("Figure 1: Plot of the time course predictions for selected compounds. The y-axis indicates the output type
+            (A = amount (umol), C = concentration (uM)) and compartments for the selected model. The AUC plot shows the
+            area under the curve of the ", AUCoutput)
+      }
+      })
 
     #--- Shows download button for plot
     output$downloadADME1plots_cond <- shiny::renderUI({

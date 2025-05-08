@@ -390,7 +390,7 @@ DataTypeList <- function(){
 #' @export
 #'
 multdose_Select <- function(value,input,message = "The dosing frequency must be selected"){
-  if (input$dosenum == "Multiple Doses" && value == "Select") message
+  if (input$dosenum == "Multiple Doses" && value == "Select" && input$model != "full_pregnancy") message
 }
 
 
