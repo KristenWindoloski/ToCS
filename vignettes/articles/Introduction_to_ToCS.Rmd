@@ -1,7 +1,7 @@
 ---
 title: "Introduction to the ToCS App"
-author: "Kristen Windoloski"
-date: "April 25, 2025"
+author: "Kristen Leonard"
+date: "May 9, 2025"
 ---
 ---
 
@@ -23,13 +23,14 @@ ToCS is designed to be an easy to use computational tool that generates toxicoki
 
 While other GUIs that utilize httk have been created (Integrated Chemical Environment (ICE), https://ice.ntp.niehs.nih.gov/), ours is unique in that it 
 
+- Contains a complete pregnancy model from conception to birth (using httk's solve_full_pregnancy function)
 - Calculates the area under the curve (AUC) and time to maximum concentration for all model compartments
 - Offers computation of analytical steady state concentrations and oral equivalent doses (OEDs) for all model and other tissue compartments, not just plasma
 - Predicts the bioactivity exposure ratio (BER) and plots the OEDs against exposure estimates given user-uploaded chemical exposure data, which can be used to prioritize chemicals for further risk assessment
 - Provides estimates of TK parameters not only including half-lives but also total plasma clearances, volumes of distribution, elimination rates, and partition coefficients
 - Estimates the number of days it takes for compounds to reach plasma steady state
 - Allows for further customization of simulations beyond basic model parameters
-- Utilizes the most recent httk version (2.5.0)
+- Utilizes the most recent httk version (2.6.1)
 - Allows for non-uniform chemical exposure (dosing), which can be beneficial for users interested in food chemicals
 - Offers simulations for dog, rabbit, and mouse species in addition to human and rats
 - Includes the option to include in silico-generated parameters within httk if in vitro hepatic clearance, fraction unbound in plasma, and/or caco-2 membrane permeability is missing
@@ -65,7 +66,7 @@ The module selected above then determines the available user selections in the r
 
 ### Model Specifications Tab
 
-This tab (shown in the image below) has different selections depending on the output chosen under the *General Parameters* tab. However, the *Dosing* and *Model* cards will always be present. The *Dosing* card specifies the dosing scenario for the user's simulation, if applicable. The *Model* card has the user select basic model specifications needed to run the model. There are five different models in the first drop down under the *Model* card that may appear:
+This tab (shown in the image below) has different selections depending on the output chosen under the *General Parameters* tab. However, the *Dosing* and *Model* cards will always be present. The *Model* card has the user select basic model specifications needed to run the model. There are five different models in the first drop down under the *Model* card that may appear:
 
 - 3compartmentss
   - A steady state plasma model describing the rest of body compartment of the 3compartment model resulting from iv dosing
@@ -77,10 +78,12 @@ This tab (shown in the image below) has different selections depending on the ou
   - A physiologically based model with the following compartments: gut lumen, gut, liver, lung, kidney, arterial and venous blood, and rest of body
 - fetal_pbtk
   - An extension of the pbtk model to include adipose, thyroid, and placenta compartments as well as an entire fetus model
+- full_pregnancy
+  - An extension of the fetal_pbtk model to include the conceptus stage of pregnancy so that the entire pregnancy is captured
 
 *The rest of body compartment is a collective term lumping all remaining body tissues together.*
 
-For a more in depth look at each model, the user should review the httk documentation (https://cran.r-project.org/web/packages/httk/index.html) and related publication (https://www.jstatsoft.org/article/view/v079i04). Also always appearing under the *Model* card is the option for the user to include in silico generated parameters (hepatic clearance, fraction unbound in plasma, and caco-2 permeability) for compounds with missing in vitro data. The available in silico parameters come from Sipes2017, Pradeep2020, Dawson2021, and Honda2023 data sets in httk. The user can find more information about the origin and methods of these datasets by reviewing the httk documentation. If the user selects *Yes* for this drop down, then an increased number of compounds will become available to simulate. The in silico parameters will not override any in vitro parameters.
+For a more in depth look at each model, the user should review the httk documentation (https://cran.r-project.org/web/packages/httk/index.html) and related publication (https://www.jstatsoft.org/article/view/v079i04). Also always appearing under the *Model* card is the option for the user to include in silico generated parameters (hepatic clearance, fraction unbound in plasma, and caco-2 permeability) for compounds with missing in vitro data. The available in silico parameters come from Sipes2017, Pradeep2020, Dawson2021, and Honda2023 data sets in httk. The user can find more information about the origin and methods of these datasets by reviewing the httk documentation. If the user selects *Yes* for this drop down, then an increased number of compounds will become available to simulate. The in silico parameters will not override any in vitro parameters. The *Dosing* card, on the other hand, specifies the dosing scenario for the user's simulation, if applicable. 
 
 Once all selections have been made for this tab, move on to the *Compound Selection* tab.
 <br/><br/>

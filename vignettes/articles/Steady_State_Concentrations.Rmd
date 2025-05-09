@@ -1,13 +1,15 @@
 ---
 title: "Steady State Concentration Simulation Examples"
-author: "Kristen Windoloski"
-date: "April 25, 2025"
+author: "Kristen Leonard"
+date: "May 9, 2025"
 ---
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  warning = FALSE, 
+  message = FALSE
 )
 ```
 

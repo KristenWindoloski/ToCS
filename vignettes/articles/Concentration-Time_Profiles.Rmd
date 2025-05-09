@@ -1,13 +1,15 @@
 ---
 title: "Concentration-Time Profile Simulation Examples"
-author: "Kristen Windoloski"
-date: "April 25, 2025"
+author: "Kristen Leonard"
+date: "May 9, 2025"
 ---
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  warning = FALSE, 
+  message = FALSE
 )
 ```
 
@@ -72,8 +74,11 @@ Before jumping into several examples, we define the output states that users wil
   - Cfbrain = Concentration of chemical in fetal brain
   - Cfplasma = Concentration of chemical in fetal plasma
   - Rfblood2plasma = Dynamic fetal ratio of blood to plasma (unitless)
-  - Qcardiac = Amount of blood flowing from cardiac tissue (L/day)
-  - Qthyroid = Amount of blood flowing from thyroid tissue (L/day)
+- full_pregnancy
+  - All outputs in the fetal_pbtk model for plus:
+  - Cthyroid = Concentration of chemical in maternal thyroid
+  - Aconceptus = Amount of chemical in conceptus (embryo)
+  - Cconceptus = Concentration of chemical in conceptus (embryo)
   
 Amount outputs have units of umol, while concentration outputs are in uM. The area under the curve outputs have units uM*days. Any other units are specified above when defined. The user can also check the figure captions for units. If the user wants further details on the models and their formulations, they are encouraged to check out the httk documentation (https://cran.r-project.org/web/packages/httk/index.html).
 
@@ -98,7 +103,7 @@ Now, we move on to the *Model Specifications* tab.
 
 ### Model Specifications Tab
 
-On the *Dosing* card, we leave the first two drop down menus as their default values. For the dosing frequency, we select *Single Dose* from the drop down menu. This prompts the appearance of a textbox where we can input the number of mg/kg to be administered. We change its value to 5 since we want a single 5 mg/kg exposure. On the *Model* card, we select *pbtk* for the pbtk model on the first drop down menu. Since we do not want to use in silico generated parameters for this simulation, we select *No* for the second drop down menu under the *Model* card. Finally, since we only want to run our simulation for one day, we edit the bottom box in the *Model* card to be 1 instead of the default value of 10. Now the *Model Specifications* tab is completed and should look like the image below, so we can proceed to the *Compound Selection* tab.
+On the *Model* card, we select *pbtk* for the pbtk model on the first drop down menu. Since we do not want to use in silico generated parameters for this simulation, we select *No* for the second drop down menu under the *Model* card. Finally, since we only want to run our simulation for one day, we edit the bottom box in the *Model* card to be 1 instead of the default value of 10. On the *Dosing* card, we leave the first two drop down menus as their default values. For the dosing frequency, we select *Single Dose* from the drop down menu. This prompts the appearance of a textbox where we can input the number of mg/kg to be administered. We change its value to 5 since we want a single 5 mg/kg exposure. Now the *Model Specifications* tab is completed and should look like the image below, so we can proceed to the *Compound Selection* tab.
 
 <br/><br/>
 
@@ -185,9 +190,7 @@ As with example 1, we select *Concentration-time profiles* as the desired output
 
 ### Model Specifications Tab
 
-On the *Dosing* card, we again leave the first two drop down menus at their default selections. For the dosing frequency (third) drop down menu, we select *Multiple Doses*. A fourth drop down menu will then appear asking whether we want the multiple doses to be evenly distributed throughout the day. Since we want to administer a 2 mg/kg dose every 8 hours, we select *Yes* from the drop down menu. Finally, two additional user options appear. The first one asks the user to specify the amount of chemical exposure per administration, and so we enter 2 into the box. The second one is a slider that has the user specify the frequency of the dose, and so we move the slider to 8 hours.
-
-On the *Model* card, we select *3compartment* model under the first drop down menu. For the second drop down menu, we select *No* since we do not want to use in silico generated parameters. Finally, we enter *3* in the final box under the *Model* card since we want to run the simulation for three days. Therefore, the final interface of the *Model Specifications* tab should look like the image below.
+On the *Model* card, we select *3compartment* model under the first drop down menu. For the second drop down menu, we select *No* since we do not want to use in silico generated parameters. Finally, we enter *3* in the final box under the *Model* card since we want to run the simulation for three days. On the *Dosing* card, we again leave the first two drop down menus at their default selections. For the dosing frequency (third) drop down menu, we select *Multiple Doses*. A fourth drop down menu will then appear asking whether we want the multiple doses to be evenly distributed throughout the day. Since we want to administer a 2 mg/kg dose every 8 hours, we select *Yes* from the drop down menu. Finally, two additional user options appear. The first one asks the user to specify the amount of chemical exposure per administration, and so we enter 2 into the box. The second one is a slider that has the user specify the frequency of the dose, and so we move the slider to 8 hours. Therefore, the final interface of the *Model Specifications* tab should look like the image below.
 
 ![The completed model specifications tab for example 2.](../../man/figures/GUI_CTP_ModelSpecEx2.png){width="100%"}
 
@@ -274,9 +277,7 @@ As with the previous examples, we select *Concentration-time profiles* as the de
 
 ### Model Specifications Tab
 
-Under the *Dosing* card, we keep the first two drop downs on their default values. Under the third drop down, we select *Multiple Doses* since we want to give three doses per day. Then, since the doses we want to give are not evenly distributed throughout the day, we select *No* for the resulting fourth drop down menu. Finally, a fifth box appears where we will enter our dosing regime. We enter all of the times (in days) we want to administer the compounds first, then list the amount of compound at each dosing time directly after. Since we want to administer the compounds at hours 0, 6, and 12 each day for two days, the first part of the list we enter is *0, 0.25, 0.5, 1, 1.25, 1.5*. Then, the second part of the list is comprised of the dosing amounts, which are 1 mg/kg for the first two doses of the day and then 0.2 mg/kg for the last dose of each day, so we enter *1, 1, 0.2, 1, 1, 0.2* as the second part of the list.
-
-Under the *Model* card, we select *1compartment* for the first drop down menu. For the second drop down menu, we select *Yes* since we want to include compounds with only in silico generated parameters (hepatic clearance, fraction unbound) into the compound list. Finally, we enter *2* into the last box under the *Model* card since we want to run the simulation for two days. The completed *Model Specification* card should appear the same as the image below.
+Under the *Model* card, we select *1compartment* for the first drop down menu. For the second drop down menu, we select *Yes* since we want to include compounds with only in silico generated parameters (hepatic clearance, fraction unbound) into the compound list. Finally, we enter *2* into the last box under the *Model* card since we want to run the simulation for two days. Under the *Dosing* card, we keep the first two drop downs on their default values. Under the third drop down, we select *Multiple Doses* since we want to give three doses per day. Then, since the doses we want to give are not evenly distributed throughout the day, we select *No* for the resulting fourth drop down menu. Finally, a fifth box appears where we will enter our dosing regime. We enter all of the times (in days) we want to administer the compounds first, then list the amount of compound at each dosing time directly after. Since we want to administer the compounds at hours 0, 6, and 12 each day for two days, the first part of the list we enter is *0, 0.25, 0.5, 1, 1.25, 1.5*. Then, the second part of the list is comprised of the dosing amounts, which are 1 mg/kg for the first two doses of the day and then 0.2 mg/kg for the last dose of each day, so we enter *1, 1, 0.2, 1, 1, 0.2* as the second part of the list. The completed *Model Specification* card should appear the same as the image below.
 
 <br/><br/>
 

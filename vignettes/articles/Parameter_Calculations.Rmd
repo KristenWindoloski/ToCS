@@ -1,13 +1,15 @@
 ---
 title: "Parameter Calculations Examples"
-author: "Kristen Windoloski"
-date: "April 25, 2025"
+author: "Kristen Leonard"
+date: "May 9, 2025"
 ---
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  warning = FALSE, 
+  message = FALSE
 )
 ```
 
@@ -55,7 +57,7 @@ Since we want to calculate human TK parameters, we select *Parameter calculation
 
 ### Model Specifications Tab
 
-As shown in the image below, there are no user selections under the *Dosing* card. Under the *Model* card, we omit the first drop down menu and leave it on *None* as the models described in the *Introduction to ToCS* vignette are not used to calculate parameters. Finally, we select *No* under the second drop down menu under the *Model* card since we do not want the program to simulate chemicals with only in silico generated parameters. The completed tab should look like the image below, and the user can proceed to the next tab.
+As shown in the image below under the *Model* card, we omit the first drop down menu and leave it on *None* as the models described in the *Introduction to ToCS* vignette are not used to calculate parameters. Finally, we select *No* under the second drop down menu under the *Model* card since we do not want the program to simulate chemicals with only in silico generated parameters. There are no user selections under the *Dosing* card. The completed tab should look like the image below, and the user can proceed to the next tab.
 
 <br/><br/>
 
@@ -119,7 +121,7 @@ If we wanted to view the plots under this tab using a log10 y-axis, we would che
 
 <br/><br/>
 
-![The parameter plots with log10 y-axis drop down under the run simulation tab for example 1.](../../man/figures/GUI_PC_RunSimEx1_7.png){width="100%"}
+![The parameter plots with log10 y-axis drop down under the run simulation tab for example 1.](../../man/figures/GUI_PC_RunSimEx1_3.png){width="100%"}
 
 <br/><br/>
 
@@ -127,7 +129,7 @@ Under the next drop down tab, there is a table of the parameter values from the 
 
 <br/><br/>
 
-![The parameter table drop down under the run simulation tab for example 1.](../../man/figures/GUI_PC_RunSimEx1_3.png){width="100%"}
+![The parameter table drop down under the run simulation tab for example 1.](../../man/figures/GUI_PC_RunSimEx1_4.png){width="100%"}
 
 <br/><br/>
 
@@ -135,7 +137,7 @@ Under the third drop down tab, the user should see 13 plots, one per partition c
 
 <br/><br/>
 
-![The partition coefficients plots with linear y-axis under the run simulation tab for example 1.](../../man/figures/GUI_PC_RunSimEx1_4.png){width="100%"}
+![The partition coefficients plots with linear y-axis under the run simulation tab for example 1.](../../man/figures/GUI_PC_RunSimEx1_5.png){width="100%"}
 
 <br/><br/>
 
@@ -143,7 +145,7 @@ Now as with the first drop down tab, the user can change the scale on the y-axis
 
 <br/><br/>
 
-![The partition coefficients plots with log10 y-axis drop down under the run simulation tab for example 1.](../../man/figures/GUI_PC_RunSimEx1_8.png){width="100%"}
+![The partition coefficients plots with log10 y-axis drop down under the run simulation tab for example 1.](../../man/figures/GUI_PC_RunSimEx1_6.png){width="100%"}
 
 <br/><br/>
 
@@ -151,7 +153,7 @@ Under the fourth drop down tab is a table of partition coefficients from the plo
 
 <br/><br/>
 
-![The partition coefficients table drop down under the run simulation tab for example 1.](../../man/figures/GUI_PC_RunSimEx1_5.png){width="100%"}
+![The partition coefficients table drop down under the run simulation tab for example 1.](../../man/figures/GUI_PC_RunSimEx1_7.png){width="100%"}
 
 <br/><br/>
 
@@ -159,7 +161,7 @@ The fifth and final tab offers the user the option to download all of the user p
 
 <br/><br/>
 
-![The simulation parameters drop down under the run simulation tab for example 1.](../../man/figures/GUI_PC_RunSimEx1_6.png){width="100%"}
+![The simulation parameters drop down under the run simulation tab for example 1.](../../man/figures/GUI_PC_RunSimEx1_8.png){width="100%"}
 
 <br/><br/>
 
@@ -213,13 +215,10 @@ In this example, we decide to change some of the default values of the advanced 
 
 <br/><br/>
 
-![The completed upper part of the advanced parameters tab for example 2.](../../man/figures/GUI_PC_AdvParsEx2_1.png){width="100%"}
+![The completed advanced parameters tab for example 2.](../../man/figures/GUI_PC_AdvParsEx2.png){width="100%"}
 
 <br/><br/>
 
-![The completed lower part of the advanced parameters tab for example 2.](../../man/figures/GUI_PC_AdvParsEx2_2.png){width="100%"}
-
-<br/><br/>
 
 ### Run Simulation Tab
 
@@ -235,7 +234,7 @@ Since it is impossible to tell the volume of distribution and half life values f
 
 <br/><br/>
 
-![The log10 y-axis parameter plots under the parameter plots tab for example 2.](../../man/figures/GUI_PC_RunSimEx2_6.png){width="100%"}
+![The log10 y-axis parameter plots under the parameter plots tab for example 2.](../../man/figures/GUI_PC_RunSimEx2_2.png){width="100%"}
 
 <br/><br/>
 
@@ -243,7 +242,7 @@ Under the second drop down menu and shown in the image below, the parameter valu
 
 <br/><br/>
 
-![The table of parameter plot values for example 2.](../../man/figures/GUI_PC_RunSimEx2_2.png){width="100%"}
+![The table of parameter plot values for example 2.](../../man/figures/GUI_PC_RunSimEx2_3.png){width="100%"}
 
 <br/><br/>
 
@@ -251,7 +250,7 @@ Under the third drop down menu in the *Results* card are 13 partition coefficien
 
 <br/><br/>
 
-![The linear y-axis partition coefficient plots for example 2.](../../man/figures/GUI_PC_RunSimEx2_3.png){width="100%"}
+![The linear y-axis partition coefficient plots for example 2.](../../man/figures/GUI_PC_RunSimEx2_4.png){width="100%"}
 
 <br/><br/>
 
@@ -259,7 +258,7 @@ As with the plots under the first results tab, users can transform the scale of 
 
 <br/><br/>
 
-![The log10 y-axis partition coefficient plots for example 2.](../../man/figures/GUI_PC_RunSimEx2_7.png){width="100%"}
+![The log10 y-axis partition coefficient plots for example 2.](../../man/figures/GUI_PC_RunSimEx2_5.png){width="100%"}
 
 <br/><br/>
 
@@ -267,7 +266,7 @@ Under the fourth drop down menu (shown in the image below), the parameter values
 
 <br/><br/>
 
-![The partition coefficients table for example 2.](../../man/figures/GUI_PC_RunSimEx2_4.png){width="100%"}
+![The partition coefficients table for example 2.](../../man/figures/GUI_PC_RunSimEx2_6.png){width="100%"}
 
 <br/><br/>
 
@@ -275,7 +274,7 @@ The final drop down tab under the *Results* card gives the user the option to do
 
 <br/><br/>
 
-![The simulation parameters tab for example 2.](../../man/figures/GUI_PC_RunSimEx2_5.png){width="100%"}
+![The simulation parameters tab for example 2.](../../man/figures/GUI_PC_RunSimEx2_7.png){width="100%"}
 
 <br/><br/>
 
