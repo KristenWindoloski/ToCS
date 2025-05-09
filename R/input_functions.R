@@ -338,7 +338,7 @@ loadInSilicoPars <- function(func,species,model,defaulthuman){
                                             grepl(CAS.Checksum, pattern = "TRUE")))
   loadCAS <- testrows$CAS
 
-  shiny::withProgress(message = "Loading the the of available chemicals to simulate under the 'Preloaded Compounds' card. Please wait.",
+  shiny::withProgress(message = "Loading the available chemicals to simulate under the 'Preloaded Compounds' card. Please wait.",
                       value = 0, {
 
                         shiny::incProgress(1/5, detail = paste("Loading in silico parameter set", 1))
