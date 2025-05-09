@@ -325,8 +325,9 @@ PreloadCompsInput <- function(func,species,defaulthuman,insilico,model,honda,com
 #'
 loadInSilicoPars <- function(func,species,model,defaulthuman){
 
-  # --- Satisfy R CMD Check
-  Human.Clint <- Human.Funbound.plasma <- MW <- logP <- NULL
+  # --- Satisfy R CMD Check condition ("no visible binding...")
+  # --- THESE VARIABLES ARE NOT ACTUALLY NULL
+  Human.Clint<-Human.Funbound.plasma<-MW<-logP<-CAS<-CAS.Checksum<-NULL
 
   # --- Determine CAS that DON'T have enough data to run simulations
   testrows <- magrittr::`%>%`(httk::chem.physical_and_invitro.data,
@@ -383,6 +384,10 @@ loadInSilicoPars <- function(func,species,model,defaulthuman){
 #'
 getCASnums <- function(func,species,model,defaulttohuman){
 
+  # --- Satisfy R CMD Check condition ("no visible binding...")
+  # --- THESE VARIABLES ARE NOT ACTUALLY NULL
+  CAS <- CAS.Checksum <- NULL
+
   # --- Transform default to human response
   if (defaulttohuman == "Yes"){
     defaulttohuman <- TRUE
@@ -407,8 +412,8 @@ getCASnums <- function(func,species,model,defaulttohuman){
 
   df <- chem.physical_and_invitro.data[chem.physical_and_invitro.data$CAS %in% CASnums,]
   df <- magrittr::`%>%`(df,dplyr::filter(!grepl(CAS,pattern = "CAS"),
-                                              !grepl(CAS,pattern = "cas"),
-                                              grepl(CAS.Checksum, pattern = "TRUE")))
+                                         !grepl(CAS,pattern = "cas"),
+                                         grepl(CAS.Checksum, pattern = "TRUE")))
   CASnums <- df$CAS
 
   return(CASnums)
