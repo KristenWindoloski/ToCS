@@ -410,11 +410,14 @@ getCASnums <- function(func,species,model,defaulttohuman){
     CASnums <- intersect(CASnums,CASnums_3compss)
   }
 
-  df <- chem.physical_and_invitro.data[chem.physical_and_invitro.data$CAS %in% CASnums,]
-  df <- magrittr::`%>%`(df,dplyr::filter(!grepl(CAS,pattern = "CAS"),
-                                         !grepl(CAS,pattern = "cas"),
-                                         grepl(CAS.Checksum, pattern = "TRUE")))
-  CASnums <- df$CAS
+  if (!is.null(CASnums)){
+      df <- chem.physical_and_invitro.data[chem.physical_and_invitro.data$CAS %in% CASnums,]
+      df <- magrittr::`%>%`(df,dplyr::filter(!grepl(CAS,pattern = "CAS"),
+                                             !grepl(CAS,pattern = "cas"),
+                                             grepl(CAS.Checksum, pattern = "TRUE")))
+
+      CASnums <- df$CAS
+  }
 
   return(CASnums)
 }
