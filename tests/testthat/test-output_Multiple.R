@@ -1,6 +1,4 @@
 
-rm(list = ls())
-
 ####################################################################
 # --- FUNCTION CREATED TO GENERATE PARAMETERS FOR MODEL SOLUTION
 ####################################################################
@@ -17,7 +15,7 @@ Generate_Pars <- function(){
                                  forcings = NULL),
                spec = "Human",
                model = "1compartment",
-               initvals = setNames(rep(0,4),c("Agutlumen","Acompartment","Ametabolized","AUC")),
+               initvals = stats::setNames(rep(0,4),c("Agutlumen","Acompartment","Ametabolized","AUC")),
                returntimes = seq(0,1,signif(1/(96),round(-log10(1e-4)-1))),
                simtime = 1,
                odemethod = "lsoda",

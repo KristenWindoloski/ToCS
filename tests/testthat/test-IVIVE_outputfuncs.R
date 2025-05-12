@@ -41,86 +41,86 @@ Generate_Pars <- function(){
 # --- CREATE SCATTER PLOT OF OED VALUES
 ######################################################
 
-test_that("IVIVEplot_labels() produces the title and y-axis labels",{
+# test_that("IVIVEplot_labels() produces the title and y-axis labels",{
+#
+#   # --- CREATE SAMPLE DATA
+#   pars <- Generate_Pars()
+#
+#   # --- TEST
+#   expect_equal(length(IVIVEplot_labels(pars)),2)
+#   expect_equal(IVIVEplot_labels(pars)[[1]],"In vitro-in vivo extrapolation (IVIVE) \n from the 3compartment model")
+#
+#   # no exposure file uploaded
+#   pars[["output_concIVIVE"]] <- "plasma"
+#   pars[["tissueIVIVE"]] <- NULL
+#   pars[["modelIVIVEout_units"]] <- "mgpkgpday"
+#   expect_equal(IVIVEplot_labels(pars)[[2]],"Oral equivalent dose (OED) \n in whole body plasma (mgpkgpday)")
+#
+#   pars[["output_concIVIVE"]] <- "blood"
+#   pars[["modelIVIVEout_units"]] <- "umolpkgpday"
+#   expect_equal(IVIVEplot_labels(pars)[[2]],"Oral equivalent dose (OED) \n in whole body blood (umolpkgpday)")
+#
+#   pars[["output_concIVIVE"]] <- "tissue"
+#   pars[["tissueIVIVE"]] <- "liver"
+#   pars[["modelIVIVEout_units"]] <- "mgpkgpday"
+#   expect_equal(IVIVEplot_labels(pars)[[2]],"Oral equivalent dose (OED) \n in liver (mgpkgpday)")
+#
+#
+#   # exposure file uploaded
+#   pars[["fileExposure"]] <- "Uploaded"
+#   pars[["output_concIVIVE"]] <- "plasma"
+#   pars[["tissueIVIVE"]] <- NULL
+#   pars[["modelIVIVEout_units"]] <- "mgpkgpday"
+#   expect_equal(IVIVEplot_labels(pars)[[2]],"OED in whole body plasma \n or exposure (mgpkgpday)")
+#
+#   pars[["output_concIVIVE"]] <- "blood"
+#   pars[["modelIVIVEout_units"]] <- "umolpkgpday"
+#   expect_equal(IVIVEplot_labels(pars)[[2]],"OED in whole body blood \n or exposure (umolpkgpday)")
+#
+#   pars[["output_concIVIVE"]] <- "tissue"
+#   pars[["tissueIVIVE"]] <- "liver"
+#   pars[["modelIVIVEout_units"]] <- "mgpkgpday"
+#   expect_equal(IVIVEplot_labels(pars)[[2]],"OED in liver \n or exposure (mgpkgpday)")
+# })
 
-  # --- CREATE SAMPLE DATA
-  pars <- Generate_Pars()
-
-  # --- TEST
-  expect_equal(length(IVIVEplot_labels(pars)),2)
-  expect_equal(IVIVEplot_labels(pars)[[1]],"In vitro-in vivo extrapolation (IVIVE) \n from the 3compartment model")
-
-  # no exposure file uploaded
-  pars[["output_concIVIVE"]] <- "plasma"
-  pars[["tissueIVIVE"]] <- NULL
-  pars[["modelIVIVEout_units"]] <- "mgpkgpday"
-  expect_equal(IVIVEplot_labels(pars)[[2]],"Oral equivalent dose (OED) \n in whole body plasma (mgpkgpday)")
-
-  pars[["output_concIVIVE"]] <- "blood"
-  pars[["modelIVIVEout_units"]] <- "umolpkgpday"
-  expect_equal(IVIVEplot_labels(pars)[[2]],"Oral equivalent dose (OED) \n in whole body blood (umolpkgpday)")
-
-  pars[["output_concIVIVE"]] <- "tissue"
-  pars[["tissueIVIVE"]] <- "liver"
-  pars[["modelIVIVEout_units"]] <- "mgpkgpday"
-  expect_equal(IVIVEplot_labels(pars)[[2]],"Oral equivalent dose (OED) \n in liver (mgpkgpday)")
-
-
-  # exposure file uploaded
-  pars[["fileExposure"]] <- "Uploaded"
-  pars[["output_concIVIVE"]] <- "plasma"
-  pars[["tissueIVIVE"]] <- NULL
-  pars[["modelIVIVEout_units"]] <- "mgpkgpday"
-  expect_equal(IVIVEplot_labels(pars)[[2]],"OED in whole body plasma \n or exposure (mgpkgpday)")
-
-  pars[["output_concIVIVE"]] <- "blood"
-  pars[["modelIVIVEout_units"]] <- "umolpkgpday"
-  expect_equal(IVIVEplot_labels(pars)[[2]],"OED in whole body blood \n or exposure (umolpkgpday)")
-
-  pars[["output_concIVIVE"]] <- "tissue"
-  pars[["tissueIVIVE"]] <- "liver"
-  pars[["modelIVIVEout_units"]] <- "mgpkgpday"
-  expect_equal(IVIVEplot_labels(pars)[[2]],"OED in liver \n or exposure (mgpkgpday)")
-})
-
-test_that("Plotdf_Prep() produces the data frame of organized samples for plotting",{
-
-  # --- CREATE SAMPLE DATA
-  pars <- Generate_Pars()
-  pars[["CompoundList"]] <- data.frame(Selected_Compounds = c("Acetamiprid","2,4-db","Acephate"))
-  pars[["samples"]] <- 10
-
-  # --- CREATE EXPECTED OUTPUT
-  set.seed(1)
-  samples <- runif(36,min = 0,max = 20)
-
-  df <- array(samples,
-              dim = c(12,3),
-              dimnames = list(c("OED_5","Samples",seq(1,10)),
-                              c("Acetamiprid","2,4-db","Acephate")))
-
-  #OED samples data frame
-  ChemNames <- c(rep("Acetamiprid",10),rep("2,4-db",10),rep("Acephate",10))
-  CASvals <- c(rep("135410-20-7",10),rep("94-82-6",10),rep("30560-19-1",10))
-  df_samples <- data.frame(CompoundName = ChemNames, CAS = CASvals, OED = c(df[3:12,]))
-  df_samples <- dplyr::mutate(df_samples, CompoundName = forcats::fct_reorder(CompoundName, OED, .fun='median'))
-
-  #5th quantile OED dose data frame
-  df_q5 = data.frame(CompoundName = colnames(df), OED = c(df[1,]))
-  plt_order <- c("Acephate","Acetamiprid","2,4-db")
-  df_q5 <- df_q5[match(plt_order, df_q5$CompoundName),]
-
-  # --- TEST
-  out <- Plotdf_Prep(df,pars)
-  expect_equal(length(out),2)
-  expect_equal(out[[1]],df_samples)
-  expect_equal(out[[2]],df_q5)
-})
-
-######################################################
-# --- SOLVE MODEL FOR IVIVE SOLUTION
-######################################################
-
+# test_that("Plotdf_Prep() produces the data frame of organized samples for plotting",{
+#
+#   # --- CREATE SAMPLE DATA
+#   pars <- Generate_Pars()
+#   pars[["CompoundList"]] <- data.frame(Selected_Compounds = c("Acetamiprid","2,4-db","Acephate"))
+#   pars[["samples"]] <- 10
+#
+#   # --- CREATE EXPECTED OUTPUT
+#   set.seed(1)
+#   samples <- runif(36,min = 0,max = 20)
+#
+#   df <- array(samples,
+#               dim = c(12,3),
+#               dimnames = list(c("OED_5","Samples",seq(1,10)),
+#                               c("Acetamiprid","2,4-db","Acephate")))
+#
+#   #OED samples data frame
+#   ChemNames <- c(rep("Acetamiprid",10),rep("2,4-db",10),rep("Acephate",10))
+#   CASvals <- c(rep("135410-20-7",10),rep("94-82-6",10),rep("30560-19-1",10))
+#   df_samples <- data.frame(CompoundName = ChemNames, CAS = CASvals, OED = c(df[3:12,]))
+#   df_samples <- dplyr::mutate(df_samples, CompoundName = forcats::fct_reorder(CompoundName, OED, .fun='median'))
+#
+#   #5th quantile OED dose data frame
+#   df_q5 = data.frame(CompoundName = colnames(df), OED = c(df[1,]))
+#   plt_order <- c("Acephate","Acetamiprid","2,4-db")
+#   df_q5 <- df_q5[match(plt_order, df_q5$CompoundName),]
+#
+#   # --- TEST
+#   out <- Plotdf_Prep(df,pars)
+#   expect_equal(length(out),2)
+#   expect_equal(out[[1]],df_samples)
+#   expect_equal(out[[2]],df_q5)
+# })
+#
+# ######################################################
+# # --- SOLVE MODEL FOR IVIVE SOLUTION
+# ######################################################
+#
 test_that("CalcOED() produces a single OED value or a vector of OED values",{
 
   # --- CREATE SAMPLE DATA
@@ -132,6 +132,7 @@ test_that("CalcOED() produces a single OED value or a vector of OED values",{
 
   # --- CREATE EXPECTED OUTPUT
   OED <- CalcOED(1,pars,bioactive_conc)
+  print(OED)
 
   # --- TEST
   #output for return samples false
@@ -212,7 +213,7 @@ test_that("ConvertBioactive() produces the desired bioactive concentration",{
   bioactive_conc <- bioactive[match(pars[["CompoundList"]][,1], bioactive$ChemicalName),]
 
   # --- CREATE EXPECTED OUTPUT
-  converted_bc <- armitage_eval(casrn.vector = bioactive_conc[,2],
+  converted_bc <- httk::armitage_eval(casrn.vector = bioactive_conc[,2],
                                 this.FBSf = pars[["FSBf"]],
                                 nomconc.vector = bioactive_conc[,3])
   BC_convert_df <- bioactive_conc

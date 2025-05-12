@@ -1,6 +1,4 @@
 
-rm(list = ls())
-
 ####################################################################
 # --- FUNCTION CREATED TO GENERATE PARAMETERS FOR MODEL SOLUTION
 ####################################################################
@@ -32,10 +30,10 @@ test_that("CalcElimRate() produces the elimination rate",{
   pars <- Generate_Pars()
 
   # --- TEST
-  expect_gt(CalcElimRate(pars,1),0)
+  testthat::expect_gt(CalcElimRate(pars,1),0)
 
   pars[["spec"]] <- "Rat"
-  expect_gt(CalcElimRate(pars,2),0)
+  testthat::expect_gt(CalcElimRate(pars,2),0)
 })
 
 test_that("CalcVdist() produces the volume of distribution",{
@@ -44,10 +42,10 @@ test_that("CalcVdist() produces the volume of distribution",{
   pars <- Generate_Pars()
 
   # --- TEST
-  expect_gt(CalcVdist(pars,1),0)
+  testthat::expect_gt(CalcVdist(pars,1),0)
 
   pars[["spec"]] <- "Rat"
-  expect_gt(CalcVdist(pars,2),0)
+  testthat::expect_gt(CalcVdist(pars,2),0)
 })
 
 test_that("CalcHalfLife() produces the half-life",{
@@ -56,10 +54,10 @@ test_that("CalcHalfLife() produces the half-life",{
   pars <- Generate_Pars()
 
   # --- TEST
-  expect_gt(CalcHalfLife(pars,1),0)
+  testthat::expect_gt(CalcHalfLife(pars,1),0)
 
   pars[["spec"]] <- "Rat"
-  expect_gt(CalcHalfLife(pars,2),0)
+  testthat::expect_gt(CalcHalfLife(pars,2),0)
 })
 
 test_that("CalcClearance() produces the total plasma clearance",{
@@ -68,10 +66,10 @@ test_that("CalcClearance() produces the total plasma clearance",{
   pars <- Generate_Pars()
 
   # --- TEST
-  expect_gt(CalcClearance(pars,1),0)
+  testthat::expect_gt(CalcClearance(pars,1),0)
 
   pars[["spec"]] <- "Rat"
-  expect_gt(CalcClearance(pars,2),0)
+  testthat::expect_gt(CalcClearance(pars,2),0)
 })
 
 test_that("CalcPCs() produces all partition coefficients",{
@@ -80,10 +78,10 @@ test_that("CalcPCs() produces all partition coefficients",{
   pars <- Generate_Pars()
 
   # --- TEST
-  expect_true(all(CalcPCs(pars,1)>0))
+  testthat::expect_true(all(CalcPCs(pars,1)>0))
 
   pars[["spec"]] <- "Rat"
-  expect_true(all(CalcPCs(pars,2)>0))
+  testthat::expect_true(all(CalcPCs(pars,2)>0))
 })
 
 test_that("StorePars_PC() outputs a data frame of parameters used in the simulation",{
@@ -108,9 +106,9 @@ test_that("StorePars_PC() outputs a data frame of parameters used in the simulat
 
   # --- TEST
   PC_sol_out <- StorePars_PC(pars)
-  expect_equal(PC_sol_out,out)
-  expect_equal(PC_sol_out$chem.name[1],PC_sol_out$Compound[1])
-  expect_equal(PC_sol_out$chem.name[2],PC_sol_out$Compound[2])
-  expect_equal(PC_sol_out$chem.name[3],PC_sol_out$Compound[3])
-  expect_equal(PC_sol_out$chem.name[4],PC_sol_out$Compound[4])
+  testthat::expect_equal(PC_sol_out,out)
+  testthat::expect_equal(PC_sol_out$chem.name[1],PC_sol_out$Compound[1])
+  testthat::expect_equal(PC_sol_out$chem.name[2],PC_sol_out$Compound[2])
+  testthat::expect_equal(PC_sol_out$chem.name[3],PC_sol_out$Compound[3])
+  testthat::expect_equal(PC_sol_out$chem.name[4],PC_sol_out$Compound[4])
 })

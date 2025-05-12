@@ -4,110 +4,110 @@ test_that("getCASnums() produces vector of CAS numbers", {
   func <- "Concentration-time profiles"
   spec <- "Human"
   model <- "3compartmentss"
-  defaulthuman <- TRUE
+  defaulthuman <- "Yes"
   expect_gt(length(getCASnums(func,spec,model,defaulthuman)),0)
 
   func <- "Concentration-time profiles"
   spec <- "Rat"
   model <- "1compartment"
-  defaulthuman <- TRUE
+  defaulthuman <- "Yes"
   expect_gt(length(getCASnums(func,spec,model,defaulthuman)),0)
 
   func <- "Concentration-time profiles"
   spec <- "Mouse"
   model <- "3compartment"
-  defaulthuman <- TRUE
+  defaulthuman <- "Yes"
   expect_gt(length(getCASnums(func,spec,model,defaulthuman)),0)
 
   func <- "Concentration-time profiles"
   spec <- "Rabbit"
   model <- "pbtk"
-  defaulthuman <- TRUE
+  defaulthuman <- "Yes"
   expect_gt(length(getCASnums(func,spec,model,defaulthuman)),0)
 
   func <- "Concentration-time profiles"
   spec <- "Dog"
   model <- "fetal_pbtk"
-  defaulthuman <- TRUE
+  defaulthuman <- "Yes"
   expect_gt(length(getCASnums(func,spec,model,defaulthuman)),0)
 
   func <- "Concentration-time profiles"
   spec <- "Rat"
   model <- "1compartment"
-  defaulthuman <- FALSE
+  defaulthuman <- "No"
   expect_gt(length(getCASnums(func,spec,model,defaulthuman)),0)
 
   func <- "Concentration-time profiles"
   spec <- "Mouse"
   model <- "3compartment"
-  defaulthuman <- FALSE
+  defaulthuman <- "No"
   expect_true(is.null(getCASnums(func,spec,model,defaulthuman)))
 
   func <- "Concentration-time profiles"
   spec <- "Rabbit"
   model <- "pbtk"
-  defaulthuman <- FALSE
+  defaulthuman <- "No"
   expect_true(is.null(getCASnums(func,spec,model,defaulthuman)))
 
   func <- "Concentration-time profiles"
   spec <- "Dog"
   model <- "fetal_pbtk"
-  defaulthuman <- FALSE
+  defaulthuman <- "No"
   expect_true(is.null(getCASnums(func,spec,model,defaulthuman)))
 
   # --------------
   func <- "Parameter calculations"
   spec <- "Human"
   model <- "3compartmentss"
-  defaulthuman <- TRUE
+  defaulthuman <- "Yes"
   expect_gt(length(getCASnums(func,spec,model,defaulthuman)),0)
 
   func <- "Parameter calculations"
   spec <- "Rat"
   model <- "1compartment"
-  defaulthuman <- TRUE
+  defaulthuman <- "Yes"
   expect_gt(length(getCASnums(func,spec,model,defaulthuman)),0)
 
   func <- "Parameter calculations"
   spec <- "Mouse"
   model <- "3compartment"
-  defaulthuman <- TRUE
+  defaulthuman <- "Yes"
   expect_gt(length(getCASnums(func,spec,model,defaulthuman)),0)
 
   func <- "Parameter calculations"
   spec <- "Rabbit"
   model <- "pbtk"
-  defaulthuman <- TRUE
+  defaulthuman <- "Yes"
   expect_gt(length(getCASnums(func,spec,model,defaulthuman)),0)
 
   func <- "Parameter calculations"
   spec <- "Dog"
   model <- "fetal_pbtk"
-  defaulthuman <- TRUE
+  defaulthuman <- "Yes"
   expect_gt(length(getCASnums(func,spec,model,defaulthuman)),0)
 
   func <- "Parameter calculations"
   spec <- "Rat"
   model <- "1compartment"
-  defaulthuman <- FALSE
+  defaulthuman <- "No"
   expect_gt(length(getCASnums(func,spec,model,defaulthuman)),0)
 
   func <- "Parameter calculations"
   spec <- "Mouse"
   model <- "3compartment"
-  defaulthuman <- FALSE
+  defaulthuman <- "No"
   expect_true(is.null(getCASnums(func,spec,model,defaulthuman)))
 
   func <- "Parameter calculations"
   spec <- "Rabbit"
   model <- "pbtk"
-  defaulthuman <- FALSE
+  defaulthuman <- "No"
   expect_true(is.null(getCASnums(func,spec,model,defaulthuman)))
 
   func <- "Parameter calculations"
   spec <- "Dog"
   model <- "fetal_pbtk"
-  defaulthuman <- FALSE
+  defaulthuman <- "No"
   expect_true(is.null(getCASnums(func,spec,model,defaulthuman)))
 })
 
