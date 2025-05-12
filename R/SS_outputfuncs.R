@@ -137,17 +137,16 @@ CalcAnalyticCss <- function(pars,i){
 CalcCssDay <- function(pars,i){
 
   out <- httk::calc_css(chem.name = pars[["CompoundList"]][i,1],
-                  species = pars[["spec"]],
-                  daily.dose = pars[["dailydose"]],
-                  route = pars[["doseroute"]],
-                  output.units = pars[["modelSSout_units"]],
-                  tissue = NULL,
-                  model = pars[["model"]],
-                  default.to.human = pars[["defaulttoHuman"]],
-                  adjusted.Funbound.plasma = pars[["adj_fub"]],
-                  regression = pars[["regression"]],
-                  restrictive.clearance = pars[["restrict_clear"]],
-                  suppress.messages = TRUE)
+                        species = pars[["spec"]],
+                        daily.dose = pars[["dailydose"]],
+                        route = pars[["doseroute"]],
+                        output.units = pars[["modelSSout_units"]],
+                        model = pars[["model"]],
+                        suppress.messages = TRUE,
+                        parameterize.args.list = list(default.to.human = pars[["defaulttoHuman"]],
+                                                      adjusted.Funbound.plasma = pars[["adj_fub"]],
+                                                      regression = pars[["regression"]],
+                                                      restrictive.clearance = pars[["restrict_clear"]]))
 }
 
 ################################################################################
