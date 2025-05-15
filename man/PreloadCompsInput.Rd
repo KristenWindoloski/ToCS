@@ -25,7 +25,7 @@ animal species is selected}
 \item{insilico}{The user-selected preference for use of in silico generated
 parameters if in vitro data is missing}
 
-\item{model}{The user-selected species}
+\item{model}{The user-selected model}
 
 \item{honda}{The selected IVIVE assumption (either NULL, Honda1, Honda2,
 Honda3, or Honda4), if applicable}
