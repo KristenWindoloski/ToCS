@@ -1,4 +1,5 @@
-url: https://kristenwindoloski.github.io/ToCS/
+url: ~
 template:
   bootstrap: 5
-
+  params:
+    bootswatch: journal
