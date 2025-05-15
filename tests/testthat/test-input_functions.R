@@ -55,6 +55,12 @@ test_that("getCASnums() produces vector of CAS numbers", {
   defaulthuman <- "No"
   expect_true(is.null(getCASnums(func,spec,model,defaulthuman)))
 
+  func <- "Concentration-time profiles"
+  spec <- "Human"
+  model <- "full_pregnancy"
+  defaulthuman <- "Yes"
+  expect_gt(length(getCASnums(func,spec,model,defaulthuman)),0)
+
   # --------------
   func <- "Parameter calculations"
   spec <- "Human"
@@ -109,6 +115,8 @@ test_that("getCASnums() produces vector of CAS numbers", {
   model <- "fetal_pbtk"
   defaulthuman <- "No"
   expect_true(is.null(getCASnums(func,spec,model,defaulthuman)))
+
+
 })
 
 test_that("getPiped() produces the list of compounds to display in the GUI",{

@@ -66,6 +66,14 @@ solve_httk <- function(i,pars){
 
 }
 
+solve_httk_pregnancy <- function(i,pars){
+
+  httk::solve_full_pregnancy(chem.name = pars[["CompoundList"]][i,1],
+                             dose = pars[["dosinginfo"]][[1]],
+                             daily.dose = pars[["dosinginfo"]][[3]],
+                             doses.per.day = pars[["dosinginfo"]][[2]])
+}
+
 ########################################################
 # --- GENERATE A TABLE WITH TK SUMMARY STATISTICS
 ########################################################
@@ -242,6 +250,26 @@ test_that("Run_ADME_Model() produces a solution output for the fetal_pbtk model"
 
   # --- TEST (current,target)
   expect_equal(Run_ADME_Model(1,pars),out)
+})
+
+test_that("Run_ADME_Model() produces a solution output for the full_pregnancy model",{
+
+  # --- CREATE EXPECTED OUTPUT
+  pars <- Generate_Pars()
+  pars[["model"]] <- "full_pregnancy"
+
+  # --- TEST (current,target)
+  out1 <- solve_httk_pregnancy(1,pars)
+  expect_equal(Run_ADME_Model(1,pars),out1)
+
+
+  pars[["dosinginfo"]] = list(initial.dose = NULL,
+                              doses.per.day=3,
+                              daily.dose=1,
+                              dosing.matrix=NULL,
+                              forcings = NULL)
+  out2 <- solve_httk_pregnancy(1,pars)
+  expect_equal(Run_ADME_Model(1,pars),out2)
 })
 
 
