@@ -743,7 +743,7 @@ Model_Input <- function(func,spec){
   else if (func == "Steady state concentrations"){
     choice_lst = list("Select","1compartment","3compartment","pbtk")
   }
-  else if (func == "In vitro in vivo extrapolation (IVIVE)"){
+  else if (func == "Steady state concentrations" || func == "In vitro in vivo extrapolation (IVIVE)"){
     choice_lst = list("Select","3compartmentss","1compartment","3compartment","pbtk")
   }
 

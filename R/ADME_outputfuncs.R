@@ -504,11 +504,12 @@ Run_ADME_Model <- function(i,pars){
                            rtol = pars[["rtol"]],
                            atol = pars[["atol"]],
                            recalc.blood2plasma = pars[["rb2p"]],
-                           restrictive.clearance = pars[["restrict_clear"]],
-                           adjusted.Funbound.plasma = pars[["adj_fub"]],
-                           minimum.Funbound.plasma = pars[["min_fub"]],
                            parameterize.args.list = list(default.to.human = pars[["defaulttoHuman"]],
                                                         regression = pars[["regression"]],
+                                                        restrictive.clearance = pars[["restrict_clear"]],
+                                                        adjusted.Funbound.plasma = pars[["adj_fub"]],
+                                                        minimum.Funbound.plasma = pars[["min_fub"]],
+                                                        clint.pvalue.threshold = pars[["Clint_Pval"]],
                                                         Caco2.options = list(Caco2.Pab.default = pars[["caco2default"]],
                                                                              Caco2.Fabs = pars[["caco_fabs"]],
                                                                              Caco2.Fgut = pars[["caco_fgut"]],
@@ -767,6 +768,7 @@ Bind_Chem_Data <- function(pars,pars_df){
 #' and all physical-chemical data used for the simulated compounds
 #' @seealso [modsol()], which calls the current function, and [Bind_Chem_Data()],
 #' which the current function calls
+#'
 #' @export
 #'
 StorePars_ADME <- function(pars){

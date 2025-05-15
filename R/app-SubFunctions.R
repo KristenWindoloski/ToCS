@@ -256,16 +256,15 @@ AP_ModelConditions <- function(ic_names,ic_comps){
                                       shiny::conditionalPanel(condition = "input.HondaIVIVE == 'NULL' && input.tissueIVIVE == 'NULL'",
                                                               selectInput_Bioactive("bioactiveIVIVE"))),
               shiny::conditionalPanel(condition = "input.func == 'Parameter calculations'",
-                                      numericInput_ClintPval("Clint_Pval"),
                                       numericInput_Alpha("AlphaPar")),
-              shiny::conditionalPanel(condition = "input.func != 'Select' && input.func != 'Steady state concentrations' && input.model != 'full_pregnancy'",
-                                      numericInput_MinFub("min_fub")),
               shiny::conditionalPanel(condition = "(input.func == 'In vitro in vivo extrapolation (IVIVE)' && input.HondaIVIVE == 'NULL') ||
                                                                                  (input.func != 'In vitro in vivo extrapolation (IVIVE)' && input.model != 'full_pregnancy')",
                                       selectInput_RestrictClear("restrict_clear")),
               shiny::conditionalPanel(condition = "input.model != 'full_pregnancy'",
                                       selectInput_AdjFub("adj_fub"),
-                                      selectInput_Regression("regression")),
+                                      selectInput_Regression("regression"),
+                                      numericInput_ClintPval("Clint_Pval"),
+                                      numericInput_MinFub("min_fub")),
               shiny::conditionalPanel(condition = "input.model == 'full_pregnancy'",
                                       shiny::helpText("No options for this category."))
               )
@@ -319,10 +318,10 @@ AP_ModelSolver <- function(){
 #'
 AP_Bioavailability <- function(){
   bslib::card(bslib::card_header("BIOAVAILABILITY"),
-              shiny::conditionalPanel(condition = "input.func != 'Select' && input.func != 'Parameter calculations' && input.model != 'full_pregnancy'",
+              shiny::conditionalPanel(condition = "input.func != 'Select' && input.model != 'full_pregnancy'",
                                       numericInput_CacoDefault("caco2default"), selectInput_Fabs("caco_fabs"), selectInput_Fgut("caco_fgut"),
                                       selectInput_Overwrite("caco_overwriteinvivo"), selectInput_Keep100("caco_keep100")),
-              shiny::conditionalPanel(condition = "input.func == 'Parameter calculations' || input.model == 'full_pregnancy'",
+              shiny::conditionalPanel(condition = "input.model == 'full_pregnancy'",
                                       shiny::helpText("No options for this category.")))
 }
 

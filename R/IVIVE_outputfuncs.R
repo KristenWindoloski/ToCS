@@ -108,16 +108,33 @@ CalcOED <- function(i,pars,bioactive_df){
                                   concentration = pars[["output_concIVIVE"]],
                                   IVIVE = pars[["HondaIVIVE"]],
                                   model = pars[["model"]],
+                                  samples = pars[["samples"]],
                                   Caco2.options = list(Caco2.Pab.default = pars[["caco2default"]],
                                                        Caco2.Fabs = pars[["caco_fabs"]],
                                                        Caco2.Fgut = pars[["caco_fgut"]],
                                                        overwrite.invivo = pars[["caco_overwriteinvivo"]],
                                                        keepit100 = pars[["caco_keep100"]]),
-                                  calc.analytic.css.arg.list = list(adjusted.Funbound.plasma = pars[["adj_fub"]]),
-                                  parameterize.args.list = list(default.to.human = pars[["defaulttoHuman"]],
-                                                               minimum.Funbound.plasma = pars[["min_fub"]],
-                                                               regression = pars[["regression"]]),
-                                  samples = pars[["samples"]])
+                                  calc.analytic.css.arg.list = list(adjusted.Funbound.plasma = pars[["adj_fub"]],
+                                                                    restrictive.clearance = pars[["restrict_clear"]],
+                                                                    default.to.human = pars[["defaulttoHuman"]],
+                                                                    minimum.Funbound.plasma = pars[["min_fub"]],
+                                                                    regression = pars[["regression"]],
+                                                                    clint.pvalue.threshold = pars[["Clint_Pval"]],
+                                                                    Caco2.options = list(Caco2.Pab.default = pars[["caco2default"]],
+                                                                                         Caco2.Fabs = pars[["caco_fabs"]],
+                                                                                         Caco2.Fgut = pars[["caco_fgut"]],
+                                                                                         overwrite.invivo = pars[["caco_overwriteinvivo"]],
+                                                                                         keepit100 = pars[["caco_keep100"]])),
+                                  parameterize.args.list = list(restrictive.clearance = pars[["restrict_clear"]],
+                                                                default.to.human = pars[["defaulttoHuman"]],
+                                                                minimum.Funbound.plasma = pars[["min_fub"]],
+                                                                regression = pars[["regression"]],
+                                                                clint.pvalue.threshold = pars[["Clint_Pval"]],
+                                                                Caco2.options = list(Caco2.Pab.default = pars[["caco2default"]],
+                                                                                     Caco2.Fabs = pars[["caco_fabs"]],
+                                                                                     Caco2.Fgut = pars[["caco_fgut"]],
+                                                                                     overwrite.invivo = pars[["caco_overwriteinvivo"]],
+                                                                                     keepit100 = pars[["caco_keep100"]])))
 }
 
 ################################################################################
@@ -259,7 +276,7 @@ StorePars_IVIVE <- function(pars,bioactive_df){
 #'
 IVIVEplotting <- function(OED_data,BioactiveConc,pars,logscale,expdata){
 
-  OED <- NULL
+  OED <- OEDsample_df <- combined_df <- Q5_OED_df <- NULL
 
   # --- SET PLOT LABEL NAMES
   plt_labels <- IVIVEplot_labels(pars)

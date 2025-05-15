@@ -88,13 +88,19 @@ Parsol <- function(pars){
 CalcElimRate <- function(pars,i){
 
   sol_elim <- httk::calc_elimination_rate(chem.name = pars[["CompoundList"]][i,1],
-                                    species = pars[["spec"]],
-                                    default.to.human = pars[["defaulttoHuman"]],
-                                    restrictive.clearance = pars[["restrict_clear"]],
-                                    adjusted.Funbound.plasma = pars[["adj_fub"]],
-                                    regression = pars[["regression"]],
-                                    clint.pvalue.threshold = pars[["Clint_Pval"]],
-                                    minimum.Funbound.plasma = pars[["min_fub"]])
+                                          species = pars[["spec"]],
+                                          default.to.human = pars[["defaulttoHuman"]],
+                                          adjusted.Funbound.plasma = pars[["adj_fub"]],
+                                          minimum.Funbound.plasma = pars[["min_fub"]],
+                                          regression = pars[["regression"]],
+                                          restrictive.clearance = pars[["restrict_clear"]],
+                                          clint.pvalue.threshold = pars[["Clint_Pval"]],
+                                          alpha = pars[["AlphaPar"]],
+                                          Caco2.options = list(Caco2.Pab.default = pars[["caco2default"]],
+                                                               Caco2.Fabs = pars[["caco_fabs"]],
+                                                               Caco2.Fgut = pars[["caco_fgut"]],
+                                                               overwrite.invivo = pars[["caco_overwriteinvivo"]],
+                                                               keepit100 = pars[["caco_keep100"]]))
 }
 
 ################################################################################
@@ -117,11 +123,12 @@ CalcElimRate <- function(pars,i){
 CalcVdist <- function(pars,i){
 
   out <- httk::calc_vdist(chem.name = pars[["CompoundList"]][i,1],
-             default.to.human = pars[["defaulttoHuman"]],
-             species = pars[["spec"]],
-             adjusted.Funbound.plasma = pars[["adj_fub"]],
-             regression = pars[["regression"]],
-             minimum.Funbound.plasma = pars[["min_fub"]])
+                          default.to.human = pars[["defaulttoHuman"]],
+                          species = pars[["spec"]],
+                          adjusted.Funbound.plasma = pars[["adj_fub"]],
+                          regression = pars[["regression"]],
+                          minimum.Funbound.plasma = pars[["min_fub"]],
+                          alpha = pars[["AlphaPar"]])
 }
 
 ################################################################################
@@ -146,11 +153,17 @@ CalcHalfLife <- function(pars,i){
   HL <- httk::calc_half_life(chem.name = pars[["CompoundList"]][i,1],
                              species = pars[["spec"]],
                              default.to.human = pars[["defaulttoHuman"]],
-                             restrictive.clearance = pars[["restrict_clear"]],
                              adjusted.Funbound.plasma = pars[["adj_fub"]],
+                             minimum.Funbound.plasma = pars[["min_fub"]],
                              regression = pars[["regression"]],
+                             restrictive.clearance = pars[["restrict_clear"]],
                              clint.pvalue.threshold = pars[["Clint_Pval"]],
-                             minimum.Funbound.plasma = pars[["min_fub"]])
+                             alpha = pars[["AlphaPar"]],
+                             Caco2.options = list(Caco2.Pab.default = pars[["caco2default"]],
+                                                  Caco2.Fabs = pars[["caco_fabs"]],
+                                                  Caco2.Fgut = pars[["caco_fgut"]],
+                                                  overwrite.invivo = pars[["caco_overwriteinvivo"]],
+                                                  keepit100 = pars[["caco_keep100"]]))
 }
 
 ################################################################################
@@ -175,8 +188,16 @@ CalcClearance <- function(pars,i){
   TotClear <- httk::calc_total_clearance(chem.name = pars[["CompoundList"]][i,1],
                                          species = pars[["spec"]],
                                          default.to.human = pars[["defaulttoHuman"]],
+                                         adjusted.Funbound.plasma = pars[["adj_fub"]],
+                                         minimum.Funbound.plasma = pars[["min_fub"]],
+                                         regression = pars[["regression"]],
                                          restrictive.clearance = pars[["restrict_clear"]],
-                                         adjusted.Funbound.plasma = pars[["adj_fub"]])
+                                         clint.pvalue.threshold = pars[["Clint_Pval"]],
+                                         Caco2.options = list(Caco2.Pab.default = pars[["caco2default"]],
+                                                              Caco2.Fabs = pars[["caco_fabs"]],
+                                                              Caco2.Fgut = pars[["caco_fgut"]],
+                                                              overwrite.invivo = pars[["caco_overwriteinvivo"]],
+                                                              keepit100 = pars[["caco_keep100"]]))
 }
 
 ################################################################################
@@ -201,12 +222,12 @@ CalcClearance <- function(pars,i){
 CalcPCs <- function(pars,i){
 
   out <- httk::predict_partitioning_schmitt(chem.name = pars[["CompoundList"]][i,1],
-                               default.to.human = pars[["defaulttoHuman"]],
-                               species = pars[["spec"]],
-                               alpha = pars[["AlphaPar"]],
-                               adjusted.Funbound.plasma = pars[["adj_fub"]],
-                               regression = pars[["regression"]],
-                               minimum.Funbound.plasma = pars[["min_fub"]])
+                                            default.to.human = pars[["defaulttoHuman"]],
+                                            species = pars[["spec"]],
+                                            alpha = pars[["AlphaPar"]],
+                                            adjusted.Funbound.plasma = pars[["adj_fub"]],
+                                            regression = pars[["regression"]],
+                                            minimum.Funbound.plasma = pars[["min_fub"]])
 }
 
 ################################################################################

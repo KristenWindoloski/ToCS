@@ -109,9 +109,10 @@ CalcAnalyticCss <- function(pars,i){
                                                 overwrite.invivo = pars[["caco_overwriteinvivo"]],
                                                 keepit100 = pars[["caco_keep100"]]),
                            parameterize.args.list = list(default.to.human = pars[["defaulttoHuman"]],
-                                                    adjusted.Funbound.plasma = pars[["adj_fub"]],
-                                                    minimum.Funbound.plasma = pars[["min_fub"]],
-                                                    regression = pars[["regression"]]))
+                                                         adjusted.Funbound.plasma = pars[["adj_fub"]],
+                                                         minimum.Funbound.plasma = pars[["min_fub"]],
+                                                         regression = pars[["regression"]],
+                                                         clint.pvalue.threshold = pars[["Clint_Pval"]]))
 }
 
 ################################################################################
@@ -146,7 +147,14 @@ CalcCssDay <- function(pars,i){
                         parameterize.args.list = list(default.to.human = pars[["defaulttoHuman"]],
                                                       adjusted.Funbound.plasma = pars[["adj_fub"]],
                                                       regression = pars[["regression"]],
-                                                      restrictive.clearance = pars[["restrict_clear"]]))
+                                                      restrictive.clearance = pars[["restrict_clear"]],
+                                                      minimum.Funbound.plasma = pars[["min_fub"]],
+                                                      clint.pvalue.threshold = pars[["Clint_Pval"]],
+                                                      Caco2.options = list(Caco2.Pab.default = pars[["caco2default"]],
+                                                                           Caco2.Fabs = pars[["caco_fabs"]],
+                                                                           Caco2.Fgut = pars[["caco_fgut"]],
+                                                                           overwrite.invivo = pars[["caco_overwriteinvivo"]],
+                                                                           keepit100 = pars[["caco_keep100"]])))
 }
 
 ################################################################################
