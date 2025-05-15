@@ -213,8 +213,8 @@ can input the number of mg/kg to be administered. We change its value to
 select *pbtk* for the pbtk model on the first drop down menu. Since we
 do not want to use in silico generated parameters for this simulation,
 we select *No* for the second drop down menu under the *Model* card.
-Finally, since we only want to run our simulation for one day, we edit
-the bottom box in the *Model* card to be 1 instead of the default value
+Finally, since we only want to run our simulation for five days, we edit
+the bottom box in the *Model* card to be 5 instead of the default value
 of 10. Now the *Model Specifications* tab is completed and should look
 like the image below, so we can proceed to the *Compound Selection* tab.
 
