@@ -83,9 +83,9 @@ BER_Plot_server <- function(id,ivive_args){
     else{
       output$BERPlotCaption <- shiny::renderText({
         shiny::req(sol(),runsim())
-        paste("Chemical exposure data was not uploaded under the 'Advanced Parameters' tab,
+        paste("Chemical exposure data was not uploaded under the 'Compound Selection' tab,
               so the bioactivity exposure ratio (BER) cannot be calculated. If the BER is desired,
-              please upload exposure data on the 'Advanced Parameters' tab under the 'Output Specification' card.")})
+              please upload exposure data on the 'Compound Selection' tab under the 'Output Specification' card.")})
     }
 
   })
