@@ -9,14 +9,13 @@
 #' This function outputs the user interface for the concentration-time profile
 #' individual plots drop down in the results card under the 'Run Simulation' tab.
 #' The interface has four outputs: a plot download button, plotting text (if
-#' applicable), plots, and a plotting caption.
+#' applicable), plots, and a plotting caption. Connected to ADME_ui(), which calls this function
 #'
 #'
 #' @param id Shiny identifier name; must be the same id used as in ADME_IndPlt_server()
 #'
 #' @return User interface for the individual plots drop down with four elements
-#' @seealso [ADME_ui()], which calls this function
-#' @export
+#' @noRd
 #'
 ADME_IndPlt_ui <- function(id){
 
@@ -36,7 +35,9 @@ ADME_IndPlt_ui <- function(id){
 #' @description
 #' This function generates the outputs defined in the ADME_IndPlt_ui()
 #' function. This connects the download button, plot text, plot, and plot
-#' caption to the elements that fill their spaces.
+#' caption to the elements that fill their spaces. Connected to plottingfunc_all(),
+#' plottingfunc_individual(), plt_arrange(), caption_text(), which are all
+#' called by this function. ADME_server(), which calls this function.
 #'
 #'
 #' @param id Shiny identifier name; must be the same id used as in ADME_IndPlt_ui()
@@ -45,10 +46,7 @@ ADME_IndPlt_ui <- function(id){
 #'
 #' @return Server outputs for the concentration-time profile individual plots
 #' drop down which includes four elements
-#' @seealso [plottingfunc_all()],[plottingfunc_individual()], [plt_arrange()],
-#' [caption_text()], which are all called by this function. [ADME_server()],
-#' which calls this function.
-#' @export
+#' @noRd
 #'
 ADME_IndPlt_server <- function(id,adme_args){
 

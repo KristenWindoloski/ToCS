@@ -9,12 +9,12 @@
 #' This function outputs the user interface for the IVIVE plot drop down in the
 #' results card under the 'Run Simulation' tab. The interface has three outputs:
 #' a plot download button, a plot with calculated IVIVE doses, and a plot caption.
+#' Connected to IVIVE_ui(), which calls the current function.
 #'
 #' @param id Shiny identifier name; must be the same id used as in IVIVE_Plot_server()
 #'
 #' @return User interface for the IVIVE plot drop down with four elements
-#' @seealso [IVIVE_ui()], which calls the current function
-#' @export
+#' @noRd
 #'
 IVIVE_Plot_ui <- function(id){
 
@@ -34,15 +34,15 @@ IVIVE_Plot_ui <- function(id){
 #' This function generates the outputs defined in the IVIVE_Plot_ui()
 #' function. This connects the download button with the plot to download,
 #' generates the IVIVE dose plot, and creates the text for the plot caption.
+#' Connected to IVIVEplotting() and IVIVEplot_caption(), which are both called by
+#' this function, and IVIVE_server(), which calls the current function
 #'
 #' @param id Shiny identifier name; must be the same id used as in IVIVE_Plot_ui()
 #' @param ivive_args A Shiny reactive list with the output of IVIVEsol(), all shiny
 #' parameters in pars(), and the logscale() input by the user
 #'
 #' @return Server outputs for the IVIVE plot drop down which includes three elements
-#' @seealso [IVIVEplotting()] and [IVIVEplot_caption()], which are both called by
-#' this function, and [IVIVE_server()], which calls the current function
-#' @export
+#' @noRd
 #'
 IVIVE_Plot_server <- function(id,ivive_args){
 

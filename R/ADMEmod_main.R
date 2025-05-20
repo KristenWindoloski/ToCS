@@ -13,16 +13,15 @@
 #' compartments, multiple plots with one plot per compound, a download option for
 #' users to download time course data and simulation parameters, and a table with
 #' toxicokinetic summary statistics (Cmax, Tmax, AUC). The user interface contents
-#' of each drop down is then filled by a separate UI module.
+#' of each drop down is then filled by a separate UI module. Connected to ADME_MultPlt_ui(),
+#' ADME_IndPlt_ui(), ADME_TCData_ui(), and ADME_TKTable_ui(), which are all called
+#' by this function, and RS_Results(), which calls the current function
 #'
 #' @param id Shiny identifier name; must be the same id used as in ADME_server()
 #'
 #' @return Four user interface drop down tabs identifying space for two plots, two
 #' download buttons, and one table of concentration-time profile results.
-#' @seealso [ADME_MultPlt_ui()], [ADME_IndPlt_ui()], [ADME_TCData_ui()], and
-#' [ADME_TKTable_ui()], which are all called by this function, and [RS_Results()],
-#' which calls the current function
-#' @export
+#' @noRd
 #'
 ADME_ui <- function(id) {
 
@@ -51,7 +50,10 @@ ADME_ui <- function(id) {
 #' This function calculates the concentration-time profile's solution and outputs
 #' the contents of the UI objects for the concentration-time profiles' 'Results'
 #' card under the 'Run Simulation' tab. The contents of each UI object (drop
-#' down) are then filled by four separate server modules.
+#' down) are then filled by four separate server modules. Connected to validate_text_ADME(),
+#' modsol(), ADME_MultPlt_server(), ADME_IndPlt_server(), ADME_TCData_server(),
+#' and ADME_TKTable_server(), which are called by this function, and
+#' Run_Simulation(), which calls the current function.
 #'
 #' @param id Shiny identifier name; must be the same id used as in ADME_ui()
 #' @param pars A list of all user input parameters for the entire app
@@ -60,11 +62,7 @@ ADME_ui <- function(id) {
 #' @return The four server outputs that fill the main concentration-time profile
 #' user interface function consisting of two plots, two download buttons, and
 #' one table of concentration-time profile results
-#' @seealso [validate_text_ADME()], [modsol()], [ADME_MultPlt_server()],
-#' [ADME_IndPlt_server()], [ADME_TCData_server()], and [ADME_TKTable_server()],
-#' which are called by this function, and [Run_Simulation()], which calls the
-#' current function
-#' @export
+#' @noRd
 #'
 ADME_server <- function(id,pars,runsim) {
 

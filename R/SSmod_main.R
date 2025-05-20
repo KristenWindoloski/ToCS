@@ -9,17 +9,15 @@
 #' @description
 #' This function acts as the main function to set up the user interface for the
 #' steady state concentrations module. The UI layout includes three elements: a
-#' plot and two tables. Each UI element has its own UI function.
-#'
+#' plot and two tables. Each UI element has its own UI function. Connected to
+#' SS_ConcPlot_ui(), SS_ConcTable_ui(), and SS_DayTable_ui(), which are called
+#' by the current function, and RS_Results(), which calls the current function.
 #'
 #' @param id Shiny identifier name; must match the identifier in the SS_server()
 #'
 #' @return User interface layout for the steady state concentrations module on the 'Run Simulation'
 #' tab; includes one plot and two table drop down panels
-#' @seealso [SS_ConcPlot_ui()], [SS_ConcTable_ui()], and [SS_DayTable_ui()],
-#' which are called by the current function, and [RS_Results()], which calls the
-#' current function
-#' @export
+#' @noRd
 #'
 SS_ui <- function(id) {
 
@@ -46,7 +44,10 @@ SS_ui <- function(id) {
 #' @description
 #' This function acts as the main function to fill the user interface for the
 #' steady state concentrations module. The server outputs include three elements: a
-#' plot and two tables. Each server element has its own server function.
+#' plot and two tables. Each server element has its own server function. Connected
+#' to validate_text_SS(), SS_sol(), SS_ConcPlot_server(), SS_ConcTable_server(),
+#' and SS_DayTable_server(), which are called by the current function, and
+#' Run_Simulation(), which calls the current function.
 #'
 #' @param id Shiny identifier name; must match the identifier in the SS_ui()
 #' @param pars A list of all user input parameters for the entire app
@@ -56,10 +57,7 @@ SS_ui <- function(id) {
 #'
 #' @return Server output for the steady state concentrations module on the 'Run Simulation'
 #' tab; includes one plot and two table drop down panels
-#' @seealso [validate_text_SS()], [SS_sol()], [SS_ConcPlot_server()],
-#' [SS_ConcTable_server()], and [SS_DayTable_server()], which are called by the
-#' current function, and [Run_Simulation()], which calls the current function
-#' @export
+#' @noRd
 #'
 SS_server <- function(id,pars,runsim,logscale) {
 

@@ -9,13 +9,13 @@
 #' This function outputs the user interface for the concentration-time profile
 #' data download drop down in the results card under the 'Run Simulation' tab.
 #' The interface has two outputs: a download button for concentration-time profile
-#' data and a download button for simulation parameters.
+#' data and a download button for simulation parameters. Connected to ADME_ui(),
+#' which calls this function.
 #'
 #' @param id Shiny identifier name; must be the same id used as in ADME_TCData_server()
 #'
 #' @return User interface for the data download drop down with two download buttons
-#' @seealso [ADME_ui()], which calls this function
-#' @export
+#' @noRd
 #'
 ADME_TCData_ui <- function(id){
 
@@ -32,6 +32,8 @@ ADME_TCData_ui <- function(id){
 #' @description
 #' This function generates the outputs defined in the ADME_TCData_ui()
 #' function. This connects the two download buttons with the data to download.
+#' Connected to validate_text_ADME() and ADME_server(), which are called by this
+#' function
 #'
 #' @param id Shiny identifier name; must be the same id used as in ADME_TCData_ui()
 #' @param adme_args A Shiny reactive list with the output of modsol() and all shiny
@@ -39,9 +41,7 @@ ADME_TCData_ui <- function(id){
 #'
 #' @return Server outputs for the concentration-time profile data download drop
 #' down which includes two elements
-#' @seealso [validate_text_ADME()] and [ADME_server()], which are called by this
-#' function
-#' @export
+#' @noRd
 #'
 ADME_TCData_server <- function(id,adme_args){
 

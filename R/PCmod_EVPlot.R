@@ -8,13 +8,13 @@
 #' @description
 #' This function contains the user interface elements for the parameter calculations
 #' parameter plot. This interface itself contains three UI elements: a
-#' download button, a plot, and a plot caption.
+#' download button, a plot, and a plot caption. Connected to PC_ui(), which
+#' calls the current function.
 #'
 #' @param id Shiny identifier name; must be the same id used as in PC_EVPlot_server()
 #'
 #' @return User interface for the parameter plot drop down with three elements
-#' @seealso [PC_ui()], which calls the current function
-#' @export
+#' @noRd
 #'
 PC_EVPlot_ui <- function(id){
 
@@ -33,7 +33,9 @@ PC_EVPlot_ui <- function(id){
 #' @description
 #' This function contains the output elements for the parameter calculations
 #' parameter plot. This server contains three output elements: a
-#' download button, a plot, and a plot caption.
+#' download button, a plot, and a plot caption. Connected to plotPar(), which is
+#' called by the current function, and PC_server(), which calls the current
+#' function.
 #'
 #' @param id Shiny identifier name; must be the same id used as in PC_EVPlot_ui()
 #' @param pc_args A Shiny reactive list with the output of Parsol(), all shiny
@@ -41,9 +43,7 @@ PC_EVPlot_ui <- function(id){
 #'
 #' @return Server outputs for the parameter plot drop down which includes three
 #' elements
-#' @seealso [plotPar()], which is called by the current function, and [PC_server()],
-#' which calls the current function
-#' @export
+#' @noRd
 #'
 PC_EVPlot_server <- function(id,pc_args){
 

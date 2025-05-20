@@ -9,14 +9,13 @@
 #' This function outputs the user interface for the concentration-time profile
 #' multi-plot drop down in the results card under the 'Run Simulation' tab.
 #' The interface has three outputs: a download plot button, a plot, and a plot
-#' caption.
+#' caption. Connected to ADME_ui(), which calls this function.
 #'
 #'
 #' @param id Shiny identifier name; must be the same id used as in ADME_MultPlt_server()
 #'
 #' @return User interface for the multi-plot drop down which has three elements
-#' @seealso [ADME_ui()], which calls this function
-#' @export
+#' @noRd
 #'
 ADME_MultPlt_ui <- function(id){
 
@@ -35,7 +34,9 @@ ADME_MultPlt_ui <- function(id){
 #' @description
 #' This function generates the outputs defined in the ADME_MultPlt_ui()
 #' function. This connects the download button, plot, and plot caption to the
-#' elements that fill their spaces.
+#' elements that fill their spaces. Connected to plottingfunc_all() and caption_text(),
+#' which are called by the current function, and ADME_server(), which calls
+#' this function.
 #'
 #'
 #' @param id Shiny identifier name; must be the same id used as in ADME_MultPlt_ui()
@@ -44,9 +45,7 @@ ADME_MultPlt_ui <- function(id){
 #'
 #' @return Server outputs for the concentration-time profile multi-plot drop down
 #'  which includes three elements
-#' @seealso [plottingfunc_all()] and [caption_text()], which are called by the
-#' current function, and [ADME_server()], which calls this function
-#' @export
+#' @noRd
 #'
 ADME_MultPlt_server <- function(id, adme_args){
 

@@ -10,15 +10,15 @@
 #' This function outputs the user interface for the concentration-time profile
 #' toxicokinetic table drop down in the results card under the 'Run Simulation' tab.
 #' The interface has three outputs: a download button to download the table, the
-#' table of toxicokinetic summary statistics, and a table caption.
+#' table of toxicokinetic summary statistics, and a table caption. Connected to
+#' ADME_ui(), which calls this function.
 #'
 #'
 #' @param id Shiny identifier name; must be the same id used as in ADME_TKTable_server()
 #'
 #' @return User interface for the toxicokinetic summary table drop down with
 #' three elements
-#' @seealso [ADME_ui()], which calls this function
-#' @export
+#' @noRd
 #'
 ADME_TKTable_ui <- function(id){
 
@@ -38,7 +38,8 @@ ADME_TKTable_ui <- function(id){
 #' @description
 #' This function generates the outputs defined in the ADME_TKTable_ui()
 #' function. This connects the download button, data table, and caption defined
-#' in the UI to the outputs that fill those spots.
+#' in the UI to the outputs that fill those spots. Connected to ADME_server(),
+#' which calls this function.
 #'
 #' @param id Shiny identifier name; must be the same id used as in ADME_TKTable_ui()
 #' @param adme_args Shiny reactive list with the output of modsol() and all shiny
@@ -46,8 +47,7 @@ ADME_TKTable_ui <- function(id){
 #'
 #' @return Server outputs for the concentration-time profile toxicokinetic summary
 #' drop down which includes three outputs
-#' @seealso [ADME_server()], which calls this function
-#' @export
+#' @noRd
 #'
 ADME_TKTable_server <- function(id,adme_args){
 

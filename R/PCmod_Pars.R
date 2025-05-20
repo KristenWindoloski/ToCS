@@ -6,11 +6,13 @@
 #' User interface function for the paramater calculations simulation parameters
 #' download option
 #'
+#' @description
+#' Connected to PC_ui(), which calls the current function.
+#'
 #' @param id Shiny identifier name; must be the same id used as in PC_Pars_server()
 #'
 #' @return User interface for the parameter download drop down with one element
-#' @seealso [PC_ui()], which calls the current function
-#' @export
+#' @noRd
 #'
 PC_Pars_ui <- function(id){
 
@@ -23,14 +25,14 @@ PC_Pars_ui <- function(id){
 
 #' Server function for the parameter calculations simulation parameters
 #'
+#' @description Connected to PC_server(), which calls the current function.
+#'
 #' @param id Shiny identifier name; must be the same id used as in PC_Pars_ui()
 #' @param pc_args A Shiny reactive list with the output of Parsol(), all shiny
 #' parameters in pars(), and the logscale() input by the user
 #'
 #' @return Server outputs for the parameter download drop down with one element
-#'
-#' @seealso [PC_server()], which calls the current function
-#' @export
+#' @noRd
 #'
 PC_Pars_server <- function(id,pc_args){
 

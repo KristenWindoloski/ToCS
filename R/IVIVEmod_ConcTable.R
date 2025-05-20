@@ -9,14 +9,14 @@
 #' This function outputs the user interface for the IVIVE table drop down in the
 #' results card under the 'Run Simulation' tab. The interface has four outputs:
 #' a table download button, a simulation parameters download button, a table with
-#' calculated IVIVE doses, and a table caption.
+#' calculated IVIVE doses, and a table caption. Connected to IVIVE_ui(), which
+#' calls the current function.
 #'
 #'
 #' @param id Shiny identifier name; must be the same id used as in IVIVE_Table_server()
 #'
 #' @return User interface for the IVIVE table drop down with four elements
-#' @seealso [IVIVE_ui()], which calls the current function
-#' @export
+#' @noRd
 #'
 IVIVE_Table_ui <- function(id){
 
@@ -37,14 +37,14 @@ IVIVE_Table_ui <- function(id){
 #' This function generates the outputs defined in the IVIVE_Table_ui()
 #' function. This connects the download buttons with the table to download,
 #' fills the data table with content, and creates the text for the table caption.
+#' Connected to IVIVE_server(), which calls the current function.
 #'
 #' @param id Shiny identifier name; must be the same id used as in IVIVE_Table_ui()
 #' @param ivive_args A Shiny reactive list with the output of IVIVEsol(), all shiny
 #' parameters in pars(), and the logscale() input by the user
 #'
 #' @return Server outputs for the IVIVE table drop down which includes four elements
-#' @seealso [IVIVE_server()], which calls the current function
-#' @export
+#' @noRd
 #'
 IVIVE_Table_server <- function(id,ivive_args){
 

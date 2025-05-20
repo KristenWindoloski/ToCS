@@ -8,13 +8,13 @@
 #' @description
 #' This function contains the user interface elements for the parameter calculations
 #' parameter table. This interface itself contains three UI elements: a
-#' table download button, a table, and a table caption.
+#' table download button, a table, and a table caption. Connected to PC_ui(),
+#' which calls the current function.
 #'
 #' @param id Shiny identifier name; must be the same id used as in PC_EVTable_server()
 #'
 #' @return User interface for the parameter table drop down with three elements
-#' @seealso [PC_ui()], which calls the current function
-#' @export
+#' @noRd
 #'
 PC_EVTable_ui <- function(id){
 
@@ -33,15 +33,15 @@ PC_EVTable_ui <- function(id){
 #' @description
 #' This function contains the output elements for the parameter calculations
 #' parameter table. This server contains three output elements: a
-#' table download button, a table, and a table caption.
+#' table download button, a table, and a table caption. Connected to PC_server(),
+#' which calls the current function.
 #'
 #' @param id Shiny identifier name; must be the same id used as in PC_EVTable_ui()
 #' @param pc_args A Shiny reactive list with the output of Parsol(), all shiny
 #' parameters in pars(), and the logscale() input by the user
 #'
 #' @return Server outputs for the parameter table with three elements
-#' @seealso [PC_server()], which calls the current function
-#' @export
+#' @noRd
 #'
 PC_EVTable_server <- function(id, pc_args){
 
