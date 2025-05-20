@@ -1,7 +1,7 @@
 ---
 title: "Parameter Calculations Examples"
 author: "Kristen Leonard"
-date: "May 9, 2025"
+date: "May 20, 2025"
 ---
 
 ```{r, include = FALSE}
@@ -91,7 +91,7 @@ Now that all simulation chemicals are uploaded, the final *Compound Selection* t
 
 ### Advanced (Optional) Parameters Tab
 
-The *Advanced Parameters* tab is much more bare than for other modules, but since we are not going to customize any additional parameters for this example, we leave all inputs as is. The *Advanced Parameters* tab should look like the image below.
+In the *Advanced Parameters* tab, we are not going to customize any additional parameters for this example and so we leave all inputs as is. The *Advanced Parameters* tab should look like the image below.
 
 <br/><br/>
 

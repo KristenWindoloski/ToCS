@@ -1,7 +1,7 @@
 ---
 title: "IVIVE Simulation Examples"
 author: "Kristen Leonard"
-date: "May 9, 2025"
+date: "May 20, 2025"
 ---
 
 ```{r, include = FALSE}
@@ -381,7 +381,7 @@ Therefore, we can click the box under the *Actions* card to change the scale of 
 
 <br/><br/>
 
-The final two tabs on the IVIVE module exhibit the bioactivity exposure ratio (BER), if applicable for the simulation. Since no chemical exposure data was uploaded under the *Advanced Parameters* tab, no BERs were calculated for this simulation. If the user wanted to calculate BERs for this simulation, they would need to upload chemical exposure under the previous tab.
+The final two tabs on the IVIVE module exhibit the bioactivity exposure ratio (BER), if applicable for the simulation. Since no chemical exposure data was uploaded under the *Compound Selection* tab, no BERs were calculated for this simulation. If the user wanted to calculate BERs for this simulation, they would need to upload chemical exposure under the previous tab.
 
 <br/><br/>
 
