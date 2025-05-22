@@ -12,10 +12,9 @@
 #' tabs appear: one for a parameter plot, one for a parameter table, one for a
 #' partition coefficient plot, one for a partition coefficient table, and one for
 #' a download option for simulation parameters. The user interface contents of
-#' each drop down is then filled by a separate UI module. Connected to PC_EVPlot_ui(),
-#' PC_EVTable_ui(), PC_PCPlot_ui(), PC_PCTable_ui(), and PC_Pars_ui(), which
-#' are all called by this function, and RS_Results(), which calls the current
-#' function.
+#' each drop down is then filled by a separate UI module. The current function
+#' calls PC_EVPlot_ui(), PC_EVTable_ui(), PC_PCPlot_ui(), PC_PCTable_ui(), and
+#' PC_Pars_ui() and is called by RS_Results().
 #'
 #' @param id Shiny identifier name; must be the same id used as in PC_server()
 #'
@@ -53,10 +52,9 @@ PC_ui <- function(id) {
 #' This function acts as the main function to fill the user interface for the
 #' parameter calculations module. The server outputs include five elements: two
 #' plots, two tables, and a download button. Each server element has its own
-#' server function. Connected to validate_text_PC(), Parsol(), PC_EVPlot_server(),
-#' PC_EVTable_server(), PC_PCPlot_server(), PC_PCTable_server(), and PC_Pars_server(),
-#' which are all called by this function, and Run_Simulation(), which calls the
-#' current function.
+#' server function. The current function calls validate_text_PC(), Parsol(),
+#' PC_EVPlot_server(), PC_EVTable_server(), PC_PCPlot_server(), PC_PCTable_server(),
+#' and PC_Pars_server() and is called by Run_Simulation().
 #'
 #' @param id Shiny identifier name; must be the same id used as in PC_ui()
 #' @param pars A list of all user input parameters for the entire app

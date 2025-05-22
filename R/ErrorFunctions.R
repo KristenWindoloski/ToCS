@@ -12,7 +12,8 @@
 #' @description
 #' This function determines whether at least one compound has been set by the
 #' user to be simulated. The compound may be either from the pre-available drop
-#' down list or uploaded by the user.
+#' down list or uploaded by the user. The current function is called by
+#' InputRules_Children().
 #'
 #'
 #' @param value A Shiny input ID corresponding to an input object
@@ -21,8 +22,7 @@
 #'
 #' @return If condition if FALSE, then return the message. If the condition is
 #' TRUE, return nothing.
-#' @seealso [InputRules_Children()], which calls the current function
-#' @export
+#' @noRd
 #'
 not_null <- function(value,input, message = "At least one compound must be selected or uploaded"){
   if (is.null(c(value,input$file1))) message
@@ -38,7 +38,8 @@ not_null <- function(value,input, message = "At least one compound must be selec
 #' @description
 #' This function checks the uploaded file containing physical-chemical data for
 #' compounds to simulate. The file is checked for correct formatting, missing
-#' data, and correct data types.
+#' data, and correct data types. The current function is called by
+#' InputRules_Children() and calls MissingClintFup() and DataInputType().
 #'
 #'
 #' @param value A Shiny input ID corresponding to an input object
@@ -46,9 +47,7 @@ not_null <- function(value,input, message = "At least one compound must be selec
 #'
 #' @return If condition if FALSE, then return the message. If the condition is
 #' TRUE, return nothing.
-#' @seealso [InputRules_Children()], which calls the current function, and [MissingClintFup()]
-#' and [DataInputType()], which the current function calls
-#' @export
+#' @noRd
 #'
 UploadComps_Check <- function(value,input){
 
@@ -108,7 +107,8 @@ UploadComps_Check <- function(value,input){
 #' @description
 #' This function checks if the uploaded file with physical-chemical data has
 #' any missing hepatic clearance or fraction unbound in plasma values. If so, a
-#' message is returned to the user.
+#' message is returned to the user. The current function is called by
+#' UploadComps_Check().
 #'
 #'
 #' @param file The data frame with compound physical-chemical data uploaded by
@@ -122,8 +122,7 @@ UploadComps_Check <- function(value,input){
 #' @return If any required data is missing, then this function returns a message
 #' detailing the missing data. If all required data is present, then no message
 #' is outputted.
-#' @seealso [UploadComps_Check()], which calls the current function
-#' @export
+#' @noRd
 #'
 MissingClintFup <- function(file,spec,defaultHuman){
 
@@ -202,6 +201,8 @@ MissingClintFup <- function(file,spec,defaultHuman){
 #' @description
 #' This function checks if the data types that are in the uploaded compounds file
 #' are appropriate for each column of data (i.e. character, numeric, logical).
+#' The current function is called by UploadComps_Check() and calls DataTypeList()
+#' and type_func().
 #'
 #'
 #' @param file The data frame with compound physical-chemical data uploaded by
@@ -212,9 +213,7 @@ MissingClintFup <- function(file,spec,defaultHuman){
 #' column, then this function returns a message detailing that there's an incorrect
 #' data type. If all data types are appropriate in the 'file', then no message
 #' is outputted.
-#' @seealso [UploadComps_Check()], which calls the current function, and [DataTypeList()]
-#' and [type_func()], which the current function calls
-#' @export
+#' @noRd
 #'
 DataInputType <- function(file,column_names){
 
@@ -256,15 +255,14 @@ DataInputType <- function(file,column_names){
 #'
 #' @description
 #' Determines whether data type y is acceptable within the list of data types in
-#' x.
+#' x. The current function is called by DataInputType().
 #'
 #'
 #' @param x A vector
 #' @param y A vector
 #'
 #' @return TRUE or FALSE
-#' @seealso [DataInputType()], which calls the current function
-#' @export
+#' @noRd
 #'
 type_func <- function(x,y){
 
@@ -281,13 +279,13 @@ type_func <- function(x,y){
 #'
 #' @description
 #' This function produces a list of acceptable data types for each column of data
-#' in the user's uploaded compound file.
+#' in the user's uploaded compound file. The current function is called by
+#' DataInputType().
 #'
 #'
 #' @return A list of all acceptable data types for each column in the 'httk'
 #' package's chem.physical_and_invitro.data
-#' @seealso [DataInputType()], which calls the current function
-#' @export
+#' @noRd
 #'
 DataTypeList <- function(){
 
@@ -378,6 +376,7 @@ DataTypeList <- function(){
 #'
 #' @description
 #' This function relays to the user that a dosing frequency must be chosen.
+#' The current function is called by InputRules_Children().
 #'
 #'
 #' @param value A Shiny input ID corresponding to an input object
@@ -386,8 +385,7 @@ DataTypeList <- function(){
 #'
 #' @return If condition if FALSE, then return the message. If the condition is
 #' TRUE, return nothing.
-#' @seealso [InputRules_Children()], which calls the current function
-#' @export
+#' @noRd
 #'
 multdose_Select <- function(value,input,message = "The dosing frequency must be selected"){
   if (input$dosenum == "Multiple Doses" && value == "Select" && input$model != "full_pregnancy") message
@@ -401,7 +399,7 @@ multdose_Select <- function(value,input,message = "The dosing frequency must be 
 #'
 #' @description
 #' This function relays to the user that dosing administration amounts and times
-#' have to be chosen.
+#' have to be chosen. The current function is called by InputRules_Children().
 #'
 #'
 #' @param value A Shiny input ID corresponding to an input object
@@ -410,8 +408,7 @@ multdose_Select <- function(value,input,message = "The dosing frequency must be 
 #'
 #' @return If condition if FALSE, then return the message. If the condition is
 #' TRUE, return nothing.
-#' @seealso [InputRules_Children()], which calls the current function
-#' @export
+#' @noRd
 #'
 multdose_odd <- function(value,input,message = "The dosing administration amounts and times must be entered"){
   if (input$dosenum == "Multiple Doses" && input$multdose == "No" && value == "") message
@@ -425,7 +422,8 @@ multdose_odd <- function(value,input,message = "The dosing administration amount
 #'
 #' @description
 #' This function tells the user that in order to run the fetal_pbtk model, the
-#' human species must be chosen.
+#' human species must be chosen. The current function is called by
+#' InputRules_Children().
 #'
 #'
 #' @param value A Shiny input ID corresponding to an input object
@@ -434,8 +432,7 @@ multdose_odd <- function(value,input,message = "The dosing administration amount
 #'
 #' @return If condition if FALSE, then return the message. If the condition is
 #' TRUE, return nothing.
-#' @seealso [InputRules_Children()], which calls the current function
-#' @export
+#' @noRd
 #'
 fetal_cond <- function(value,input,message = "The 'Human' species must be selected to run the fetal_pbtk model"){
   if (!is.null(value)){
@@ -452,7 +449,8 @@ fetal_cond <- function(value,input,message = "The 'Human' species must be select
 #' @description
 #' This function relays to the user that return times for the fetal_pbtk model
 #' must start at 91 days or later. This is a restriction of the model that it
-#' only outputs times at 13 weeks or later.
+#' only outputs times at 13 weeks or later. The current function is called by
+#' InputRules_Children().
 #'
 #'
 #' @param value A Shiny input ID corresponding to an input object
@@ -461,8 +459,7 @@ fetal_cond <- function(value,input,message = "The 'Human' species must be select
 #'
 #' @return If condition if FALSE, then return the message. If the condition is
 #' TRUE, return nothing.
-#' @seealso [InputRules_Children()], which calls the current function
-#' @export
+#' @noRd
 #'
 returntimes_cond <- function(value,input,message = "A beginning output time of 91 days (13 weeks) or later must be entered"){
 
@@ -485,7 +482,8 @@ returntimes_cond <- function(value,input,message = "A beginning output time of 9
 #' @description
 #' This function checks whether the uploaded file with bioactivity data is in the
 #' correct format, contains no missing data, and has the correct type of data. If
-#' not, an error message is displayed to the user.
+#' not, an error message is displayed to the user. The current function is called
+#' by InputRules_Children().
 #'
 #'
 #' @param value A Shiny input ID corresponding to an input object
@@ -494,8 +492,7 @@ returntimes_cond <- function(value,input,message = "A beginning output time of 9
 #' @return If the uploaded bioactivity file is missing data or has incorrect
 #' formatting, then this function returns a message detailing the problem. If all
 #' aspects of the bioactivity file are appropriate, then no message is outputted.
-#' @seealso [InputRules_Children()], which calls the current function
-#' @export
+#' @noRd
 #'
 BioUpload_Check <- function(value,input){
 
@@ -537,7 +534,8 @@ BioUpload_Check <- function(value,input){
 #' Has the user defined an FSBf value?
 #'
 #' @description
-#' This function checks whether the user selected an FSBf value.
+#' This function checks whether the user selected an FSBf value. The current
+#' function is called by InputRules_Children().
 #'
 #'
 #' @param value A Shiny input ID corresponding to an input object
@@ -545,8 +543,7 @@ BioUpload_Check <- function(value,input){
 #'
 #' @return If condition if FALSE, then return the message. If the condition is
 #' TRUE, return nothing.
-#' @seealso [InputRules_Children()], which calls the current function
-#' @export
+#' @noRd
 #'
 FSBf_Check <- function(value,input){
 
@@ -569,7 +566,8 @@ FSBf_Check <- function(value,input){
 #' @description
 #' This function checks whether the uploaded file with exposure data is in the
 #' correct format, contains no missing data, and has the correct type of data. If
-#' not, an error message is displayed to the user.
+#' not, an error message is displayed to the user. The current function is called
+#' by InputRules_Children().
 #'
 #' @param value A Shiny input ID corresponding to an input object
 #' @param input The reactive inputs associated with the session
@@ -577,8 +575,7 @@ FSBf_Check <- function(value,input){
 #' @return If the uploaded exposure file is missing needed data or has incorrect
 #' formatting, then this function returns a message detailing the problem. If all
 #' aspects of the exposure file are appropriate, then no message is outputted.
-#' @seealso [InputRules_Children()], which calls the current function
-#' @export
+#' @noRd
 #'
 ExposureUpload_Check <- function(value,input){
 
@@ -640,7 +637,8 @@ ExposureUpload_Check <- function(value,input){
 #'
 #' @description
 #' This function checks if the identifier has been been inputted by the user. If
-#' not, an error message is returned.
+#' not, an error message is returned. The current function is called by
+#' InputRules_Children().
 #'
 #'
 #' @param iv_adme The ADME shinyvalidate input validator object
@@ -648,8 +646,7 @@ ExposureUpload_Check <- function(value,input){
 #'
 #' @return The ADME shinyvalidate input validator object with a new rule where an
 #' input in the initial condition box is required (i.e. cannot be left blank)
-#' @seealso [InputRules_Children()], which calls the current function
-#' @export
+#' @noRd
 #'
 addrule_adme_ics <- function(iv_adme,identifier){
   iv_adme$add_rule(identifier,shinyvalidate::sv_required())
@@ -665,7 +662,8 @@ addrule_adme_ics <- function(iv_adme,identifier){
 #' @description
 #' This function checks if the any of the initial condition boxes in the
 #' concentration-time profile module were left blank. If so, computation is halted
-#' until the user fixes the error.
+#' until the user fixes the error. The current function is called by
+#' validate_text_ADME().
 #'
 #'
 #' @param identifier The name of an initial condition compartment in the pars()
@@ -673,8 +671,7 @@ addrule_adme_ics <- function(iv_adme,identifier){
 #' @param pars A list of all user input parameters for the entire app
 #'
 #' @return An empty message to the user if the parameter is NA
-#' @seealso [validate_text_ADME()], which calls the current function
-#' @export
+#' @noRd
 #'
 adme_ic_errormess <- function(identifier,pars){
   if (is.na(pars[[identifier]])){

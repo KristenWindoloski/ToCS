@@ -14,7 +14,7 @@
 #' This function compiles the list of chemical names that the user wants to simulate.
 #' It combines both any preloaded compounds selected by the user and any uploaded
 #' compounds that a user uploaded in a CSV file. Compounds are then arranged in
-#' ascending order by name.
+#' ascending order by name. The current function is called by CompileCompLst().
 #'
 #'
 #' @param preload_comp A vector of selected compounds from the preloaded
@@ -24,8 +24,7 @@
 #' in the preloaded compounds drop down list
 #'
 #' @return A data frame with the names of all compounds the user wants to simulate
-#' @seealso [CompileCompLst()], which calls the current function
-#' @export
+#' @noRd
 #'
 CompoundList <- function(preload_comp, uploaded_comps){
 
@@ -92,14 +91,13 @@ CompoundList <- function(preload_comp, uploaded_comps){
 #' @description
 #' This function creates a final list of all user-selected parameters to use in
 #' simulation. It adjusts any parameters from the user selection to a function-ready
-#' input for all simulation modules.
+#' input for all simulation modules. The current function is called by
+#' GatherInputVars() and calls DosingPar(), InitVals_Par(), and OutputTimes_Par().
 #'
 #' @param pars A list of parameter values encompassing all user inputs for all modules
 #'
 #' @return A list of parameters to pass into modules
-#' @seealso [GatherInputVars()], which calls the current function, and [DosingPar()],
-#' [InitVals_Par()], and [OutputTimes_Par()], which the current function calls
-#' @export
+#' @noRd
 #'
 UpdatePars <- function(pars){
 
@@ -264,7 +262,7 @@ UpdatePars <- function(pars){
 #' @description
 #' This function creates a named vector of initial conditions for the selected
 #' model in concentration-time profile simulations. The names correspond to model
-#' compartments.
+#' compartments. The current function is called by UpdatePars().
 #'
 #'
 #' @param model The model the user selects
@@ -273,8 +271,7 @@ UpdatePars <- function(pars){
 #' @param pars A list of parameters to pass into modules
 #'
 #' @return A named vector of initial conditions for a specific model
-#' @seealso [UpdatePars()], which calls the current function
-#' @export
+#' @noRd
 #'
 InitVals_Par <- function(model,ICopts,pars){
 
@@ -330,7 +327,7 @@ InitVals_Par <- function(model,ICopts,pars){
 #' @description
 #' This function creates a list of dosing parameters based on user selections so
 #' that the outputted list is in the appropriate form to pass through httk's
-#' solve_model function.
+#' solve_model function. The current function is called by UpdatePars().
 #'
 #'
 #' @param dosenum The user's selection of the number of doses to administer,
@@ -349,8 +346,7 @@ InitVals_Par <- function(model,ICopts,pars){
 #' @return A list of dosing information taken in by httk's solve_model function.
 #' The list has five entries: initial.dose, doses.per.day, daily.dose,
 #' dosing.matrix, and forcings.
-#' @seealso [UpdatePars()], which calls the current function
-#' @export
+#' @noRd
 #'
 DosingPar <- function(dosenum,initdose,multdose,multdosetime,multdoseamount,multdoseodd){
 
@@ -389,14 +385,13 @@ DosingPar <- function(dosenum,initdose,multdose,multdosetime,multdoseamount,mult
 #' @description
 #' This function creates a vector of output times for the concentration-time profiles
 #' module. The vector entries depend on the user's model, simulation time, and
-#' return time specifications.
+#' return time specifications. The current function is called by UpdatePars().
 #'
 #'
 #' @param pars A list of parameters to pass into modules
 #'
 #' @return A vector of times to output the ADME concentration-time profile solution
-#' @seealso [UpdatePars()], which calls the current function
-#' @export
+#' @noRd
 #'
 OutputTimes_Par <- function(pars){
 
@@ -431,12 +426,12 @@ OutputTimes_Par <- function(pars){
 #'
 #' @description
 #' This function notifies the user that there is are missing or invalid parameters
-#' for the simulation when the "Run Simulation" button is clicked.
+#' for the simulation when the "Run Simulation" button is clicked. The current f
+#' unction is called byRun_Simulation().
 #'
 #'
 #' @return A pop-up notification to the user
-#' @seealso [Run_Simulation()], which calls the current function
-#' @export
+#' @noRd
 #'
 Notify_ParError <- function(){
   shiny::showNotification("Invalid Inputs: Check all previous tabs for missing or invalid parameters. Changing some parameters such as the output, species,
@@ -450,15 +445,15 @@ Notify_ParError <- function(){
 #' Create log10 break points for a plot scale
 #'
 #' @description
-#' This function creates a vector of 10^x breakpoints for the y-axis of a plot
+#' This function creates a vector of 10^x breakpoints for the y-axis of a plot.
+#' The current function is called by plot_logscale(), IVIVEplot_logscale() and
+#' BERplotting().
 #'
 #'
 #' @param ydata A vector of y-coordinate data to be plotted
 #'
 #' @return A vector of y-axis breaks
-#' @seealso [plot_logscale()], [IVIVEplot_logscale()] and [BERplotting()], which
-#' call the current function
-#' @export
+#' @noRd
 #'
 log10breaks <- function(ydata) {
 
@@ -477,16 +472,15 @@ log10breaks <- function(ydata) {
 #'
 #' @description
 #' This function transforms a given plot so that its y-axis scale is a log10 scale
-#' instead of a linear scale.
+#' instead of a linear scale. The current function is called by scat_plot(),
+#' plotPar(), and plotPCs() and calls log10breaks().
 #'
 #'
 #' @param plt ggplot2 plot object to add the log10 y-axis to
 #' @param sol_vec A vector of y-values to be plotted on plt
 #'
 #' @return A plot that is plt with a log10 y-axis
-#' @seealso [scat_plot()], [plotPar()], and [plotPCs()], which calls the current
-#' function, and [log10breaks()], which the current function calls
-#' @export
+#' @noRd
 #'
 plot_logscale <- function(plt,sol_vec){
 

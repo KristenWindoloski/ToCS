@@ -9,9 +9,10 @@
 #' This function contains the user interface elements for the steady state
 #' concentrations table. This interface itself contains four UI elements: a
 #' table download button, a simulation parameters download button, a table, and
-#' a table caption. Connected to SS_ui(), which calls the current function.
+#' a table caption. The current function is called by SS_ui().
 #'
-#' @param id Shiny identifier name; must match the identifier in the SS_ConcTable_server()
+#' @param id Shiny identifier name; must match the identifier in the
+#' SS_ConcTable_server()
 #'
 #' @return User interface for the steady state concentrations table which includes
 #' four elements: a table download button, a simulation parameters download button,
@@ -37,7 +38,7 @@ SS_ConcTable_ui <- function(id){
 #' This function contains the output elements for the steady state
 #' concentrations table. This server contains four output elements: a
 #' table download button, a simulation download button, a table, and a table
-#' caption. Connected to SS_server(), which calls the current function.
+#' caption. The current function is called by SS_server().
 #'
 #' @param id Shiny identifier name; must match the identifier in SS_ConcTable_ui()
 #' @param ss_args A Shiny reactive list with the output of SS_sol(), all shiny

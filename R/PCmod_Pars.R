@@ -7,7 +7,7 @@
 #' download option
 #'
 #' @description
-#' Connected to PC_ui(), which calls the current function.
+#' The current function is called by PC_ui().
 #'
 #' @param id Shiny identifier name; must be the same id used as in PC_Pars_server()
 #'
@@ -25,7 +25,7 @@ PC_Pars_ui <- function(id){
 
 #' Server function for the parameter calculations simulation parameters
 #'
-#' @description Connected to PC_server(), which calls the current function.
+#' @description The current function is called by PC_server().
 #'
 #' @param id Shiny identifier name; must be the same id used as in PC_Pars_ui()
 #' @param pc_args A Shiny reactive list with the output of Parsol(), all shiny

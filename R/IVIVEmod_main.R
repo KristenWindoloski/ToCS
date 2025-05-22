@@ -11,9 +11,9 @@
 #' card under the 'Run Simulation' tab. Four drop down tabs appear: one for an
 #' oral equivalent dose (OED) table, one for an OED plot, one for a bioactivity
 #' exposure ratio (BER) table, and one for a BER plot. The user interface contents
-#' of each drop down is then filled by a separate UI module. Connected to IVIVE_Table_ui(),
-#' IVIVE_Plot_ui(), BER_Table_ui(), and BER_Plot_ui(), which are all called
-#' by the current function, and RS_Results(), which calls the current function.
+#' of each drop down is then filled by a separate UI module. The current function
+#' calls IVIVE_Table_ui(), IVIVE_Plot_ui(), BER_Table_ui(), and BER_Plot_ui() and
+#' is called by RS_Results().
 #'
 #'
 #' @param id Shiny identifier name; must be the same id used as in IVIVE_server()
@@ -50,10 +50,9 @@ IVIVE_ui <- function(id) {
 #' This function calculates the IVIVE solution and outputs the contents of the
 #' UI objects for the IVIVE 'Results' card under the 'Run Simulation' tab. The
 #' contents of each UI object (drop down) are then filled by four separate
-#' server modules. Connected to validate_text_IVIVE(), IVIVEsol(), IVIVE_Table_server(),
-#' IVIVE_Plot_server(), BER_Table_server(), and BER_Plot_server(), which
-#' are all called by this function, and Run_Simulation(), which calls the current
-#' function.
+#' server modules. The current function is called by validate_text_IVIVE(),
+#' IVIVEsol(), IVIVE_Table_server(), IVIVE_Plot_server(), BER_Table_server(),
+#' and BER_Plot_server() and calls Run_Simulation().
 #'
 #' @param id Shiny identifier name; must be the same id used as in IVIVE_ui()
 #' @param pars A list of all user input parameters for the entire app

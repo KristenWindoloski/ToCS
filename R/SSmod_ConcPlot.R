@@ -8,8 +8,7 @@
 #' @description
 #' This function contains the user interface elements for the steady state
 #' concentrations plot. This interface itself contains three UI elements: a
-#' download button, a plot, and a plot caption. Connected to SS_ui(), which calls
-#' the current function.
+#' download button, a plot, and a plot caption. This function is called by SS_ui().
 #'
 #'
 #' @param id Shiny identifier name; must match the identifier in the SS_ConcPlot_server()
@@ -36,8 +35,8 @@ SS_ConcPlot_ui <- function(id){
 #' @description
 #' This function contains the output elements for the steady state
 #' concentrations plot. This server contains three output elements: a
-#' download button, a plot, and a plot caption. Connected scat_plot(), which
-#' the current function calls, and SS_server(), which calls the current function.
+#' download button, a plot, and a plot caption. This function calls scat_plot()
+#' and is called by SS_server().
 #'
 #' @param id Shiny identifier name; must match the identifier in the SS_ConcPlot_ui()
 #' @param ss_args A Shiny reactive list with the output of SS_sol(), all shiny

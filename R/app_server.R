@@ -3,14 +3,15 @@
 # MAIN SERVER FUNCTION FOR TOCS APP
 ##########################################################################
 
-#' App server function
+#' Not to be called directly by the user - app server function
 #'
 #' @description
 #' This function is the top-level server function for the ToCS application and
 #' dictates the outputs to be displayed in the app_ui function. Calls to all other
-#' server functions stem from this function. Connected to Model_Input(),
-#' PreloadComps_UI(), CompileCompLst(), UpdateInputs(), GatherInputVars()],
-#' InputRules_Children(), InputRules_Parents(), and Run_Simulation().
+#' server functions stem from this function. The current function calls the following
+#' internal functions: Model_Input(), PreloadComps_UI(), CompileCompLst(),
+#' UpdateInputs(), GatherInputVars()], InputRules_Children(), InputRules_Parents(),
+#' and Run_Simulation().
 #'
 #'
 #' @param input Input objects from the user interface
@@ -18,7 +19,7 @@
 #' @param session Session identifier
 #'
 #' @return Various server outputs
-#' @noRd
+#' @export
 #'
 app_server <- function(input, output, session) {
 

@@ -10,7 +10,9 @@
 #' dose and bioactivity exposure ratio for a list of chemicals, if applicable.
 #' This function calls other functions that do the actual calculations, but it
 #' returns the final output used to generate the specified outputs in the IVIVE
-#' server functions.
+#' server functions. The current function is called by IVIVE_server() and calls
+#' ConvertBioactive(), PrepExposureData(), Calc_OEDBER_RS_False(),
+#' Calc_OEDBER_RS_True(), and StorePars_IVIVE().
 #'
 #'
 #' @param pars A list of all user input parameters for the entire app
@@ -19,11 +21,7 @@
 #' the bioactive concentration data frame, a data frame with simulation parameters
 #' and physical-chemical data for chemicals simulated, a data frame with bioactivity
 #' exposure ratios (BER), and a data frame with user-uploaded exposure data
-#' @seealso [IVIVE_server()], which calls the current function and
-#' [ConvertBioactive()], [PrepExposureData()], [Calc_OEDBER_RS_False()],
-#' [Calc_OEDBER_RS_True()], and [StorePars_IVIVE()], which the current function
-#' calls.
-#' @export
+#' @noRd
 #'
 IVIVEsol <- function(pars){
 
@@ -76,7 +74,8 @@ IVIVEsol <- function(pars){
 #' its bioactive concentration. The 'httk' package function 'calc_mc_oral_equiv"
 #' is used to generate either a single OED or a vector of OEDs depending on
 #' whether the user wants only a specific quantile returned or all OED samples
-#' returned.
+#' returned. The current function is called by Calc_OEDBER_RS_False() and
+#' Calc_OEDBER_RS_True().
 #'
 #'
 #' @param i Index indicating which chemical on the list to simulate
@@ -85,9 +84,7 @@ IVIVEsol <- function(pars){
 #' bioactive concentration (in uM units) for each chemical to simulate
 #'
 #' @return A numeric value or vector of values, depending on the parameter
-#' @seealso [Calc_OEDBER_RS_False()] and [Calc_OEDBER_RS_True()], which call the
-#' current function
-#' @export
+#' @noRd
 #'
 CalcOED <- function(i,pars,bioactive_df){
 
@@ -148,7 +145,8 @@ CalcOED <- function(i,pars,bioactive_df){
 #' in vitro, if the user selects the 'Honda1' IVIVE assumption. If chosen, this
 #' assumption uses the 'httk' package's 'armitage_eval' function to perform the
 #' conversion. If the 'Honda1' assumption is not chosen, then the original
-#' 'bioactive_df' data frame is returned.
+#' 'bioactive_df' data frame is returned. The current function is called by
+#' IVIVEsol().
 #'
 #'
 #' @param pars A list of all user input parameters for the entire app
@@ -157,8 +155,7 @@ CalcOED <- function(i,pars,bioactive_df){
 #'
 #' @return A data frame with the chemical name, CAS number, and bioactive
 #' concentration
-#' @seealso [IVIVEsol()], which calls the current function
-#' @export
+#' @noRd
 #'
 ConvertBioactive <- function(pars,bioactive_df){
 
@@ -191,6 +188,7 @@ ConvertBioactive <- function(pars,bioactive_df){
 #' data for simulated compounds into one data frame. The returned parameters are
 #' only those used to generate the simulation, and the chemical-physical data is
 #' retrieved from the 'httk' package's 'chem.physical_and_invitro.data' data frame.
+#' The current function is called by IVIVEsol().
 #'
 #'
 #' @param pars A list of all user input parameters for the entire app
@@ -199,8 +197,7 @@ ConvertBioactive <- function(pars,bioactive_df){
 #'
 #' @return A data frame with simulation parameters and physical-chemical data
 #' for simulated compounds
-#' @seealso [IVIVEsol()], which calls the current function
-#' @export
+#' @noRd
 #'
 StorePars_IVIVE <- function(pars,bioactive_df){
 
@@ -256,6 +253,10 @@ StorePars_IVIVE <- function(pars,bioactive_df){
 #' This function plots all OEDs and any uploaded exposure data. How the OEDs are
 #' plotted is dependent upon the user-selected output type (single OED quantile
 #' or all OED samples). Exposure data (if applicable) is plotted as a point range.
+#' The current function is called by IVIVE_Plot_server() and calls
+#' OEDPoint_Exposure_Plot(), OEDPoint_NoExposure_Plot(), Plotdf_Prep(),
+#' OEDSample_Exposure_Plot(), OEDSample_NoExposure_Plot(), and
+#' IVIVEplot_logscale().
 #'
 #'
 #' @param OED_data A data frame of chemical names and their OEDs (either one per
@@ -268,11 +269,7 @@ StorePars_IVIVE <- function(pars,bioactive_df){
 #' @param expdata A data frame with chemical names and exposure data estimates
 #'
 #' @return A ggplot2 plotting object
-#' @seealso [IVIVE_Plot_server()], which calls the current function, and
-#' [OEDPoint_Exposure_Plot()], [OEDPoint_NoExposure_Plot()], [Plotdf_Prep()],
-#' [OEDSample_Exposure_Plot()], [OEDSample_NoExposure_Plot()], and
-#' [IVIVEplot_logscale()], which are called by the current function
-#' @export
+#' @noRd
 #'
 IVIVEplotting <- function(OED_data,BioactiveConc,pars,logscale,expdata){
 
@@ -337,7 +334,7 @@ IVIVEplotting <- function(OED_data,BioactiveConc,pars,logscale,expdata){
 #'
 #' @description
 #' This function generates the OED point ggplot object when no exposure data is
-#' uploaded by the user.
+#' uploaded by the user. The current function is called by IVIVEplotting().
 #'
 #'
 #' @param OED_data A data frame with chemical names and their OEDs
@@ -345,8 +342,7 @@ IVIVEplotting <- function(OED_data,BioactiveConc,pars,logscale,expdata){
 #' @param title_exp The plot's title expression
 #'
 #' @return A ggplot2 plotting object
-#' @seealso [IVIVEplotting()], which calls the current function
-#' @export
+#' @noRd
 #'
 OEDPoint_NoExposure_Plot <- function(OED_data,y_exp,title_exp){
 
@@ -372,7 +368,8 @@ OEDPoint_NoExposure_Plot <- function(OED_data,y_exp,title_exp){
 #'
 #' @description
 #' This function generates the OED point ggplot object when exposure data is
-#' uploaded by the user.
+#' uploaded by the user. The current function is called by [IVIVEplotting()] and
+#' calls [FillExposureData()].
 #'
 #' @param OED_data A data frame with chemical names and their OEDs
 #' @param expdata A data frame with chemical names and their exposure estimates
@@ -381,9 +378,7 @@ OEDPoint_NoExposure_Plot <- function(OED_data,y_exp,title_exp){
 #'
 #' @return A list with two elements: a ggplot2 plotting object and a data frame
 #' with both OED and exposure data
-#' @seealso [FillExposureData()], which is called by the current function, and
-#' [IVIVEplotting()], which calls the current function
-#' @export
+#' @noRd
 #'
 OEDPoint_Exposure_Plot <- function(OED_data,expdata,y_exp,title_exp){
 
@@ -423,7 +418,8 @@ OEDPoint_Exposure_Plot <- function(OED_data,expdata,y_exp,title_exp){
 #'
 #' @description
 #' This function generates the OED samples ggplot object no exposure data is
-#' uploaded by the user.
+#' uploaded by the user. The current function is called by IVIVEplotting() and
+#' calls FillExposureData().
 #'
 #' @param OEDSamples_df A data frame with chemical names and their OED samples
 #' @param Q5_OED_df A data frame with chemical names and their 5th OED quantile value
@@ -433,9 +429,7 @@ OEDPoint_Exposure_Plot <- function(OED_data,expdata,y_exp,title_exp){
 #'
 #' @return A list with two elements: a ggplot2 plotting object and a data frame
 #' with exposure data
-#' @seealso [FillExposureData()], which is called by the current function, and
-#' [IVIVEplotting()], which calls the current function
-#' @export
+#' @noRd
 #'
 OEDSample_Exposure_Plot <- function(OEDSamples_df,Q5_OED_df,expdata,y_exp,title_exp){
 
@@ -479,7 +473,7 @@ OEDSample_Exposure_Plot <- function(OEDSamples_df,Q5_OED_df,expdata,y_exp,title_
 #'
 #' @description
 #' This function generates the OED samples ggplot object when no exposure data is
-#' uploaded by the user.
+#' uploaded by the user. The current function is called by IVIVEplotting().
 #'
 #' @param OEDSamples_df A data frame with chemical names and their OED samples
 #' @param Q5_OED_df A data frame with chemical names and their 5th OED quantile value
@@ -487,8 +481,7 @@ OEDSample_Exposure_Plot <- function(OEDSamples_df,Q5_OED_df,expdata,y_exp,title_
 #' @param title_exp The plot's title expression
 #'
 #' @return A ggplot2 plotting object
-#' @seealso [IVIVEplotting()], which calls the current function
-#' @export
+#' @noRd
 #'
 OEDSample_NoExposure_Plot <- function(OEDSamples_df,Q5_OED_df,y_exp,title_exp){
 
@@ -512,7 +505,8 @@ OEDSample_NoExposure_Plot <- function(OEDSamples_df,Q5_OED_df,y_exp,title_exp){
 #'
 #' @description
 #' This function converts the y-axis scale on a plot object from a linear to a
-#' log10 y-axis.
+#' log10 y-axis. The current function is called by IVIVEplotting() and
+#' calls log10breaks().
 #'
 #'
 #' @param plt A complete ggplot2 plotting object
@@ -531,9 +525,7 @@ OEDSample_NoExposure_Plot <- function(OEDSamples_df,Q5_OED_df,y_exp,title_exp){
 #'
 #' @return A plot object of OEDs and exposure data (if applicable) with a log10
 #' y-axis scale
-#' @seealso [log10breaks()], which is called by the current function, and [IVIVEplotting()],
-#' which calls the current function
-#' @export
+#' @noRd
 #'
 IVIVEplot_logscale <- function(plt,pars,OEDSamples_df,combined_df,OED_data,expdata,Q5_OED_df){
 
@@ -581,7 +573,7 @@ IVIVEplot_logscale <- function(plt,pars,OEDSamples_df,combined_df,OED_data,expda
 #' @param pars A list of all user input parameters for the entire app
 #'
 #' @return A list with two elements: a title expression and a y-axis expression
-#' @export
+#' @noRd
 #'
 IVIVEplot_labels <- function(pars){
 
@@ -621,14 +613,14 @@ IVIVEplot_labels <- function(pars){
 #' @description
 #' This function generates the caption for the IVIVE oral equivalent dose plot
 #' output. The caption differs depending on whether a single OED or a vector of
-#' OEDs is returned as well as whether exposure data is available.
+#' OEDs is returned as well as whether exposure data is available. The current
+#' function is called by IVIVE_Plot_server().
 #'
 #'
 #' @param pars A list of all user input parameters for the entire app
 #'
 #' @return A text caption for Figure 1
-#' @seealso [IVIVE_Plot_server()], which calls the current function
-#' @export
+#' @noRd
 #'
 IVIVEplot_caption <- function(pars){
 
@@ -679,6 +671,7 @@ IVIVEplot_caption <- function(pars){
 #' are returned instead of a singular OED per compound. The compounds are arranged
 #' in ascending order based on the median OED sample for each compound and then
 #' the data frame with the 5th quantile OED is arranged in that same order.
+#' The current function is called by IVIVEplotting().
 #'
 #'
 #' @param df A data frame with chemical names and outputted OED samples from
@@ -687,8 +680,7 @@ IVIVEplot_caption <- function(pars){
 #'
 #' @return A list with two elements: the OED samples and the 5th quantile OEDs
 #' arranged by median value
-#' @seealso [IVIVEplotting()], which calls the current function
-#' @export
+#' @noRd
 #'
 Plotdf_Prep <- function(df,pars){
 
@@ -742,15 +734,14 @@ Plotdf_Prep <- function(df,pars){
 #' chemicals. The compounds are arranged in ascending order and then plotted using
 #' ggplot2. A red line is also plotted at BER = 1, indicating the threshold where
 #' compounds below the red line should be prioritized for further assessment.
+#' The current function is called by BER_Plot_server() and calls log10breaks().
 #'
 #'
 #' @param BERdata A data frame of chemical names and BER values
 #'
 #' @return A ggplot plotting object with all BERs plotted and a red line indicating
 #' the chemical prioritization cutoff
-#' @seealso [BER_Plot_server()], which calls the current function, and [log10breaks()],
-#' which is called by the current function
-#' @export
+#' @noRd
 #'
 BERplotting <- function(BERdata){
 
@@ -792,13 +783,13 @@ BERplotting <- function(BERdata){
 #' order as the original chemical list, updates the data if the model output units
 #' are different than the default of mg/kg/day, and calculates the maximal exposure
 #' data estimate for each compound. The updated exposure data frame is returned.
+#' The current function is called by IVIVEsol().
 #'
 #'
 #' @param pars A list of all user input parameters for the entire app
 #'
 #' @return A data frame with exposure data
-#' @seealso [IVIVEsol()], which calls the current function
-#' @export
+#' @noRd
 #'
 PrepExposureData <- function(pars){
 
@@ -843,7 +834,8 @@ PrepExposureData <- function(pars){
 #' This function calculates the oral equivalent dose (OED) and bioactivity exposure
 #' (BER) ratio when the user wants a specific quantile of OED returned. The BER
 #' is calculated using the OED quantile selected by the user. If no exposure
-#' data is uploaded by the user, then the BER is not calculated.
+#' data is uploaded by the user, then the BER is not calculated. The current
+#' function is called by CalcOED() and calls IVIVEsol().
 #'
 #'
 #' @param n The number of compounds being simulated
@@ -855,9 +847,7 @@ PrepExposureData <- function(pars){
 #'
 #' @return A list with two elements: a data frame with oral equivalent doses and
 #' a data frame with bioactivity exposure ratios
-#' @seealso [CalcOED()], which is called by the current function, and [IVIVEsol()],
-#' which calls the current function
-#' @export
+#' @noRd
 #'
 Calc_OEDBER_RS_False <- function(n,pars,bioactive_conc,exposuredata){
 
@@ -895,7 +885,8 @@ Calc_OEDBER_RS_False <- function(n,pars,bioactive_conc,exposuredata){
 #' This function calculates an array of oral equivalent dose (OED) samples and the 5th
 #' quantile OED as well a data frame of bioactivity exposure ratios (BERs). The
 #' BER is calculated using the 5th quantile OED. If no exposure data is uploaded
-#' by the user, then no bioactivity exposure ratios are returned.
+#' by the user, then no bioactivity exposure ratios are returned. The current
+#' function is called by IVIVEsol() and calls CalcOED().
 #'
 #'
 #' @param n The number of compounds being simulated
@@ -907,9 +898,7 @@ Calc_OEDBER_RS_False <- function(n,pars,bioactive_conc,exposuredata){
 #'
 #' @return A list with two elements: an array with oral equivalent doses and
 #' a data frame with bioactivity exposure ratios
-#' @seealso [CalcOED()], which is called by the current function, and [IVIVEsol()],
-#' which calls the current function
-#' @export
+#' @noRd
 #'
 Calc_OEDBER_RS_True <- function(n,pars,bioactive_conc,exposuredata){
 
@@ -957,16 +946,15 @@ Calc_OEDBER_RS_True <- function(n,pars,bioactive_conc,exposuredata){
 #' This function fills in the NA values in the exposure data frame by placing a
 #' small deviation (1e-8) from the non-NA elements of the data frame for that
 #' particular chemical. This is done so that the exposure data can be plotted as
-#' line and point ranges.
+#' line and point ranges. The current function is called by OEDSample_Exposure_Plot()
+#' and OEDPoint_Exposure_Plot().
 #'
 #'
 #' @param exposure_df A data frame with chemical names and exposure estimates. '
 #'
 #' @return A data frame with chemical names and exposure estimates.
 #' There should be no NA values in the outputted data frame.
-#' @seealso [OEDSample_Exposure_Plot()] and [OEDPoint_Exposure_Plot()], which
-#' calls the current function
-#' @export
+#' @noRd
 #'
 FillExposureData <- function(exposure_df){
 

@@ -6,7 +6,8 @@
 #'
 #' @description
 #' This function the correct AUC output concentration to go in a caption in the
-#' concentration-time profiles module plot and table.
+#' concentration-time profiles module plot and table. The current function is
+#' called by ADME_MultPlt_server() and ADME_IndPlt_server().
 #'
 #'
 #' @param func User selection with the input$func ID; either "Concentration-time
@@ -16,9 +17,7 @@
 #' "Schmitt","1compartment","3compartment", "pbtk" or "fetal_pbtk"
 #'
 #' @return A string with text describing the returned concentration of the model.
-#' @seealso [ADME_MultPlt_server()] and [ADME_IndPlt_server()], which calls the
-#' current function.
-#' @export
+#' @noRd
 #'
 caption_text <- function(func,model){
 
@@ -48,15 +47,14 @@ caption_text <- function(func,model){
 #' @description
 #' This function validates that all common user-selected parameters across all
 #' modules are acceptable. If not, the simulator will not compute until any
-#' errors in inputs are fixed.
+#' errors in inputs are fixed. The current function is called by CompileCompLst().
 #'
 #'
 #' @param pars A list of all user input parameters for the entire app
 #'
 #' @return A blank error message to the user that halts computation until the
 #' user fixes the input error.
-#' @seealso [CompileCompLst()], which calls the current function
-#' @export
+#' @noRd
 #'
 validate_text_Common <- function(pars){
 
@@ -209,16 +207,15 @@ validate_text_Common <- function(pars){
 #' @description
 #' This function validates that all user-selected parameters across the
 #' concentration-time profile module are acceptable. If not, the simulator will
-#' not compute until any errors in inputs are fixed.
+#' not compute until any errors in inputs are fixed. The current function is called
+#' by ADME_server() and ADME_TCData_server() and calls names_ICs() and
+#' adme_ic_errormess().
 #'
 #' @param pars A list of all user input parameters for the entire app
 #'
 #' @return A blank error message to the user that halts computation until the
 #' user fixes the input error.
-#' @seealso [ADME_server()] and [ADME_TCData_server()], which call the current
-#' function, and [names_ICs()] and [adme_ic_errormess()], which the current
-#' function calls
-#' @export
+#' @noRd
 #'
 validate_text_ADME <- function(pars){
 
@@ -273,14 +270,14 @@ validate_text_ADME <- function(pars){
 #' @description
 #' This function validates that all user-selected parameters across the
 #' steady state concentrations module are acceptable. If not, the simulator will
-#' not compute until any errors in inputs are fixed.
+#' not compute until any errors in inputs are fixed. The current function is called
+#' by SS_server().
 #'
 #' @param pars A list of all user input parameters for the entire app
 #'
 #' @return A blank error message to the user that halts computation until the
 #' user fixes the input error.
-#' @seealso [SS_server()], which calls the current function
-#' @export
+#' @noRd
 #'
 validate_text_SS <- function(pars){
 
@@ -302,14 +299,13 @@ validate_text_SS <- function(pars){
 #' @description
 #' This function validates that all user-selected parameters across the
 #' IVIVE module are acceptable. If not, the simulator will not compute until any
-#' errors in inputs are fixed.
+#' errors in inputs are fixed. The current function is called by IVIVE_server().
 #'
 #' @param pars A list of all user input parameters for the entire app
 #'
 #' @return A blank error message to the user that halts computation until the
 #' user fixes the input error.
-#' @seealso [IVIVE_server()], which calls the current function
-#' @export
+#' @noRd
 #'
 validate_text_IVIVE <- function(pars){
 
@@ -428,14 +424,14 @@ validate_text_IVIVE <- function(pars){
 #' @description
 #' This function validates that all user-selected parameters across the
 #' parameter calculations module are acceptable. If not, the simulator will not
-#' compute until any errors in inputs are fixed.
+#' compute until any errors in inputs are fixed. The current function is called
+#' by PC_server().
 #'
 #' @param pars A list of all user input parameters for the entire app
 #'
 #' @return A blank error message to the user that halts computation until the
 #' user fixes the input error.
-#' @seealso [PC_server()], which calls the current function
-#' @export
+#' @noRd
 #'
 validate_text_PC <- function(pars){
 

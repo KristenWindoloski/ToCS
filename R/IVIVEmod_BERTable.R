@@ -9,7 +9,7 @@
 #' This function outputs the user interface for the BER table drop down in the
 #' results card under the 'Run Simulation' tab. The interface has three outputs:
 #' a table download button, a table with calculated BERs, and a table caption.
-#' Connected to IVIVE_ui(), which calls the current function.
+#' The current function is called by IVIVE_ui().
 #'
 #' @param id Shiny identifier name; must be the same id used as in BER_Table_server()
 #'
@@ -34,7 +34,7 @@ BER_Table_ui <- function(id){
 #' This function generates the outputs defined in the BER_Table_ui()
 #' function. This connects the download buttons with the table to download,
 #' fills the data table with content, and creates the text for the table caption.
-#' Connected to IVIVE_server(), which calls the current function.
+#' The current function is called by IVIVE_server().
 #'
 #' @param id Shiny identifier name; must be the same id used as in BER_Table_ui()
 #' @param ivive_args A Shiny reactive list with the output of IVIVEsol(), all shiny

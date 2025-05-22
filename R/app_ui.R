@@ -3,21 +3,20 @@
 # MAIN UI CODE FOR TOCS APP
 ##########################################################################
 
-#' App ui function
+#' Not to be called directly by the user - app ui function
 #'
 #' @description
 #' This function is the top-level ui function for the ToCS application and
 #' dictates where the outputs from the app_server function will be displayed.
-#' Calls to all other ui functions stem from this function. Connected to
-#' GP_Instructions(), GP_Output(), GP_Species(), MS_Dosing(),
-#' MS_Model()], CS_Instructions(), CS_PreloadedCompounds(), CS_UploadedData(),
-#' AP_ModelConditions()], AP_ModelSolver(), AP_Bioavailability(), AP_OutputSpecification(),
-#' RS_Actions(), RS_SelectedCompounds(), and RS_Results(), which are called
-#' by the current function.
+#' Calls to all other ui functions stem from this function. The current function
+#' calls the following internal functions: GP_Instructions(), GP_Output(),
+#' GP_Species(), MS_Dosing(), MS_Model(), CS_Instructions(), CS_PreloadedCompounds(),
+#' CS_UploadedData(), AP_ModelConditions(), AP_ModelSolver(), AP_Bioavailability(),
+#' AP_OutputSpecification(), RS_Actions(), RS_SelectedCompounds(), and RS_Results().
 #'
 #'
 #' @return User interface
-#' @noRd
+#' @export
 #'
 app_ui <- function(){
 

@@ -8,8 +8,8 @@
 #' @description
 #' This function outputs the user interface for the BER plot drop down in the
 #' results card under the 'Run Simulation' tab. The interface has three outputs:
-#' a plot download button, a plot with BER values, and a plot caption. Connected to
-#' IVIVE_ui(), which calls the current function.
+#' a plot download button, a plot with BER values, and a plot caption. The current
+#' function is called by IVIVE_ui().
 #'
 #' @param id Shiny identifier name; must be the same id used as in BER_Plot_server()
 #'
@@ -33,9 +33,8 @@ BER_Plot_ui <- function(id){
 #' @description
 #' This function generates the outputs defined in the IVIVE_Table_ui()
 #' function. This connects the download buttons with the plot to download,
-#' generates the plot content, and creates the text for the plot caption. Connected
-#' to BERplotting(), which is called by this function, and IVIVE_server(),
-#' which calls the current function.
+#' generates the plot content, and creates the text for the plot caption. The
+#' current function is called by BERplotting() and calls IVIVE_server().
 #'
 #' @param id Shiny identifier name; must be the same id used as in BER_Plot_ui()
 #' @param ivive_args A Shiny reactive list with the output of IVIVEsol(), all shiny

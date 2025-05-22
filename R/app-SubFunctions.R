@@ -10,14 +10,13 @@
 #'
 #' @description
 #' This function outputs the user interface for the 'Instructions' card on the
-#' 'General Parameters' tab of the GUI.
+#' 'General Parameters' tab of the GUI. The current function is called by app_ui()
+#' and calls Instructions_GenPars().
 #'
 #'
 #' @return Text with instructions for the user on how to use the app, where to get
 #' help, and where to report bugs
-#' @seealso [app_ui()], which calls the current function, and [Instructions_GenPars()],
-#' which is called by the current function
-#' @export
+#' @noRd
 #'
 GP_Instructions <- function(){
   bslib::card(bslib::card_header("INSTRUCTIONS"),
@@ -31,12 +30,11 @@ GP_Instructions <- function(){
 #'
 #' @description
 #' This function outputs the user interface for the 'Output' card on the
-#' 'General Parameters' tab of the GUI.
+#' 'General Parameters' tab of the GUI. The current function is called by app_ui(),
+#' and calls selectInput_Function().
 #'
 #' @return The 'Output' card with the function selection option
-#' @seealso [app_ui()], which calls the current function, and [selectInput_Function()],
-#' which is called by the current function
-#' @export
+#' @noRd
 #'
 GP_Output <- function(){
   bslib::card(bslib::card_header("OUTPUT"),
@@ -51,12 +49,11 @@ GP_Output <- function(){
 #'
 #' @description
 #' This function outputs the user interface for the 'Species' card on the
-#' 'General Parameters' tab of the GUI.
+#' 'General Parameters' tab of the GUI. The current function is called by app_ui(),
+#' and calls selectInput_Species() and selectInput_DefaultToHuman().
 #'
 #' @return The 'Species' card with species selection options
-#' @seealso [app_ui()], which calls the current function, and [selectInput_Species()]
-#' and [selectInput_DefaultToHuman()], which are called by the current function
-#' @export
+#' @noRd
 #'
 GP_Species <- function(){
   bslib::card(bslib::card_header("SPECIES"),
@@ -73,16 +70,15 @@ GP_Species <- function(){
 #'
 #' @description
 #' This function outputs the user interface for the 'Dosing' card on the
-#' 'Model Specifications' tab of the GUI.
+#' 'Model Specifications' tab of the GUI. The current function is called by app_ui(),
+#' and calls selectInput_DoseRoute(), selectInput_ADMEdoseunits(),
+#' selectInput_NumDoses(), numericInput_InitialDose(), selectInput_MultipleDosesQ(),
+#' numericInput_MultiDoseAmount(), sliderInput_MultiDoseTime(), textInput_DoseMatrix(),
+#' and numericInput_DailyDose().
 #'
 #' @return The 'Dosing' card with dosing selection options depending on the
 #' module function chosen
-#' @seealso [app_ui()], which calls the current function, and [selectInput_DoseRoute()],
-#' [selectInput_ADMEdoseunits()], [selectInput_NumDoses()], [numericInput_InitialDose()],
-#' [selectInput_MultipleDosesQ()], [numericInput_MultiDoseAmount()],
-#' [sliderInput_MultiDoseTime()], [textInput_DoseMatrix()], and
-#'  [numericInput_DailyDose()], which are called by the current function
-#' @export
+#' @noRd
 #'
 MS_Dosing <- function(){
   bslib::card(bslib::card_header("DOSING"),
@@ -113,14 +109,13 @@ MS_Dosing <- function(){
 #'
 #' @description
 #' This function outputs the user interface for the 'Model' card on the
-#' 'Model Specifications' tab of the GUI.
+#' 'Model Specifications' tab of the GUI. The current function is called by app_ui(),
+#' and calls selectInput_InSilicoPars(), numericInput_SimTime(),
+#' selectInput_ReturnSamps(), and numericInput_Quantile().
 #'
 #' @return The 'Model' card with model selection options depending on the module
 #' function chosen
-#' @seealso [app_ui()], which calls the current function, and [selectInput_InSilicoPars()],
-#' [numericInput_SimTime()], [selectInput_ReturnSamps()], and [numericInput_Quantile()],
-#' which are called by the current function
-#' @export
+#' @noRd
 #'
 MS_Model <- function(){
   bslib::card(bslib::card_header("MODEL"),
@@ -143,13 +138,12 @@ MS_Model <- function(){
 #'
 #' @description
 #' This function outputs the user interface for the 'Instructions' card on the
-#' 'Compound Selection' tab of the GUI.
+#' 'Compound Selection' tab of the GUI. The current function is called by app_ui(),
+#' and calls Instructions_CompSelect_Part1() and Instructions_CompSelect_Part2().
 #'
 #' @return The 'Instructions' card with instructions for selecting and uploading
 #' compound data, including folders with sample data
-#' @seealso [app_ui()], which calls the current function, and [Instructions_CompSelect_Part1()]
-#' and [Instructions_CompSelect_Part2()], which is called by the current function
-#' @export
+#' @noRd
 #'
 CS_Instructions <- function(){
   bslib::card(bslib::card_header("INSTRUCTIONS"),
@@ -172,14 +166,13 @@ CS_Instructions <- function(){
 #'
 #' @description
 #' This function outputs the user interface for the 'Preloaded Compounds' card on the
-#' 'Compound Selection' tab of the GUI.
+#' 'Compound Selection' tab of the GUI. The current function is called by app_ui(),
+#' and calls selectInput_HondaCond() and selectInput_CompPreference().
 #'
 #' @return The 'Preloaded Compounds' card that allows the user to select desired
 #' chemicals to simulate from a list as well as any chemical-related simulation
 #' preferences
-#' @seealso [app_ui()], which calls the current function, and [selectInput_HondaCond()]
-#' and [selectInput_CompPreference()], which are called by the current function
-#' @export
+#' @noRd
 #'
 CS_PreloadedCompounds <- function(){
   bslib::card(bslib::card_header("PRELOADED COMPOUNDS"),
@@ -198,14 +191,13 @@ CS_PreloadedCompounds <- function(){
 #'
 #' @description
 #' This function outputs the user interface for the 'UploadedData' card on the
-#' 'Compound Selection' tab of the GUI.
+#' 'Compound Selection' tab of the GUI. The current function is called by app_ui(),
+#' and calls fileInput_BioactiveConc() and fileInput_ExposureData().
 #'
 #' @return The 'Uploaded Data' card which gives the user the option to upload a
 #' file with new chemicals and their data. If the IVIVE module is chosen, then
 #' users can also upload bioactivity and exposure data.
-#' @seealso [app_ui()], which calls the current function, and [fileInput_BioactiveConc()]
-#' and [fileInput_ExposureData()], which are called by the current function
-#' @export
+#' @noRd
 #'
 CS_UploadedData <- function(){
   bslib::card(bslib::card_header("UPLOADED DATA"),
@@ -225,18 +217,18 @@ CS_UploadedData <- function(){
 #'
 #' @description
 #' This function outputs the user interface for the 'Model Conditions' card on the
-#' 'Advanced Parameters' tab of the GUI.
+#' 'Advanced Parameters' tab of the GUI. The current function is called by app_ui(),
+#' and calls selectInput_InitialCondCustom(), numericInput_ICvalue(),
+#' selectInput_rb2p(), numericInput_Samples(), selectInput_Bioactive(),
+#' numericInput_ClintPval(), numericInput_Alpha(), numericInput_MinFub(),
+#' selectInput_RestrictClear(), selectInput_AdjFub(), and selectInput_Regression().
+#'
 #' @param ic_names A vector of the compartment identifier name used by httk
 #' @param ic_comps A vector of the written out compartment name
 #'
 #' @return The 'Model Conditions' card which allows the user to select various
 #' different model conditions depending upon the module function chosen
-#' @seealso [app_ui()], which calls the current function, and [selectInput_InitialCondCustom()],
-#' [numericInput_ICvalue()], [selectInput_rb2p()], [numericInput_Samples()],
-#' [selectInput_Bioactive()], [numericInput_ClintPval()], [numericInput_Alpha()],
-#' [numericInput_MinFub()], [selectInput_RestrictClear()], [selectInput_AdjFub()],
-#' [selectInput_Regression()], which are called by the current function
-#' @export
+#' @noRd
 #'
 AP_ModelConditions <- function(ic_names,ic_comps){
   bslib::card(bslib::card_header("MODEL CONDITIONS"),
@@ -278,14 +270,13 @@ AP_ModelConditions <- function(ic_names,ic_comps){
 #'
 #' @description
 #' This function outputs the user interface for the 'Model Solver' card on the
-#' 'Advanced Parameters' tab of the GUI.
+#' 'Advanced Parameters' tab of the GUI. The current function is called by app_ui(),
+#' and calls selectInput_ODEmethod(), numericInput_SolSteps(), sliderInput_RTol(),
+#' and sliderInput_ATol().
 #'
 #' @return The 'Model Solver' card which allows the user options to select various
 #' solver conditions if the concentration-time profiles module function is chosen
-#' @seealso [app_ui()], which calls the current function, and [selectInput_ODEmethod()],
-#' [numericInput_SolSteps()], [sliderInput_RTol()], and [sliderInput_ATol()],
-#' which are called by the current function
-#' @export
+#' @noRd
 #'
 AP_ModelSolver <- function(){
   bslib::card(bslib::card_header("MODEL SOLVER"),
@@ -306,15 +297,14 @@ AP_ModelSolver <- function(){
 #'
 #' @description
 #' This function outputs the user interface for the 'Bioavailability' card on the
-#' 'Advanced Parameters' tab of the GUI.
+#' 'Advanced Parameters' tab of the GUI. The current function is called by app_ui(),
+#' and calls numericInput_CacoDefault(), selectInput_Fabs(), selectInput_Fgut(),
+#' selectInput_Overwrite(), and selectInput_Keep100().
 #'
 #' @return The 'Bioavailability' card which offers users the option to customize
 #' five bioavailability parameters, unless the parameter calculations module
 #' function is chosen
-#' @seealso [app_ui()], which calls the current function, and [numericInput_CacoDefault()],
-#' [selectInput_Fabs()], [selectInput_Fgut()], [selectInput_Overwrite()], and
-#' [selectInput_Keep100()], which are called by the current function
-#' @export
+#' @noRd
 #'
 AP_Bioavailability <- function(){
   bslib::card(bslib::card_header("BIOAVAILABILITY"),
@@ -334,14 +324,13 @@ AP_Bioavailability <- function(){
 #'
 #' @description
 #' This function outputs the user interface for the 'Output Specification' card
-#' on the 'Advanced Parameters' tab of the GUI.
+#' on the 'Advanced Parameters' tab of the GUI. The current function is called by
+#' app_ui() and calls textInput_OutputTimes(), selectInput_SSoutunits(),
+#' selectInput_OutConc(), selectInput_Tissue(), and selectInput_IVIVEoutunits().
 #'
 #' @return The 'Output Specification' card which offers the users different
 #' selection options regarding the output for different module functions chosen
-#' @seealso [app_ui()], which calls the current function, and [textInput_OutputTimes()],
-#' [selectInput_SSoutunits()], [selectInput_OutConc()], [selectInput_Tissue()],
-#' and [selectInput_IVIVEoutunits()], which are called by the current function
-#' @export
+#' @noRd
 #'
 AP_OutputSpecification <- function(){
   bslib::card(bslib::card_header("OUTPUT SPECIFICATION"),
@@ -370,16 +359,14 @@ AP_OutputSpecification <- function(){
 #'
 #' @description
 #' This function outputs the user interface for the 'Actions' card on the
-#' 'Run Simulation' tab of the GUI.
+#' 'Run Simulation' tab of the GUI. The current function is called by app_ui(),
+#' and calls Instructions_RunSim(), Instructions_Reset(), and checkboxInput_Log().
 #'
 #' @return The 'Actions' card which provides instructions to the user on how to
 #' run simulations, two buttons for the user to press to run or reset the
 #' simulation, and the option to log scale plots (if applicable for the module
 #' chosen)
-#' @seealso [app_ui()], which calls the current function, and [Instructions_RunSim()],
-#' [Instructions_Reset()], and [checkboxInput_Log()], which are called by the
-#' current function
-#' @export
+#' @noRd
 #'
 RS_Actions <- function(){
   bslib::card(bslib::card_header("ACTIONS"),
@@ -399,12 +386,11 @@ RS_Actions <- function(){
 #'
 #' @description
 #' This function outputs the user interface for the 'Selected Compounds' card on the
-#' 'Run Simulation' tab of the GUI.
+#' 'Run Simulation' tab of the GUI. The current function is called by app_ui().
 #'
 #' @return The 'Selected Compounds' card which shows a table of all compounds
 #' selected by the user for simulation
-#' @seealso [app_ui()], which calls the current function
-#' @export
+#' @noRd
 #'
 RS_SelectedCompounds <- function(){
   bslib::card(bslib::card_header("SELECTED COMPOUNDS"),
@@ -419,13 +405,12 @@ RS_SelectedCompounds <- function(){
 #'
 #' @description
 #' This function outputs the user interface for the 'Results' card on the
-#' 'Run Simulation' tab of the GUI.
+#' 'Run Simulation' tab of the GUI. The current function is called by app_ui() and
+#' calls ADME_ui(), SS_ui(), IVIVE_ui(), and PC_ui().
 #'
 #' @return The 'Results' card which displays a number of drop down menus filled
 #' with output results depending on the module function chosen
-#' @seealso [app_ui()], which calls the current function, and [ADME_ui()],
-#' [SS_ui()], [IVIVE_ui()], and [PC_ui()], which are called by the current function
-#' @export
+#' @noRd
 #'
 RS_Results <- function(){
   bslib::card(bslib::card_header("RESULTS"),
@@ -451,7 +436,9 @@ RS_Results <- function(){
 #'
 #' @description
 #' This function presents the user interface for the preloaded compounds section
-#' of the 'Preloaded Compounds' card under the 'Compound Selection' tab
+#' of the 'Preloaded Compounds' card under the 'Compound Selection' tab. The
+#' current function is called by app_server() and calls numericInput_FSBf()
+#' and PreloadCompsInput().
 #'
 #'
 #' @param func User selection with the input$func ID; either "Concentration-time
@@ -474,9 +461,7 @@ RS_Results <- function(){
 #' @return The user interface objects (drop down selections) for the 'Preloaded
 #' Compounds' card on the 'Compound Selection' tab. The objects outputted vary
 #' depending on the user's input selection.
-#' @seealso [app_server()], which calls the current function, and [numericInput_FSBf()]
-#' and [PreloadCompsInput()], which are called by the current function
-#' @export
+#' @noRd
 #'
 PreloadComps_UI <- function(func,spec,defaulthuman,model,insilicopars,honda,comptype){
 
@@ -506,7 +491,8 @@ PreloadComps_UI <- function(func,spec,defaulthuman,model,insilicopars,honda,comp
 #' This function creates a data frame of chemical names in alphabetical order to
 #' simulate. It checks the function's input parameters for validity. Then, if
 #' applicable, the user's uploaded file of chemical data is uploaded and merged
-#' any preloaded chemicals selected by the user.
+#' any preloaded chemicals selected by the user. The current function is called
+#' by app_server() and calls validate_text_Common() and CompoundList().
 #'
 #'
 #' @param func User selection with the input$func ID; either "Concentration-time
@@ -529,9 +515,7 @@ PreloadComps_UI <- function(func,spec,defaulthuman,model,insilicopars,honda,comp
 #'
 #' @return A data frame with a single column of compound names in alphabetical
 #' order
-#' @seealso [app_server()], which calls the current function, and [validate_text_Common()]
-#' and [CompoundList()], which are called by this function
-#' @export
+#' @noRd
 #'
 CompileCompLst <- function(func,spec,defaulthuman,model,insilico,preloadcomps,file,honda){
 
@@ -555,7 +539,8 @@ CompileCompLst <- function(func,spec,defaulthuman,model,insilico,preloadcomps,fi
 #' This function puts all user-selected parameters for all modules into a single
 #' parameter list to pass through the functions that generate model outputs. The
 #' list of parameters has each parameter in a form that the httk functions can
-#' read them.
+#' read them. The current function is called by app_server() and calls ParNames(),
+#' CompilePars(), and UpdatePars().
 #'
 #'
 #' @param input The 'input' object used as the prefix for all ID's (should be
@@ -565,9 +550,7 @@ CompileCompLst <- function(func,spec,defaulthuman,model,insilico,preloadcomps,fi
 #'
 #' @return A named list of all parameters in the GUI to be used in the main
 #' module functions
-#' @seealso [app_server()], which calls the current function, and [ParNames()],
-#' [CompilePars()], and [UpdatePars()], which are called by the current function
-#' @export
+#' @noRd
 #'
 GatherInputVars <- function(input,compoundlist){
 
@@ -584,7 +567,8 @@ GatherInputVars <- function(input,compoundlist){
 #' Parse together the input ID name of a user selection
 #'
 #' @description
-#' Compile the input ID name for each user-selected parameter
+#' Compile the input ID name for each user-selected parameter. The current function
+#' is called by GatherInputVars().
 #'
 #'
 #' @param VarName The name of the parameter
@@ -592,8 +576,7 @@ GatherInputVars <- function(input,compoundlist){
 #' entered as 'input')
 #'
 #' @return A value for the given parameter
-#' @seealso [GatherInputVars()], which calls the current function
-#' @export
+#' @noRd
 #'
 CompilePars <- function(VarName,input){
   eval(parse(text = paste("input$",VarName,sep = "")))
@@ -609,6 +592,8 @@ CompilePars <- function(VarName,input){
 #' This function resets the user-selected values of certain parameters depending
 #' on the change of another main parameters. This function ensures that the user
 #' makes appropriate parameter selections based on the other parameters selected.
+#' The current function is called by app_server() and calls UpdateFunc(),
+#' UpdateSpec(), and UpdateComps().
 #'
 #'
 #' @param input The 'input' object used as the prefix for all ID's (should be
@@ -617,9 +602,7 @@ CompilePars <- function(VarName,input){
 #'
 #' @return Cleared inputs for the applicable function when a main input is
 #' changed
-#' @seealso [app_server()], which calls the current function, and [UpdateFunc()],
-#' [UpdateSpec()], and [UpdateComps()], which are called by the current function
-#' @export
+#' @noRd
 #'
 UpdateInputs <- function(input,session){
 
@@ -639,14 +622,14 @@ UpdateInputs <- function(input,session){
 #' @description
 #' This function updates the model, insilico parameters, and preloaded compound
 #' selections if the 'output' function is changed from its original selection.
+#' The current function is called by UpdateInputs().
 #'
 #'
 #' @param session Shiny session
 #'
 #' @return Clear "model", "in silico parameter preference", and "preloaded
 #' compounds" selections and return to their default values
-#' @seealso [UpdateInputs()], which calls the current function
-#' @export
+#' @noRd
 #'
 UpdateFunc <- function(session){
 
@@ -663,14 +646,14 @@ UpdateFunc <- function(session){
 #'
 #' @description
 #' This function updates the model and preloaded compound selections if the
-#' 'species' function is changed from its original selection.
+#' 'species' function is changed from its original selection. The current function
+#' is called by UpdateInputs().
 #'
 #' @param session Shiny session
 #'
 #' @return Clear "model" and "preloaded compounds" selections and return to their
 #' default values
-#' @seealso [UpdateInputs()], which calls the current function
-#' @export
+#' @noRd
 #'
 UpdateSpec <- function(session){
 
@@ -687,14 +670,13 @@ UpdateSpec <- function(session){
 #' @description
 #' This function updates the preloaded compound selections if the default to human,
 #' in silico parameters, or model selections are changed from their original
-#' selection.
+#' selection. The current function is called by UpdateInputs().
 #'
 #' @param session Shiny session
 #'
 #' @return Clear the "preloaded compounds" selection and return it to its default
 #' value
-#' @seealso [UpdateInputs()], which calls the current function
-#' @export
+#' @noRd
 #'
 UpdateComps <- function(session){
 
@@ -712,7 +694,10 @@ UpdateComps <- function(session){
 #' must follow or the program will not run. This includes not leaving parameters
 #' blank, having them be the correct type of input, and that they're formatted
 #' correctly. For file uploads, it checks the inputted file. Error messages are
-#' shown to the user if the input rules are broken.
+#' shown to the user if the input rules are broken. The current function is called
+#' by app_server() and calls not_null(), UploadComps_Check(), multdose_Select(),
+#' multdose_odd(), fetal_cond(), returntimes_cond(), addrule_adme_ics(),
+#' BioUpload_Check(), FSBf_Check(), and ExposureUpload_Check().
 #'
 #'
 #' @param iv_common A new shiny input validator object for all common inputs
@@ -732,11 +717,7 @@ UpdateComps <- function(session){
 #' See global.R and input_functions.R for more information.
 #'
 #' @return Validation rules attached to each child input validator
-#' @seealso [app_server()], which calls the current function, and [not_null()],
-#' [UploadComps_Check()], [multdose_Select()], [multdose_odd()], [fetal_cond()],
-#' [returntimes_cond()], [addrule_adme_ics()], [BioUpload_Check()], [FSBf_Check()],
-#' and [ExposureUpload_Check()], which are called by the current function
-#' @export
+#' @noRd
 #'
 InputRules_Children <- function(iv_common,iv_adme,iv_ss,iv_ivive,iv_pc,input,ic_names){
 
@@ -789,7 +770,7 @@ InputRules_Children <- function(iv_common,iv_adme,iv_ss,iv_ivive,iv_pc,input,ic_
 #' @description
 #' This function combines the common input rules across all modules with module-specific
 #' rules, which creates a 'parent' validation function that houses all input
-#' parameter rules for that module.
+#' parameter rules for that module. The current function is called by app_server().
 #'
 #'
 #' @param parent_adme_iv A new shiny input validator object for all concentration-
@@ -813,8 +794,7 @@ InputRules_Children <- function(iv_common,iv_adme,iv_ss,iv_ivive,iv_pc,input,ic_
 #' parameters, preloaded compounds, and uploaded compounds)
 #'
 #' @return Validation rules attached to the four parent input validators
-#' @seealso [app_server()], which calls the current function
-#' @export
+#' @noRd
 #'
 InputRules_Parents <- function(parent_adme_iv,iv_adme,
                                parent_ss_iv,iv_ss,
@@ -849,7 +829,8 @@ InputRules_Parents <- function(parent_adme_iv,iv_adme,
 #' This function returns the module-appropriate output to the 'Results' card under
 #' the 'Run Simulation' tab, in the form of either plots/table/text or an error
 #' message if the user did not select/fix errors with input parameters or uploaded
-#' files.
+#' files. The current function is called by app_server() and calls ADME_server(),
+#' Notify_ParError(), SS_server(), IVIVE_server(), and PC_server().
 #'
 #'
 #' @param parent_adme_iv A shiny input validator object for all concentration-
@@ -867,10 +848,7 @@ InputRules_Parents <- function(parent_adme_iv,iv_adme,
 #'
 #' @return The module outputs for the selected module or an error notification
 #' indicating missing or invalid parameters
-#' @seealso [app_server()], which calls the current function, and [ADME_server()],
-#' [Notify_ParError()], [SS_server()], [IVIVE_server()], and [PC_server()], which
-#' are called by the current function
-#' @export
+#' @noRd
 #'
 Run_Simulation <- function(parent_adme_iv,
                            parent_ss_iv,

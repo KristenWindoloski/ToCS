@@ -13,9 +13,9 @@
 #' compartments, multiple plots with one plot per compound, a download option for
 #' users to download time course data and simulation parameters, and a table with
 #' toxicokinetic summary statistics (Cmax, Tmax, AUC). The user interface contents
-#' of each drop down is then filled by a separate UI module. Connected to ADME_MultPlt_ui(),
-#' ADME_IndPlt_ui(), ADME_TCData_ui(), and ADME_TKTable_ui(), which are all called
-#' by this function, and RS_Results(), which calls the current function
+#' of each drop down is then filled by a separate UI module. The current function
+#' calls ADME_MultPlt_ui(), ADME_IndPlt_ui(), ADME_TCData_ui(), and ADME_TKTable_ui()
+#' and is called by RS_Results().
 #'
 #' @param id Shiny identifier name; must be the same id used as in ADME_server()
 #'
@@ -50,10 +50,9 @@ ADME_ui <- function(id) {
 #' This function calculates the concentration-time profile's solution and outputs
 #' the contents of the UI objects for the concentration-time profiles' 'Results'
 #' card under the 'Run Simulation' tab. The contents of each UI object (drop
-#' down) are then filled by four separate server modules. Connected to validate_text_ADME(),
-#' modsol(), ADME_MultPlt_server(), ADME_IndPlt_server(), ADME_TCData_server(),
-#' and ADME_TKTable_server(), which are called by this function, and
-#' Run_Simulation(), which calls the current function.
+#' down) are then filled by four separate server modules. The current function
+#' calls validate_text_ADME(), modsol(), ADME_MultPlt_server(), ADME_IndPlt_server(),
+#' ADME_TCData_server(), and ADME_TKTable_server() and is called by Run_Simulation().
 #'
 #' @param id Shiny identifier name; must be the same id used as in ADME_ui()
 #' @param pars A list of all user input parameters for the entire app

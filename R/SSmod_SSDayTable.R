@@ -8,8 +8,7 @@
 #' @description
 #' This function contains the user interface elements for the days to steady state
 #' table. This interface itself contains three UI elements: a table download
-#' button, a table, and a table caption. Connected to SS_ui(), which calls the
-#' current function.
+#' button, a table, and a table caption. The current function is called by SS_ui().
 #'
 #' @param id Shiny identifier name
 #'
@@ -34,7 +33,7 @@ SS_DayTable_ui <- function(id){
 #' @description
 #' This function contains the output elements for the days to steady state table.
 #' This server contains three output elements: a table download button, a table,
-#' and a table caption. Connected to SS_server(), which calls the current function.
+#' and a table caption. The current function is called by SS_server().
 #'
 #' @param id Shiny identifier name; identifier must match that in SS_DayTable_ui()
 #' @param ss_args A Shiny reactive list with the output of SS_sol(), all shiny

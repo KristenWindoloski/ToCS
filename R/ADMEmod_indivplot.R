@@ -9,7 +9,8 @@
 #' This function outputs the user interface for the concentration-time profile
 #' individual plots drop down in the results card under the 'Run Simulation' tab.
 #' The interface has four outputs: a plot download button, plotting text (if
-#' applicable), plots, and a plotting caption. Connected to ADME_ui(), which calls this function
+#' applicable), plots, and a plotting caption. The current function is
+#' called by ADME_ui().
 #'
 #'
 #' @param id Shiny identifier name; must be the same id used as in ADME_IndPlt_server()
@@ -35,9 +36,9 @@ ADME_IndPlt_ui <- function(id){
 #' @description
 #' This function generates the outputs defined in the ADME_IndPlt_ui()
 #' function. This connects the download button, plot text, plot, and plot
-#' caption to the elements that fill their spaces. Connected to plottingfunc_all(),
-#' plottingfunc_individual(), plt_arrange(), caption_text(), which are all
-#' called by this function. ADME_server(), which calls this function.
+#' caption to the elements that fill their spaces. The current function is called
+#' by ADME_server() and calls plottingfunc_all(), plottingfunc_individual(),
+#' plt_arrange(), caption_text().
 #'
 #'
 #' @param id Shiny identifier name; must be the same id used as in ADME_IndPlt_ui()

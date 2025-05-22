@@ -9,7 +9,9 @@
 #' This function is the main function that calls for the calculation of a list of
 #' compounds' elimination rates, volumes of distribution, half lives, and total
 #' plasma clearances. The data frames are set up in this function, and then other
-#' functions are called to do the calculation for these parameters.
+#' functions are called to do the calculation for these parameters. The current
+#' function is called by PC_server() and calls CalcElimRate(), CalcVdist(),
+#' CalcHalfLife(), CalcClearance(), CalcPCs(), and StorePars_PC().
 #'
 #'
 #' @param pars A list of all user input parameters for the entire app
@@ -18,10 +20,7 @@
 #' volumes of distribution, half life, and total clearance measures, a data
 #' frame with calculated partition coefficients, and a data frame with simulation
 #' parameters and chemical-physical data
-#' @seealso [PC_server()], which calls the current function, and [CalcElimRate()],
-#' [CalcVdist()], [CalcHalfLife()], [CalcClearance()], [CalcPCs()], and [StorePars_PC()],
-#' which the current function calls
-#' @export
+#' @noRd
 #'
 Parsol <- function(pars){
 
@@ -74,7 +73,8 @@ Parsol <- function(pars){
 #'
 #' @description
 #' This function calculates the elimination rate of a compound using the 'httk'
-#' package's 'calc_elimination_rate' function.
+#' package's 'calc_elimination_rate' function. The current function is called by
+#' Parsol().
 #'
 #'
 #' @param pars A list of all user input parameters for the entire app
@@ -82,8 +82,7 @@ Parsol <- function(pars){
 #' simulate
 #'
 #' @return A numerical value, which is the elimination rate for compound i
-#' @seealso [Parsol()], which calls the current function
-#' @export
+#' @noRd
 #'
 CalcElimRate <- function(pars,i){
 
@@ -110,15 +109,15 @@ CalcElimRate <- function(pars,i){
 #'
 #' #' @description
 #' This function calculates the volume of distribution of a compound using the
-#' 'httk' package's 'calc_vdist' function.
+#' 'httk' package's 'calc_vdist' function. The current function is called by
+#' Parsol().
 #'
 #' @param pars A list of all user input parameters for the entire app
 #' @param i A numerical value representing the index number of the compound to
 #' simulate
 #'
 #' @return A numerical value, which is the volume of distribution for compound i
-#' @seealso [Parsol()], which calls the current function
-#' @export
+#' @noRd
 #'
 CalcVdist <- function(pars,i){
 
@@ -138,15 +137,15 @@ CalcVdist <- function(pars,i){
 #'
 #' #' @description
 #' This function calculates the half-life of a compound using the 'httk' package's
-#' 'calc_half_life' function.
+#' 'calc_half_life' function. The current function is called by
+#' Parsol().
 #'
 #' @param pars A list of all user input parameters for the entire app
 #' @param i A numerical value representing the index number of the compound to
 #' simulate
 #'
 #' @return A numerical value, which is the half-life for compound i
-#' @seealso [Parsol()], which calls the current function
-#' @export
+#' @noRd
 #'
 CalcHalfLife <- function(pars,i){
 
@@ -173,15 +172,15 @@ CalcHalfLife <- function(pars,i){
 #'
 #' #' @description
 #' This function calculates the total plasma clearance of a compound using the
-#' 'httk' package's 'calc_total_clearance' function.
+#' 'httk' package's 'calc_total_clearance' function. The current function is
+#' called by Parsol().
 #'
 #' @param pars A list of all user input parameters for the entire app
 #' @param i A numerical value representing the index number of the compound to
 #' simulate
 #'
 #' @return A numerical value, which is the plasma total clearance for compound i
-#' @seealso [Parsol()], which calls the current function
-#' @export
+#' @noRd
 #'
 CalcClearance <- function(pars,i){
 
@@ -208,7 +207,8 @@ CalcClearance <- function(pars,i){
 #' @description
 #' This function calculates the tissue to unbound plasma partition coefficients
 #' of a given chemical. This is done using the 'httk' package's
-#' 'predict_partitioning_schmitt' function.
+#' 'predict_partitioning_schmitt' function. The current function is called by
+#' Parsol().
 #'
 #'
 #' @param pars A list of all user input parameters for the entire app
@@ -216,8 +216,7 @@ CalcClearance <- function(pars,i){
 #' simulate
 #'
 #' @return A list, which consists of the partition coefficients for compound i
-#' @seealso [Parsol()], which calls the current function
-#' @export
+#' @noRd
 #'
 CalcPCs <- function(pars,i){
 
@@ -241,15 +240,15 @@ CalcPCs <- function(pars,i){
 #' parameters as well as chemical-physical compound data for simulated compounds.
 #' Chemical-physical data is taken from the 'httk' package's
 #' chem.physical_and_invitro.data data frame, where the data was either uploaded
-#' by the GUI user or already present when httk was loaded.
+#' by the GUI user or already present when httk was loaded. The current function
+#' is called by Parsol().
 #'
 #'
 #' @param pars A list of all user input parameters for the entire app
 #'
 #' @return A data frame with simulation parameters and physical-chemical
 #' data from the compounds simulated
-#' @seealso [Parsol()], which calls the current function
-#' @export
+#' @noRd
 #'
 StorePars_PC <- function(pars){
 
@@ -280,7 +279,8 @@ StorePars_PC <- function(pars){
 #' This function generates plots for calculated elimination rate, volume of
 #' distribution, half-life, and total plasma clearance values for a list of
 #' compounds. Each plot has its values arranged in ascending order and plot on a
-#' log10 y-axis scale, if desired by the user.
+#' log10 y-axis scale, if desired by the user. The current function is called by
+#' PC_EVPlot_server() and calls plot_logscale().
 #'
 #'
 #' @param soldata A data frame with calculated elimination rates, volumes of
@@ -293,9 +293,7 @@ StorePars_PC <- function(pars){
 #'
 #' @return A list of four ggplot2 objects for plots of elimination rate, volume
 #' of distribution, half life, and total plasma clearance
-#' @seealso [PC_EVPlot_server()], which calls the current function, and [plot_logscale()],
-#' which the current function calls
-#' @export
+#' @noRd
 #'
 plotPar <- function(soldata,pars,logscale){
 
@@ -368,7 +366,8 @@ plotPar <- function(soldata,pars,logscale){
 #' This function generates plots of partition coefficients for all simulated
 #' compounds. Each plot represents a different tissue and that tissue's partition
 #' coefficients are arranged in ascending order. The plots are plotted on a log10
-#' y-axis scale, if desired by the user.
+#' y-axis scale, if desired by the user. The current function is called by
+#' PC_PCPlot_server() and calls plot_logscale().
 #'
 #'
 #' @param soldata A data frame with calculated partition coefficients for each
@@ -380,9 +379,7 @@ plotPar <- function(soldata,pars,logscale){
 #'
 #' @return A list of four ggplot2 objects for plots of elimination rate, volume
 #' of distribution, half life, and total plasma clearance
-#' @seealso [PC_PCPlot_server()], which calls the current function, and
-#' [plot_logscale()], which the current function calls
-#' @export
+#' @noRd
 #'
 plotPCs <- function(soldata,pars,logscale){
 

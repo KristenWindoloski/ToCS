@@ -14,16 +14,15 @@
 #' This function is the main steady state module solution function from which the
 #' server outputs are derived. This function orders the calculation of steady state
 #' concentrations and the number of days to steady state. It formats the outputs
-#' for appropriate display in the interface.
+#' for appropriate display in the interface. The current function is called by
+#' SS_server() and calls CalcAnalyticCss(), CalcCssDay(), and StorePars_SS().
 #'
 #'
 #' @param pars A list of all user input parameters for the entire app
 #'
 #' @return A list with steady state concentrations, steady state characteristics,
 #' and simulation and chemical-physical parameters used in the simulation
-#' @seealso [SS_server()], which calls the current function, and [CalcAnalyticCss()],
-#' [CalcCssDay()], and [StorePars_SS()], which the current function calls
-#' @export
+#' @noRd
 #'
 SS_sol <- function(pars){
 
@@ -79,7 +78,8 @@ SS_sol <- function(pars){
 #' @description
 #' This function calculates the analytical steady state concentration of an
 #' individual compound using all user-selected parameters. The 'httk' function
-#' calc_analytic_css is used to generate the output.
+#' calc_analytic_css is used to generate the output. The current function is
+#' called by SS_sol().
 #'
 #'
 #' @param pars A list of all user input parameters for the entire app
@@ -87,8 +87,7 @@ SS_sol <- function(pars){
 #'
 #' @return A numerical value representing the analytical steady state concentration
 #' in the specified units
-#' @seealso [SS_sol()], which calls the current function
-#' @export
+#' @noRd
 #'
 CalcAnalyticCss <- function(pars,i){
 
@@ -124,6 +123,7 @@ CalcAnalyticCss <- function(pars,i){
 #' This function calculates the days to steady state of an individual compound
 #' as well as other related steady state attributes using all user-selected
 #' parameters. The 'httk' function calc_css is used to generate the output.
+#' The current function is called by SS_sol().
 #'
 #' @param pars A list of all user input parameters for the entire app
 #' @param i Chemical index on the simulated chemicals list
@@ -132,8 +132,7 @@ CalcAnalyticCss <- function(pars,i){
 #' simulation, the fraction of the true steady state reached on the steady state
 #' day, the maximum concentration of the simulation, and the day steady state
 #' was reached
-#' @seealso [SS_sol()], which calls the current function
-#' @export
+#' @noRd
 #'
 CalcCssDay <- function(pars,i){
 
@@ -166,15 +165,14 @@ CalcCssDay <- function(pars,i){
 #' @description
 #' This function stores all user-selected simulation parameters for the steady
 #' state concentrations module as well as all physical-chemical data for simulated
-#' compounds into one data frame.
+#' compounds into one data frame. The current function is called by SS_sol().
 #'
 #'
 #' @param pars A list of all user input parameters for the entire app
 #'
 #' @return A data frame of simulation parameters and chemical-physical data for
 #' the chemicals simulated
-#' @seealso [SS_sol()], which calls the current function
-#' @export
+#' @noRd
 #'
 StorePars_SS <- function(pars){
 
@@ -219,7 +217,8 @@ StorePars_SS <- function(pars){
 #' @description
 #' This function generates the scatter plot ggplot object containing the steady
 #' state concentrations for all simulated compounds. The plot has a log10 y-axis
-#' scale if desired by the user.
+#' scale if desired by the user. The current function is called by
+#' SS_ConcPlot_server() and calls plot_labels() and plot_logscale().
 #'
 #'
 #' @param sol A data frame of steady state concentrations
@@ -229,9 +228,7 @@ StorePars_SS <- function(pars){
 #'
 #' @return A scatter plot object of steady state concentrations, either with a
 #' linear or log10 scale y-axis
-#' @seealso [SS_ConcPlot_server()], which calls the current function, and [plot_labels()]
-#' and [plot_logscale()], which are called by the current function
-#' @export
+#' @noRd
 #'
 scat_plot <- function(sol,pars,logscale){
 
@@ -266,14 +263,14 @@ scat_plot <- function(sol,pars,logscale){
 #'
 #' @description
 #' This function generates the plotting labels (y-axis and title expressions) for
-#' the steady state concentrations plot.
+#' the steady state concentrations plot. The current function is called by
+#' scat_plot().
 #'
 #'
 #' @param pars A list of all user input parameters for the entire app
 #'
 #' @return A list containing plots labels for the title and y-axis.
-#' @seealso [scat_plot()], which calls the current function
-#' @export
+#' @noRd
 #'
 plot_labels <- function(pars){
 
