@@ -88,6 +88,8 @@ IVIVEsol <- function(pars){
 #'
 CalcOED <- function(i,pars,bioactive_df){
 
+  print(pars)
+
   # --- SET RANDOM GENERATOR SEED
   set.seed(100)
 
@@ -581,27 +583,58 @@ IVIVEplot_labels <- function(pars){
   title_exp <- paste("In vitro-in vivo extrapolation (IVIVE) \n from the ",
                      pars[["model"]], " model", sep = "")
 
-  # --- SET Y-AXIS LABEL
-  if (pars[["output_concIVIVE"]] != 'tissue'){
-    if (!is.null(pars[["fileExposure"]])){
-      y_exp <- paste("OED in whole body ",
-                      pars[["output_concIVIVE"]], " \n or exposure (", pars[["modelIVIVEout_units"]], ")", sep = "")
+  if (is.null(pars[["HondaIVIVE"]])){
+    if (is.null(pars[["tissueIVIVE"]])){
+      if (!is.null(pars[["fileExposure"]])){
+        y_exp <- paste("OED in whole body ",
+                        pars[["output_concIVIVE"]], " \n or exposure (", pars[["modelIVIVEout_units"]], ")", sep = "")
+      }
+      else {
+        y_exp <- paste("Oral equivalent dose (OED) \n in whole body ",
+                      pars[["output_concIVIVE"]], " (", pars[["modelIVIVEout_units"]], ")", sep = "")
+      }
     }
-    else {
-      y_exp <- paste("Oral equivalent dose (OED) \n in whole body ",
-                     pars[["output_concIVIVE"]], " (", pars[["modelIVIVEout_units"]], ")", sep = "")
+    else{
+      if (!is.null(pars[["fileExposure"]])){
+        y_exp <- paste("OED in ", pars[["tissueIVIVE"]], " ", pars[["output_concIVIVE"]],
+                     " \n or exposure (", pars[["modelIVIVEout_units"]], ")", sep = "")
+      }
+      else{
+        y_exp <- paste("Oral equivalent dose (OED) \n in ", pars[["tissueIVIVE"]], " ", pars[["output_concIVIVE"]],
+                    " (", pars[["modelIVIVEout_units"]], ")", sep = "")
+      }
+    }
+  }
+  else if (pars[["HondaIVIVE"]] == "Honda4"){
+    if (is.null(pars[["tissueIVIVE"]])){
+
+      if (!is.null(pars[["fileExposure"]])){
+        y_exp <- paste("OED in liver plasma \n or exposure (", pars[["modelIVIVEout_units"]], ")", sep = "")
+      }
+      else {
+        y_exp <- paste("OED in liver plasma (", pars[["modelIVIVEout_units"]], ")", sep = "")
+      }
+    }
+    else{
+      if (!is.null(pars[["fileExposure"]])){
+        y_exp <- paste("OED in ", pars[["tissueIVIVE"]], " plasma \n or exposure (", pars[["modelIVIVEout_units"]], ")", sep = "")
+      }
+      else{
+        y_exp <- paste("OED in ", pars[["tissueIVIVE"]], " plasma (", pars[["modelIVIVEout_units"]], ")", sep = "")
+      }
     }
   }
   else{
     if (!is.null(pars[["fileExposure"]])){
-      y_exp <- paste("OED in ", pars[["tissueIVIVE"]],
-                     " \n or exposure (", pars[["modelIVIVEout_units"]], ")", sep = "")
+      y_exp <- paste("OED in whole body plasma or exposure (", pars[["modelIVIVEout_units"]], ")", sep = "")
     }
-    else{
-      y_exp <- paste("Oral equivalent dose (OED) \n in ", pars[["tissueIVIVE"]],
-                   " (", pars[["modelIVIVEout_units"]], ")", sep = "")
+    else {
+      y_exp <- paste("OED in whole body plasma (", pars[["modelIVIVEout_units"]], ")", sep = "")
     }
   }
+
+  # --- SET Y-AXIS LABEL
+
   out <- list(title_exp, y_exp)
 }
 

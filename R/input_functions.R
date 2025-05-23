@@ -1143,10 +1143,8 @@ selectInput_SSoutunits <- function(id){
 #'
 selectInput_OutConc <- function(id){
   shiny::selectInput(id,
-              label = "Select the output concentration type. Selecting 'Tissue'
-                      for the 3compartmentss model will return the whole body
-                      plasma concentration.",
-              choices = list("blood", "plasma", "tissue"),
+              label = "Select the output concentration type.",
+              choices = list("blood", "plasma"),
               selected = "plasma")
 }
 
