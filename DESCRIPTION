@@ -4,19 +4,20 @@ Version: 0.0.0.9000
 Authors@R: 
     person("Kristen", "Leonard", , "kawindoloski@gmail.com", role = c("aut", "cre"))
 Description: A graphical user interface that utilizes the EPA's high-throughput 
-            toxicokinetics 'httk' R package to generate toxicokinetic ADME 
-            (absorption, distribution, metabolism, excretion) simulations, steady 
-            state concentrations, and common toxicokinetic (TK) parameters as well 
+            toxicokinetics 'httk' R package to generate toxicokinetic ADME simulations, 
+            steady state concentrations, and common toxicokinetic (TK) parameters as well 
             as perform in vitro in vivo extrapolation (IVIVE) for user-selected 
             chemicals. Users select from the four main outputs described above, 
-            and then select all the input parameters and preferences. Once ready, 
-            they hit a 'run simulation' button and are able to download any 
-            outputted plots, tables, or input data.
+            and then choose all the input parameters and simulation preferences. 
+            Once ready, they hit a 'run simulation' button and are able to download 
+            any outputted plots, tables, or input data. The app also contains
+            several features aimed at users interested in evaluating the 
+            toxicokinetics of food-related chemicals.
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
-URL: https://github.com/KristenWindoloski/ToCS, https://kristenwindoloski.github.io/ToCS/
+URL: https://github.com/KristenWindoloski/ToCS
 BugReports: https://github.com/KristenWindoloski/ToCS/issues
 Depends:
     httk (>= 2.6.1),
