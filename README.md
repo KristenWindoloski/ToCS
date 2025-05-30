@@ -41,14 +41,16 @@ been created that use httk (Integrated Chemical Environment (ICE),
 <https://ice.ntp.niehs.nih.gov/>) and share similar outputs to those in
 this GUI, ToCS is unique in that it:
 
+- Contains a complete pregnancy model from conception to birth (using
+  httk’s new solve_full_pregnancy function)
+- Calculates the area under the curve (AUC) and time to maximum
+  concentration for all model compartments
 - Offers computation of analytical steady state concentrations and oral
   equivalent doses (OEDs) for all model and other tissue compartments,
   not just plasma
-- Offers chemical prioritization suggestions through the calculation of
-  the bioactivity exposure ratio if the user uploads chemical exposure
-  estimates
-- Calculates the area under the curve (AUC) and time to maximum
-  concentration for all model compartments
+- Predicts the bioactivity exposure ratio (BER) and plots the OEDs
+  against exposure estimates given user-uploaded chemical exposure data,
+  which can be used to prioritize chemicals for further risk assessment
 - Provides estimates of TK parameters not only including half-lives but
   also total plasma clearances, volumes of distribution, elimination
   rates, and partition coefficients
@@ -56,26 +58,28 @@ this GUI, ToCS is unique in that it:
   steady state
 - Allows for further customization of simulations beyond basic model
   parameters
-- Utilizes the most recent httk version (2.4.0)
+- Utilizes the most recent httk version (2.6.1)
 - Allows for non-uniform chemical exposure (dosing), which can be
   beneficial for users interested in food chemicals
 - Offers simulations for dog, rabbit, and mouse species in addition to
   human and rats
 - Includes the option to include in silico-generated parameters within
   httk if in vitro hepatic clearance, fraction unbound in plasma, and/or
-  caco-2 membrane permeability is missing
+  caco-2 membrane permeability data is missing
 - Offers the option to convert the nominal bioactive concentration to a
   free concentration in vitro for IVIVE simulations (recommended)
 - Allows the user to declare the desired quantile of predicted OEDs and
   view all generated OED samples
 - Has a subset of food-related compounds (direct and indirect food
-  additives) that users can easily view and select from.
+  additives) that users can easily view and select from
 
 ToCS is a toxicokinetics application that can be used by scientists with
 little to no modeling or programming backgrounds, and requires a small
 amount of user input to generate basic simulations. If desired,
 simulations can be highly customizable through the Advanced Parameters
-tab in ToCS.
+tab in ToCS. Additional considerations have also been included to make
+the app aimed at users interested in toxicokinetics of food-related
+chemicals.
 
 ## Getting Started
 
@@ -132,8 +136,7 @@ the ways that the user can access the ToCS GUI:
 <!-- -->
 
 2.  Using the online application (currently unavailable)
-3.  Through CRAN and R, if the package is available in CRAN (currently
-    unavailable):
+3.  Through R as an R package:
     - Open R or RStudio.
 
     - Type the following into the R command line:
@@ -145,7 +148,8 @@ the ways that the user can access the ToCS GUI:
     - Then, type the following into the R command line:
 
       ``` r
-      ToCS()
+      library(ToCS)
+      run_ToCS()
       ```
 
 Any of the three methods above (if available) should result in the ToCS
@@ -161,6 +165,8 @@ style="width:100.0%" alt="The opening interface to the ToCS app." />
 app.</figcaption>
 </figure>
 
+<br/><br/>
+
 Once in the interface, the user fills out any drop downs, text boxes, or
 other selections on each of the five main tabs at the top of the GUI
 moving left to right. Once the user has completed all of their
@@ -175,7 +181,7 @@ of the GUI can be found in the ToCS vignettes
 ## Concentration-Time Profile Example
 
 Let’s say we want to run a simulation that outputs human
-concentration-time profiles over the course of one day for four
+concentration-time profiles over the course of five days for four
 compounds: Abamectin (CAS: 71751-41-2), Bisphenol-A (CAS: 80-05-7),
 Cyanazine (CAS: 21725-46-2), and Dimethoate (CAS: 60-51-5). The
 simulation will be for a single 5 mg/kg oral exposure of each compound
@@ -381,26 +387,14 @@ all parameter inputs and simulations and return the interface to the
 The vignettes provided are intended to be user guides on how to run the
 GUI. It is strongly recommended to consult them before running a
 simulation. Each remaining vignette works through several examples for
-each output module. To view the vignettes prior to ToCS being available
-on CRAN or when using the online application, visit the GitHub page
-(<https://github.com/KristenWindoloski/ToCS/tree/main/vignettes>) and
-click any of the PDF vignette files. Once the ToCS package is available
-in CRAN, type
+each output module. To view the vignettes, visit the GitHub page
+(github.com/KristenWindoloski/ToCS/tree/main/vignettes) and click any of
+the PDF vignette files.
 
-``` r
-vignette(package = "ToCS")
-```
-
-into the R console to view the vignettes in R or RStudio or visit the
-ToCS CRAN page.
-
-If a user runs into an error, either gray or red text will appear under
-the *Compound Selection* or *Run Simulation* tabs. If gray error text
-appears, then the user has typically forgotten to enter a selection or
-click a button, so the user should follow the instructions of the error
-statement. If red error text appears, then the user should report the
-error to the ToCS GitHub page
-(<https://github.com/KristenWindoloski/ToCS/issues>).
-
-<!-- You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date. `devtools::build_readme()` is handy for this. -->
-<!-- In that case, don't forget to commit and push the resulting figure files, so they display on GitHub and CRAN. -->
+If a user runs into an error, text will appear. If a red pop-up box
+appears on the *Run Simulation* page, then the user has typically
+forgotten to enter a parameter or has a formatting error in a file they
+uploaded, so the user should follow the instructions of the error
+statement. If red error text appears under one of the drop downs on the
+*Run Simulation* page, then the user should report the error to the ToCS
+GitHub page (<https://github.com/KristenWindoloski/ToCS/issues>).
