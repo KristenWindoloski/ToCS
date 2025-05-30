@@ -1,7 +1,7 @@
 ---
 title: "IVIVE Simulation Examples"
 author: "Kristen Leonard"
-date: "May 23, 2025"
+date: "May 30, 2025"
 ---
 
 ```{r, include = FALSE}
@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 ```
 
 
-If you have not already read the *Introduction to the ToCS App* vignette, it is highly recommended to do so to get a general idea of the app's layout and obtain a detailed description of common user inputs across all output modules. Users should also review the README file on the ToCS GitHub page (github.com/KristenWindoloski/ToCS) to setup ToCS if they have not accessed the app yet. This vignette assumes that you have access the ToCS app GUI already.
+If you have not already read the *Introduction to the ToCS App* vignette, it is highly recommended to do so to get a general idea of the app's layout and obtain a detailed description of common user inputs across all output modules. Users should also review the ToCS README file to setup ToCS if they have not accessed the app yet. This vignette assumes that you have access the ToCS app GUI already.
 
 <br/><br/>
 
@@ -44,7 +44,7 @@ Since we want to perform IVIVE, we select the *In vitro in vivo extrapolation (I
 
 ### Model Specifications Tab
 
-There are several user choices to be made under the *Model* card. Since we want to use the pbtk model for IVIVE, we select *pbtk* for the first drop down. For the second drop down we select *No* and decide to not make compounds with only in silico generated parameters available for this example. Then, the third drop down menu asks the user whether they want to return a single OED per compound (a selected quantile) or all OED samples per compound. Since we only want the 5th OED quantile (95th steady state concentration quantile), we select *Only return a specified dose quantile (default)*. This prompts the appearance of an additional numeric input box where we want to enter the desired steady state concentration quantile. Since we want the 95th steady state concentration quantile (5th OED quantile), we leave the input as *0.95*. Under the *Dosing* card, we see that there are no user specifications to be made for this module.  Thus, the completed *Model Specifications* tab should look like the two images below.
+There are several user choices to be made under the *Model* card. Since we want to use the pbtk model for IVIVE, we select *pbtk* for the first drop down. For the second drop down we select *No* and decide to not make compounds with only in silico generated parameters for hepatic clearance or fraction unbound in plasma available for this example. Then, the third drop down menu asks the user whether they want to return a single OED per compound (a selected quantile) or all OED samples per compound. Since we only want the 5th OED quantile (95th steady state concentration quantile), we select *Only return a specified dose quantile (default)*. This prompts the appearance of an additional numeric input box where we want to enter the desired steady state concentration quantile. Since we want the 95th steady state concentration quantile (5th OED quantile), we leave the input as *0.95*. Under the *Dosing* card, we see that there are no user specifications to be made for this module.  Thus, the completed *Model Specifications* tab should look like the image below.
 
 <br/><br/>
 
@@ -191,7 +191,7 @@ Since we want to perform IVIVE, we select the *In vitro in vivo extrapolation (I
 
 ### Model Specifications Tab
 
-Under the *Model* card, we select *3compartmentss* for the first drop down. For the second drop down, we select *Yes* and decide to make compounds with only in silico generated parameters (hepatic clearance, fraction unbound in plasma) also available for this example. Then, the third drop down menu asks the user whether they want to return a single OED per compound (a selected quantile) or all OED samples per compound. Since we want to output all generated OED samples, we select *Return all OED samples (will also return the 5th dose quantile)*. Under the *Dosing* card, there are no options to select from. Thus, the completed *Model Specifications* tab should look like the two images below.
+Under the *Model* card, we select *3compartmentss* for the first drop down. For the second drop down, we select *Yes* and decide to make compounds with only in silico generated parameters (hepatic clearance, fraction unbound in plasma) also available for this example. Then, the third drop down menu asks the user whether they want to return a single OED per compound (a selected quantile) or all OED samples per compound. Since we want to output all generated OED samples, we select *Return all OED samples (will also return the 5th dose quantile)*. Under the *Dosing* card, there are no options to select from. Thus, the completed *Model Specifications* tab should look like the image below.
 
 <br/><br/>
 
@@ -244,7 +244,7 @@ For more details on the format of this file, please review the *Introduction to 
 
 ### Advanced (Optional) Parameters Tab
 
-To speed up the computation time of the program, let's change the number of Monte Carlo samples generated for each compound (under the *Model Conditions* card) from 1000 to 500. Also, since we want to output the plasma OED, we keep the second drop down menu as *plasma*. Thus, the completed *Advanced Parameters* tab should look like the image below.
+To speed up the computation time of the program, let's change the number of Monte Carlo samples generated for each compound (under the *Model Conditions* card) from 1000 to 500. Also, since we want to output the plasma OED, we keep the second drop down menu as *plasma* under the '*Output Specification* card. Thus, the completed *Advanced Parameters* tab should look like the image below.
 
 <br/><br/>
 
@@ -286,7 +286,7 @@ The table below shows the calculated bioactivity exposure ratios (BERs) for the 
 
 <br/><br/>
 
-The image below shows the final output of the IVIVE module which is a plot of the bioactivity exposure ratio (BER) for each chemical. As we can see from the plot, all BERs in this simulation are >> 1 (visually seen by the dotted red line), so they are not considered a risk with the current data used in the simulation. Users can download this plot by clicking the *Download Figure 2* button above the plot.
+The image below shows the final output of the IVIVE module which is a plot of the bioactivity exposure ratio (BER) for each chemical. As we can see from the plot, all BERs in this simulation are > 1 (visually seen by the dotted red line), so they are not considered a risk with the current data used in the simulation. However, the user may want to use a different threshold for determining risk. Users can download this plot by clicking the *Download Figure 2* button above the plot.
 
 <br/><br/>
 
@@ -312,7 +312,7 @@ Since we want to perform IVIVE, we select the *In vitro in vivo extrapolation (I
 
 ### Model Specifications Tab
 
- Under the *Model* card, we select *3compartment* for the first drop down. For the second drop down, we select *No* and decide to make compounds with only in vitro data available for this example. Then, the third drop down menu asks the user whether they want to return a single OED per compound (a selected quantile) or all OED samples per compound. Since we want to output the 10th quantile OED, we select *Only return a specified dose quantile (default)*. This results in the appearance of another input box. In this final box under the *Model* card, we enter the steady state concentration quantile that we desire to use in our OED calculation (0.90). This will return the 10th quantile OED in the simulation results. Under the *Dosing* card, there are no options to select from. Thus, the completed *Model Specifications* tab should look like the two images below.
+ Under the *Model* card, we select *3compartment* for the first drop down. For the second drop down, we select *No* and decide to make compounds with only in vitro data available for this example. Then, the third drop down menu asks the user whether they want to return a single OED per compound (a selected quantile) or all OED samples per compound. Since we want to output the 10th quantile OED, we select *Only return a specified dose quantile (default)*. This results in the appearance of another input box. In this final box under the *Model* card, we enter the steady state concentration quantile that we desire to use in our OED calculation (0.90). This will return the 10th quantile OED in the simulation results. Under the *Dosing* card, there are no options to select from. Thus, the completed *Model Specifications* tab should look like the image below.
 
 <br/><br/>
 
@@ -347,7 +347,7 @@ For formatting instructions, please either download the *Bioactivity Data File F
 
 ### Advanced (Optional) Parameters Tab
 
-Since we want to output the OED in the liver, we select *tissue* under the second drop down menu in the *Output Specification* card specifying the output concentration type. This prompts the appearance of a third drop down menu. We select *liver* from this menu since we want the liver OED. No changes to other parameters on this page should be made for this example. Thus, the completed *Advanced Parameters* tab should look like the image below.
+Since we want to output the plasma OED in the liver, we select *plasma* under the second drop down menu in the *Output Specification* card specifying the output concentration type. Then, we select *liver* under the third drop down since we want the liver OED. No changes to other parameters on this page should be made for this example. Thus, the completed *Advanced Parameters* tab should look like the image below.
 
 <br/><br/>
 

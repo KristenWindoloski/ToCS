@@ -1,7 +1,7 @@
 ---
 title: "Introduction to the ToCS App"
 author: "Kristen Leonard"
-date: "May 9, 2025"
+date: "May 30, 2025"
 ---
 ---
 
@@ -19,11 +19,11 @@ This vignette provides an introduction to the ToCS graphical user interface (GUI
 
 ### App Description and Purpose
 
-ToCS is designed to be an easy to use computational tool that generates toxicokinetic information based on little chemical data for user-selected compounds. The app is built using the U.S. EPA's high-throughput toxicokinetics (httk) R package (https://cran.r-project.org/web/packages/httk/index.html), and provides a format to run many the package's main functions without the need to know R. The interface offers a vast majority of the input parameter customizations that can be made to the httk functions, so users of ToCS can either only provide the basic simulation information needed or do a deep dive into customization of model parameters.
+ToCS is designed to be an easy to use computational tool that generates toxicokinetic information based on little chemical data for user-selected compounds. The app is built using the U.S. EPA's high-throughput toxicokinetics (httk) R package (https://cran.r-project.org/web/packages/httk/index.html), and provides a format to run many the package's main functions without the need to know R. The interface offers a vast majority of the input parameter customizations that can be made to the httk functions, so users of ToCS can either only provide the basic simulation information needed or do a deep dive into customization of model parameters. Additional considerations have also been included to make the app aimed at users interested in toxicokinetics of food-related chemicals.
 
-While other GUIs that utilize httk have been created (Integrated Chemical Environment (ICE), https://ice.ntp.niehs.nih.gov/), ours is unique in that it 
+While another popular GUI that utilizes httk has been created (Integrated Chemical Environment (ICE), https://ice.ntp.niehs.nih.gov/), ours is unique in that it 
 
-- Contains a complete pregnancy model from conception to birth (using httk's solve_full_pregnancy function)
+- Contains a complete pregnancy model from conception to birth (using httk's new solve_full_pregnancy function)
 - Calculates the area under the curve (AUC) and time to maximum concentration for all model compartments
 - Offers computation of analytical steady state concentrations and oral equivalent doses (OEDs) for all model and other tissue compartments, not just plasma
 - Predicts the bioactivity exposure ratio (BER) and plots the OEDs against exposure estimates given user-uploaded chemical exposure data, which can be used to prioritize chemicals for further risk assessment
@@ -33,7 +33,7 @@ While other GUIs that utilize httk have been created (Integrated Chemical Enviro
 - Utilizes the most recent httk version (2.6.1)
 - Allows for non-uniform chemical exposure (dosing), which can be beneficial for users interested in food chemicals
 - Offers simulations for dog, rabbit, and mouse species in addition to human and rats
-- Includes the option to include in silico-generated parameters within httk if in vitro hepatic clearance, fraction unbound in plasma, and/or caco-2 membrane permeability is missing
+- Includes the option to include in silico-generated parameters within httk if in vitro hepatic clearance, fraction unbound in plasma, and/or caco-2 membrane permeability data is missing
 - Offers the option to convert the nominal bioactive concentration to a free concentration in vitro for IVIVE simulations (recommended)
 - Allows the user to declare the desired quantile of predicted OEDs and view all generated OED samples
 - Has a subset of food-related compounds (direct and indirect food additives) that users can easily view and select from
@@ -79,7 +79,7 @@ This tab (shown in the image below) has different selections depending on the ou
 - fetal_pbtk
   - An extension of the pbtk model to include adipose, thyroid, and placenta compartments as well as an entire fetus model
 - full_pregnancy
-  - An extension of the fetal_pbtk model to include the conceptus stage of pregnancy so that the entire pregnancy is captured
+  - An extension of the fetal_pbtk model to include the conceptus stage of pregnancy so that the entire pregnancy is captured (piecewise model)
 
 *The rest of body compartment is a collective term lumping all remaining body tissues together.*
 
@@ -171,12 +171,6 @@ Also in the *Run Simulation* tab is a *Reset Session* button under the *Actions*
 
 ### Getting Help
 
-The vignettes provided are intended to be user guides on how to run the GUI. It is strongly recommended to consult them before running a simulation. Each remaining vignette works through several examples for each output module. To view the vignettes prior to ToCS being available on CRAN or when using the online application, visit the GitHub page (github.com/KristenWindoloski/ToCS/tree/main/vignettes) and click any of the PDF vignette files. Once the ToCS package is available in CRAN, type
+The vignettes provided are intended to be user guides on how to run the GUI. It is strongly recommended to consult them before running a simulation. Each remaining vignette works through several examples for each output module. To view the vignettes, visit the GitHub page (github.com/KristenWindoloski/ToCS/tree/main/vignettes) and click any of the PDF vignette files.
 
-```{r, eval = FALSE}
-vignette(package = "ToCS")
-```
-
-into the R console to view the vignettes in R or RStudio or visit the ToCS CRAN page.
-
-If a user runs into an error, either gray or red text will appear under the *Compound Selection* or *Run Simulation* tabs. If gray error text appears, then the user has typically forgotten to enter a selection or click a button, so the user should follow the instructions of the error statement. If red error text appears, then the user should report the error to the ToCS GitHub page (https://github.com/KristenWindoloski/ToCS/issues).
+If a user runs into an error, text will appear. If a red pop-up box appears on the *Run Simulation* page, then the user has typically forgotten to enter a parameter or has a formatting error in a file they uploaded, so the user should follow the instructions of the error statement. If red error text appears under one of the drop downs on the *Run Simulation* page, then the user should report the error to the ToCS GitHub page (https://github.com/KristenWindoloski/ToCS/issues).

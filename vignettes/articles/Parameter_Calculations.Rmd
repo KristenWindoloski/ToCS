@@ -1,7 +1,7 @@
 ---
 title: "Parameter Calculations Examples"
 author: "Kristen Leonard"
-date: "May 20, 2025"
+date: "May 30, 2025"
 ---
 
 ```{r, include = FALSE}
@@ -15,13 +15,13 @@ knitr::opts_chunk$set(
 
 
 
-If you have not already read the *Introduction to the ToCS App* vignette, it is highly recommended to do so to get a general idea of the app's layout and obtain a detailed description of common user inputs across all output modules. Users should also review the README file on the ToCS GitHub page (github.com/KristenWindoloski/ToCS) to setup ToCS if they have not accessed the app yet. This vignette assumes that you have access the ToCS app GUI already.
+If you have not already read the *Introduction to the ToCS App* vignette, it is highly recommended to do so to get a general idea of the app's layout and obtain a detailed description of common user inputs across all output modules. Users should also review the ToCS README file to setup ToCS if they have not accessed the app yet. This vignette assumes that you have access the ToCS app GUI already.
 
 <br/><br/>
 
 # Introduction
 
-This vignette provides two examples that use the ToCS app to generate steady state concentrations, each example with different parameters selected. To begin, open the app by using any of the methods described in the README file. You have correctly accessed the app if your screen looks like the image below.
+This vignette provides two examples that use the ToCS app to generate parameter calculations, each example with different parameters selected. To begin, open the app by using any of the methods described in the README file. You have correctly accessed the app if your screen looks like the image below.
 
 <br/><br/>
 
@@ -31,14 +31,13 @@ This vignette provides two examples that use the ToCS app to generate steady sta
 
 ## Example 1
 
-Let's say that we want to calculate human TK parameters for nine sample chemicals:
+Let's say that we want to calculate human TK parameters for eight sample chemicals:
 
   - Acephate (CAS: 30560-19-1)
   - Advantame (CAS: 714229-20-6)
   - Caffeine (CAS: 58-08-2)
   - Carboxin (CAS: 5234-68-4)
   - Phenol (CAS: 108-95-2)
-  - Picloram (CAS: 1918-02-1)
   - Pirinixic acid (CAS: 50892-23-4)
   - Titanium dioxide (CAS: 13463-67-7)
   - Triadimenol (CAS: 55219-65-3)
@@ -57,7 +56,7 @@ Since we want to calculate human TK parameters, we select *Parameter calculation
 
 ### Model Specifications Tab
 
-As shown in the image below under the *Model* card, we omit the first drop down menu and leave it on *None* as the models described in the *Introduction to ToCS* vignette are not used to calculate parameters. Finally, we select *No* under the second drop down menu under the *Model* card since we do not want the program to simulate chemicals with only in silico generated parameters. There are no user selections under the *Dosing* card. The completed tab should look like the image below, and the user can proceed to the next tab.
+As shown in the image below under the *Model* card, we select 'Schmitt' for the first drop down menu, which is the only option. Then, we select *No* under the second drop down menu since we do not want the program to simulate chemicals with in silico generated parameters for hepatic clearance, fraction unbound in plasma, and caco-2 permeability. There are no user selections under the *Dosing* card. The completed tab should look like the image below, and the user can proceed to the next tab.
 
 <br/><br/>
 
@@ -67,7 +66,7 @@ As shown in the image below under the *Model* card, we omit the first drop down 
 
 ### Compound Selection Tab
 
-We keep the first drop menu in the *Preloaded Compounds* card on *Choose from all available chemicals* and then under the second drop down, we search by either compound name or CAS for all nine compounds. All but two compounds (advantame and titanium dioxide) are available, so we select the seven available compounds under the *Preloaded Compounds* tab. Thus, we have to upload the chemical data for advantame and titanium dioxide. So, we copy the SampleCSV file in the *Uploaded Compound File Folder* under the *Instructions* card and enter the appropriate chemical information for each compound, as shown in the table below. See the *Introduction to ToCS* vignette for more information on upload instructions. For the purpose of this example, we use fake chemical data and upload the following csv file (CSV_PCvignette.csv) by clicking *Browse* under the *Uploaded Data* card.
+We keep the first drop menu in the *Preloaded Compounds* card on *Choose from all available chemicals* and then under the second drop down, we search by either compound name or CAS for all eight compounds. All but two compounds (advantame and titanium dioxide) are available, so we select the six available compounds under the *Preloaded Compounds* tab. Thus, we have to upload the chemical data for advantame and titanium dioxide. So, we copy the SampleCSV file in the *Uploaded Compound File Folder* under the *Instructions* card and enter the appropriate chemical information for each compound, as shown in the table below. See the *Introduction to ToCS* vignette for more information on upload instructions. For the purpose of this example, we use fake chemical data and upload the following csv file (CSV_PCvignette.csv) by clicking *Browse* under the *Uploaded Data* card.
 
 <br/><br/>
 
@@ -183,7 +182,7 @@ As with the previous example, we select *Parameter calculations* for the first d
 
 ### Model Specifications Tab
 
-Our selections on this page are the same as example 1. The first drop down menu under the *Model* card remains as is and, in the second drop down menu, we select *No* to not include chemical options with in silico generated parameters in place of in vitro data. The *Model Specifications* tab should look like the image below.
+Our selections on this page are the same as example 1. The first drop down menu under the *Model* card is selected as 'Schmitt', and in the second drop down menu, we select *No* to not include chemical options with in silico generated parameters in place of in vitro data. The *Model Specifications* tab should look like the image below.
 
 <br/><br/>
 
@@ -211,7 +210,7 @@ Then, since there are no additional compounds we want to simulate, we advance to
 
 ### Advanced Parameters Tab
 
-In this example, we decide to change some of the default values of the advanced parameters under the *Model Conditions* card. First, suppose that we want to lower the p-value threshold for the in vitro intrinsic hepatic clearance rate. Thus, we set the first box to *0.01* instead of *0.05*. Then, under the fourth drop down box, suppose that we want to not include protein binding when accounting for liver clearance. Therefore, we select *No, do not include protein binding*. Then finally, suppose we do not want to adjust the fraction unbound in the presence of plasma proteins for lipid binding. Therefore, we select *No, do not adjust the fraction of unbound plasma*. The completed *Advanced Parameters* tab should look like the two images below.
+In this example, we decide to change some of the default values of the advanced parameters under the *Model Conditions* card. Under the second drop down box, suppose that we want to not include protein binding when accounting for liver clearance. Therefore, we select *No, do not include protein binding*. Then, suppose we do not want to adjust the fraction unbound in the presence of plasma proteins for lipid binding. Therefore, we select *No, do not adjust the fraction of unbound plasma* for the third drop down. Finally, suppose that we want to lower the p-value threshold for the in vitro intrinsic hepatic clearance rate. Thus, we set the fifth box to *0.01* instead of *0.05*. The completed *Advanced Parameters* tab should look like the image below.
 
 <br/><br/>
 
