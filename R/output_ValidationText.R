@@ -97,8 +97,6 @@ validate_text_Common <- function(pars){
     }
 
     # --- CHECK FOR MISSING HONDA1 ASSUMPTION IVIVE REQURIED PARAMETERS, IF APPLICABLE
-
-
     if (pars[["func"]] == "In vitro in vivo extrapolation (IVIVE)"){
       if (!is.null(pars[["HondaIVIVE"]])){
         if (pars[["HondaIVIVE"]] == "Honda1"){
@@ -108,7 +106,6 @@ validate_text_Common <- function(pars){
         }
       }
     }
-
 
     # --- CHECK FOR MISSING CLINT AND FUP VALUES
     # --- HUMAN SPECIES
@@ -187,7 +184,14 @@ validate_text_Common <- function(pars){
       # --- IF TYPES DON'T EXACTLY MATCH, SEE IF TYPE IS ACCEPTABLE AND MAKE SURE
       # --- ANY COLUMNS OF TYPE 'CHARACTER' ARE ACTUALLY ALL CHARACTERS AND NOT NUMERICS
       if (any(check_type == FALSE) || !all(is.na(as.numeric(unlist(char_only_df))))){
-        shiny::validate(shiny::need(!any(check_type == FALSE) && all(is.na(as.numeric(unlist(char_only_df)))),message = paste("")))
+
+        for (i in 1:length(check_type)) {
+          if (isFALSE(check_type[i])){
+            if (any(is.na(as.numeric(file_df[,i])))){
+              shiny::validate(shiny::need(!any(is.na(as.numeric(file_df[,i])))),message = paste(""))
+            }
+          }
+        }
       }
     }
     else if (!all(is.na(as.numeric(unlist(char_only_df))))){
