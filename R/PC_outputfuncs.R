@@ -24,6 +24,8 @@
 #'
 Parsol <- function(pars){
 
+  attach(the)
+
   # --- Get number of compounds
   n <- nrow(pars[["CompoundList"]])
 
@@ -61,6 +63,8 @@ Parsol <- function(pars){
 
   # --- Create a data frame to store all simulation parameters
   pars_df <- StorePars_PC(pars)
+
+  detach(the)
 
   # --- Store output as a list
   out_list <- list(df1,df2,pars_df)

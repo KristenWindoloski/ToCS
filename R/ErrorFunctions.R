@@ -59,7 +59,7 @@ UploadComps_Check <- function(value,input){
 
     # --- CHECK FOR CORRECT COLUMN NAMES AND COLUMN ORDER
     file_df_colnames <- colnames(file_df)
-    httkdata_colnames <- colnames(chem.physical_and_invitro.data)
+    httkdata_colnames <- colnames(httk::chem.physical_and_invitro.data)
 
     if (!all(file_df_colnames == httkdata_colnames)){
       return("Error: Check the uploaded file to make sure the correct column names
@@ -220,7 +220,7 @@ DataInputType <- function(file,column_names){
   # --- DETERMINE FILE ENTRY DATA TYPES
   out <- NULL
   file_df_datatypes <- unname(sapply(file,class))
-  httkdata_datatypes <- unname(sapply(chem.physical_and_invitro.data,class))
+  httkdata_datatypes <- unname(sapply(httk::chem.physical_and_invitro.data,class))
 
   # --- EXTRACT COLUMNS THAT ARE SUPPOSED TO BE ONLY CHARACTERS
   file_df_ref <- magrittr::`%>%`(file, dplyr::select(dplyr::contains("reference")))

@@ -61,7 +61,7 @@ app_ui <- function(){
                      ##################################################################################
 
                      bslib::nav_panel(title = "Advanced (Optional) Parameters",
-                                      bslib::layout_columns(AP_ModelConditions(ic_names,ic_comps),
+                                      bslib::layout_columns(AP_ModelConditions(the$ic_names,the$ic_comps),
                                                             AP_ModelSolver(),
                                                             AP_Bioavailability(),
                                                             AP_OutputSpecification(),

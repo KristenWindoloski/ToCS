@@ -59,6 +59,8 @@ CompoundList <- function(preload_comp, uploaded_comps){
     # Add uploaded compound data to httk data frame of compound data
     n <- nrow(upload_df)
 
+    chem.physical_and_invitro.data <- httk::chem.physical_and_invitro.data
+
     for (i in 1:n) {
       compounds_file[i,3] <- httk::CAS.checksum(compounds_file[i,2])
       if (compounds_file[i,2] %in% chem.physical_and_invitro.data$CAS){
@@ -68,9 +70,10 @@ CompoundList <- function(preload_comp, uploaded_comps){
       else{
         chem.physical_and_invitro.data <- rbind(chem.physical_and_invitro.data, compounds_file[i,])
       }
-      # Assigns the current chem.data data frame with any new chemicals to our created environment
-      .GlobalEnv$chem.physical_and_invitro.data <- chem.physical_and_invitro.data
     }
+
+    # Add the uploaded user data to the package-only environment (to avoid global environment)
+    the$chem.physical_and_invitro.data <- chem.physical_and_invitro.data
 
     # Add uploaded compound names to any preloaded compounds
     df_compounds <- rbind(preload_df,upload_df)

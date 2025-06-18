@@ -26,6 +26,8 @@
 #'
 SS_sol <- function(pars){
 
+  attach (the)
+
   # --- Declare variables (avoids 'no visible binding for global variable' note in R CMD check)
   SteadyState <- CssDay <- NULL
 
@@ -65,6 +67,8 @@ SS_sol <- function(pars){
 
   # --- Create a data frame with all used parameters and chemical data
   pars_df <- StorePars_SS(pars)
+
+  detach(the)
 
   # --- Create list with both outputs (plot list and sol array)
   out_list <- list(sol_ascend,css_char_ascend,pars_df)

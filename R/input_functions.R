@@ -252,8 +252,9 @@ PreloadCompsInput <- function(func,species,defaulthuman,insilico,model,honda,com
   # --- Reset the chem.physical_and_invitro.data table in case any
   # --- in silico loaded parameters or uploaded chemicals/parameters
   # --- were in the environment
-  httk::reset_httk()
+  httk::reset_httk(target.env = the)
 
+  attach(the)
   # --- Load in in silico fup, clint, and caco2 if selected
   # --- Get CAS numbers for all compounds with enough data to run simulations
   if(insilico == "Yes, load in silico parameters"){
@@ -265,6 +266,8 @@ PreloadCompsInput <- function(func,species,defaulthuman,insilico,model,honda,com
 
   # --- Get all available preloaded compounds
   piped <- getPiped(CASnums,honda,comptype)
+
+  detach(the)
 
   # --- Output to be returned (either nothing or a select drop down menu)
   if (is.null(piped)){
@@ -327,17 +330,17 @@ loadInSilicoPars <- function(func,species,model,defaulthuman){
                       value = 0, {
 
                         shiny::incProgress(1/5, detail = paste("Loading in silico parameter set", 1))
-                        httk::load_sipes2017(overwrite = FALSE, chem_include = loadCAS)
+                        httk::load_sipes2017(overwrite = FALSE, chem_include = loadCAS, target.env = the)
                         shiny::incProgress(1/5, detail = paste("Loading in silico parameter set", 2))
-                        httk::load_pradeep2020(overwrite = FALSE, chem_include = loadCAS)
+                        httk::load_pradeep2020(overwrite = FALSE, chem_include = loadCAS, target.env = the)
                         shiny::incProgress(1/5, detail = paste("Loading in silico parameter set", 3))
-                        httk::load_dawson2021(overwrite = FALSE, chem_include = loadCAS)
+                        httk::load_dawson2021(overwrite = FALSE, chem_include = loadCAS, target.env = the)
                         shiny::incProgress(1/5, detail = paste("Loading in silico parameter set", 4))
 
                         # --- Get CAS numbers that the model for the given species and model selected will run for
                         CASnums <- getCASnums(func,species,model,defaulthuman)
 
-                        httk::load_honda2023(overwrite = FALSE, chem_include = CASnums)
+                        httk::load_honda2023(overwrite = FALSE, chem_include = CASnums, target.env = the)
                         shiny::incProgress(1/5, detail = paste("All in silico parameter sets loaded"))
                       })
   return(CASnums)
@@ -395,7 +398,8 @@ getCASnums <- function(func,species,model,defaulttohuman){
   }
 
   if (!is.null(CASnums)){
-      df <- chem.physical_and_invitro.data[chem.physical_and_invitro.data$CAS %in% CASnums,]
+      chem.data <- httk::chem.physical_and_invitro.data
+      df <- chem.data[chem.data$CAS %in% CASnums,]
       df <- magrittr::`%>%`(df,dplyr::filter(!grepl(CAS,pattern = "CAS"),
                                              !grepl(CAS,pattern = "cas"),
                                              grepl(CAS.Checksum, pattern = "TRUE")))
@@ -434,7 +438,7 @@ getCASnums <- function(func,species,model,defaulttohuman){
 getPiped <- function(CASnums,honda,comptype){
 
   # --- Declare variables (avoids 'no visible binding for global variable' note in R CMD check)
-  CAS <- logHenry <- NULL
+  CAS <- logHenry <- logWSol <- MP <- NULL
 
   # --- Available preloaded compounds if the Honda1 condition for IVIVE is selected
   if (is.null(CASnums)){
@@ -449,14 +453,14 @@ getPiped <- function(CASnums,honda,comptype){
     }
 
     if (honda == "Honda1"){
-      chemlist <- magrittr::`%>%`(chem.physical_and_invitro.data, dplyr::filter(CAS %in% CASnums,
-                                                                                !is.na(logHenry),
-                                                                                !is.na(chem.physical_and_invitro.data$logWSol),
-                                                                                !is.na(httk::chem.physical_and_invitro.data$MP)))
+      chemlist <- magrittr::`%>%`(httk::chem.physical_and_invitro.data, dplyr::filter(CAS %in% CASnums,
+                                                                                      !is.na(logHenry),
+                                                                                      !is.na(logWSol),
+                                                                                      !is.na(MP)))
       piped <- paste(chemlist$CAS, chemlist$Compound, sep = ", ")
     }
     else {
-      chemlist <- chem.physical_and_invitro.data[chem.physical_and_invitro.data$CAS %in% CASnums,]
+      chemlist <- httk::chem.physical_and_invitro.data[httk::chem.physical_and_invitro.data$CAS %in% CASnums,]
       piped <- paste(chemlist$CAS, chemlist$Compound, sep = ", ")
     }
   }
@@ -896,7 +900,6 @@ selectInput_InitialCondCustom <- function(id){
 #' @return A list of full compartment names and variable names of compartments
 #' @export
 #'
-#' @examples names_ICs()
 #'
 names_ICs <- function(){
 

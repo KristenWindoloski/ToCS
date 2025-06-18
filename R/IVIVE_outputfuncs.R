@@ -25,6 +25,8 @@
 #'
 IVIVEsol <- function(pars){
 
+  attach(the)
+
   # --- PROCESS BIOACTIVE CONCENTRATIONS FILE
   file <- pars[["BioactiveFile"]]
   bioactive <- utils::read.csv(file$datapath)
@@ -46,6 +48,8 @@ IVIVEsol <- function(pars){
   else{
     exposuredata <- NULL
   }
+  print(bioactive_conc)
+  print(exposuredata)
 
   # --- SET OUTPUT TYPE AND SIZE: DATA FRAME (return.samples = FALSE) OR ARRAY (return.samples = TRUE)
   if (pars[["returnsamples"]] == FALSE){
@@ -59,6 +63,8 @@ IVIVEsol <- function(pars){
 
   # --- STORE PARAMETERS USED FOR THE SIMULATION
   pars_df <- StorePars_IVIVE(pars,bioactive_conc)
+
+  detach(the)
 
   # --- RETURN LIST OF OUTPUTS
   out <- list(sol,bioactive_conc,pars_df,BER,exposuredata)
@@ -87,8 +93,6 @@ IVIVEsol <- function(pars){
 #' @noRd
 #'
 CalcOED <- function(i,pars,bioactive_df){
-
-  print(pars)
 
   # --- SET RANDOM GENERATOR SEED
   set.seed(100)
@@ -134,6 +138,7 @@ CalcOED <- function(i,pars,bioactive_df){
                                                                                      Caco2.Fgut = pars[["caco_fgut"]],
                                                                                      overwrite.invivo = pars[["caco_overwriteinvivo"]],
                                                                                      keepit100 = pars[["caco_keep100"]])))
+
 }
 
 ################################################################################
@@ -737,6 +742,8 @@ Plotdf_Prep <- function(df,pars){
   ChemNames <- c()
   CASvalues <- c()
   OEDvalues <- c()
+  chem.physical_and_invitro.data <- the$chem.physical_and_invitro.data
+
   for (i in 1:n) {
     ChemNames <- append(ChemNames, rep(cnames[i], m))
     CASvalues <- append(CASvalues, rep(chem.physical_and_invitro.data[chem.physical_and_invitro.data$Compound == cnames[i],2], m))
@@ -834,6 +841,7 @@ PrepExposureData <- function(pars){
   exposuredata <- utils::read.csv(fileExposure$datapath)
 
   # --- REARRANGE ROWS OF EXPOSURE DATA FILE TO BE IN SAME ORDER AS COMPOUNDS FILE
+
   df <- chem.physical_and_invitro.data[chem.physical_and_invitro.data$Compound %in% pars[["CompoundList"]][,1],]
   df <- df[match(pars[["CompoundList"]][,1], df$Compound),]
   exposuredata <- exposuredata[match(df$CAS, exposuredata$CAS),]

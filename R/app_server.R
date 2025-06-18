@@ -62,7 +62,7 @@ app_server <- function(input, output, session) {
   iv_ss <- shinyvalidate::InputValidator$new()
   iv_ivive <- shinyvalidate::InputValidator$new()
   iv_pc <- shinyvalidate::InputValidator$new()
-  InputRules_Children(iv_common,iv_adme,iv_ss,iv_ivive,iv_pc,input,ic_names)
+  InputRules_Children(iv_common,iv_adme,iv_ss,iv_ivive,iv_pc,input,the$ic_names)
 
   parent_adme_iv <- shinyvalidate::InputValidator$new()
   parent_ss_iv <- shinyvalidate::InputValidator$new()

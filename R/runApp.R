@@ -12,19 +12,20 @@
 #' @return A popup window with the ToCS user interface
 #' @export
 #'
-#' @examples
-#' # Open the ToCS interface
-#' run_ToCS()
-#'
-#'
 run_ToCS <- function(){
 
   applocal <- system.file("app",package = "ToCS")
-  if (interactive()){
-    shiny::runApp(appDir = applocal)
+  if (exists("chem.physical_and_invitro.data",envir = .GlobalEnv)){
+    shiny::stopApp()
+    print("Please rename your global environment variable 'chem.physical_and_invitro.data'. Then, run ToCS again.")
   }
   else{
-    shiny::shinyAppDir(appDir = applocal)
+    if (interactive()){
+      shiny::runApp(appDir = applocal)
+      }
+    else{
+      shiny::shinyAppDir(appDir = applocal)
+    }
   }
 }
 

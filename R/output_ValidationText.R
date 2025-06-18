@@ -84,7 +84,7 @@ validate_text_Common <- function(pars){
 
     # --- CHECK FOR CORRECT COLUMN NAMES AND COLUMN ORDER
     file_df_colnames <- colnames(file_df)
-    httkdata_colnames <- colnames(chem.physical_and_invitro.data)
+    httkdata_colnames <- colnames(httk::chem.physical_and_invitro.data)
 
     if (!all(file_df_colnames == httkdata_colnames)){
       shiny::validate(shiny::need(all(file_df_colnames == httkdata_colnames),message = paste("")))
@@ -168,7 +168,7 @@ validate_text_Common <- function(pars){
     # --- CHECK FOR CORRECT INPUT DATA TYPES
     # --- DETERMINE FILE ENTRY DATA TYPES
     file_df_datatypes <- unname(sapply(file_df,class))
-    httkdata_datatypes <- unname(sapply(chem.physical_and_invitro.data,class))
+    httkdata_datatypes <- unname(sapply(httk::chem.physical_and_invitro.data,class))
 
     # --- EXTRACT COLUMNS THAT ARE SUPPOSED TO BE ONLY CHARACTERS
     file_df_ref <- magrittr::`%>%`(file_df, dplyr::select(dplyr::contains("reference")))

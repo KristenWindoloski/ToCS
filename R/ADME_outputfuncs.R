@@ -408,6 +408,8 @@ TKsummary <- function(modsol) {
 #'
 modsol <- function(pars){
 
+  attach(the)
+
   # Get row, column, and page dimensions for arrays used to store solutions
   n <- nrow(pars[["CompoundList"]])
 
@@ -443,6 +445,8 @@ modsol <- function(pars){
 
   # --- Generate simulation parameters data frame
   pars_df <- StorePars_ADME(pars)
+
+  detach(the)
 
   # --- Create list with all outputs
   out_list <- list(sol,tk_sum_array,pars_df)
@@ -482,6 +486,8 @@ Run_ADME_Model <- function(i,pars){
                                       doses.per.day = pars[["dosinginfo"]][[2]])
   }
   else{
+
+    # Solve model
     out <- httk::solve_model(chem.name = pars[["CompoundList"]][i,1],
                            route = pars[["doseroute"]],
                            input.units = pars[["doseunits"]],
@@ -507,8 +513,8 @@ Run_ADME_Model <- function(i,pars){
                                                                              Caco2.Fgut = pars[["caco_fgut"]],
                                                                              overwrite.invivo = pars[["caco_overwriteinvivo"]],
                                                                              keepit100 = pars[["caco_keep100"]])))
-  }
 
+  }
 
   out <- RemoveCols(out,pars[["model"]])
 }
