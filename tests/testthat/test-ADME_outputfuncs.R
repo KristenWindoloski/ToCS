@@ -5,6 +5,19 @@ rm(list = ls())
 # --- FUNCTION CREATED TO GENERATE PARAMETERS FOR MODEL SOLUTION
 ####################################################################
 
+# Set up a new environment in ToCS package
+the <- new.env(parent = emptyenv())
+
+# Save httk data frames needed (to avoid using global environment)
+the$chem.physical_and_invitro.data <- httk::chem.physical_and_invitro.data
+the$physiology.data <- httk::physiology.data
+the$tissue.data <- httk::tissue.data
+the$mecdt <- httk::mecdt
+the$mcnally_dt <- httk::mcnally_dt
+the$bmiage <- httk::bmiage
+the$wfl <- httk::wfl
+the$well_param <- httk::well_param
+
 Generate_Pars <- function(){
 
   pars <- list(CompoundList = data.frame(Selected_Compounds = c("Ibuprofen","Terbufos")),
@@ -80,6 +93,8 @@ solve_httk_pregnancy <- function(i,pars){
 
 test_that("TKsummary() produces a table of simulation summary statistics ",{
 
+  attach(the)
+
   # --- CREATE INPUT
   sol <- httk::solve_model(chem.name="Ibuprofen",
                      model="1compartment",
@@ -108,6 +123,8 @@ test_that("TKsummary() produces a table of simulation summary statistics ",{
   expect_gt(TKsummary(sol)[2,3],0)
   expect_gt(TKsummary(sol)[3,3],0)
   expect_gt(TKsummary(sol)[4,3],0)
+
+  detach(the)
 })
 
 ########################################################
@@ -121,12 +138,16 @@ test_that("Run_ADME_Model() produces output for single dosing",{
   # --- CREATE EXPECTED OUTPUT
   pars <- Generate_Pars()
 
+  attach(the)
+
   # --- CREATE INPUT
   sol <- solve_httk(1,pars)
   out <- sol[,1:5]
 
   # --- TEST (current,target)
   expect_equal(Run_ADME_Model(1,pars),out)
+
+  detach(the)
 })
 
 
@@ -142,12 +163,16 @@ test_that("Run_ADME_Model() produces a solution output for daily dosing ",{
                                dosing.matrix=NULL,
                                forcings = NULL)
 
+  attach(the)
+
   # --- CREATE INPUT
   sol <- solve_httk(1,pars)
   out <- sol[,1:5]
 
   # --- TEST (current,target)
   expect_equal(Run_ADME_Model(1,pars),out)
+
+  detach(the)
 })
 
 
@@ -165,12 +190,16 @@ test_that("Run_ADME_Model() produces a solution output for a dosing matrix",{
                                                     dimnames = list(c(),c("time","dose"))),
                                forcings = NULL)
 
+  attach(the)
+
   # --- CREATE INPUT
   sol <- solve_httk(1,pars)
   out <- sol[,1:5]
 
   # --- TEST (current,target)
   expect_equal(Run_ADME_Model(1,pars),out)
+
+  detach(the)
 })
 
 
@@ -183,12 +212,16 @@ test_that("Run_ADME_Model() produces a solution output for the 1comp model",{
   pars[["model"]] <- "1compartment"
   pars[["initvals"]] <- setNames(rep(0,4),c("Agutlumen","Acompartment","Ametabolized","AUC"))
 
+  attach(the)
+
   # --- CREATE INPUT
   sol <- solve_httk(1,pars)
   out <- sol[,1:5]
 
   # --- TEST (current,target)
   expect_equal(Run_ADME_Model(1,pars),out)
+
+  detach(the)
 })
 
 
@@ -202,17 +235,22 @@ test_that("Run_ADME_Model() produces a solution output for the 3comp model",{
   pars[["initvals"]] <- stats::setNames(rep(0,7),
                                         c("Aintestine","Aportven","Aliver","Asyscomp","Ametabolized","Atubules","AUC"))
 
+  attach(the)
+
   # --- CREATE INPUT
   sol <- solve_httk(1,pars)
   out <- sol[,1:8]
 
   # --- TEST (current,target)
   expect_equal(Run_ADME_Model(1,pars),out)
+
+  detach(the)
+
 })
 
 # --- TEST FOR PBTK MODEL
 
-test_that("Run_ADME_Model() produces a solution output for the 3comp model",{
+test_that("Run_ADME_Model() produces a solution output for the pbtk model",{
 
   # --- CREATE EXPECTED OUTPUT
   pars <- Generate_Pars()
@@ -220,12 +258,16 @@ test_that("Run_ADME_Model() produces a solution output for the 3comp model",{
   pars[["initvals"]] <- stats::setNames(rep(0,11),
                                         c("Agutlumen","Agut","Aliver","Aven","Alung","Aart","Arest","Akidney","Atubules","Ametabolized","AUC"))
 
+  attach(the)
+
   # --- CREATE INPUT
   sol <- solve_httk(1,pars)
   out <- sol[,1:13]
 
   # --- TEST (current,target)
   expect_equal(Run_ADME_Model(1,pars),out)
+
+  detach(the)
 })
 
 
@@ -244,12 +286,16 @@ test_that("Run_ADME_Model() produces a solution output for the fetal_pbtk model"
                                           "Afart", "Afrest", "Afthyroid", "Afkidney", "Afbrain"))
   pars[["returntimes"]] <- seq(91,101,1)
 
+  attach(the)
+
   # --- CREATE INPUT
   sol <- solve_httk(1,pars)
   out <- sol[,1:29]
 
   # --- TEST (current,target)
   expect_equal(Run_ADME_Model(1,pars),out)
+
+  detach(the)
 })
 
 test_that("Run_ADME_Model() produces a solution output for the full_pregnancy model",{
@@ -257,6 +303,8 @@ test_that("Run_ADME_Model() produces a solution output for the full_pregnancy mo
   # --- CREATE EXPECTED OUTPUT
   pars <- Generate_Pars()
   pars[["model"]] <- "full_pregnancy"
+
+  attach(the)
 
   # --- TEST (current,target)
   out1 <- solve_httk_pregnancy(1,pars)
@@ -270,6 +318,8 @@ test_that("Run_ADME_Model() produces a solution output for the full_pregnancy mo
                               forcings = NULL)
   out2 <- solve_httk_pregnancy(1,pars)
   expect_equal(Run_ADME_Model(1,pars),out2)
+
+  detach(the)
 })
 
 
@@ -281,6 +331,8 @@ test_that("AssignArrayNames() returns a list of 2 arrays",{
 
   # --- CREATE INPUT
   pars <- Generate_Pars()
+
+  attach(the)
 
   modsol1 <- solve_httk(1,pars)[,1:5]
   sol <- array(data = rep(0,nrow(modsol1)*5*2),
@@ -307,6 +359,8 @@ test_that("AssignArrayNames() returns a list of 2 arrays",{
 
   # --- TEST (current,target)
   expect_equal(AssignArrayNames(sol,modsol1,TKSumArray,pars),out)
+
+  detach(the)
 })
 
 ########################################################
@@ -314,6 +368,8 @@ test_that("AssignArrayNames() returns a list of 2 arrays",{
 ########################################################
 
 test_that("Rearr_TKSumArray() returns a matrix of TK summary statistics",{
+
+  attach(the)
 
   # --- CREATE INPUT
   pars <- Generate_Pars()
@@ -337,6 +393,8 @@ test_that("Rearr_TKSumArray() returns a matrix of TK summary statistics",{
 
   # --- TEST (current,target)
   expect_equal(Rearr_TKSumArray(TKSumArray,pars),out_mat)
+
+  detach(the)
 })
 
 

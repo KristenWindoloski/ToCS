@@ -3,6 +3,19 @@
 # --- FUNCTION CREATED TO GENERATE PARAMETERS FOR MODEL SOLUTION
 ####################################################################
 
+# Set up a new environment in ToCS package
+the <- new.env(parent = emptyenv())
+
+# Save httk data frames needed (to avoid using global environment)
+the$chem.physical_and_invitro.data <- httk::chem.physical_and_invitro.data
+the$physiology.data <- httk::physiology.data
+the$tissue.data <- httk::tissue.data
+the$mecdt <- httk::mecdt
+the$mcnally_dt <- httk::mcnally_dt
+the$bmiage <- httk::bmiage
+the$wfl <- httk::wfl
+the$well_param <- httk::well_param
+
 Generate_Pars <- function(){
 
   pars <- list(CompoundList = data.frame(Selected_Compounds = c("Ibuprofen","Terbufos")),
@@ -55,6 +68,9 @@ test_that("CompoundList() produces a data frame of selected compounds", {
   df_PCUC <- data.frame(Selected_Compounds = c("2,4-db","Abamectin","Chem1","Chem2","Chem3","Chem4","Thiabendazole"))
 
   # --- TEST
+
+  attach(the)
+
   #just preloadcomps
   expect_equal(CompoundList(PreloadedComps,NULL),df_PConly)
 
@@ -63,6 +79,8 @@ test_that("CompoundList() produces a data frame of selected compounds", {
 
   #preload and upload comps
   expect_equal(CompoundList(PreloadedComps,UploadedComps),df_PCUC)
+
+  detach(the)
 })
 
 

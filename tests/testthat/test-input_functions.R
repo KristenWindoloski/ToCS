@@ -1,4 +1,20 @@
+
+# Set up a new environment in ToCS package
+the <- new.env(parent = emptyenv())
+
+# Save httk data frames needed (to avoid using global environment)
+the$chem.physical_and_invitro.data <- httk::chem.physical_and_invitro.data
+the$physiology.data <- httk::physiology.data
+the$tissue.data <- httk::tissue.data
+the$mecdt <- httk::mecdt
+the$mcnally_dt <- httk::mcnally_dt
+the$bmiage <- httk::bmiage
+the$wfl <- httk::wfl
+the$well_param <- httk::well_param
+
 test_that("getCASnums() produces vector of CAS numbers", {
+
+  attach(the)
 
   # --- TEST
   func <- "Concentration-time profiles"
@@ -116,7 +132,7 @@ test_that("getCASnums() produces vector of CAS numbers", {
   defaulthuman <- "No"
   expect_true(is.null(getCASnums(func,spec,model,defaulthuman)))
 
-
+  detach(the)
 })
 
 test_that("getPiped() produces the list of compounds to display in the GUI",{
@@ -139,10 +155,14 @@ test_that("getPiped() produces the list of compounds to display in the GUI",{
                     "122-39-4, Diphenylamine")
 
   # --- TEST
+  attach(the)
+
   expect_true(is.null(getPiped(NULL,NULL,"Choose from all available chemicals")))
   expect_equal(getPiped(CASnums,"NULL","Choose from all available chemicals"), OutList)
   expect_equal(getPiped(CASnums,"Honda1","Choose from all available chemicals"), OutListHonda)
   expect_true(is.null(getPiped(NULL,NULL,"Choose from only food relevant chemicals")))
   expect_equal(getPiped(CASnumsFood,"NULL","Choose from only food relevant chemicals"), OutListFood)
   expect_equal(getPiped(CASnumsFood,"Honda1","Choose from only food relevant chemicals"), OutListFood)
+
+  detach(the)
 })

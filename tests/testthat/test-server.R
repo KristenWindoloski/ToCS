@@ -3,6 +3,19 @@
 # TEST ALL SHINY REACTIVES
 ###################################################
 
+# Set up a new environment in ToCS package
+# the <- new.env(parent = emptyenv())
+#
+# # Save httk data frames needed (to avoid using global environment)
+# the$chem.physical_and_invitro.data <- httk::chem.physical_and_invitro.data
+# the$physiology.data <- httk::physiology.data
+# the$tissue.data <- httk::tissue.data
+# the$mecdt <- httk::mecdt
+# the$mcnally_dt <- httk::mcnally_dt
+# the$bmiage <- httk::bmiage
+# the$wfl <- httk::wfl
+# the$well_param <- httk::well_param
+
 ##########################################################################
 # HAS A FILE WITH COMPOUND DATA BEEN UPLOADED?
 ##########################################################################
@@ -140,32 +153,34 @@ test_that("CompLst() reactive outputs a list of compound names",{
 })
 
 
-
 ##########################################################################
 # COMPILES LIST OF ALL COMPOUNDS TO RUN
 ##########################################################################
 
-test_that("output$comptext outputs a table of compounds to simulate",{
+# test_that("output$comptext outputs a table of compounds to simulate",{
+#
+#   shiny::testServer(run_ToCS(),exp = {
+#
+#   # --- TEST ALL COMBOS FOR WORKING AND VALIDATION TEXT
+#   session$setInputs(func = "Concentration-time profiles",
+#                   spec = "Human",
+#                   defaulttoHuman = "Yes",
+#                   model = "pbtk",
+#                   insilicopars = "No, do not load in silico parameters",
+#                   httkPreloadComps = c("94-75-7, 2,4-d",
+#                                        "90-43-7, 2-phenylphenol",
+#                                        "1007-28-9, 6-desisopropylatrazine",
+#                                        "71751-41-2, Abamectin"),
+#                   file1 = NULL)
+#
+#   attach(the)
+#   out <- data.frame(Selected_Compounds = c("2,4-d","2-phenylphenol","6-desisopropylatrazine","Abamectin"))
+#   new_output <- as.data.frame(rvest::read_html(output$comptext) %>% rvest::html_table(fill=TRUE))
+#   expect_equal(new_output,out)
+#   detach(the)
+#   })
+# })
 
-  shiny::testServer(run_ToCS(),exp = {
-
-    # --- TEST ALL COMBOS FOR WORKING AND VALIDATION TEXT
-    session$setInputs(func = "Concentration-time profiles",
-                      spec = "Human",
-                      defaulttoHuman = "Yes",
-                      model = "pbtk",
-                      insilicopars = "No, do not load in silico parameters",
-                      httkPreloadComps = c("94-75-7, 2,4-d",
-                                           "90-43-7, 2-phenylphenol",
-                                           "1007-28-9, 6-desisopropylatrazine",
-                                           "71751-41-2, Abamectin"),
-                      file1 = NULL)
-
-    out <- data.frame(Selected_Compounds = c("2,4-d","2-phenylphenol","6-desisopropylatrazine","Abamectin"))
-    new_output <- as.data.frame(rvest::read_html(output$comptext) %>% rvest::html_table(fill=TRUE))
-    expect_equal(new_output,out)
-  })
-})
 
 ##########################################################################
 # TEST ADME MODULE

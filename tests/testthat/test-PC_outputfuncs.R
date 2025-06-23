@@ -3,6 +3,19 @@
 # --- FUNCTION CREATED TO GENERATE PARAMETERS FOR MODEL SOLUTION
 ####################################################################
 
+# Set up a new environment in ToCS package
+the <- new.env(parent = emptyenv())
+
+# Save httk data frames needed (to avoid using global environment)
+the$chem.physical_and_invitro.data <- httk::chem.physical_and_invitro.data
+the$physiology.data <- httk::physiology.data
+the$tissue.data <- httk::tissue.data
+the$mecdt <- httk::mecdt
+the$mcnally_dt <- httk::mcnally_dt
+the$bmiage <- httk::bmiage
+the$wfl <- httk::wfl
+the$well_param <- httk::well_param
+
 Generate_Pars <- function(){
 
   pars <- list(CompoundList = data.frame(Selected_Compounds = c("Acetamiprid","2,4-db","Acephate","Abamectin","Acetochlor",
@@ -29,11 +42,15 @@ test_that("CalcElimRate() produces the elimination rate",{
   # --- CREATE SAMPLE DATA
   pars <- Generate_Pars()
 
+  attach(the)
+
   # --- TEST
   testthat::expect_gt(CalcElimRate(pars,1),0)
 
   pars[["spec"]] <- "Rat"
   testthat::expect_gt(CalcElimRate(pars,2),0)
+
+  detach(the)
 })
 
 test_that("CalcVdist() produces the volume of distribution",{
@@ -41,11 +58,14 @@ test_that("CalcVdist() produces the volume of distribution",{
   # --- CREATE SAMPLE DATA
   pars <- Generate_Pars()
 
+  attach(the)
   # --- TEST
   testthat::expect_gt(CalcVdist(pars,1),0)
 
   pars[["spec"]] <- "Rat"
   testthat::expect_gt(CalcVdist(pars,2),0)
+
+  detach(the)
 })
 
 test_that("CalcHalfLife() produces the half-life",{
@@ -54,10 +74,12 @@ test_that("CalcHalfLife() produces the half-life",{
   pars <- Generate_Pars()
 
   # --- TEST
+  attach(the)
   testthat::expect_gt(CalcHalfLife(pars,1),0)
 
   pars[["spec"]] <- "Rat"
   testthat::expect_gt(CalcHalfLife(pars,2),0)
+  detach(the)
 })
 
 test_that("CalcClearance() produces the total plasma clearance",{
@@ -66,10 +88,12 @@ test_that("CalcClearance() produces the total plasma clearance",{
   pars <- Generate_Pars()
 
   # --- TEST
+  attach(the)
   testthat::expect_gt(CalcClearance(pars,1),0)
 
   pars[["spec"]] <- "Rat"
   testthat::expect_gt(CalcClearance(pars,2),0)
+  detach(the)
 })
 
 test_that("CalcPCs() produces all partition coefficients",{
@@ -78,10 +102,12 @@ test_that("CalcPCs() produces all partition coefficients",{
   pars <- Generate_Pars()
 
   # --- TEST
+  attach(the)
   testthat::expect_true(all(CalcPCs(pars,1)>0))
 
   pars[["spec"]] <- "Rat"
   testthat::expect_true(all(CalcPCs(pars,2)>0))
+  detach(the)
 })
 
 test_that("StorePars_PC() outputs a data frame of parameters used in the simulation",{
@@ -100,15 +126,19 @@ test_that("StorePars_PC() outputs a data frame of parameters used in the simulat
                     minimum.Funbound.plasma = pars[["min_fub"]],
                     alpha = pars[["AlphaPar"]])
 
-  chemdata <- chem.physical_and_invitro.data[chem.physical_and_invitro.data$Compound %in% pars[["CompoundList"]][,1],]
+  chemdata <- httk::chem.physical_and_invitro.data[httk::chem.physical_and_invitro.data$Compound %in% pars[["CompoundList"]][,1],]
   chemdata <- chemdata[order(match(chemdata$Compound,out$chem.name)),]
   out <-cbind(out,chemdata)
 
   # --- TEST
+  attach(the)
+
   PC_sol_out <- StorePars_PC(pars)
   testthat::expect_equal(PC_sol_out,out)
   testthat::expect_equal(PC_sol_out$chem.name[1],PC_sol_out$Compound[1])
   testthat::expect_equal(PC_sol_out$chem.name[2],PC_sol_out$Compound[2])
   testthat::expect_equal(PC_sol_out$chem.name[3],PC_sol_out$Compound[3])
   testthat::expect_equal(PC_sol_out$chem.name[4],PC_sol_out$Compound[4])
+
+  detach(the)
 })

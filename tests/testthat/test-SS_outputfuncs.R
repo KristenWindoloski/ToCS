@@ -5,6 +5,19 @@ rm(list = ls())
 # --- FUNCTION CREATED TO GENERATE PARAMETERS FOR MODEL SOLUTION
 ####################################################################
 
+# Set up a new environment in ToCS package
+the <- new.env(parent = emptyenv())
+
+# Save httk data frames needed (to avoid using global environment)
+the$chem.physical_and_invitro.data <- httk::chem.physical_and_invitro.data
+the$physiology.data <- httk::physiology.data
+the$tissue.data <- httk::tissue.data
+the$mecdt <- httk::mecdt
+the$mcnally_dt <- httk::mcnally_dt
+the$bmiage <- httk::bmiage
+the$wfl <- httk::wfl
+the$well_param <- httk::well_param
+
 Generate_Pars <- function(){
 
   pars <- list(CompoundList = data.frame(Selected_Compounds = c("Acetamiprid","2,4-db","Acephate","Abamectin","Acetochlor",
@@ -69,6 +82,7 @@ test_that("CalcAnalyticCss() produces a steady state concentration",{
   pars[["model"]] <- "3compartmentss"
   pars[["output_concSS"]] <- "plasma"
 
+  attach(the)
   expect_gt(CalcAnalyticCss(pars,4),0)
 
   pars[["spec"]] <- "Human"
@@ -86,6 +100,7 @@ test_that("CalcAnalyticCss() produces a steady state concentration",{
   pars[["output_concSS"]] <- "tissue"
   pars[["tissueSS"]] <- "brain"
   expect_gt(CalcAnalyticCss(pars,3),0)
+  detach(the)
 })
 
 test_that("CalcCssDay() produces the relevant info when Css is reached",{
@@ -93,6 +108,7 @@ test_that("CalcCssDay() produces the relevant info when Css is reached",{
   # --- CREATE SAMPLE DATA
   pars <- Generate_Pars()
 
+  attach(the)
   # --- TEST
   pars[["spec"]] <- "Rat"
   pars[["model"]] <- "1compartment"
@@ -116,6 +132,7 @@ test_that("CalcCssDay() produces the relevant info when Css is reached",{
   expect_gt(out[[2]],0)
   expect_gt(out[[3]],0)
   expect_gt(out[[4]],0)
+  detach(the)
 })
 
 test_that("StorePars_SS() outputs a data frame of parameters used in the simulation",{
@@ -145,16 +162,18 @@ test_that("StorePars_SS() outputs a data frame of parameters used in the simulat
                     minimum.Funbound.plasma = pars[["min_fub"]],
                     regression = pars[["regression"]])
 
-  chemdata <- chem.physical_and_invitro.data[chem.physical_and_invitro.data$Compound %in% pars[["CompoundList"]][,1],]
+  chemdata <- httk::chem.physical_and_invitro.data[httk::chem.physical_and_invitro.data$Compound %in% pars[["CompoundList"]][,1],]
   chemdata <- chemdata[order(match(chemdata$Compound,out$chem.name)),]
   out <-cbind(out,chemdata)
 
   # --- TEST
+  attach(the)
   SS_pars_out <- StorePars_SS(pars)
   expect_equal(SS_pars_out,out)
   expect_equal(SS_pars_out$chem.name[1],SS_pars_out$Compound[1])
   expect_equal(SS_pars_out$chem.name[2],SS_pars_out$Compound[2])
   expect_equal(SS_pars_out$chem.name[3],SS_pars_out$Compound[3])
   expect_equal(SS_pars_out$chem.name[4],SS_pars_out$Compound[4])
+  detach(the)
 })
 

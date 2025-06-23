@@ -3,6 +3,19 @@
 # --- FUNCTION CREATED TO GENERATE PARAMETERS FOR MODEL SOLUTION
 ####################################################################
 
+# Set up a new environment in ToCS package
+the <- new.env(parent = emptyenv())
+
+# Save httk data frames needed (to avoid using global environment)
+the$chem.physical_and_invitro.data <- httk::chem.physical_and_invitro.data
+the$physiology.data <- httk::physiology.data
+the$tissue.data <- httk::tissue.data
+the$mecdt <- httk::mecdt
+the$mcnally_dt <- httk::mcnally_dt
+the$bmiage <- httk::bmiage
+the$wfl <- httk::wfl
+the$well_param <- httk::well_param
+
 Generate_Pars <- function(){
 
   BioFile <- read.csv("SampleBioactiveConcentrations.csv")
@@ -130,9 +143,10 @@ test_that("CalcOED() produces a single OED value or a vector of OED values",{
   bioactive <- pars[["BioactiveFile"]]
   bioactive_conc <- bioactive[match(pars[["CompoundList"]][,1], bioactive$ChemicalName),]
 
+  attach(the)
+
   # --- CREATE EXPECTED OUTPUT
   OED <- CalcOED(1,pars,bioactive_conc)
-  print(OED)
 
   # --- TEST
   #output for return samples false
@@ -201,6 +215,8 @@ test_that("CalcOED() produces a single OED value or a vector of OED values",{
 
   pars[["tissueIVIVE"]] <- "rest"
   expect_true(CalcOED(3,pars,bioactive_conc)>0)
+
+  detach(the)
 })
 
 test_that("ConvertBioactive() produces the desired bioactive concentration",{
@@ -213,6 +229,8 @@ test_that("ConvertBioactive() produces the desired bioactive concentration",{
   bioactive_conc <- bioactive[match(pars[["CompoundList"]][,1], bioactive$ChemicalName),]
 
   # --- CREATE EXPECTED OUTPUT
+  attach(the)
+
   converted_bc <- httk::armitage_eval(casrn.vector = bioactive_conc[,2],
                                 this.FBSf = pars[["FSBf"]],
                                 nomconc.vector = bioactive_conc[,3])
@@ -227,6 +245,8 @@ test_that("ConvertBioactive() produces the desired bioactive concentration",{
 
   pars[["HondaIVIVE"]] <- "Honda3"
   expect_equal(ConvertBioactive(pars,bioactive_conc),bioactive_conc)
+
+  detach(the)
 })
 
 test_that("StorePars_IVIVE() outputs a data frame of parameters used in the simulation",{
@@ -260,16 +280,20 @@ test_that("StorePars_IVIVE() outputs a data frame of parameters used in the simu
                     default.to.human = pars[["defaulttoHuman"]],
                     minimum.Funbound.plasma = pars[["min_fub"]],
                     regression = pars[["regression"]])
-  chemdata <- chem.physical_and_invitro.data[chem.physical_and_invitro.data$Compound %in% pars[["CompoundList"]][,1],]
+  chemdata <- httk::chem.physical_and_invitro.data[httk::chem.physical_and_invitro.data$Compound %in% pars[["CompoundList"]][,1],]
   chemdata <- chemdata[order(match(chemdata$Compound,out$chem.name)),]
   out <-cbind(out,chemdata)
 
   # --- TEST
+  attach(the)
+
   IVIVE_sol_out <- StorePars_IVIVE(pars,bioactive_conc)
   expect_equal(IVIVE_sol_out,out)
   expect_equal(IVIVE_sol_out$chem.name[1],IVIVE_sol_out$Compound[1])
   expect_equal(IVIVE_sol_out$chem.name[2],IVIVE_sol_out$Compound[2])
   expect_equal(IVIVE_sol_out$chem.name[3],IVIVE_sol_out$Compound[3])
+
+  detach(the)
 })
 
 ######################################################
@@ -371,6 +395,7 @@ test_that("PrepExposureData() return a data frame with no missing values",{
                             Lower = c(NA,16.38,26.94),
                             maxval = c(4.014,43.67,26.94))
 
+  attach(the)
 
   # --- TEST
   # mgpkgpday units
@@ -378,5 +403,7 @@ test_that("PrepExposureData() return a data frame with no missing values",{
   # umolpkgpday units
   pars[["modelIVIVEout_units"]] <- "umolpkgpday"
   expect_true(all.equal(PrepExposureData(pars),expdata_out2,check.attributes = FALSE))
+
+  detach(the)
 })
 
