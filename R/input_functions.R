@@ -120,17 +120,19 @@ Instructions_Reset <- function(){
 #' Generate the 'Output' drop down menu. GP_Output(), which calls the current function
 #'
 #' @param id Shiny identifier name
+#' @param choice_default Default drop down selection option
 #'
 #' @return Drop down menu for the desired output of ToCS
 #' @noRd
 #'
-selectInput_Function <- function(id){
+selectInput_Function <- function(id,
+                                 choice_default = "Select"){
   shiny::selectInput(id, label = "Select the desired output.",
               choices = list("Select", "Concentration-time profiles",
                              "Steady state concentrations",
                              "In vitro in vivo extrapolation (IVIVE)",
                              "Parameter calculations"),
-              selected = "Select")
+              selected = choice_default)
 }
 
 
@@ -140,15 +142,17 @@ selectInput_Function <- function(id){
 #' Generate the 'Species' drop down menu. GP_Species(), which calls the current function
 #'
 #' @param id Shiny identifier name
+#' @param choice_default Default drop down selection option
 #'
 #' @return Drop down menu for the desired species to simulate in ToCS
 #' @noRd
 #'
-selectInput_Species <- function(id){
+selectInput_Species <- function(id,
+                                choice_default = "Select"){
 
   shiny::selectInput(id, label = "Select the species to analyze.",
               choices = list("Select", "Dog", "Human", "Mouse", "Rabbit", "Rat"),
-              selected = "Select")
+              selected = choice_default)
 }
 
 
@@ -159,16 +163,18 @@ selectInput_Species <- function(id){
 #' down menu. GP_Species(), which calls the current function
 #'
 #' @param id Shiny identifier name
+#' @param choice_default Default drop down selection option
 #'
 #' @return Drop down menu for the human data preference use in ToCS, if applicable
 #' @noRd
 #'
-selectInput_DefaultToHuman <- function(id){
+selectInput_DefaultToHuman <- function(id,
+                                       choice_default = "Yes"){
   shiny::selectInput(id,
               label = "Do you want to use human in vitro data if in vitro data for
                       the selected species is missing?",
               choices = list("Yes", "No"),
-              selected = "Yes")
+              selected = choice_default)
 }
 
 
@@ -179,13 +185,15 @@ selectInput_DefaultToHuman <- function(id){
 #' calls the current function
 #'
 #' @param id Shiny identifier name
+#' @param choice_default Default drop down selection option
 #'
 #' @return Drop down menu with options to either use in silico generated clint
 #' (instrinic hepatic clearance) and fup (fraction unbound in plasma) in absence
 #' of in vitro data for the selected species
 #' @noRd
 #'
-selectInput_InSilicoPars <- function(id){
+selectInput_InSilicoPars <- function(id,
+                                     choice_default = "Select"){
   shiny::selectInput(id,
               label = "Select whether to use in silico generated parameters for
                       compounds with missing in vitro data. These parameters will
@@ -194,7 +202,7 @@ selectInput_InSilicoPars <- function(id){
               choices = list("Select",
                              "Yes, load in silico parameters",
                              "No, do not load in silico parameters"),
-              selected = "Select")
+              selected = choice_default)
 }
 
 ################################################################################
@@ -204,18 +212,20 @@ selectInput_InSilicoPars <- function(id){
 #' to choose from. CS_PreloadedCompounds(), which calls the current function
 #'
 #' @param id Shiny identifier name
+#' @param choice_default Default drop down selection option
 #'
 #' @return Drop down menu with options to either set simulated chemicals as a
 #' demo list, select chemicals from the entire available list, or select chemicals
 #' from a list of food or food-related chemicals only
 #' @noRd
 #'
-selectInput_CompPreference <- function(id){
+selectInput_CompPreference <- function(id,
+                                       choice_default = "Choose from all available chemicals"){
   shiny::selectInput(id,
                      label = "Select the types of compounds you want to simulate.",
                      choices = list("Choose from all available chemicals",
                                     "Choose from only food relevant chemicals"),
-                     selected = "Choose from all available chemicals")
+                     selected = choice_default)
 }
 
 
@@ -254,10 +264,9 @@ PreloadCompsInput <- function(func,species,defaulthuman,insilico,model,honda,com
   # --- were in the environment
   httk::reset_httk(target.env = the)
 
-  attach(the)
   # --- Load in in silico fup, clint, and caco2 if selected
   # --- Get CAS numbers for all compounds with enough data to run simulations
-  if(insilico == "Yes, load in silico parameters"){
+  if (insilico == "Yes, load in silico parameters"){
     CASnums <- loadInSilicoPars(func,species,model,defaulthuman)
   }
   else {
@@ -266,8 +275,6 @@ PreloadCompsInput <- function(func,species,defaulthuman,insilico,model,honda,com
 
   # --- Get all available preloaded compounds
   piped <- getPiped(CASnums,honda,comptype)
-
-  detach(the)
 
   # --- Output to be returned (either nothing or a select drop down menu)
   if (is.null(piped)){
@@ -329,19 +336,78 @@ loadInSilicoPars <- function(func,species,model,defaulthuman){
   shiny::withProgress(message = "Loading the available chemicals to simulate under the 'Preloaded Compounds' card. Please wait.",
                       value = 0, {
 
+                        # attach(the)
+
+                        # --- Load Sipes2017 parameters
                         shiny::incProgress(1/5, detail = paste("Loading in silico parameter set", 1))
-                        httk::load_sipes2017(overwrite = FALSE, chem_include = loadCAS, target.env = the)
+                        assign("chem.physical_and_invitro.data",
+                               httk::add_chemtable(httk::sipes2017,
+                                                   current.table=the$chem.physical_and_invitro.data,
+                                                   data.list=list(CAS='CAS',
+                                                                  Funbound.plasma = 'Human.Funbound.plasma',
+                                                                  Clint = 'Human.Clint'),
+                                                   reference = 'Sipes 2017',
+                                                   species= 'Human',
+                                                   overwrite=FALSE),
+                               envir = the)
+
+                        # --- Load Pradeep2020 parameters
                         shiny::incProgress(1/5, detail = paste("Loading in silico parameter set", 2))
-                        httk::load_pradeep2020(overwrite = FALSE, chem_include = loadCAS, target.env = the)
+                        assign("chem.physical_and_invitro.data",
+                               httk::add_chemtable(httk::pradeep2020,
+                                                   current.table=the$chem.physical_and_invitro.data,
+                                                   data.list=list(CAS = 'CASRN',
+                                                                  DTXSID='DTXSID',
+                                                                  Funbound.plasma = 'Consensus (SVM,RF)',
+                                                                  Clint = 'pred_clint_rf'),
+                                                   reference = 'Pradeep 2020',
+                                                   species= 'Human',
+                                                   overwrite=FALSE),
+                               envir=the)
+
+                        # --- Load Dawson2021 parameters
                         shiny::incProgress(1/5, detail = paste("Loading in silico parameter set", 3))
-                        httk::load_dawson2021(overwrite = FALSE, chem_include = loadCAS, target.env = the)
+                        tmp_dawson2021 <- httk::dawson2021 %>%
+                          dplyr::filter(`Clint QSAR AD Outlier`==0) %>%
+                          dplyr::filter(`Fup QSAR AD Outlier`==0) %>%
+                          dplyr::select(`CASRN`,`QSAR_Clint`,`QSAR_Fup`) %>%
+                          as.data.frame()
+                        assign("chem.physical_and_invitro.data",
+                               httk::add_chemtable(tmp_dawson2021,
+                                                   current.table=the$chem.physical_and_invitro.data,
+                                                   data.list=list(CAS='CASRN',
+                                                                  Funbound.plasma = 'QSAR_Fup',
+                                                                  Clint = 'QSAR_Clint'),
+                                                   reference = 'Dawson 2021',
+                                                   species= 'Human',
+                                                   overwrite=FALSE),
+                               envir=the)
+
                         shiny::incProgress(1/5, detail = paste("Loading in silico parameter set", 4))
+
+                        # detach(the)
 
                         # --- Get CAS numbers that the model for the given species and model selected will run for
                         CASnums <- getCASnums(func,species,model,defaulthuman)
 
-                        httk::load_honda2023(overwrite = FALSE, chem_include = CASnums, target.env = the)
+                        # attach(the)
+
+                        # --- Load Honda2023 parameters
+                        tmp_honda2023 <- subset(httk::honda2023.qspr, Pab.Pred.AD == 1)
+                        assign("chem.physical_and_invitro.data",
+                               httk::add_chemtable(tmp_honda2023,
+                                                   current.table=the$chem.physical_and_invitro.data,
+                                                   data.list=list(DTXSID='DTXSID',
+                                                                  CAS="CAS",
+                                                                  Caco2.Pab="Pab.Quant.Pred"),
+                                                   reference = 'HondaUnpublished',
+                                                   species="Human",
+                                                   overwrite=FALSE),
+                               envir=the)
+
                         shiny::incProgress(1/5, detail = paste("All in silico parameter sets loaded"))
+
+                        # detach(the)
                       })
   return(CASnums)
 }
@@ -386,6 +452,8 @@ getCASnums <- function(func,species,model,defaulttohuman){
     model <- "fetal_pbtk"
   }
 
+  attach(the)
+
   CASnums <- httk::get_cheminfo(species = species,
                                 model = model,
                                 default.to.human = defaulttohuman)
@@ -397,8 +465,10 @@ getCASnums <- function(func,species,model,defaulttohuman){
     CASnums <- intersect(CASnums,CASnums_3compss)
   }
 
+
+
   if (!is.null(CASnums)){
-      chem.data <- httk::chem.physical_and_invitro.data
+      chem.data <- the$chem.physical_and_invitro.data
       df <- chem.data[chem.data$CAS %in% CASnums,]
       df <- magrittr::`%>%`(df,dplyr::filter(!grepl(CAS,pattern = "CAS"),
                                              !grepl(CAS,pattern = "cas"),
@@ -406,6 +476,8 @@ getCASnums <- function(func,species,model,defaulttohuman){
 
       CASnums <- df$CAS
   }
+
+  detach(the)
 
   return(CASnums)
 }
@@ -518,14 +590,16 @@ selectInput_DoseRoute <- function(id){
 #' by MS_Dosing().
 #'
 #' @param id Shiny identifier name
+#' @param value_default Default value
 #'
 #' @return A numeric input box
 #' @noRd
 #'
-numericInput_DailyDose <- function(id){
+numericInput_DailyDose <- function(id,
+                                   value_default = 1){
   shiny::numericInput(id,
                label = "Enter the total daily dose (in mg/kg BW).",
-               value = 1,
+               value = value_default,
                min = 0,
                max = NA,
                step = 1)
@@ -539,15 +613,17 @@ numericInput_DailyDose <- function(id){
 #' is called by MS_Dosing().
 #'
 #' @param id Shiny identifier name
+#' @param choice_default Default drop down selection option
 #'
 #' @return A drop down list
 #' @noRd
 #'
-selectInput_ADMEdoseunits <- function(id){
+selectInput_ADMEdoseunits <- function(id,
+                                      choice_default = "mg/kg"){
   shiny::selectInput(id,
               label = "Select the units of the administered dose(s).",
               choices = list("mg/kg", "mg", "umol"),
-              selected = "mg/kg")
+              selected = choice_default)
 }
 
 
@@ -558,15 +634,17 @@ selectInput_ADMEdoseunits <- function(id){
 #' The current function is called by MS_Dosing().
 #'
 #' @param id Shiny identifier name
+#' @param choice_default Default drop down selection option
 #'
 #' @return A drop down list
 #' @noRd
 #'
-selectInput_NumDoses <- function(id){
+selectInput_NumDoses <- function(id,
+                                 choice_default = "Select"){
   shiny::selectInput(id,
               label = "Select the dosing frequency.",
               choices = list("Select", "Single Dose", "Multiple Doses"),
-              selected = "Select")
+              selected = choice_default)
 }
 
 
@@ -577,14 +655,16 @@ selectInput_NumDoses <- function(id){
 #' administered. The current function is called by MS_Dosing().
 #'
 #' @param id Shiny identifier name
+#' @param value_default Default value
 #'
 #' @return A numeric input box
 #' @noRd
 #'
-numericInput_InitialDose <- function(id){
+numericInput_InitialDose <- function(id,
+                                     value_default = 1){
   shiny::numericInput(id,
                label = "Enter the dose amount administered (in the specified units).",
-               value = 1,
+               value = value_default,
                min = 0,
                max = NA,
                step = 0.01)
@@ -598,15 +678,18 @@ numericInput_InitialDose <- function(id){
 #' simulations. The current function is called by MS_Dosing().
 #'
 #' @param id Shiny identifier name
+#' @param choice_default Default drop down selection option
 #'
 #' @return A drop down list
 #' @noRd
 #'
-selectInput_MultipleDosesQ <- function(id){
+selectInput_MultipleDosesQ <- function(id,
+                                       choice_default = "Select"){
   shiny::selectInput(id,
               label = "Are equal doses given evenly across a 24 hour period?
                       For example, 1 mg/kg BW every 8 hours.",
-                             choices = list("Select", "Yes", "No"), selected = "Select")
+              choices = list("Select", "Yes", "No"),
+              selected = choice_default)
 }
 
 
@@ -618,15 +701,17 @@ selectInput_MultipleDosesQ <- function(id){
 #' ADME simulations. The current function is called by MS_Dosing().
 #'
 #' @param id Shiny identifier name
+#' @param value_default Default value
 #'
 #' @return A numeric input box
 #' @noRd
 #'
-numericInput_MultiDoseAmount <- function(id){
+numericInput_MultiDoseAmount <- function(id,
+                                         value_default = 1){
   shiny::numericInput(id,
                label = "Enter the amount administered during every dose
                         (in the specified units).",
-               value = 1,
+               value = value_default,
                min = 0,
                max = NA,
                step = 1)
@@ -641,16 +726,18 @@ numericInput_MultiDoseAmount <- function(id){
 #' MS_Dosing().
 #'
 #' @param id Shiny identifier name
+#' @param value_default Default value
 #'
 #' @return A slider input
 #' @noRd
 #'
-sliderInput_MultiDoseTime <- function(id){
+sliderInput_MultiDoseTime <- function(id,
+                                      value_default = 6){
   shiny::sliderInput(id,
               label = "Select how often the above dose is administered (every ____ hours).",
               min = 0,
               max = 24,
-              value = 6,
+              value = value_default,
               step = 0.5)
 }
 
@@ -663,18 +750,20 @@ sliderInput_MultiDoseTime <- function(id){
 #' The current function is called by MS_Dosing().
 #'
 #' @param id Shiny identifier name
+#' @param value_default Default value
 #'
 #' @return A text input box
 #' @noRd
 #'
-textInput_DoseMatrix <- function(id){
+textInput_DoseMatrix <- function(id,
+                                 value_default = ""){
   shiny::textInput(id,
             label = "Enter a list of dose amounts (in the specified units) and
                     times (in days) administered. The list must be entered as
                     time1, time2, dose1, dose2, etc. For example, if at 0, 0.5,
                     and 2 days the doses of 1, 3, and 4 mg/kg/BW were given,
                     respectively, enter 0, 0.5, 2, 1, 3, 4 in the box.",
-            value = "")
+            value = value_default)
 }
 
 
@@ -689,11 +778,12 @@ textInput_DoseMatrix <- function(id){
 #'
 #' @param func The user-selected output
 #' @param spec The user-selected species
+#' @param choice_default Default drop down selection option
 #'
 #' @return A drop down list
 #' @noRd
 #'
-Model_Input <- function(func,spec){
+Model_Input <- function(func,spec, choice_default = "Select"){
 
   if (func == "Concentration-time profiles"){
     if (spec == "Human"){
@@ -719,10 +809,16 @@ Model_Input <- function(func,spec){
 
   if (func != "Select"){
     if (func == "Parameter calculations"){
-      shiny::selectInput("model",label = label_txt,choices = list("Select","Schmitt"),selected = "Select")
+      shiny::selectInput("model",
+                         label = label_txt,
+                         choices = list("Schmitt"),
+                         selected = "Schmitt")
     }
     else{
-      shiny::selectInput("model",label = label_txt,choices = choice_lst,selected = "Select")
+      shiny::selectInput("model",
+                         label = label_txt,
+                         choices = choice_lst,
+                         selected = choice_default)
     }
   }
 }
@@ -735,14 +831,16 @@ Model_Input <- function(func,spec){
 #' concentration-time profile simulations. The current function is called by MS_Model().
 #'
 #' @param id Shiny identifier name
+#' @param value_default Default value
 #'
 #' @return A numeric input box
 #' @noRd
 #'
-numericInput_SimTime <- function(id){
+numericInput_SimTime <- function(id,
+                                 value_default = 10){
   shiny::numericInput(id,
                label = "Enter the total simulation time (in days).",
-               value = 10,
+               value = value_default,
                min = 1,
                max = NA,
                step = 1)
@@ -756,17 +854,20 @@ numericInput_SimTime <- function(id){
 #' output times, if desired. The current function is called by AP_OutputSpecification().
 #'
 #' @param id Shiny identifier name
+#' @param value_default Default value
 #'
 #' @return A text input box
 #' @noRd
 #'
-textInput_OutputTimes <- function(id){
+textInput_OutputTimes <- function(id,
+                                  value_default = ""){
+
   shiny::textInput(id,
             label = "Enter the times (in days) to output concentrations. Leave
                     blank if no specific times are needed. Enter a comma-separated
                     list, such as 0, 1, 2, ... signifying output 0, 1, and 2 days
                     after dosing begins.",
-          value = "")
+          value = value_default)
 }
 
 
@@ -777,11 +878,13 @@ textInput_OutputTimes <- function(id){
 #' profile simulations. The current function is called by AP_ModelSolver().
 #'
 #' @param id Shiny identifier name
+#' @param choice_default Default drop down selection option
 #'
 #' @return A drop down list
 #' @noRd
 #'
-selectInput_ODEmethod <- function(id){
+selectInput_ODEmethod <- function(id,
+                                  choice_default = "lsoda"){
 
   shiny::selectInput(id,
                      label = "Select the ODE solver method. See R documentation on the
@@ -790,7 +893,7 @@ selectInput_ODEmethod <- function(id){
                                     "euler", "rk4", "ode23", "ode45", "radau",
                                     "bdf", "bdf_d", "adams","impAdams","impAdams_d",
                                     "iteration"),
-                     selected = "lsoda")
+                     selected = choice_default)
 
 }
 
@@ -803,14 +906,16 @@ selectInput_ODEmethod <- function(id){
 #' The current function is called by AP_ModelSolver().
 #'
 #' @param id Shiny identifier name
+#' @param value_default Default value
 #'
 #' @return A numeric input box
 #' @noRd
 #'
-numericInput_SolSteps <- function(id){
+numericInput_SolSteps <- function(id,
+                                  value_default = 4){
   shiny::numericInput(id,
                label = "Enter the number of time steps per hour for the solver to take.",
-               value = 4,
+               value = value_default,
                min = 1,
                max = NA,
                step = 1)
@@ -825,17 +930,19 @@ numericInput_SolSteps <- function(id){
 #' called by AP_ModelSolver().
 #'
 #' @param id Shiny identifier name
+#' @param value_default Default value
 #'
 #' @return A slider input
 #' @noRd
 #'
-sliderInput_RTol <- function(id){
+sliderInput_RTol <- function(id,
+                             value_default = -8){
   shiny::sliderInput(id,
               label = "Select the exponent (power of 10) of the relative tolerance
                       for the ODE solver.",
               min = -20,
               max = -1,
-              value = -8,
+              value = value_default,
               step = 1)
 }
 
@@ -848,17 +955,19 @@ sliderInput_RTol <- function(id){
 #' called by AP_ModelSolver().
 #'
 #' @param id Shiny identifier name
+#' @param value_default Default value
 #'
 #' @return A slider input
 #' @noRd
 #'
-sliderInput_ATol <- function(id){
+sliderInput_ATol <- function(id,
+                             value_default = -12){
   shiny::sliderInput(id,
               label = "Select the exponent (power of 10) of the desired absolute
                       tolerance for the ODE solver.",
               min = -20,
               max = -1,
-              value = -12,
+              value = value_default,
               step = 1)
 }
 
@@ -870,18 +979,20 @@ sliderInput_ATol <- function(id){
 #' initial condition. The current function is called by AP_ModelConditions().
 #'
 #' @param id Shiny identifier name
+#' @param choice_default Default drop down selection option
 #'
 #' @return A drop down list
 #' @noRd
 #'
-selectInput_InitialCondCustom <- function(id){
+selectInput_InitialCondCustom <- function(id,
+                                          choice_default = "No, keep the default amounts (default)"){
   shiny::selectInput(id,
               label = "Would you like to change the initial compound amount in
                       each compartment from its default value of 0 (no compound
                       in the compartment when the simulation begins)?",
               choices = list("No, keep the default amounts (default)",
                              "Yes, enter my own initial amounts"),
-              selected = "No, keep the default amounts (default)")
+              selected = choice_default)
 }
 
 
@@ -898,7 +1009,7 @@ selectInput_InitialCondCustom <- function(id){
 #' file. The current function is called by validate_text_ADME().
 #'
 #' @return A list of full compartment names and variable names of compartments
-#' @export
+#' @noRd
 #'
 #'
 names_ICs <- function(){
@@ -948,17 +1059,18 @@ names_ICs <- function(){
 #'
 #' @param id Shiny identifier name
 #' @param compartment Model compartment name
+#' @param value_default Default value
 #'
 #' @return A numeric input box
 #' @noRd
 #'
-numericInput_ICvalue <- function(id, compartment){
+numericInput_ICvalue <- function(id, compartment, value_default = 0){
 
   if (compartment == 'AUC'){
     shiny::numericInput(id,
                  label = paste("Enter the initial area under the curve (in uM*days)
                                of the", compartment, "at t = 0."),
-                 value = 0,
+                 value = value_default,
                  min = 0,
                  max = NA,
                  step = 1)
@@ -967,7 +1079,7 @@ numericInput_ICvalue <- function(id, compartment){
     shiny::numericInput(id,
                  label = paste("Enter the initial area under the curve (in
                                uM*days) of the", compartment, "at t = 0."),
-                 value = 0,
+                 value = value_default,
                  min = 0,
                  max = NA,
                  step = 1)
@@ -976,7 +1088,7 @@ numericInput_ICvalue <- function(id, compartment){
     shiny::numericInput(id,
                  label = paste("Enter the initial amount (in umol) of
                                compound(s)", compartment, "at t = 0."),
-                 value = 0,
+                 value = value_default,
                  min = 0,
                  max = NA,
                  step = 1)
@@ -985,7 +1097,7 @@ numericInput_ICvalue <- function(id, compartment){
     shiny::numericInput(id,
                  label = paste("Enter the initial amount (in umol) of compound(s)
                                in the", compartment, "at t = 0."),
-                 value = 0,
+                 value = value_default,
                  min = 0,
                  max = NA,
                  step = 1)
@@ -1002,15 +1114,17 @@ numericInput_ICvalue <- function(id, compartment){
 #' AP_Bioavailability().
 #'
 #' @param id Shiny identifier name
+#' @param value_default Default value
 #'
 #' @return A numeric input box
 #' @noRd
 #'
-numericInput_CacoDefault <- function(id){
+numericInput_CacoDefault <- function(id,
+                                     value_default = 1.6){
   shiny::numericInput(id,
                label = "Enter a default value for the Caco-2 apical-to-basal
                         membrane permeability (denoted Caco2.Pab, 10^-6 cm/s).",
-               value = 1.6,
+               value = value_default,
                min = 0,
                max = NA,
                step = 0.1)
@@ -1027,11 +1141,13 @@ numericInput_CacoDefault <- function(id){
 #' The current function is called by AP_Bioavailability().
 #'
 #' @param id Shiny identifier name
+#' @param choice_default Default drop down selection option
 #'
 #' @return A drop down list
 #' @noRd
 #'
-selectInput_Fabs <- function(id){
+selectInput_Fabs <- function(id,
+                             choice_default = "Use the Caco2.Pab value selected above (default)"){
   shiny::selectInput(id,
               label = "Select whether to use the Caco2.Pab value set above
                       to estimate F_abs (the in vivo measured fraction of an
@@ -1039,7 +1155,7 @@ selectInput_Fabs <- function(id){
                       bioavailability data is unavailable.",
             choices = list("Use the Caco2.Pab value selected above (default)",
                            "Do not use the Caco2.Pab value selected above"),
-            selected = "Use the Caco2.Pab value selected above (default)")
+            selected = choice_default)
 }
 
 
@@ -1053,11 +1169,13 @@ selectInput_Fabs <- function(id){
 #' The current function is called by AP_Bioavailability().
 #'
 #' @param id Shiny identifier name
+#' @param choice_default Default drop down selection option
 #'
 #' @return A drop down list
 #' @noRd
 #'
-selectInput_Fgut <- function(id){
+selectInput_Fgut <- function(id,
+                             choice_default = "Use the Caco2.Pab value selected above (default)"){
   shiny::selectInput(id,
               label = "Select whether to use the Caco2.Pab value set above to
                       calculate F_gut (the in vivo measured fraction of an oral
@@ -1065,7 +1183,7 @@ selectInput_Fgut <- function(id){
                       bioavailability data is unavailable.",
             choices = list("Use the Caco2.Pab value selected above (default)",
                            "Do not use the Caco2.Pab value selected above"),
-            selected = "Use the Caco2.Pab value selected above (default)")
+            selected = choice_default)
 }
 
 
@@ -1077,17 +1195,19 @@ selectInput_Fgut <- function(id){
 #' is called by AP_Bioavailability().
 #'
 #' @param id Shiny identifier name
+#' @param choice_default Default drop down selection option
 #'
 #' @return A drop down list
 #' @noRd
 #'
-selectInput_Overwrite <- function(id){
+selectInput_Overwrite <- function(id,
+                                  choice_default = "Do not overwrite in vivo values (default)"){
   shiny::selectInput(id,
               label = "Select whether to overwrite in vivo F_abs and F_gut data
                       (if available).",
             choices = list("Do not overwrite in vivo values (default)",
                            "Overwrite in vivo values"),
-            selected = "Do not overwrite in vivo values (default)")
+            selected = choice_default)
 }
 
 
@@ -1099,18 +1219,20 @@ selectInput_Overwrite <- function(id){
 #' called by AP_Bioavailability().
 #'
 #' @param id Shiny identifier name
+#' @param choice_default Default drop down selection option
 #'
 #' @return A drop down list
 #' @noRd
 #'
-selectInput_Keep100 <- function(id) {
+selectInput_Keep100 <- function(id,
+                                choice_default = "Do not keep Fabs and Fgut at 100% availability (default)") {
   shiny::selectInput(id,
               label = "Select whether to keep F_abs and F_gut at 100%
                       availability (which overwrites all other bioavailability
                       parameter settings above).",
             choices = list("Do not keep Fabs and Fgut at 100% availability (default)",
                            "Keep Fabs and Fgut at 100% availability"),
-            selected = "Do not keep Fabs and Fgut at 100% availability (default)")
+            selected = choice_default)
 }
 
 
@@ -1121,15 +1243,17 @@ selectInput_Keep100 <- function(id) {
 #' state concentrations output. The current function is called by AP_OutputSpecification().
 #'
 #' @param id Shiny identifier name
+#' @param choice_default Default drop down selection option
 #'
 #' @return A drop down list
 #' @noRd
 #'
-selectInput_SSoutunits <- function(id){
+selectInput_SSoutunits <- function(id,
+                                   choice_default = "uM"){
   shiny::selectInput(id,
               label = "Select the output concentration units.",
               choices = list("uM", "mg/L"),
-              selected = "uM")
+              selected = choice_default)
 }
 
 
@@ -1140,15 +1264,17 @@ selectInput_SSoutunits <- function(id){
 #' concentration and IVIVE outputs. The current function is called by AP_OutputSpecification().
 #'
 #' @param id Shiny identifier name
+#' @param choice_default Default drop down selection option
 #'
 #' @return A drop down list
 #' @noRd
 #'
-selectInput_OutConc <- function(id){
+selectInput_OutConc <- function(id,
+                                choice_default = "plasma"){
   shiny::selectInput(id,
               label = "Select the output concentration type.",
               choices = list("blood", "plasma"),
-              selected = "plasma")
+              selected = choice_default)
 }
 
 
@@ -1159,18 +1285,20 @@ selectInput_OutConc <- function(id){
 #' and IVIVE outputs. The current function is called by AP_OutputSpecification().
 #'
 #' @param id Shiny identifier
+#' @param choice_default Default drop down selection option
 #'
 #' @return A drop down list
 #' @noRd
 #'
-selectInput_Tissue <- function(id){
+selectInput_Tissue <- function(id,
+                               choice_default = "NULL"){
   shiny::selectInput(id,
               label = "Select a tissue you want the output concentration in.
                       Leave on 'NULL' if the whole body concentration is desired.",
               choices = list("NULL", "adipose", "bone", "brain", "gut", "heart",
                              "kidney", "liver", "lung", "muscle", "skin",
                              "spleen", "rest"),
-              selected = "NULL")
+              selected = choice_default)
 }
 
 
@@ -1181,18 +1309,20 @@ selectInput_Tissue <- function(id){
 #' preferences for the specified model. The current function is called by AP_ModelConditions().
 #'
 #' @param id Shiny identifier name
+#' @param choice_default Default drop down selection option
 #'
 #' @return A drop down list
 #' @noRd
 #'
-selectInput_rb2p <- function(id){
+selectInput_rb2p <- function(id,
+                             choice_default = "Do not recalculate (default)"){
   shiny::selectInput(id,
               label = "Select whether to recalculate the chemical concentration
                       blood to plasma ratio from its in vitro or estimated value
                       using the hematocrit, fraction unbound in presence of
                       plasma proteins, and red blood cell partition coefficient.",
               choices = list("Recalculate", "Do not recalculate (default)"),
-              selected = "Do not recalculate (default)")
+              selected = choice_default)
 }
 
 
@@ -1203,17 +1333,19 @@ selectInput_rb2p <- function(id){
 #' select from. The current function is called by AP_ModelConditions().
 #'
 #' @param id Shiny identifier name
+#' @param choice_default Default drop down selection option
 #'
 #' @return A drop down list
 #' @noRd
 #'
-selectInput_RestrictClear <- function(id){
+selectInput_RestrictClear <- function(id,
+                                      choice_default = "Yes, include protein binding (default)"){
   shiny::selectInput(id,
               label = "Select whether protein binding is taken into account in
                       liver clearance.",
               choices = list("Yes, include protein binding (default)",
                              "No, do not include protein binding"),
-              selected = "Yes, include protein binding (default)")
+              selected = choice_default)
 }
 
 
@@ -1224,17 +1356,19 @@ selectInput_RestrictClear <- function(id){
 #' preferences for the user to select from. The current function is called by AP_ModelConditions().
 #'
 #' @param id Shiny identifier name
+#' @param choice_default Default drop down selection option
 #'
 #' @return A drop down list
 #' @noRd
 #'
-selectInput_AdjFub <- function(id){
+selectInput_AdjFub <- function(id,
+                               choice_default = "Yes, adjust the fraction of unbound plasma (default)"){
   shiny::selectInput(id,
               label = "Select whether to adjust the chemical fraction unbound
                       in presence of plasma proteins for lipid binding.",
               choices = list("Yes, adjust the fraction of unbound plasma (default)",
                              "No, do not adjust the fraction of unbound plasma"),
-              selected = "Yes, adjust the fraction of unbound plasma (default)")
+              selected = choice_default)
 }
 
 
@@ -1245,16 +1379,18 @@ selectInput_AdjFub <- function(id){
 #' fraction unbound in plasma. The current function is called by AP_ModelConditions().
 #'
 #' @param id Shiny identifier name
+#' @param value_default Default value
 #'
 #' @return A numeric input box
 #' @noRd
 #'
-numericInput_MinFub <- function(id){
+numericInput_MinFub <- function(id,
+                                value_default = 0.0001){
   shiny::numericInput(id,
                label = "Enter the minimum acceptable chemical fraction unbound
                         in presence of plasma proteins. All values below this
                         will be set to this value.",
-               value = 0.0001,
+               value = value_default,
                min = 0,
                max = 1,
                step = 0.0001)
@@ -1269,17 +1405,19 @@ numericInput_MinFub <- function(id){
 #' The current function is called by AP_ModelConditions().
 #'
 #' @param id Shiny identifier name
+#' @param choice_default Default drop down selection option
 #'
 #' @return A drop down list
 #' @noRd
 #'
-selectInput_Regression <- function(id){
+selectInput_Regression <- function(id,
+                                   choice_default = "Use regressions (default)"){
   shiny::selectInput(id,
               label = "Select whether to use regressions when calculating
                       partition coefficients.",
             choices = list("Use regressions (default)",
                            "Do not use regressions"),
-            selected = "Use regressions (default)")
+            selected = choice_default)
 }
 
 
@@ -1291,16 +1429,18 @@ selectInput_Regression <- function(id){
 #' AP_ModelConditions().
 #'
 #' @param id Shiny identifier name
+#' @param value_default Default value
 #'
 #' @return A numeric input box
 #' @noRd
 #'
-numericInput_ClintPval <- function(id){
+numericInput_ClintPval <- function(id,
+                                   value_default = 0.05){
   shiny::numericInput(id,
                label = "Enter the p-value threshold for the in vitro
                         intrinsic hepatic clearance rate where clearance assay
                         results with p-values above this threshold are set to zero.",
-               value = 0.05,
+               value = value_default,
                min = 0,
                max = 1,
                step = 0.01)
@@ -1315,15 +1455,17 @@ numericInput_ClintPval <- function(id){
 #' neutral form. The current function is called by AP_ModelConditions().
 #'
 #' @param id Shiny identifier name
+#' @param value_default Default value
 #'
 #' @return A numeric input box
 #' @noRd
 #'
-numericInput_Alpha <- function(id){
+numericInput_Alpha <- function(id,
+                               value_default = 0.001){
   shiny::numericInput(id,
                label = "Enter the Ratio of Distribution coefficient D of totally
                         charged species and that of the neutral form.",
-               value = 0.001,
+               value = value_default,
                min = 0,
                max = NA,
                step = 0.001)
@@ -1360,17 +1502,19 @@ fileInput_BioactiveConc <- function(id){
 #' by AP_ModelConditions().
 #'
 #' @param id Shiny identifier name
+#' @param choice_default Default drop down selection option
 #'
 #' @return A drop down list
 #' @noRd
 #'
-selectInput_Bioactive <- function(id){
+selectInput_Bioactive <- function(id,
+                                  choice_default = "Total chemical concentration (default)"){
   shiny::selectInput(id,
               label = "Select which chemical concentration is treated as
                       bioactive in vivo.",
               choices = list("Total chemical concentration (default)",
                              "Unbound (free) plasma concentration"),
-              selected = "Total chemical concentration (default)")
+              selected = choice_default)
 }
 
 
@@ -1382,15 +1526,17 @@ selectInput_Bioactive <- function(id){
 #' The current function is called by AP_ModelConditions().
 #'
 #' @param id Shiny identifier name
+#' @param value_default Default value
 #'
 #' @return A numeric input box
 #' @noRd
 #'
-numericInput_Samples <- function(id){
+numericInput_Samples <- function(id,
+                                 value_default = 1000){
   shiny::numericInput(id,
                label = "Enter the number of Monte Carlo samples generated for
                         each compound.",
-               value = 1000,
+               value = value_default,
                min = 1,
                max = NA,
                step = 100)
@@ -1406,17 +1552,19 @@ numericInput_Samples <- function(id){
 #' extrapolation (IVIVE) simulation. The current function is called by MS_Model().
 #'
 #' @param id Shiny identifier name
+#' @param choice_default Default drop down selection option
 #'
 #' @return A drop down list
 #' @noRd
 #'
-selectInput_ReturnSamps <- function(id){
+selectInput_ReturnSamps <- function(id,
+                                    choice_default = "Select"){
   shiny::selectInput(id,
               label = "Select whether to return all oral equivalent
                       dose (OED) samples for each compound or a selected quantile.",
             choices = list("Select", "Only return a specified dose quantile (default)",
                            "Return all OED samples (will also return the 5th dose quantile)"),
-            selected = "Select")
+            selected = choice_default)
 }
 
 
@@ -1428,16 +1576,18 @@ selectInput_ReturnSamps <- function(id){
 #' The current function is called by MS_Model().
 #'
 #' @param id Shiny identifier name
+#' @param value_default Default value
 #'
 #' @return A numeric input box
 #' @noRd
 #'
-numericInput_Quantile <- function(id){
+numericInput_Quantile <- function(id,
+                                  value_default = 0.95){
   shiny::numericInput(id,
                label = "Enter the steady state concentration quantile (as a decimal)
                         to be used in the OED calculation. Selecting the 95th
                         concentration quantile will output the 5th OED quantile.",
-               value = 0.95,
+               value = value_default,
                min = 0,
                max = 1,
                step = 0.05)
@@ -1452,16 +1602,18 @@ numericInput_Quantile <- function(id){
 #' AP_OutputSpecification().
 #'
 #' @param id Shiny identifier name
+#' @param choice_default Default drop down selection option
 #'
 #' @return A drop down list
 #' @noRd
 #'
-selectInput_IVIVEoutunits <- function(id){
+selectInput_IVIVEoutunits <- function(id,
+                                      choice_default = "mgpkgpday"){
   shiny::selectInput(id,
               label = "Select the dose output units from either mg/kg BW/day
                       (mgpkgpday) (default) or umol/kg BW/day (umolpkgpday).",
               choices = list("mgpkgpday", "umolpkgpday"),
-              selected = "mgpkgpday")
+              selected = choice_default)
 }
 
 
@@ -1473,11 +1625,13 @@ selectInput_IVIVEoutunits <- function(id){
 #' The current function is called by CS_PreloadedCompounds().
 #'
 #' @param id Shiny identifier name
+#' @param choice_default Default drop down selection option
 #'
 #' @return A drop down list
 #' @noRd
 #'
-selectInput_HondaCond <- function(id){
+selectInput_HondaCond <- function(id,
+                                  choice_default = "NULL"){
   shiny::selectInput(id,
               label = "Select an IVIVE assumption to implement. For any input
                       nominal bioactive concentration in vitro, the Honda1
@@ -1489,7 +1643,7 @@ selectInput_HondaCond <- function(id){
                              "Honda2",
                              "Honda3",
                              "Honda4"),
-              selected = "NULL")
+              selected = choice_default)
 }
 
 
@@ -1502,15 +1656,17 @@ selectInput_HondaCond <- function(id){
 #' by PreloadComps_UI().
 #'
 #' @param id Shiny identifier name
+#' @param value_default Default value
 #'
 #' @return A numeric input box
 #' @noRd
 #'
-numericInput_FSBf <- function(id){
+numericInput_FSBf <- function(id,
+                              value_default = 0.1){
   shiny::numericInput(id,
                label = "Enter the volume fraction of fetal bovine serum used
                         in the in vitro assay.",
-               value = 0.1,
+               value = value_default,
                min = 0,
                max = 1,
                step = 0.05)

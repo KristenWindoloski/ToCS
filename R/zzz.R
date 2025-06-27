@@ -15,8 +15,3 @@ the$well_param <- httk::well_param
 the$ics <- names_ICs()
 the$ic_names <- the$ics[[1]]
 the$ic_comps <- the$ics[[2]]
-
-# if (exists("chem.physical_and_invitro.data",envir = .GlobalEnv)){
-#   shiny::stopApp()
-#   print("Please clear the global environment of the variable 'chem.physical_and_invitro.data'. Then, run ToCS again.")
-# }

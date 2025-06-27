@@ -48,8 +48,6 @@ IVIVEsol <- function(pars){
   else{
     exposuredata <- NULL
   }
-  print(bioactive_conc)
-  print(exposuredata)
 
   # --- SET OUTPUT TYPE AND SIZE: DATA FRAME (return.samples = FALSE) OR ARRAY (return.samples = TRUE)
   if (pars[["returnsamples"]] == FALSE){

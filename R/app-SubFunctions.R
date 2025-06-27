@@ -36,9 +36,17 @@ GP_Instructions <- function(){
 #' @return The 'Output' card with the function selection option
 #' @noRd
 #'
-GP_Output <- function(){
-  bslib::card(bslib::card_header("OUTPUT"),
-              selectInput_Function("func"))
+GP_Output <- function(ui_pars){
+
+  if (length(ui_pars) == 0){
+    bslib::card(bslib::card_header("OUTPUT"),
+                selectInput_Function(id = "func"))
+  }
+  else{
+    bslib::card(bslib::card_header("OUTPUT"),
+              selectInput_Function(id = "func",
+                                   choice_default = ui_pars[["selectInput_Function"]]))
+  }
 }
 
 
@@ -55,11 +63,21 @@ GP_Output <- function(){
 #' @return The 'Species' card with species selection options
 #' @noRd
 #'
-GP_Species <- function(){
-  bslib::card(bslib::card_header("SPECIES"),
+GP_Species <- function(ui_pars){
+
+  if (length(ui_pars) == 0){
+
+    bslib::card(bslib::card_header("SPECIES"),
               selectInput_Species("spec"),
               shiny::conditionalPanel(condition = "input.spec == 'Dog' || input.spec == 'Mouse' || input.spec == 'Rabbit' || input.spec == 'Rat'",
                                       selectInput_DefaultToHuman("defaulttoHuman")))
+  }
+  else{
+    bslib::card(bslib::card_header("SPECIES"),
+                selectInput_Species("spec", choice_default = ui_pars[["selectInput_Species"]]),
+                shiny::conditionalPanel(condition = "input.spec == 'Dog' || input.spec == 'Mouse' || input.spec == 'Rabbit' || input.spec == 'Rat'",
+                                        selectInput_DefaultToHuman("defaulttoHuman", choice_default = ui_pars[["selectInput_DefaultToHuman"]])))
+  }
 }
 
 
@@ -80,8 +98,10 @@ GP_Species <- function(){
 #' module function chosen
 #' @noRd
 #'
-MS_Dosing <- function(){
-  bslib::card(bslib::card_header("DOSING"),
+MS_Dosing <- function(ui_pars){
+
+  if (length(ui_pars) == 0){
+    bslib::card(bslib::card_header("DOSING"),
               shiny::conditionalPanel(condition = "input.func == 'Concentration-time profiles'",
                                       selectInput_DoseRoute("doseroute"),
                                       selectInput_ADMEdoseunits("doseunits"),
@@ -99,6 +119,28 @@ MS_Dosing <- function(){
                                       numericInput_DailyDose("dailydose")),
               shiny::conditionalPanel(condition = "(input.func == 'In vitro in vivo extrapolation (IVIVE)' || input.func == 'Parameter calculations')",
                                       shiny::helpText("No options for this category.")))
+  }
+  else{
+    bslib::card(bslib::card_header("DOSING"),
+                shiny::conditionalPanel(condition = "input.func == 'Concentration-time profiles'",
+                                        selectInput_DoseRoute("doseroute"),
+                                        selectInput_ADMEdoseunits("doseunits", choice_default = ui_pars[["selectInput_ADMEdoseunits"]]),
+                                        selectInput_NumDoses("dosenum", choice_default = ui_pars[["selectInput_NumDoses"]]),
+                                        shiny::conditionalPanel(condition = "input.dosenum == 'Single Dose'",
+                                                                numericInput_InitialDose("initdose", value_default = ui_pars[["numericInput_InitialDose"]])),
+                                        shiny::conditionalPanel(condition = "input.dosenum == 'Multiple Doses' && input.model != 'full_pregnancy'",
+                                                                selectInput_MultipleDosesQ("multdose", choice_default = ui_pars[["selectInput_MultipleDosesQ"]])),
+                                        shiny::conditionalPanel(condition = "input.multdose == 'Yes' || (input.dosenum == 'Multiple Doses' && input.model == 'full_pregnancy')",
+                                                                numericInput_MultiDoseAmount("mult_doseamount", value_default = ui_pars[["numericInput_MultiDoseAmount"]]),
+                                                                sliderInput_MultiDoseTime("mult_dosetime", value_default = ui_pars[["sliderInput_MultiDoseTime"]])),
+                                        shiny::conditionalPanel(condition = "input.dosenum == 'Multiple Doses' && input.multdose == 'No'",
+                                                                textInput_DoseMatrix("multdose_odd", value_default = ui_pars[["textInput_DoseMatrix"]]))),
+                shiny::conditionalPanel(condition = "input.func == 'Steady state concentrations'",
+                                        numericInput_DailyDose("dailydose", value_default = ui_pars[["numericInput_DailyDose"]])),
+                shiny::conditionalPanel(condition = "(input.func == 'In vitro in vivo extrapolation (IVIVE)' || input.func == 'Parameter calculations')",
+                                        shiny::helpText("No options for this category.")))
+  }
+
 }
 
 
@@ -117,8 +159,10 @@ MS_Dosing <- function(){
 #' function chosen
 #' @noRd
 #'
-MS_Model <- function(){
-  bslib::card(bslib::card_header("MODEL"),
+MS_Model <- function(ui_pars){
+
+  if (length(ui_pars) == 0){
+    bslib::card(bslib::card_header("MODEL"),
               shiny::conditionalPanel(condition = "input.func != 'Select'",
                                       shiny::uiOutput("Model"),
                                       selectInput_InSilicoPars("insilicopars")),
@@ -128,6 +172,20 @@ MS_Model <- function(){
                                       selectInput_ReturnSamps("returnsamples"),
                                       shiny::conditionalPanel(condition = "input.returnsamples == 'Only return a specified dose quantile (default)'",
                                                               numericInput_Quantile("quantile"))))
+  }
+  else{
+    bslib::card(bslib::card_header("MODEL"),
+                shiny::conditionalPanel(condition = "input.func != 'Select'",
+                                        shiny::uiOutput("Model"),
+                                        selectInput_InSilicoPars("insilicopars", choice_default = ui_pars[["selectInput_InSilicoPars"]])),
+                shiny::conditionalPanel(condition = "input.func == 'Concentration-time profiles' && (input.model != 'full_pregnancy' && input.model != 'Select')",
+                                        numericInput_SimTime("simtime", value_default = ui_pars[["numericInput_SimTime"]])),
+                shiny::conditionalPanel(condition = "input.func == 'In vitro in vivo extrapolation (IVIVE)'",
+                                        selectInput_ReturnSamps("returnsamples", choice_default = ui_pars[["selectInput_ReturnSamps"]]),
+                                        shiny::conditionalPanel(condition = "input.returnsamples == 'Only return a specified dose quantile (default)'",
+                                                                numericInput_Quantile("quantile", value_default = ui_pars[["numericInput_Quantile"]]))))
+  }
+
 }
 
 
@@ -174,13 +232,24 @@ CS_Instructions <- function(){
 #' preferences
 #' @noRd
 #'
-CS_PreloadedCompounds <- function(){
-  bslib::card(bslib::card_header("PRELOADED COMPOUNDS"),
-              shiny::conditionalPanel(condition = "input.func !== 'Select' && input.spec != 'Select' && input.defaultoHuman != 'Select'",
-                                      shiny::conditionalPanel(condition = "input.func == 'In vitro in vivo extrapolation (IVIVE)'",
-                                                              selectInput_HondaCond("HondaIVIVE")),
-                                      selectInput_CompPreference("CompType"),
-                                      shiny::uiOutput("PreloadedComps")))
+CS_PreloadedCompounds <- function(ui_pars){
+
+  if (length(ui_pars) == 0){
+    bslib::card(bslib::card_header("PRELOADED COMPOUNDS"),
+                shiny::conditionalPanel(condition = "input.func !== 'Select' && input.spec != 'Select' && input.defaultoHuman != 'Select'",
+                                        shiny::conditionalPanel(condition = "input.func == 'In vitro in vivo extrapolation (IVIVE)'",
+                                                                selectInput_HondaCond("HondaIVIVE")),
+                                        selectInput_CompPreference("CompType"),
+                                        shiny::uiOutput("PreloadedComps")))
+  }
+  else{
+    bslib::card(bslib::card_header("PRELOADED COMPOUNDS"),
+                shiny::conditionalPanel(condition = "input.func !== 'Select' && input.spec != 'Select' && input.defaultoHuman != 'Select'",
+                                        shiny::conditionalPanel(condition = "input.func == 'In vitro in vivo extrapolation (IVIVE)'",
+                                                                selectInput_HondaCond("HondaIVIVE", choice_default = ui_pars[["selectInput_HondaCond"]])),
+                                        selectInput_CompPreference("CompType", choice_default = ui_pars[["selectInput_CompPreference"]]),
+                                        shiny::uiOutput("PreloadedComps")))
+  }
 }
 
 
@@ -230,8 +299,10 @@ CS_UploadedData <- function(){
 #' different model conditions depending upon the module function chosen
 #' @noRd
 #'
-AP_ModelConditions <- function(ic_names,ic_comps){
-  bslib::card(bslib::card_header("MODEL CONDITIONS"),
+AP_ModelConditions <- function(ic_names,ic_comps,ui_pars){
+
+  if (length(ui_pars) == 0){
+    bslib::card(bslib::card_header("MODEL CONDITIONS"),
               shiny::conditionalPanel(condition = "input.func == 'Concentration-time profiles' && input.model != 'full_pregnancy'",
                                       selectInput_InitialCondCustom("init_cond_opts"),
                                       shiny::conditionalPanel(condition = "input.init_cond_opts == 'Yes, enter my own initial amounts' && input.model == '1compartment'",
@@ -260,6 +331,39 @@ AP_ModelConditions <- function(ic_names,ic_comps){
               shiny::conditionalPanel(condition = "input.model == 'full_pregnancy'",
                                       shiny::helpText("No options for this category."))
               )
+  }
+  else{
+    bslib::card(bslib::card_header("MODEL CONDITIONS"),
+                shiny::conditionalPanel(condition = "input.func == 'Concentration-time profiles' && input.model != 'full_pregnancy'",
+                                        selectInput_InitialCondCustom("init_cond_opts", choice_default = ui_pars[["selectInput_InitialCondCustom"]]),
+                                        shiny::conditionalPanel(condition = "input.init_cond_opts == 'Yes, enter my own initial amounts' && input.model == '1compartment'",
+                                                                purrr::map2(the$ic_names[[1]],the$ic_comps[[1]], numericInput_ICvalue)),
+                                        shiny::conditionalPanel(condition = "input.init_cond_opts == 'Yes, enter my own initial amounts' && input.model == '3compartment'",
+                                                                purrr::map2(the$ic_names[[2]],the$ic_comps[[2]], numericInput_ICvalue)),
+                                        shiny::conditionalPanel(condition = "input.init_cond_opts == 'Yes, enter my own initial amounts' && input.model == 'pbtk'",
+                                                                purrr::map2(the$ic_names[[3]],the$ic_comps[[3]], numericInput_ICvalue)),
+                                        shiny::conditionalPanel(condition = "input.init_cond_opts == 'Yes, enter my own initial amounts' && input.model == 'fetal_pbtk'",
+                                                                purrr::map2(the$ic_names[[4]],the$ic_comps[[4]], numericInput_ICvalue)),
+                                        selectInput_rb2p("rb2p", choice_default = ui_pars[["selectInput_rb2p"]])),
+                shiny::conditionalPanel(condition = "input.func == 'In vitro in vivo extrapolation (IVIVE)'",
+                                        numericInput_Samples("samples", value_default = ui_pars[["numericInput_Samples"]]),
+                                        shiny::conditionalPanel(condition = "input.HondaIVIVE == 'NULL' && input.output_concIVIVE == 'plasma' && input.tissueIVIVE == 'NULL'",
+                                                                selectInput_Bioactive("bioactiveIVIVE", choice_default = ui_pars[["selectInput_Bioactive"]]))),
+                shiny::conditionalPanel(condition = "input.func == 'Parameter calculations'",
+                                        numericInput_Alpha("AlphaPar", value_default = ui_pars[["numericInput_Alpha"]])),
+                shiny::conditionalPanel(condition = "(input.func == 'In vitro in vivo extrapolation (IVIVE)' && input.HondaIVIVE == 'NULL') ||
+                                                                                 (input.func != 'In vitro in vivo extrapolation (IVIVE)' && input.model != 'full_pregnancy')",
+                                        selectInput_RestrictClear("restrict_clear", choice_default = ui_pars[["selectInput_RestrictClear"]])),
+                shiny::conditionalPanel(condition = "input.model != 'full_pregnancy'",
+                                        selectInput_AdjFub("adj_fub", choice_default = ui_pars[["selectInput_AdjFub"]]),
+                                        selectInput_Regression("regression", choice_default = ui_pars[["selectInput_Regression"]]),
+                                        numericInput_ClintPval("Clint_Pval", value_default = ui_pars[["numericInput_ClintPval"]]),
+                                        numericInput_MinFub("min_fub", value_default = ui_pars[["numericInput_MinFub"]])),
+                shiny::conditionalPanel(condition = "input.model == 'full_pregnancy'",
+                                        shiny::helpText("No options for this category."))
+    )
+  }
+
 }
 
 
@@ -278,15 +382,28 @@ AP_ModelConditions <- function(ic_names,ic_comps){
 #' solver conditions if the concentration-time profiles module function is chosen
 #' @noRd
 #'
-AP_ModelSolver <- function(){
-  bslib::card(bslib::card_header("MODEL SOLVER"),
-              shiny::conditionalPanel(condition = "input.func == 'Concentration-time profiles' && input.model != 'full_pregnancy'",
-                                      selectInput_ODEmethod("odemethod"),
-                                      numericInput_SolSteps("solversteps"),
-                                      sliderInput_RTol("rtol"),
-                                      sliderInput_ATol("atol")),
-              shiny::conditionalPanel(condition = "input.func != 'Select' && (input.func != 'Concentration-time profiles' || input.model == 'full_pregnancy')",
-                                      shiny::helpText("No options for this category.")))
+AP_ModelSolver <- function(ui_pars){
+
+  if (length(ui_pars) == 0){
+    bslib::card(bslib::card_header("MODEL SOLVER"),
+                shiny::conditionalPanel(condition = "input.func == 'Concentration-time profiles' && input.model != 'full_pregnancy'",
+                                        selectInput_ODEmethod("odemethod"),
+                                        numericInput_SolSteps("solversteps"),
+                                        sliderInput_RTol("rtol"),
+                                        sliderInput_ATol("atol")),
+                shiny::conditionalPanel(condition = "input.func != 'Select' && (input.func != 'Concentration-time profiles' || input.model == 'full_pregnancy')",
+                                        shiny::helpText("No options for this category.")))
+  }
+  else{
+    bslib::card(bslib::card_header("MODEL SOLVER"),
+                shiny::conditionalPanel(condition = "input.func == 'Concentration-time profiles' && input.model != 'full_pregnancy'",
+                                        selectInput_ODEmethod("odemethod", choice_default = ui_pars[["selectInput_ODEmethod"]]),
+                                        numericInput_SolSteps("solversteps", value_default = ui_pars[["numericInput_SolSteps"]]),
+                                        sliderInput_RTol("rtol", value_default = ui_pars[["sliderInput_RTol"]]),
+                                        sliderInput_ATol("atol", value_default = ui_pars[["sliderInput_ATol"]])),
+                shiny::conditionalPanel(condition = "input.func != 'Select' && (input.func != 'Concentration-time profiles' || input.model == 'full_pregnancy')",
+                                        shiny::helpText("No options for this category.")))
+  }
 }
 
 
@@ -306,13 +423,27 @@ AP_ModelSolver <- function(){
 #' function is chosen
 #' @noRd
 #'
-AP_Bioavailability <- function(){
-  bslib::card(bslib::card_header("BIOAVAILABILITY"),
-              shiny::conditionalPanel(condition = "input.func != 'Select' && input.model != 'full_pregnancy'",
-                                      numericInput_CacoDefault("caco2default"), selectInput_Fabs("caco_fabs"), selectInput_Fgut("caco_fgut"),
-                                      selectInput_Overwrite("caco_overwriteinvivo"), selectInput_Keep100("caco_keep100")),
-              shiny::conditionalPanel(condition = "input.model == 'full_pregnancy'",
-                                      shiny::helpText("No options for this category.")))
+AP_Bioavailability <- function(ui_pars){
+
+  if (length(ui_pars) == 0){
+    bslib::card(bslib::card_header("BIOAVAILABILITY"),
+                shiny::conditionalPanel(condition = "input.func != 'Select' && input.model != 'full_pregnancy'",
+                                        numericInput_CacoDefault("caco2default"), selectInput_Fabs("caco_fabs"), selectInput_Fgut("caco_fgut"),
+                                        selectInput_Overwrite("caco_overwriteinvivo"), selectInput_Keep100("caco_keep100")),
+                shiny::conditionalPanel(condition = "input.model == 'full_pregnancy'",
+                                        shiny::helpText("No options for this category.")))
+  }
+  else{
+    bslib::card(bslib::card_header("BIOAVAILABILITY"),
+                shiny::conditionalPanel(condition = "input.func != 'Select' && input.model != 'full_pregnancy'",
+                                        numericInput_CacoDefault("caco2default", value_default = ui_pars[["numericInput_CacoDefault"]]),
+                                        selectInput_Fabs("caco_fabs", choice_default = ui_pars[["selectInput_Fabs"]]),
+                                        selectInput_Fgut("caco_fgut", choice_default = ui_pars[["selectInput_Fgut"]]),
+                                        selectInput_Overwrite("caco_overwriteinvivo", choice_default = ui_pars[["selectInput_Overwrite"]]),
+                                        selectInput_Keep100("caco_keep100", choice_default = ui_pars[["selectInput_Keep100"]])),
+                shiny::conditionalPanel(condition = "input.model == 'full_pregnancy'",
+                                        shiny::helpText("No options for this category.")))
+  }
 }
 
 
@@ -332,23 +463,44 @@ AP_Bioavailability <- function(){
 #' selection options regarding the output for different module functions chosen
 #' @noRd
 #'
-AP_OutputSpecification <- function(){
-  bslib::card(bslib::card_header("OUTPUT SPECIFICATION"),
-              shiny::conditionalPanel(condition = "input.func == 'Concentration-time profiles' && input.model != 'full_pregnancy'",
-                                      textInput_OutputTimes("returntimes")),
-              shiny::conditionalPanel(condition = "input.func == 'Steady state concentrations'",
-                                      selectInput_SSoutunits("modelSSout_units"),
-                                      selectInput_OutConc("output_concSS"),
-                                      shiny::conditionalPanel(condition = "input.modelSS !== 'Select'",
-                                                              selectInput_Tissue("tissueSS"))),
-              shiny::conditionalPanel(condition = "input.func == 'In vitro in vivo extrapolation (IVIVE)'",
-                                      selectInput_IVIVEoutunits("modelIVIVEout_units"),
-                                      shiny::conditionalPanel(condition = "input.HondaIVIVE == 'NULL'",
-                                                              selectInput_OutConc("output_concIVIVE")),
-                                      shiny::conditionalPanel(condition = "input.modelIVIVE !== '3compartmentss' && (input.HondaIVIVE == 'NULL' || input.HondaIVIVE == 'Honda4')",
-                                                              selectInput_Tissue("tissueIVIVE"))),
-              shiny::conditionalPanel(condition = "input.func == 'Parameter calculations' || input.model == 'full_pregnancy'",
-                                      shiny::helpText("No options for this category.")))
+AP_OutputSpecification <- function(ui_pars){
+
+  if (length(ui_pars) == 0){
+    bslib::card(bslib::card_header("OUTPUT SPECIFICATION"),
+                shiny::conditionalPanel(condition = "input.func == 'Concentration-time profiles' && input.model != 'full_pregnancy'",
+                                        textInput_OutputTimes("returntimes")),
+                shiny::conditionalPanel(condition = "input.func == 'Steady state concentrations'",
+                                        selectInput_SSoutunits("modelSSout_units"),
+                                        selectInput_OutConc("output_concSS"),
+                                        shiny::conditionalPanel(condition = "input.modelSS !== 'Select'",
+                                                                selectInput_Tissue("tissueSS"))),
+                shiny::conditionalPanel(condition = "input.func == 'In vitro in vivo extrapolation (IVIVE)'",
+                                        selectInput_IVIVEoutunits("modelIVIVEout_units"),
+                                        shiny::conditionalPanel(condition = "input.HondaIVIVE == 'NULL'",
+                                                                selectInput_OutConc("output_concIVIVE")),
+                                        shiny::conditionalPanel(condition = "input.modelIVIVE !== '3compartmentss' && (input.HondaIVIVE == 'NULL' || input.HondaIVIVE == 'Honda4')",
+                                                                selectInput_Tissue("tissueIVIVE"))),
+                shiny::conditionalPanel(condition = "input.func == 'Parameter calculations' || input.model == 'full_pregnancy'",
+                                        shiny::helpText("No options for this category.")))
+  }
+  else{
+    bslib::card(bslib::card_header("OUTPUT SPECIFICATION"),
+                shiny::conditionalPanel(condition = "input.func == 'Concentration-time profiles' && input.model != 'full_pregnancy'",
+                                        textInput_OutputTimes("returntimes", value_default = ui_pars[["textInput_OutputTimes"]])),
+                shiny::conditionalPanel(condition = "input.func == 'Steady state concentrations'",
+                                        selectInput_SSoutunits("modelSSout_units", choice_default = ui_pars[["selectInput_SSoutunits"]]),
+                                        selectInput_OutConc("output_concSS", choice_default = ui_pars[["selectInput_OutConcSS"]]),
+                                        shiny::conditionalPanel(condition = "input.modelSS !== 'Select'",
+                                                                selectInput_Tissue("tissueSS", choice_default = ui_pars[["selectInput_TissueSS"]]))),
+                shiny::conditionalPanel(condition = "input.func == 'In vitro in vivo extrapolation (IVIVE)'",
+                                        selectInput_IVIVEoutunits("modelIVIVEout_units", choice_default = ui_pars[["selectInput_IVIVEoutunits"]]),
+                                        shiny::conditionalPanel(condition = "input.HondaIVIVE == 'NULL'",
+                                                                selectInput_OutConc("output_concIVIVE", choice_default = ui_pars[["selectInput_OutConcIVIVE"]])),
+                                        shiny::conditionalPanel(condition = "input.modelIVIVE !== '3compartmentss' && (input.HondaIVIVE == 'NULL' || input.HondaIVIVE == 'Honda4')",
+                                                                selectInput_Tissue("tissueIVIVE", choice_default = ui_pars[["selectInput_TissueIVIVE"]]))),
+                shiny::conditionalPanel(condition = "input.func == 'Parameter calculations' || input.model == 'full_pregnancy'",
+                                        shiny::helpText("No options for this category.")))
+  }
 }
 
 
