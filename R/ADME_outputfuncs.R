@@ -738,8 +738,10 @@ Dosing_Output <- function(pars){
 #'
 Bind_Chem_Data <- function(pars,pars_df){
 
+  chemdf <- the$chem.physical_and_invitro.data
+
   # --- Combine parameter and chemical data into one data frame
-  chemdata <- chem.physical_and_invitro.data[chem.physical_and_invitro.data$Compound %in% pars[["CompoundList"]][,1],]
+  chemdata <- chemdf[chemdf$Compound %in% pars[["CompoundList"]][,1],]
   chemdata <- chemdata[order(match(chemdata$Compound,pars_df$chem.name)),]
   pars_df <- cbind(pars_df,chemdata)
 }

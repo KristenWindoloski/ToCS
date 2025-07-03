@@ -13,6 +13,8 @@
 #' GP_Species(), MS_Dosing(), MS_Model(), CS_Instructions(), CS_PreloadedCompounds(),
 #' CS_UploadedData(), AP_ModelConditions(), AP_ModelSolver(), AP_Bioavailability(),
 #' AP_OutputSpecification(), RS_Actions(), RS_SelectedCompounds(), and RS_Results().
+#' @param ui_pars A list only used to alter the default arguments of the GUI when
+#' opened to run the vignette examples quicker. The list contains each user-selection.
 #'
 #'
 #' @return User interface

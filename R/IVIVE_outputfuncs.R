@@ -33,7 +33,8 @@ IVIVEsol <- function(pars){
 
   # --- REARRANGE ROWS OF BIOACTIVE FILE TO BE IN SAME ORDER AS COMPOUNDS FILE
     # --- CONVERT BIOACTIVE CONCENTRATION IF HONDA1 IS SELECTED
-  df <- chem.physical_and_invitro.data[chem.physical_and_invitro.data$Compound %in% pars[["CompoundList"]][,1],]
+  chemdf <- the$chem.physical_and_invitro.data
+  df <- chemdf[chemdf$Compound %in% pars[["CompoundList"]][,1],]
   df <- df[match(pars[["CompoundList"]][,1], df$Compound),]
   bioactive_conc <- bioactive[match(df$CAS, bioactive$CAS),]
   bioactive_conc <- ConvertBioactive(pars,bioactive_conc)
@@ -243,7 +244,9 @@ StorePars_IVIVE <- function(pars,bioactive_df){
                         default.to.human = pars[["defaulttoHuman"]],
                         minimum.Funbound.plasma = pars[["min_fub"]],
                         regression = pars[["regression"]])
-  chemdata <- chem.physical_and_invitro.data[chem.physical_and_invitro.data$Compound %in% pars[["CompoundList"]][,1],]
+
+  chemdf <- the$chem.physical_and_invitro.data
+  chemdata <- chemdf[chemdf$Compound %in% pars[["CompoundList"]][,1],]
   chemdata <- chemdata[order(match(chemdata$Compound,pars_df$chem.name)),]
   pars_df <-cbind(pars_df,chemdata)
 
@@ -839,14 +842,14 @@ PrepExposureData <- function(pars){
   exposuredata <- utils::read.csv(fileExposure$datapath)
 
   # --- REARRANGE ROWS OF EXPOSURE DATA FILE TO BE IN SAME ORDER AS COMPOUNDS FILE
-
-  df <- chem.physical_and_invitro.data[chem.physical_and_invitro.data$Compound %in% pars[["CompoundList"]][,1],]
+  chemdf <- the$chem.physical_and_invitro.data
+  df <- chemdf[chemdf$Compound %in% pars[["CompoundList"]][,1],]
   df <- df[match(pars[["CompoundList"]][,1], df$Compound),]
   exposuredata <- exposuredata[match(df$CAS, exposuredata$CAS),]
 
   # --- CONVERT UNITS TO UMOL/KG/DAY IF NEEDED
   if (pars[["modelIVIVEout_units"]] == "umolpkgpday"){
-    df <- chem.physical_and_invitro.data[chem.physical_and_invitro.data$CAS %in% exposuredata$CAS,]
+    df <- chemdf[chemdf$CAS %in% exposuredata$CAS,]
     df <- df[match(exposuredata$CAS,df$CAS),]
     exposuredata$MW <- df$MW
     exposuredata$Upper <- signif((1000*exposuredata$Upper)/exposuredata$MW,4)

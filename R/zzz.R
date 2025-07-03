@@ -3,6 +3,7 @@
 the <- new.env(parent = emptyenv())
 
 # Save httk data frames needed (to avoid using global environment)
+the$chem.physical_and_invitro.data <- httk::chem.physical_and_invitro.data
 the$physiology.data <- httk::physiology.data
 the$tissue.data <- httk::tissue.data
 the$mecdt <- httk::mecdt

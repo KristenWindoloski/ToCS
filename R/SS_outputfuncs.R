@@ -207,7 +207,8 @@ StorePars_SS <- function(pars){
                     minimum.Funbound.plasma = pars[["min_fub"]],
                     regression = pars[["regression"]])
 
-  chemdata <- chem.physical_and_invitro.data[chem.physical_and_invitro.data$Compound %in% pars[["CompoundList"]][,1],]
+  chemdf <- the$chem.physical_and_invitro.data
+  chemdata <- chemdf[chemdf$Compound %in% pars[["CompoundList"]][,1],]
   chemdata <- chemdata[order(match(chemdata$Compound,out$chem.name)),]
   out <-cbind(out,chemdata)
 }

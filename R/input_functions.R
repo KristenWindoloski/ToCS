@@ -322,21 +322,10 @@ loadInSilicoPars <- function(func,species,model,defaulthuman){
   # --- Satisfy R CMD Check condition ("no visible binding...")
   # --- THESE VARIABLES ARE NOT ACTUALLY NULL
   Human.Clint<-Human.Funbound.plasma<-MW<-logP<-CAS<-CAS.Checksum<-NULL
-
-  # --- Determine CAS that DON'T have enough data to run simulations
-  testrows <- magrittr::`%>%`(httk::chem.physical_and_invitro.data,
-                              dplyr::filter((is.na(Human.Clint) | is.na(Human.Funbound.plasma) | Human.Funbound.plasma == 0),
-                                            !is.na(MW),
-                                            !is.na(logP),
-                                            !grepl(CAS,pattern = "CAS"),
-                                            !grepl(CAS,pattern = "cas"),
-                                            grepl(CAS.Checksum, pattern = "TRUE")))
-  loadCAS <- testrows$CAS
+  `Clint QSAR AD Outlier`<-`Fup QSAR AD Outlier`<-`CASRN`<-`QSAR_Clint`<-`QSAR_Fup`<-Pab.Pred.AD<-NULL
 
   shiny::withProgress(message = "Loading the available chemicals to simulate under the 'Preloaded Compounds' card. Please wait.",
                       value = 0, {
-
-                        # attach(the)
 
                         # --- Load Sipes2017 parameters
                         shiny::incProgress(1/5, detail = paste("Loading in silico parameter set", 1))
@@ -367,11 +356,12 @@ loadInSilicoPars <- function(func,species,model,defaulthuman){
 
                         # --- Load Dawson2021 parameters
                         shiny::incProgress(1/5, detail = paste("Loading in silico parameter set", 3))
-                        tmp_dawson2021 <- httk::dawson2021 %>%
-                          dplyr::filter(`Clint QSAR AD Outlier`==0) %>%
-                          dplyr::filter(`Fup QSAR AD Outlier`==0) %>%
-                          dplyr::select(`CASRN`,`QSAR_Clint`,`QSAR_Fup`) %>%
-                          as.data.frame()
+                        df1 <- magrittr::`%>%`(httk::dawson2021,
+                                               dplyr::filter(`Clint QSAR AD Outlier`==0,
+                                                             `Fup QSAR AD Outlier`==0))
+                        tmp_dawson2021 <- as.data.frame(magrittr::`%>%`(df1,dplyr::select(`CASRN`,`QSAR_Clint`,`QSAR_Fup`)))
+
+
                         assign("chem.physical_and_invitro.data",
                                httk::add_chemtable(tmp_dawson2021,
                                                    current.table=the$chem.physical_and_invitro.data,
@@ -385,12 +375,8 @@ loadInSilicoPars <- function(func,species,model,defaulthuman){
 
                         shiny::incProgress(1/5, detail = paste("Loading in silico parameter set", 4))
 
-                        # detach(the)
-
                         # --- Get CAS numbers that the model for the given species and model selected will run for
                         CASnums <- getCASnums(func,species,model,defaulthuman)
-
-                        # attach(the)
 
                         # --- Load Honda2023 parameters
                         tmp_honda2023 <- subset(httk::honda2023.qspr, Pab.Pred.AD == 1)
@@ -406,8 +392,6 @@ loadInSilicoPars <- function(func,species,model,defaulthuman){
                                envir=the)
 
                         shiny::incProgress(1/5, detail = paste("All in silico parameter sets loaded"))
-
-                        # detach(the)
                       })
   return(CASnums)
 }
@@ -454,6 +438,8 @@ getCASnums <- function(func,species,model,defaulttohuman){
 
   attach(the)
 
+  print(rlang::search_envs())
+
   CASnums <- httk::get_cheminfo(species = species,
                                 model = model,
                                 default.to.human = defaulttohuman)
@@ -464,8 +450,6 @@ getCASnums <- function(func,species,model,defaulttohuman){
                                           default.to.human = defaulttohuman)
     CASnums <- intersect(CASnums,CASnums_3compss)
   }
-
-
 
   if (!is.null(CASnums)){
       chem.data <- the$chem.physical_and_invitro.data
@@ -524,15 +508,17 @@ getPiped <- function(CASnums,honda,comptype){
       CASnums <- CASnums[CASnums %in% FoodCAS]
     }
 
+    chemdata <- the$chem.physical_and_invitro.data
+
     if (honda == "Honda1"){
-      chemlist <- magrittr::`%>%`(httk::chem.physical_and_invitro.data, dplyr::filter(CAS %in% CASnums,
-                                                                                      !is.na(logHenry),
-                                                                                      !is.na(logWSol),
-                                                                                      !is.na(MP)))
+      chemlist <- magrittr::`%>%`(chemdata, dplyr::filter(CAS %in% CASnums,
+                                                          !is.na(logHenry),
+                                                          !is.na(logWSol),
+                                                          !is.na(MP)))
       piped <- paste(chemlist$CAS, chemlist$Compound, sep = ", ")
     }
     else {
-      chemlist <- httk::chem.physical_and_invitro.data[httk::chem.physical_and_invitro.data$CAS %in% CASnums,]
+      chemlist <- chemdata[chemdata$CAS %in% CASnums,]
       piped <- paste(chemlist$CAS, chemlist$Compound, sep = ", ")
     }
   }
