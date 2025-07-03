@@ -5,19 +5,6 @@ rm(list = ls())
 # --- FUNCTION CREATED TO GENERATE PARAMETERS FOR MODEL SOLUTION
 ####################################################################
 
-# Set up a new environment in ToCS package
-the <- new.env(parent = emptyenv())
-
-# Save httk data frames needed (to avoid using global environment)
-the$chem.physical_and_invitro.data <- httk::chem.physical_and_invitro.data
-the$physiology.data <- httk::physiology.data
-the$tissue.data <- httk::tissue.data
-the$mecdt <- httk::mecdt
-the$mcnally_dt <- httk::mcnally_dt
-the$bmiage <- httk::bmiage
-the$wfl <- httk::wfl
-the$well_param <- httk::well_param
-
 Generate_Pars <- function(){
 
   pars <- list(CompoundList = data.frame(Selected_Compounds = c("Ibuprofen","Terbufos")),
@@ -106,6 +93,8 @@ test_that("TKsummary() produces a table of simulation summary statistics ",{
                                  dosing.matrix = NULL,
                                  daily.dose = NULL))
 
+  detach(the)
+
   # --- Check that Tmax was calculated
   expect_gte(TKsummary(sol)[1,1],0)
   expect_gte(TKsummary(sol)[2,1],0)
@@ -123,8 +112,6 @@ test_that("TKsummary() produces a table of simulation summary statistics ",{
   expect_gt(TKsummary(sol)[2,3],0)
   expect_gt(TKsummary(sol)[3,3],0)
   expect_gt(TKsummary(sol)[4,3],0)
-
-  detach(the)
 })
 
 ########################################################
