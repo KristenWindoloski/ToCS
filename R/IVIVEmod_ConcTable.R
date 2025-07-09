@@ -90,7 +90,7 @@ IVIVE_Table_server <- function(id,ivive_args){
 
     #--- Downloads table of OED simulation parameters
     output$downloadIVIVEpars <- shiny::downloadHandler(
-      filename = function(){paste("IVIVEData-",Sys.Date(),".csv", sep = "")},
+      filename = function(){paste("IVIVEParameters-",Sys.Date(),".csv", sep = "")},
       content = function(file){utils::write.csv(sol()[[3]], file)})
 
   })
