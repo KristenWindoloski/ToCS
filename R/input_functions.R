@@ -438,8 +438,6 @@ getCASnums <- function(func,species,model,defaulttohuman){
 
   attach(the)
 
-  print(rlang::search_envs())
-
   CASnums <- httk::get_cheminfo(species = species,
                                 model = model,
                                 default.to.human = defaulttohuman)
