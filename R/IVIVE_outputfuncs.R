@@ -684,10 +684,10 @@ IVIVEplot_caption <- function(pars){
   else{
     if (!is.null(pars[["fileExposure"]])){
       paste("Figure 1: Plot of the estimated oral equivalent dose (OED) for
-          each selected compound (blue) and user-uploaded exposure estimates (red).
+          each selected compound (blue) and user-uploaded exposure estimates (pink).
           Compounds are arranged in ascending order of their OED values. Exposure estimates
           are shown as a distribution if more than one exposure estimate was provided
-          for each compound. The purple dot represents the median exposure either uploaded
+          for each compound. The pink dot represents the median exposure either uploaded
           by the user or calculated within the program. If the user only uploaded one
           exposure value for a compound, then the purple dot represents that value.")
     }
