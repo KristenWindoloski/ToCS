@@ -36,7 +36,7 @@ GP_Instructions <- function(){
 #' @return The 'Output' card with the function selection option
 #' @noRd
 #'
-GP_Output <- function(ui_pars){
+GP_Output <- function(ui_pars=list()){
 
   if (length(ui_pars) == 0){
     bslib::card(bslib::card_header("OUTPUT"),
