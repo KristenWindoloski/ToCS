@@ -51,47 +51,6 @@ Create_Plotting_df <- function(i,n,sol_array,chemnames,numtimes){
 ################################################################################
 ################################################################################
 
-#' Remove plot legends and determine plot color
-#'
-#' @description
-#' This function extracts the line color legend from a plot, transfers that legend
-#' to a new panel on the plot, and then removes all the other legends from the
-#' plot so there is only one legend on the entire plot. The current function is
-#' called by plottingfunc_all().
-#'
-#'
-#' @param plt_lst A list of ggplot2 plotting objects. Each list element is
-#' a ggplot2 plotting object of a single compound and is composed of subplots
-#' @param n_states Number of model compartments/outputs for the simulated model
-#' from httk's 'solve_model' function.
-#'
-#' @return A list containing two elements. The first one is the inputted plot
-#' list with the legends on each compound plot removed and a new subplot with the
-#' plotting legend. The second element is a data frame of hexadecimal RGB triplet
-#' colors that defines the plotting color for each compound.
-#' @noRd
-#'
-Set_Plot_Legend_Color <- function(plt_lst,n_states){
-
-  # --- Extract color pattern data frame for individual compound plots
-  plt_attrib <- ggplot2::ggplot_build(plt_lst[[n_states]])
-  plt_colors <- data.frame(colors = unique(plt_attrib[["data"]][[1]][["colour"]]))
-
-  # --- Save legend to plot later
-  plt_lst[[n_states+1]] <- cowplot::get_plot_component(plt_lst[[1]],"guide-box",return_all = TRUE)[[1]]
-
-  # --- Remove legend from current plots
-  for (j in 1:n_states) {
-    plt_lst[[j]] <- plt_lst[[j]] + ggplot2::theme(legend.position = "none")
-  }
-
-  out <- list(plt_lst, plt_colors)
-}
-
-
-################################################################################
-################################################################################
-
 #' Generate the ggplot2 plotting object for the multi-curve plot
 #'
 #' @description
@@ -100,7 +59,7 @@ Set_Plot_Legend_Color <- function(plt_lst,n_states){
 #' time profile curves for all simulated compounds within each model compartment.
 #' Plots are created using ggplot from the ggplot2 R package. A list of plots are
 #' returned (one plot per compartment plus a plot displaying the plot legend).
-#' The current function calls Create_Plotting_df() and Set_Plot_Legend_Color() and
+#' The current function calls Create_Plotting_df() and
 #' is called by ADME_MultPlt_server() and ADME_IndPlt_server.
 #'
 #'
@@ -129,24 +88,31 @@ plottingfunc_all <- function(sol_array){
   dn <- dimnames(sol_array)[3]
   compound_names <- dn[[1]]
 
-  # --- Create empty list to be filled with number of plots (each plot will have multiple curves on it)
-  plt_lst = vector('list', (num_states+1))
+  final_df <- data.frame(Time = double(),
+                         Yvalues = double(),
+                         Compound = integer(),
+                         Compartment = character())
 
   # --- Generate plots for each compartment
   for (i in 1:num_states) {
-
     compartment_df <- Create_Plotting_df(i,num_compounds,sol_array,compound_names,n_times)
-
-    # --- Plot curves for compartment i for all compounds
-    plt_lst[[i]] <- ggplot2::ggplot(compartment_df, ggplot2::aes(Time, Yvalues, col = Compound)) +
-      ggplot2::geom_line(linewidth=1) +
-      ggplot2::labs(x = "Time (Days)", y = col_names[i+1]) +
-      ggplot2::theme_bw() +
-      ggplot2::guides(col = ggplot2::guide_legend(ncol = 2))
+    compartment_df$Compartment <- col_names[i+1]
+    final_df <- rbind(final_df,compartment_df)
   }
 
-  # --- Outputs the plotting list and legend colors
-  out <- Set_Plot_Legend_Color(plt_lst,num_states)
+  # --- Plot curves for compartment i for all compounds
+  out <- ggplot2::ggplot(final_df, ggplot2::aes(Time, Yvalues, col = Compound)) +
+    ggplot2::geom_line(linewidth=1) +
+    ggplot2::labs(x = "Time (Days)", y = "Model Output (A: Amount, umol; C: Concentration, uM; AUC: uM*days)") +
+    ggplot2::theme_bw() +
+    ggplot2::theme(strip.text = ggplot2::element_text(size = 20),
+                   axis.text = ggplot2::element_text(size = 15),
+                   axis.title = ggplot2::element_text(size = 20),
+                   legend.title = ggplot2::element_text(size = 15),
+                   legend.text = ggplot2::element_text(size = 15)) +
+    ggplot2::facet_wrap(~Compartment, scales = "free_y")
+
+  return(out)
 }
 
 
@@ -281,18 +247,74 @@ plottingfunc_individual <- function(sol_array, plt_colors){
       # --- Increment the progress bar and update detail text
       shiny::incProgress(1/num_compounds, detail = paste("Generating plot for chemical", i))
 
-      # --- Extract model solution for compound i and create blank plot list
-      comp_sol <- as.data.frame(sol_array[,,i], col.names = col_names)
-      individ_plt_lst <- vector('list', num_states+1)
+      compound_df <- data.frame(Time = double(),
+                                Yvalues = double(),
+                                Compound = integer(),
+                                Compartment = character())
 
-      # --- Fill the list with each subplot for compound i
-      for (j in 1:num_states) {
-        individ_plt_lst[[j]] <- Create_Individ_Subplot(i,j,comp_sol,compound_names,plt_colors,col_names)
+      # --- Generate plots for each compartment
+      for (i in 1:num_states) {
+
+        # --- Declare variables (avoids 'no visible binding for global variable in R CMD check)
+        Compound <- NULL
+
+        # --- Create empty vectors
+        yvals = c()
+        compound_name_compartment = c()
+
+        # --- Create yvalue vector which includes the compartment data for all compounds
+        for (j in 1:n) {
+          yvals <- append(yvals, sol_array[,i+1,j])
+          compound_name_compartment <-append(compound_name_compartment, rep(chemnames[j],numtimes))
+        }
+
+        # --- Create data frame for state i to plot all state i curves at once
+        compartment_df <- data.frame(Time = sol_array[,1,1],
+                                     Yvalues = yvals,
+                                     Compound = compound_name_compartment)
+
+        compartment_df <- dplyr::arrange(compartment_df, Compound)
+        compartment_df$Compound <- factor(compartment_df$Compound, levels = unique(compartment_df$Compound))
+
+        compartment_df <- Create_Plotting_df(i,num_compounds,sol_array,compound_names,n_times)
+        compartment_df$Compartment <- col_names[i+1]
+        compound_df <- rbind(compound_df,compartment_df)
       }
 
-      # --- Set legend and final plot for compound i
-      wholeplot_list[[i]] <- Set_Individ_Plot(individ_plt_lst,num_states)
+      # --- Plot curves for compartment i for all compounds
+      wholeplot_list[[i]] <- ggplot2::ggplot(compound_df, ggplot2::aes(Time, Yvalues, col = Compound)) +
+        ggplot2::geom_line(linewidth=1) +
+        ggplot2::labs(x = "Time (Days)", y = "Model Output (A: Amount, umol; C: Concentration, uM; AUC: uM*days)") +
+        ggplot2::theme_bw() +
+        ggplot2::theme(strip.text = ggplot2::element_text(size = 20),
+                       axis.text = ggplot2::element_text(size = 15),
+                       axis.title = ggplot2::element_text(size = 20),
+                       legend.title = ggplot2::element_text(size = 15),
+                       legend.text = ggplot2::element_text(size = 15)) +
+        ggplot2::facet_wrap(~Compartment, scales = "free_y")
+
+      return(out)
     }
+
+    # for (i in 1:num_compounds) {
+    #
+    #   # --- Increment the progress bar and update detail text
+    #   shiny::incProgress(1/num_compounds, detail = paste("Generating plot for chemical", i))
+    #
+    #   # --- Extract model solution for compound i and create blank plot list
+    #   comp_sol <- as.data.frame(sol_array[,,i], col.names = col_names)
+    #   individ_plt_lst <- vector('list', num_states+1)
+    #
+    #   # --- Fill the list with each subplot for compound i
+    #   for (j in 1:num_states) {
+    #     individ_plt_lst[[j]] <- Create_Individ_Subplot(i,j,comp_sol,compound_names,plt_colors,col_names)
+    #   }
+    #
+    #   # --- Set legend and final plot for compound i
+    #   wholeplot_list[[i]] <- Set_Individ_Plot(individ_plt_lst,num_states)
+    # }
+
+
   })
 
   return(wholeplot_list)

@@ -60,36 +60,32 @@ ADME_MultPlt_server <- function(id, adme_args){
     allplt_out <- shiny::reactive({
       plottingfunc_all(sol()[[1]])})
 
-    #--- Arranges multiple plots on one grid
-    ADME1plots <- shiny::reactive({
-      gridExtra::grid.arrange(grobs = allplt_out()[[1]],top = "Toxicokinetic Profiles")})
-
     #--- Outputs plot
     output$ADME1plots <- shiny::renderPlot({
       shiny::req(runsim(),sol())
-      ADME1plots()},
-      height = 800)
+      allplt_out()},
+    height = 800)
 
     #--- Outputs plot caption
     output$ADME1plotsCaption <- shiny::renderText({
       shiny::req(sol(),runsim(),model())
       AUCoutput <- caption_text("ADME",model())
       if (model() == "full_pregnancy"){
-        paste("Figure 1: Plot of the time course predictions for selected compounds. The y-axis indicates the output type
-            (A = amount (umol), C = concentration (uM)) and compartments for the selected model. The AUC plot shows the
-            area under the curve of the ", AUCoutput, " Y-labels that contain 'conceptus' represent the conceptus amount
+        paste("Figure 1: Plot of the time course predictions for selected compounds. The y-axis represents the chemical amount (A = amount (umol))
+              or concentration (C = concentration (uM)) in the selected model's compartments. The AUC plot shows the area under the curve (uM*days) of the
+              ", AUCoutput, " Y-labels that contain 'conceptus' represent the conceptus amount
             or concentration. Y-labels that contain an 'f' represent respective fetal compartments. The model transitions
             from conceptus to fetal on day 91.")
       }
       else if (model() == "fetal_pbtk"){
-        paste("Figure 1: Plot of the time course predictions for selected compounds. The y-axis indicates the output type
-            (A = amount (umol), C = concentration (uM)) and compartments for the selected model. The AUC plot shows the
-            area under the curve of the ", AUCoutput, " Y-labels that contain an 'f' represent respective fetal compartments.")
+        paste("Figure 1: Plot of the time course predictions for selected compounds. The y-axis represents the chemical amount (A = amount (umol))
+              or concentration (C = concentration (uM)) in the selected model's compartments.  The AUC plot shows the
+            area under the curve (uM*days) of the ", AUCoutput, " Y-labels that contain an 'f' represent respective fetal compartments.")
       }
       else{
-        paste("Figure 1: Plot of the time course predictions for selected compounds. The y-axis indicates the output type
-            (A = amount (umol), C = concentration (uM)) and compartments for the selected model. The AUC plot shows the
-            area under the curve of the ", AUCoutput)
+        paste("Figure 1: Plot of the time course predictions for selected compounds. The y-axis represents the chemical amount (A = amount (umol))
+              or concentration (C = concentration (uM)) in the selected model's compartments. The AUC plot shows the
+            area under the curve (uM*days) of the ", AUCoutput)
       }
       })
 
@@ -102,6 +98,6 @@ ADME_MultPlt_server <- function(id, adme_args){
     output$downloadADME1plots <- shiny::downloadHandler(
       filename = function() {paste("ADMEplots", Sys.Date(), ".jpg", sep="")},
       content = function(file){
-        ggplot2::ggsave(file, plot = ADME1plots(), height = 12, width = 16, dpi = 1200)})
+        ggplot2::ggsave(file, plot = allplt_out(), height = 12, width = 16, dpi = 1200)})
   })
 }
