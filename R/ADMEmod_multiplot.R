@@ -63,7 +63,7 @@ ADME_MultPlt_server <- function(id, adme_args){
     #--- Outputs plot
     output$ADME1plots <- shiny::renderPlot({
       shiny::req(runsim(),sol())
-      allplt_out()},
+      allplt_out()[[1]]},
     height = 800)
 
     #--- Outputs plot caption
@@ -98,6 +98,6 @@ ADME_MultPlt_server <- function(id, adme_args){
     output$downloadADME1plots <- shiny::downloadHandler(
       filename = function() {paste("ADMEplots", Sys.Date(), ".jpg", sep="")},
       content = function(file){
-        ggplot2::ggsave(file, plot = allplt_out(), height = 12, width = 16, dpi = 1200)})
+        ggplot2::ggsave(file, plot = allplt_out()[[1]], height = 12, width = 16, dpi = 1200)})
   })
 }

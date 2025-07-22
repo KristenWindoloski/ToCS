@@ -26,18 +26,27 @@ Create_Plotting_df <- function(i,n,sol_array,chemnames,numtimes){
   # --- Declare variables (avoids 'no visible binding for global variable in R CMD check)
   Compound <- NULL
 
-  # --- Create empty vectors
-  yvals = c()
-  compound_name_compartment = c()
-
   # --- Create yvalue vector which includes the compartment data for all compounds
-  for (j in 1:n) {
-    yvals <- append(yvals, sol_array[,i+1,j])
-    compound_name_compartment <-append(compound_name_compartment, rep(chemnames[j],numtimes))
+  if (n == 1 && is.data.frame(sol_array)){
+    time <- sol_array[,1]
+    yvals <- sol_array[,i+1]
+    compound_name_compartment <- rep(chemnames,numtimes)
+  }
+  else{
+
+    # --- Create vectors for data frame
+    time <- sol_array[,1,1]
+    yvals = c()
+    compound_name_compartment = c()
+
+    for (j in 1:n) {
+      yvals <- append(yvals, sol_array[,i+1,j])
+      compound_name_compartment <-append(compound_name_compartment, rep(chemnames[j],numtimes))
+    }
   }
 
   # --- Create data frame for state i to plot all state i curves at once
-  compartment_df <- data.frame(Time = sol_array[,1,1],
+  compartment_df <- data.frame(Time = time,
                                Yvalues = yvals,
                                Compound = compound_name_compartment)
 
@@ -74,7 +83,7 @@ Create_Plotting_df <- function(i,n,sol_array,chemnames,numtimes){
 #' triplet colors that defines the plotting color for each compound
 #' @noRd
 #'
-plottingfunc_all <- function(sol_array){
+plottingfunc_all <- function(sol_array, numcompounds = NULL, compoundnames = NULL, color = NULL){
 
   # --- Declare variables (avoids 'no visible binding for global variable' note in R CMD check)
   Time <- Yvalues <- Compound <- NULL
@@ -83,10 +92,22 @@ plottingfunc_all <- function(sol_array){
   cn <- dimnames(sol_array)[2]
   col_names <- cn[[1]]
   num_states <- length(col_names) - 1
-  num_compounds <- dim(sol_array)[3]
   n_times <- dim(sol_array)[1]
-  dn <- dimnames(sol_array)[3]
-  compound_names <- dn[[1]]
+
+  if (!is.null(numcompounds)){
+    num_compounds <- numcompounds
+  }
+  else{
+    num_compounds <- dim(sol_array)[3]
+  }
+
+  if (!is.null(compoundnames)){
+    compound_names <- compoundnames
+  }
+  else{
+    dn <- dimnames(sol_array)[3]
+    compound_names <- dn[[1]]
+  }
 
   final_df <- data.frame(Time = double(),
                          Yvalues = double(),
@@ -112,88 +133,15 @@ plottingfunc_all <- function(sol_array){
                    legend.text = ggplot2::element_text(size = 15)) +
     ggplot2::facet_wrap(~Compartment, scales = "free_y")
 
-  return(out)
-}
-
-
-################################################################################
-################################################################################
-
-#' Generate a single concentration-time profile curve using ggplot2
-#'
-#' @description
-#' This function generates a ggplot plotting object that displays the concentration-time
-#' profile curve for the ith compound in the jth model compartment outputted
-#' from httk's solve_model function. The current function is called by
-#' plottingfunc_individual().
-#'
-#'
-#' @param i Index corresponding to the ith compound simulated
-#' @param j Index corresponding to the jth model compartment
-#' @param comp_sol A data frame of the matrix solution of concentration-time
-#' profiles for compound i; same format as the output of the 'httk' package's
-#' solve_model function
-#' @param compound_names A vector of all compound names simulated in the order of
-#' simulation
-#' @param plt_colors A data frame of colors where each entry is a hexadecimal RGB
-#' triplet for one compound
-#' @param col_names A vector of all outputted model compartments, which should be
-#' the same as the columns from comp_sol
-#'
-#' @return A ggplot2 plotting object with a concentration-time profile curve in
-#' compartment j for compound i.
-#' @noRd
-#'
-Create_Individ_Subplot <- function(i,j,comp_sol,compound_names,plt_colors,col_names){
-
-  # --- Declare variables (avoids 'no visible binding for global variable in R CMD check)
-  Time <- Ydata <- NULL
-
-  # --- Create data frame with plotting data for compound i
-  compound_compartment_df <- data.frame(Time = comp_sol[,1],
-                                        Ydata = comp_sol[,j+1])
-
-  # --- Create plot
-  outplot <- ggplot2::ggplot(compound_compartment_df, ggplot2::aes(Time, Ydata, lty = compound_names[i])) +
-    ggplot2::geom_line(linewidth=1, color = plt_colors[i,1]) +
-    ggplot2::labs(x = "Time (Days)", y = col_names[j+1]) +
-    ggplot2::theme_bw() +
-    ggplot2::scale_linetype("Compound")
-}
-
-
-################################################################################
-################################################################################
-
-#' Remove current plot legend and generate individual plot legends
-#'
-#' @description
-#' This function extracts the plotting legend from the individ_plt_lst, creates
-#' a new plotting object with just the legend, and then removes all the legends
-#' from the remaining plot. The current function is called by plottingfunc_individual().
-#'
-#'
-#' @param individ_plt_lst A list of ggplot2 plotting objects where each list element is
-#' the plot of a single compound and is composed of subplots
-#' @param n_states Number of model compartments/outputs
-#'
-#' @return A list containing the inputted plot list with the legends on each
-#' compound plot removed and a new subplot with the plotting legend
-#' @noRd
-#'
-Set_Individ_Plot <- function(individ_plt_lst,n_states){
-
-  # --- Save legend to plot later
-  individ_plt_lst[[n_states+1]] <- cowplot::get_plot_component(individ_plt_lst[[1]],"guide-box",return_all = TRUE)[[1]]
-
-  # --- Remove legend to current plots
-  for (j in 1:n_states) {
-    individ_plt_lst[[j]] <- individ_plt_lst[[j]] + ggplot2::theme(legend.position = "none")
+  if (!is.null(color)){
+    out <- out + ggplot2::scale_color_manual(values = c(color))
   }
 
-  # --- Save all subplots for compound i to the ith entry of the master plot
-  # --- list for all compounds
-  out <- individ_plt_lst
+  # --- Extract colors list from plot
+  plotdata <- ggplot2::layer_data(out)
+
+  # --- Return list containing multiplot and plotting color list
+  return(list(out,unique(plotdata$colour)))
 }
 
 
@@ -223,13 +171,8 @@ Set_Individ_Plot <- function(individ_plt_lst,n_states){
 #'
 plottingfunc_individual <- function(sol_array, plt_colors){
 
-  # --- Set needed variables; subtracted 1 from num_states because 'time' is
-  # --- one of the columns
-  cn <- dimnames(sol_array)[2]
-  col_names <- cn[[1]]
-  num_states <- length(col_names) - 1
+  # --- Set needed variables
   num_compounds <-dim(sol_array)[3]
-  n_times <- dim(sol_array)[1]
   dn <- dimnames(sol_array)[3]
   compound_names <- dn[[1]]
 
@@ -247,109 +190,16 @@ plottingfunc_individual <- function(sol_array, plt_colors){
       # --- Increment the progress bar and update detail text
       shiny::incProgress(1/num_compounds, detail = paste("Generating plot for chemical", i))
 
-      compound_df <- data.frame(Time = double(),
-                                Yvalues = double(),
-                                Compound = integer(),
-                                Compartment = character())
-
-      # --- Generate plots for each compartment
-      for (i in 1:num_states) {
-
-        # --- Declare variables (avoids 'no visible binding for global variable in R CMD check)
-        Compound <- NULL
-
-        # --- Create empty vectors
-        yvals = c()
-        compound_name_compartment = c()
-
-        # --- Create yvalue vector which includes the compartment data for all compounds
-        for (j in 1:n) {
-          yvals <- append(yvals, sol_array[,i+1,j])
-          compound_name_compartment <-append(compound_name_compartment, rep(chemnames[j],numtimes))
-        }
-
-        # --- Create data frame for state i to plot all state i curves at once
-        compartment_df <- data.frame(Time = sol_array[,1,1],
-                                     Yvalues = yvals,
-                                     Compound = compound_name_compartment)
-
-        compartment_df <- dplyr::arrange(compartment_df, Compound)
-        compartment_df$Compound <- factor(compartment_df$Compound, levels = unique(compartment_df$Compound))
-
-        compartment_df <- Create_Plotting_df(i,num_compounds,sol_array,compound_names,n_times)
-        compartment_df$Compartment <- col_names[i+1]
-        compound_df <- rbind(compound_df,compartment_df)
-      }
-
-      # --- Plot curves for compartment i for all compounds
-      wholeplot_list[[i]] <- ggplot2::ggplot(compound_df, ggplot2::aes(Time, Yvalues, col = Compound)) +
-        ggplot2::geom_line(linewidth=1) +
-        ggplot2::labs(x = "Time (Days)", y = "Model Output (A: Amount, umol; C: Concentration, uM; AUC: uM*days)") +
-        ggplot2::theme_bw() +
-        ggplot2::theme(strip.text = ggplot2::element_text(size = 20),
-                       axis.text = ggplot2::element_text(size = 15),
-                       axis.title = ggplot2::element_text(size = 20),
-                       legend.title = ggplot2::element_text(size = 15),
-                       legend.text = ggplot2::element_text(size = 15)) +
-        ggplot2::facet_wrap(~Compartment, scales = "free_y")
-
-      return(out)
+      # --- Generate multi-panel plot for each compound
+      plot_i <- plottingfunc_all(sol_array = as.data.frame(sol_array[,,i]),
+                                 numcompounds = 1,
+                                 compoundnames = compound_names[[i]],
+                                 color = plt_colors[i])
+      wholeplot_list[[i]] <- plot_i[[1]]
     }
-
-    # for (i in 1:num_compounds) {
-    #
-    #   # --- Increment the progress bar and update detail text
-    #   shiny::incProgress(1/num_compounds, detail = paste("Generating plot for chemical", i))
-    #
-    #   # --- Extract model solution for compound i and create blank plot list
-    #   comp_sol <- as.data.frame(sol_array[,,i], col.names = col_names)
-    #   individ_plt_lst <- vector('list', num_states+1)
-    #
-    #   # --- Fill the list with each subplot for compound i
-    #   for (j in 1:num_states) {
-    #     individ_plt_lst[[j]] <- Create_Individ_Subplot(i,j,comp_sol,compound_names,plt_colors,col_names)
-    #   }
-    #
-    #   # --- Set legend and final plot for compound i
-    #   wholeplot_list[[i]] <- Set_Individ_Plot(individ_plt_lst,num_states)
-    # }
-
-
   })
 
   return(wholeplot_list)
-}
-
-
-################################################################################
-################################################################################
-
-#' Arrange individual compound plots
-#'
-#' @description
-#' This function takes the list of plots for a single compound and arranges them
-#' into one plot. The single final plot is then stored in a list to be rendered
-#' when called in the module output. The current function is called by
-#' ADME_IndPlt_server().
-#'
-#'
-#' @param plt_list The list of individual plots (ggplot2 objects) to output, where
-#' each list object is the main plotting object for one compound. Each compound's
-#' plotting object is itself a list with elements being a subplot (ggplot2 object)
-#' of the compound's concentration-time profile within a specifc model
-#' compartment
-#'
-#' @return A list of arranged individual concentration-time profile plots
-#' @noRd
-#'
-plt_arrange <- function(plt_list){
-
-  num_plots <- length(plt_list)
-  out_list <- list()
-  for (i in 1:num_plots) {
-    out_list[[i]] <- gridExtra::grid.arrange(grobs = plt_list[[i]])
-  }
-  return(out_list)
 }
 
 
