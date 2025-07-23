@@ -164,7 +164,8 @@ MS_Model <- function(ui_pars){
   if (length(ui_pars) == 0){
     bslib::card(bslib::card_header("MODEL"),
               shiny::conditionalPanel(condition = "input.func != 'Select'",
-                                      shiny::uiOutput("Model"),
+                                      shiny::uiOutput("Model")),
+              shiny::conditionalPanel(condition = "input.spec == 'Human' || (input.spec != 'Human' && input.spec != 'Select' && input.defaulttoHuman == 'Yes')",
                                       selectInput_InSilicoPars("insilicopars")),
               shiny::conditionalPanel(condition = "input.func == 'Concentration-time profiles' && (input.model != 'full_pregnancy' && input.model != 'Select')",
                                       numericInput_SimTime("simtime")),

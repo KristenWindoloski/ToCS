@@ -37,19 +37,19 @@ ParNames <- function(){
 #'
 Instructions_GenPars <- function(){
   htmltools::tagList(shiny::helpText("Fill out the prompts on each of the above tabs moving left to right. Then,
-                    click the 'Run Simulation' tab to run the simulation or reset
-                    all selections."),
+                     click the 'Run Simulation' tab to run the simulation or reset all selections."),
                      shiny::helpText("ToCS provides four toxicokinetic (TK) outputs:
-                   1) Concentration-time profiles, which returns chemical concentrations in bodily compartments over time,
-                   2) Steady state (SS) concentrations, which returns SS concentrations in bodily compartments from an oral infusion,
-                   3) In vitro in vivo extrapolation (IVIVE), which returns oral equivalent doses to in vitro bioactive concentrations,
-                   4) Parameter calculations, which returns elimination rates, volumes of distribution, tissue to unbound plasma
-                      partition coefficients, half-lifes, and total plasma clearances."),
-                     shiny::helpText("This application uses the U.S. EPA's R package 'httk'. For more information on
-                    'httk', refer to https://doi.org/10.18637/jss.v079.i04 and/or https://cran.r-project.org/web/packages/httk"),
-                     shiny::helpText("For additional guidance on ToCS, please refer to the vignettes
-                                     (https://github.com/KristenWindoloski/ToCS/tree/main/vignettes). To report issues or suggestions
-                                     for improvement, visit https://github.com/KristenWindoloski/ToCS/issues."))
+                                     1) Concentration-time profiles, which returns chemical concentrations in bodily compartments over time,
+                                     2) Steady state (SS) concentrations, which returns SS concentrations in bodily compartments from an oral infusion,
+                                     3) In vitro in vivo extrapolation (IVIVE), which returns oral equivalent doses to in vitro bioactive concentrations,
+                                     4) Parameter calculations, which returns elimination rates, volumes of distribution, tissue to unbound plasma
+                                     partition coefficients, half-lifes, and total plasma clearances."),
+                     shiny::helpText("This application uses the U.S. EPA's R package 'httk'. For more information on the ToCS application and 'httk', please
+                                     refer to the following links."),
+                     shiny::tags$a(href = "https://github.com/KristenWindoloski/ToCS/tree/main/vignettes","Vignettes (ToCS tutorials)", style = "font-size: 15px"),
+                     shiny::tags$a(href = "https://github.com/KristenWindoloski/ToCS/issues", "Report ToCS issues/suggestions", style = "font-size: 15px"),
+                     shiny::tags$a(href="https://doi.org/10.18637/jss.v079.i04", "httk publication", style = "font-size: 15px"),
+                     shiny::tags$a(href="https://cran.r-project.org/web/packages/httk", "httk CRAN webpage", style = "font-size: 15px"))
 }
 
 
@@ -278,8 +278,10 @@ PreloadCompsInput <- function(func,species,defaulthuman,insilico,model,honda,com
 
   # --- Output to be returned (either nothing or a select drop down menu)
   if (is.null(piped)){
-    shiny::strong(htmltools::h5("No preloaded compounds are available for the selected species
-              and default to human status."))
+    shiny::strong(htmltools::h6("No preloaded compounds are available for the selected species
+              and human in vitro data substitution status. Please return to the General Parameters
+              tab and switch the human in vitro data selection, select another species, or upload
+              your own chemical data under the 'Uploaded Data' card to the right."))
     }
   else{
     choice_list <- append(c(''), piped)
