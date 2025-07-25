@@ -46,12 +46,19 @@ Instructions_GenPars <- function(){
                                      partition coefficients, half-lifes, and total plasma clearances."),
                      shiny::helpText("This application uses the U.S. EPA's R package 'httk'. For more information on the ToCS application and 'httk', please
                                      refer to the following links."),
-                     shiny::tags$a(href = "https://github.com/KristenWindoloski/ToCS/tree/main/vignettes","Vignettes (ToCS tutorials)", style = "font-size: 15px"),
-                     shiny::tags$a(href = "https://github.com/KristenWindoloski/ToCS/issues", "Report ToCS issues/suggestions", style = "font-size: 15px"),
-                     shiny::tags$a(href="https://doi.org/10.18637/jss.v079.i04", "httk publication", style = "font-size: 15px"),
-                     shiny::tags$a(href="https://cran.r-project.org/web/packages/httk", "httk CRAN webpage", style = "font-size: 15px"))
+                     shiny::tags$a(href = "https://github.com/KristenWindoloski/ToCS/tree/main/vignettes","Vignettes (ToCS tutorials)",
+                                   style = "font-size: 15px",
+                                   target="_blank"),
+                     shiny::tags$a(href = "https://github.com/KristenWindoloski/ToCS/issues", "Report ToCS issues/suggestions",
+                                   style = "font-size: 15px",
+                                   target="_blank"),
+                     shiny::tags$a(href="https://doi.org/10.18637/jss.v079.i04", "httk publication",
+                                   style = "font-size: 15px",
+                                   target="_blank"),
+                     shiny::tags$a(href="https://cran.r-project.org/web/packages/httk", "httk CRAN webpage",
+                                   style = "font-size: 15px",
+                                   target="_blank"))
 }
-
 
 ################################################################################
 ################################################################################
@@ -438,7 +445,11 @@ getCASnums <- function(func,species,model,defaulttohuman){
     model <- "fetal_pbtk"
   }
 
+  # --- Attach the 'the' environment to add chem.physical_and_invitro.data data frame to path
   attach(the)
+
+  # --- Detach the attached 'the' environment
+  on.exit(detach(the))
 
   CASnums <- httk::get_cheminfo(species = species,
                                 model = model,
@@ -460,8 +471,6 @@ getCASnums <- function(func,species,model,defaulttohuman){
 
       CASnums <- df$CAS
   }
-
-  detach(the)
 
   return(CASnums)
 }

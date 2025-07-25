@@ -65,8 +65,10 @@ BER_Plot_server <- function(id,ivive_args){
       #--- Outputs plot caption
       output$BERPlotCaption <- shiny::renderText({
         shiny::req(sol(),runsim())
-        paste("Figure 2: Plot of the bioactivity exposure ratio (BER) values calculated from the oral equivalent dose and exposure estimate from each chemical.
-            The red dotted line (BER = 1) separates compounds with BER < 1, where these chemicals should be prioritized for risk.")})
+        paste("Figure 2: Plot of the bioactivity exposure ratio (BER) values calculated
+              from the oral equivalent dose and exposure estimate from each chemical.
+              The red dotted line (BER = 1) separates compounds with BER < 1, where these
+              chemicals are suggested for prioritization.")})
 
       #--- Creates download button
       output$downloadBERplot_cond <- shiny::renderUI({

@@ -70,9 +70,8 @@ SS_ConcPlot_server <- function(id,ss_args){
     #--- Outputs plot caption
     output$SSPlotCaption <- shiny::renderText({
       shiny::req(sol(), runsim())
-      "Figure 1: Plot of the long-term constant infusion (steady state) concentrations for
-      the selected compounds. Compounds are arranged in ascending order of their
-      concentration values."})
+      "Figure 1: Plot of steady state concentrations as a result of oral infusion dosing for
+      the selected compounds. Compounds are arranged in ascending order of their concentration values."})
 
     #--- Creates download button
     output$downloadSSplot_cond <- shiny::renderUI({

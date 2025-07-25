@@ -67,10 +67,7 @@ PC_PCTable_server <- function(id,pc_args){
       "Table 2: Table of partition coefficients for all selected compounds in
       each of the available tissues (adipose, bone, brain, gut, heart, kidney,
       liver, lung, muscle, skin, spleen, red blood cells (rbc), rest - collective
-      term for remaining tissues). The compounds are listed in ascending order
-      based on the median partition coefficient of each compound across all
-      tissues. The median partition coefficient for each compound is shown in
-      the last column of the table."})
+      term for remaining tissues)."})
 
     #--- Creates table download button
     output$downloadPCtable_cond <- shiny::renderUI({

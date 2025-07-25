@@ -23,7 +23,11 @@ ADME_IndPlt_ui <- function(id){
   htmltools::tagList(shiny::uiOutput(shiny::NS(id,"downloadADME2plots_cond")),
                      shiny::textOutput(shiny::NS(id,"plottextWarning")),
                      shiny::uiOutput(shiny::NS(id,"plots")),
-                     shiny::textOutput(shiny::NS(id,"ADME2plotsCaption"))
+                     shiny::textOutput(shiny::NS(id,"ADME2plotsCaption")),
+                     htmltools::tagList(shiny::tags$a(href = "https://github.com/KristenWindoloski/ToCS/blob/main/vignettes/Concentration-Time%20Profile%20Simulation%20Examples.pdf",
+                                                      "Click here to see definitions of each subplot heading (model compartment)",
+                                                      style = "font-size: 16px",
+                                                      target="_blank"))
   )
 }
 
@@ -60,11 +64,14 @@ ADME_IndPlt_server <- function(id,adme_args){
     model <- shiny::reactive({pars()[["model"]]})
 
     # #--- Generates color list for plots to match ADME_MultPlt_server colors
-    allplt_out <- shiny::reactive({plottingfunc_all(sol()[[1]])})
+    allplt_out <- shiny::reactive({plottingfunc_all(sol_array = sol()[[1]],
+                                                    pars = pars())})
 
     #--- Generates master plotting list where each entry corresponds to a compound
     #--- Each entry is a plot containing subplots that cover all compartments of one compound
-    ADME2plots_list <- shiny::reactive({plottingfunc_individual(sol()[[1]],allplt_out()[[2]])})
+    ADME2plots_list <- shiny::reactive({plottingfunc_individual(sol_array = sol()[[1]],
+                                                                plt_colors = allplt_out()[[2]],
+                                                                pars = pars())})
 
     #--- Returns the number of plots to be generated (= to num of compounds)
     num_ADMEplots <- shiny::reactive({
@@ -114,20 +121,20 @@ ADME_IndPlt_server <- function(id,adme_args){
       shiny::req(sol(),runsim(),model())
       AUCoutput <- caption_text("ADME",model())
       if (model() == "full_pregnancy"){
-        paste("Figure 2: Plots of the time course predictions for each individual compound. The y-axis indicates the output type
-            (A = amount (umol), C = concentration (uM)) and compartments for the selected model. The AUC plot shows the
+        paste("Figure 2: Plots of the time course predictions for each individual compound. The y-axis represents the chemical amount (A = amount (umol))
+              or concentration (C = concentration (uM)) in the selected model's compartments (subplot). The AUC subplot shows the
             area under the curve of the ", AUCoutput, " Y-labels that contain 'conceptus' represent the conceptus amount
             or concentration. Y-labels that contain an 'f' represent respective fetal compartments. The model transitions
             from conceptus to fetal on day 91.")
       }
       else if (model() == "fetal_pbtk"){
-        paste("Figure 2: Plots of the time course predictions for each individual compound. The y-axis indicates the output type
-            (A = amount (umol), C = concentration (uM)) and compartments for the selected model. The AUC plot shows the
+        paste("Figure 2: Plots of the time course predictions for each individual compound. The y-axis represents the chemical amount (A = amount (umol))
+              or concentration (C = concentration (uM)) in the selected model's compartments (subplot). The AUC subplot shows the
             area under the curve of the ", AUCoutput, " Y-labels that contain an 'f' represent respective fetal compartments.")
       }
       else{
-        paste("Figure 2: Plots of the time course predictions for each individual compound. The y-axis indicates the output type
-            (A = amount (umol), C = concentration (uM)) and compartments for the selected model. The AUC plot shows the
+        paste("Figure 2: Plots of the time course predictions for each individual compound. The y-axis represents the chemical amount (A = amount (umol))
+              or concentration (C = concentration (uM)) in the selected model's compartments (subplot). The AUC subplot shows the
             area under the curve of the ", AUCoutput)
       }
       })

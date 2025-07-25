@@ -61,8 +61,7 @@ PC_EVTable_server <- function(id, pc_args){
       shiny::req(runsim(),sol())
       "Table 1: Table of estimated elimination rates (1/h), volumes of
       distribution (L/kg BW), half lifes (h), and total plasma clearances
-      (L/h/kg BW) for all selected compounds. Compounds are listed
-      in ascending order of the elimination rate."})
+      (L/h/kg BW) for all selected compounds."})
 
     #--- Creates table download button
     output$downloadPartable_cond <- shiny::renderUI({

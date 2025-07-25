@@ -21,7 +21,11 @@ ADME_MultPlt_ui <- function(id){
 
   htmltools::tagList(shiny::uiOutput(shiny::NS(id,"downloadADME1plots_cond")),
                      shiny::plotOutput(shiny::NS(id,"ADME1plots"),height = "100%"),
-                     shiny::textOutput(shiny::NS(id,"ADME1plotsCaption"))
+                     shiny::textOutput(shiny::NS(id,"ADME1plotsCaption")),
+                     htmltools::tagList(shiny::tags$a(href = "https://github.com/KristenWindoloski/ToCS/blob/main/vignettes/Concentration-Time%20Profile%20Simulation%20Examples.pdf",
+                                                      "Click here to see definitions of each subplot heading (model compartment)",
+                                                      style = "font-size: 16px",
+                                                      target="_blank"))
   )
 }
 
@@ -58,7 +62,7 @@ ADME_MultPlt_server <- function(id, adme_args){
 
     #--- Generates plotting list and colors for plots
     allplt_out <- shiny::reactive({
-      plottingfunc_all(sol()[[1]])})
+      plottingfunc_all(sol_array = sol()[[1]], pars = pars())})
 
     #--- Outputs plot
     output$ADME1plots <- shiny::renderPlot({
@@ -72,19 +76,19 @@ ADME_MultPlt_server <- function(id, adme_args){
       AUCoutput <- caption_text("ADME",model())
       if (model() == "full_pregnancy"){
         paste("Figure 1: Plot of the time course predictions for selected compounds. The y-axis represents the chemical amount (A = amount (umol))
-              or concentration (C = concentration (uM)) in the selected model's compartments. The AUC plot shows the area under the curve (uM*days) of the
+              or concentration (C = concentration (uM)) in the selected model's compartments (subplot). The AUC subplot shows the area under the curve (uM*days) of the
               ", AUCoutput, " Y-labels that contain 'conceptus' represent the conceptus amount
             or concentration. Y-labels that contain an 'f' represent respective fetal compartments. The model transitions
             from conceptus to fetal on day 91.")
       }
       else if (model() == "fetal_pbtk"){
         paste("Figure 1: Plot of the time course predictions for selected compounds. The y-axis represents the chemical amount (A = amount (umol))
-              or concentration (C = concentration (uM)) in the selected model's compartments.  The AUC plot shows the
-            area under the curve (uM*days) of the ", AUCoutput, " Y-labels that contain an 'f' represent respective fetal compartments.")
+              or concentration (C = concentration (uM)) in the selected model's compartments (subplot).  The AUC subplot shows the
+            area under the curve (uM*days) of the ", AUCoutput, " and y-labels that contain an 'f' represent respective fetal compartments.")
       }
       else{
         paste("Figure 1: Plot of the time course predictions for selected compounds. The y-axis represents the chemical amount (A = amount (umol))
-              or concentration (C = concentration (uM)) in the selected model's compartments. The AUC plot shows the
+              or concentration (C = concentration (uM)) in the selected model's compartments (subplot). The AUC subplot shows the
             area under the curve (uM*days) of the ", AUCoutput)
       }
       })

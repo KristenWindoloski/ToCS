@@ -69,11 +69,10 @@ PC_PCPlot_server <- function(id,pc_args){
     #--- Outputs caption to the partition coefficient plot
     output$PCPlotCaption <- shiny::renderText({
       shiny::req(runsim(),sol())
-      "Figure 2: Plots of the estimated partition coefficients (no units) using
+      "Figure 2: Plots of the estimated partition coefficients (unitless) using
       Schmitt's method for all tissues available (adipose, bone, brain, gut,
       heart, kidney, liver, lung, muscle, skin, spleen, red blood cells (rbc),
-      rest - collective term for remaining tissues). Compounds are arranged in
-      ascending order based on the median partition coefficient for each compound."})
+      rest - collective term for remaining tissues)."})
 
     #--- Creates plot download button
     output$downloadPCplot_cond <- shiny::renderUI({

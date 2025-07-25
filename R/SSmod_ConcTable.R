@@ -65,9 +65,10 @@ SS_ConcTable_server <- function(id, ss_args){
     #--- Outputs table caption
     output$SStableCaption <- shiny::renderText({
       shiny::req(sol(), runsim())
-      paste("Table 1: Table of the long-term constant infusion (steady state) concentrations (",
-            pars()[["modelSSout_units"]], ") for the selected compounds. Compounds are arranged in ascending
-            order of their concentration values.", sep = "")})
+      paste("Table 1: Table of the steady state concentrations (",
+            pars()[["modelSSout_units"]],
+            ") as a result of oral infusion dosing for the selected compounds in the selected compartment.
+            Compounds are arranged in ascending order of their concentration values.", sep = "")})
 
     #--- Creates download button
     output$downloadSStable_cond <- shiny::renderUI({

@@ -24,7 +24,11 @@
 #'
 Parsol <- function(pars){
 
+  # --- Attach the 'the' environment to add chem.physical_and_invitro.data data frame to path
   attach(the)
+
+  # --- Detach the attached 'the' environment
+  on.exit(detach(the))
 
   # --- Get number of compounds
   n <- nrow(pars[["CompoundList"]])
@@ -63,8 +67,6 @@ Parsol <- function(pars){
 
   # --- Create a data frame to store all simulation parameters
   pars_df <- StorePars_PC(pars)
-
-  detach(the)
 
   # --- Store output as a list
   out_list <- list(df1,df2,pars_df)
@@ -305,61 +307,100 @@ plotPar <- function(soldata,pars,logscale){
   # --- Declare variables (avoids 'no visible binding for global variable' note in R CMD check)
   CompoundName <- EliminationRate <- VolumeOfDistribution <- HalfLife <- TotalClearance <- NULL
 
-  df_elim <- dplyr::select(soldata, CompoundName, EliminationRate)
-  df_elim <- dplyr::arrange(df_elim, EliminationRate)
-  df_elim$CompoundName <- factor(df_elim$CompoundName, levels = df_elim$CompoundName)
+  n <- nrow(soldata)
 
-  df_vdist <- dplyr::select(soldata, CompoundName, VolumeOfDistribution)
-  df_vdist <- dplyr::arrange(df_vdist, VolumeOfDistribution)
-  df_vdist$CompoundName <- factor(df_vdist$CompoundName, levels = df_vdist$CompoundName)
+  plot_df <- data.frame(CompoundName = rep(soldata$CompoundName,4),
+                        Value = c(soldata$EliminationRate,
+                                  soldata$VolumeOfDistribution,
+                                  soldata$HalfLife,
+                                  soldata$TotalClearance),
+                        Parameter = c(rep("Elimination Rate (1/h)",n),
+                                      rep("Volume of Distribution (L/kg BW)",n),
+                                      rep("Half Life (h)",n),
+                                      rep("Total Plasma Clearance (L/h/kg BW)",n)))
 
-  df_halflife <- dplyr::select(soldata, CompoundName, HalfLife)
-  df_halflife <- dplyr::arrange(df_halflife, HalfLife)
-  df_halflife$CompoundName <- factor(df_halflife$CompoundName, levels = df_halflife$CompoundName)
+  plot_df <- dplyr::arrange(plot_df, Value)
+  plot_df$CompoundName <- factor(plot_df$CompoundName, levels = unique(plot_df$CompoundName))
 
-  df_TotalClearance <- dplyr::select(soldata, CompoundName, TotalClearance)
-  df_TotalClearance <- dplyr::arrange(df_TotalClearance, TotalClearance)
-  df_TotalClearance$CompoundName <- factor(df_TotalClearance$CompoundName, levels = df_TotalClearance$CompoundName)
+  print(soldata)
+  print(plot_df)
 
-  plt_lst = vector('list', 3)
+  size <- 15
 
-  plt_lst[[1]] <- ggplot2::ggplot(df_elim, ggplot2::aes(CompoundName, EliminationRate)) +
-    ggplot2::geom_point(size=4) +
-    ggplot2::labs(x = "Compounds", y = "Elim \n Rate (1/h)") +
-    ggplot2::theme_bw(base_size = 18) +
-    ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 0.5, vjust = 0.5))
-  if (logscale == TRUE){
-    plt_lst[[1]] <- plot_logscale(plt_lst[[1]],df_elim$EliminationRate)
-  }
+  # --- Plot curves for compartment i for all compounds
+  out <- ggplot2::ggplot(plot_df, ggplot2::aes(CompoundName, Value, color = Parameter)) +
+    ggplot2::geom_point(size = 4) +
+    ggplot2::labs(x = "Compound", y = "Parameter Output") +
+    ggplot2::theme_bw() +
+    ggplot2::theme(strip.text = ggplot2::element_text(size = size),
+                   axis.text = ggplot2::element_text(size = size),
+                   axis.text.x = ggplot2::element_text(angle = 45, hjust = 0.5, vjust = 0.5),
+                   axis.title = ggplot2::element_text(size = 15),
+                   legend.title = ggplot2::element_text(size = 15),
+                   legend.text = ggplot2::element_text(size = 15)) +
+    ggplot2::facet_wrap(~Parameter, scales = "free_y")
 
-  plt_lst[[2]] <- ggplot2::ggplot(df_vdist, ggplot2::aes(CompoundName, VolumeOfDistribution)) +
-    ggplot2::geom_point(size=4) +
-    ggplot2::labs(x = "Compounds", y = "Volume of \n Distribution \n (L/kg BW)") +
-    ggplot2::theme_bw(base_size = 18) +
-    ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 0.5, vjust = 0.5))
-  if (logscale == TRUE){
-    plt_lst[[2]] <- plot_logscale(plt_lst[[2]],df_vdist$VolumeOfDistribution)
-  }
+  # if (logscale == TRUE){
+  #     out <- plot_logscale(out,plot_df$Value)
+  # }
 
-  plt_lst[[3]] <- ggplot2::ggplot(df_halflife, ggplot2::aes(CompoundName, HalfLife)) +
-    ggplot2::geom_point(size=4) +
-    ggplot2::labs(x = "Compounds", y = "Half Life (h)") +
-    ggplot2::theme_bw(base_size = 18) +
-    ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 0.5, vjust = 0.5))
-  if (logscale == TRUE){
-    plt_lst[[3]] <- plot_logscale(plt_lst[[3]],df_halflife$HalfLife)
-  }
+  return(out)
 
-  plt_lst[[4]] <- ggplot2::ggplot(df_TotalClearance, ggplot2::aes(CompoundName, TotalClearance)) +
-    ggplot2::geom_point(size=4) +
-    ggplot2::labs(x = "Compounds", y = "Total Plasma \n Clearance \n (L/h/kg BW)") +
-    ggplot2::theme_bw(base_size = 18) +
-    ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 0.5, vjust = 0.5))
-  if (logscale == TRUE){
-    plt_lst[[4]] <- plot_logscale(plt_lst[[4]],df_TotalClearance$TotalClearance)
-  }
-
-  return(plt_lst)
+  # df_elim <- dplyr::select(soldata, CompoundName, EliminationRate)
+  # df_elim <- dplyr::arrange(df_elim, EliminationRate)
+  # df_elim$CompoundName <- factor(df_elim$CompoundName, levels = df_elim$CompoundName)
+  #
+  # df_vdist <- dplyr::select(soldata, CompoundName, VolumeOfDistribution)
+  # df_vdist <- dplyr::arrange(df_vdist, VolumeOfDistribution)
+  # df_vdist$CompoundName <- factor(df_vdist$CompoundName, levels = df_vdist$CompoundName)
+  #
+  # df_halflife <- dplyr::select(soldata, CompoundName, HalfLife)
+  # df_halflife <- dplyr::arrange(df_halflife, HalfLife)
+  # df_halflife$CompoundName <- factor(df_halflife$CompoundName, levels = df_halflife$CompoundName)
+  #
+  # df_TotalClearance <- dplyr::select(soldata, CompoundName, TotalClearance)
+  # df_TotalClearance <- dplyr::arrange(df_TotalClearance, TotalClearance)
+  # df_TotalClearance$CompoundName <- factor(df_TotalClearance$CompoundName, levels = df_TotalClearance$CompoundName)
+  #
+  # plt_lst = vector('list', 3)
+  #
+  # plt_lst[[1]] <- ggplot2::ggplot(df_elim, ggplot2::aes(CompoundName, EliminationRate)) +
+  #   ggplot2::geom_point(size=4) +
+  #   ggplot2::labs(x = "Compounds", y = "Elim \n Rate (1/h)") +
+  #   ggplot2::theme_bw(base_size = 18) +
+  #   ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 0.5, vjust = 0.5))
+  # if (logscale == TRUE){
+  #   plt_lst[[1]] <- plot_logscale(plt_lst[[1]],df_elim$EliminationRate)
+  # }
+  #
+  # plt_lst[[2]] <- ggplot2::ggplot(df_vdist, ggplot2::aes(CompoundName, VolumeOfDistribution)) +
+  #   ggplot2::geom_point(size=4) +
+  #   ggplot2::labs(x = "Compounds", y = "Volume of \n Distribution \n (L/kg BW)") +
+  #   ggplot2::theme_bw(base_size = 18) +
+  #   ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 0.5, vjust = 0.5))
+  # if (logscale == TRUE){
+  #   plt_lst[[2]] <- plot_logscale(plt_lst[[2]],df_vdist$VolumeOfDistribution)
+  # }
+  #
+  # plt_lst[[3]] <- ggplot2::ggplot(df_halflife, ggplot2::aes(CompoundName, HalfLife)) +
+  #   ggplot2::geom_point(size=4) +
+  #   ggplot2::labs(x = "Compounds", y = "Half Life (h)") +
+  #   ggplot2::theme_bw(base_size = 18) +
+  #   ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 0.5, vjust = 0.5))
+  # if (logscale == TRUE){
+  #   plt_lst[[3]] <- plot_logscale(plt_lst[[3]],df_halflife$HalfLife)
+  # }
+  #
+  # plt_lst[[4]] <- ggplot2::ggplot(df_TotalClearance, ggplot2::aes(CompoundName, TotalClearance)) +
+  #   ggplot2::geom_point(size=4) +
+  #   ggplot2::labs(x = "Compounds", y = "Total Plasma \n Clearance \n (L/h/kg BW)") +
+  #   ggplot2::theme_bw(base_size = 18) +
+  #   ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 0.5, vjust = 0.5))
+  # if (logscale == TRUE){
+  #   plt_lst[[4]] <- plot_logscale(plt_lst[[4]],df_TotalClearance$TotalClearance)
+  # }
+  #
+  # return(plt_lst)
 }
 
 ################################################################################

@@ -24,7 +24,11 @@ ADME_TKTable_ui <- function(id){
 
   htmltools::tagList(shiny::uiOutput(shiny::NS(id,"downloadtk_cond")),
                      DT::DTOutput(shiny::NS(id,"tksummary")),
-                     shiny::textOutput(shiny::NS(id,"tksummaryCaption"))
+                     shiny::textOutput(shiny::NS(id,"tksummaryCaption")),
+                     htmltools::tagList(shiny::tags$a(href = "https://github.com/KristenWindoloski/ToCS/blob/main/vignettes/Concentration-Time%20Profile%20Simulation%20Examples.pdf",
+                                                      "Click here to see definitions of each row (model compartment)",
+                                                      style = "font-size: 16px",
+                                                      target="_blank"))
   )
 }
 

@@ -25,7 +25,11 @@
 #'
 IVIVEsol <- function(pars){
 
+  # --- Attach the 'the' environment to add chem.physical_and_invitro.data data frame to path
   attach(the)
+
+  # --- Detach the attached 'the' environment
+  on.exit(detach(the))
 
   # --- PROCESS BIOACTIVE CONCENTRATIONS FILE
   file <- pars[["BioactiveFile"]]
@@ -62,8 +66,6 @@ IVIVEsol <- function(pars){
 
   # --- STORE PARAMETERS USED FOR THE SIMULATION
   pars_df <- StorePars_IVIVE(pars,bioactive_conc)
-
-  detach(the)
 
   # --- RETURN LIST OF OUTPUTS
   out <- list(sol,bioactive_conc,pars_df,BER,exposuredata)
@@ -671,7 +673,7 @@ IVIVEplot_caption <- function(pars){
               each compound. Compounds are arranged in ascending order of their median OED value.
               Exposure estimates are shown as a distribution if more than one exposure estimate was provided
               for each compound. The purple dot represents the median exposure either uploaded by the user
-              or calculated within the program. If the user only uploaded one exposure value for a compound, then
+              or calculated within ToCS. If the user only uploaded one exposure value for a compound, then
               the purple dot represents that value.")
     }
     else{
@@ -683,16 +685,16 @@ IVIVEplot_caption <- function(pars){
   }
   else{
     if (!is.null(pars[["fileExposure"]])){
-      paste("Figure 1: Plot of the estimated oral equivalent dose (OED) for
+      paste("Figure 1: Plot of the oral equivalent dose (OED) for
           each selected compound (blue) and user-uploaded exposure estimates (pink).
           Compounds are arranged in ascending order of their OED values. Exposure estimates
           are shown as a distribution if more than one exposure estimate was provided
           for each compound. The pink dot represents the median exposure either uploaded
-          by the user or calculated within the program. If the user only uploaded one
-          exposure value for a compound, then the purple dot represents that value.")
+          by the user or calculated within ToCS. If the user only uploaded one
+          exposure value for a compound, then the pink dot represents that value.")
     }
     else{
-      paste("Figure 1: Plot of the estimated oral equivalent dose (OED) for each
+      paste("Figure 1: Plot of the oral equivalent dose (OED) for each
             selected compound. Compounds are arranged in ascending order of their
             OED values.")
     }
@@ -800,7 +802,7 @@ BERplotting <- function(BERdata){
     ggplot2::geom_hline(yintercept = 1, linetype = 5, linewidth = 1, color = "red") +
     ggplot2::labs(x = "Compounds",
                   y = "Bioactivity Exposure Ratio (Unitless)",
-                  title = "Bioactivity Exposure Ratio for Chemical Prioritization") +
+                  title = "Bioactivity Exposure Ratio (BER) for Simulated Chemicals") +
     ggplot2::theme_bw(base_size = 18) +
     ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, hjust = 0.5, vjust = 0.5),
                    plot.title = ggplot2::element_text(hjust = 0.5)) +

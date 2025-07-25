@@ -83,7 +83,7 @@ Create_Plotting_df <- function(i,n,sol_array,chemnames,numtimes){
 #' triplet colors that defines the plotting color for each compound
 #' @noRd
 #'
-plottingfunc_all <- function(sol_array, numcompounds = NULL, compoundnames = NULL, color = NULL){
+plottingfunc_all <- function(sol_array, numcompounds = NULL, compoundnames = NULL, color = NULL, pars){
 
   # --- Declare variables (avoids 'no visible binding for global variable' note in R CMD check)
   Time <- Yvalues <- Compound <- NULL
@@ -121,14 +121,22 @@ plottingfunc_all <- function(sol_array, numcompounds = NULL, compoundnames = NUL
     final_df <- rbind(final_df,compartment_df)
   }
 
+  # --- Define plot subtitle font size
+  if (pars[["model"]] == "full_pregnancy" || pars[["model"]] == "fetal_pbtk" ){
+    size <- 10
+  }
+  else{
+    size <- 15
+  }
+
   # --- Plot curves for compartment i for all compounds
   out <- ggplot2::ggplot(final_df, ggplot2::aes(Time, Yvalues, col = Compound)) +
     ggplot2::geom_line(linewidth=1) +
     ggplot2::labs(x = "Time (Days)", y = "Model Output (A: Amount, umol; C: Concentration, uM; AUC: uM*days)") +
     ggplot2::theme_bw() +
-    ggplot2::theme(strip.text = ggplot2::element_text(size = 20),
-                   axis.text = ggplot2::element_text(size = 15),
-                   axis.title = ggplot2::element_text(size = 20),
+    ggplot2::theme(strip.text = ggplot2::element_text(size = size),
+                   axis.text = ggplot2::element_text(size = size),
+                   axis.title = ggplot2::element_text(size = 15),
                    legend.title = ggplot2::element_text(size = 15),
                    legend.text = ggplot2::element_text(size = 15)) +
     ggplot2::facet_wrap(~Compartment, scales = "free_y")
@@ -169,7 +177,7 @@ plottingfunc_all <- function(sol_array, numcompounds = NULL, compoundnames = NUL
 #' plotting figure for one compound (i.e. a plot with subplots).
 #' @noRd
 #'
-plottingfunc_individual <- function(sol_array, plt_colors){
+plottingfunc_individual <- function(sol_array, plt_colors, pars){
 
   # --- Set needed variables
   num_compounds <-dim(sol_array)[3]
@@ -194,7 +202,8 @@ plottingfunc_individual <- function(sol_array, plt_colors){
       plot_i <- plottingfunc_all(sol_array = as.data.frame(sol_array[,,i]),
                                  numcompounds = 1,
                                  compoundnames = compound_names[[i]],
-                                 color = plt_colors[i])
+                                 color = plt_colors[i],
+                                 pars = pars)
       wholeplot_list[[i]] <- plot_i[[1]]
     }
   })
@@ -246,8 +255,8 @@ TKsummary <- function(modsol) {
 
     # --- Set Tmax value, the Maximum value (Amax or Cmax depending on compartment), and AUC values for each compartment
     TKsum[i,2] <- signif(sol[max_index,1],4)
-    TKsum[i,3] <- signif(max(sol[,(i+1)]),4)
-    TKsum[i,4] <- signif(DescTools::AUC(x = sol[,'time'], y = sol[,col_names[i+1]], method = "trapezoid"),4)
+    TKsum[i,3] <- signif(max(sol[,(i+1)], na.rm = TRUE),4)
+    TKsum[i,4] <- signif(DescTools::AUC(x = sol[,'time'], y = sol[,col_names[i+1]], method = "trapezoid", na.rm = TRUE),4)
   }
 
   TKsum_final <- apply(as.matrix(TKsum[,2:4]), 2, as.numeric)
@@ -280,7 +289,11 @@ TKsummary <- function(modsol) {
 #'
 modsol <- function(pars){
 
+  # --- Attach the 'the' environment to add chem.physical_and_invitro.data data frame to path
   attach(the)
+
+  # --- Detach the attached 'the' environment
+  on.exit(detach(the))
 
   # Get row, column, and page dimensions for arrays used to store solutions
   n <- nrow(pars[["CompoundList"]])
@@ -317,8 +330,6 @@ modsol <- function(pars){
 
   # --- Generate simulation parameters data frame
   pars_df <- StorePars_ADME(pars)
-
-  detach(the)
 
   # --- Create list with all outputs
   out_list <- list(sol,tk_sum_array,pars_df)

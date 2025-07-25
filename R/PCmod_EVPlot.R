@@ -56,13 +56,15 @@ PC_EVPlot_server <- function(id,pc_args){
 
     #--- Generates elimination/volume of distribution plots
     ElimVdistPlots <- shiny::reactive({
-      plot1 <- plotPar(sol()[[1]],pars(),logscale())
-      gridExtra::grid.arrange(grobs = plot1, nrow = 2)})
+      plotPar(sol()[[1]],pars(),logscale())})
+    # ElimVdistPlots <- shiny::reactive({
+    #   plot1 <- plotPar(sol()[[1]],pars(),logscale())
+    #   gridExtra::grid.arrange(grobs = plot1, nrow = 2)})
 
     #--- Outputs elimination/volume of distribution plots
     output$ParPlot <- shiny::renderPlot({
       ElimVdistPlots()},
-      height = 800)
+      height = 600)
 
     #--- Outputs caption of the elimination/volume of distribution plots
     output$ParPlotCaption <- shiny::renderText({
