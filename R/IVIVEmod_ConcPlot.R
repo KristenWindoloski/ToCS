@@ -80,6 +80,6 @@ IVIVE_Plot_server <- function(id,ivive_args){
     output$downloadIVIVEplot <- shiny::downloadHandler(
       filename = function() {paste("IVIVEplot", Sys.Date(), ".jpg", sep="")},
       content = function(file){
-        ggplot2::ggsave(file, plot = IVIVEplt(), height = 12, width = 14, dpi = 1200)})
+        ggplot2::ggsave(file, plot = IVIVEplt(), height = 12, width = 14, dpi = 300)})
   })
 }

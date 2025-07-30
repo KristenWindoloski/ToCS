@@ -58,8 +58,7 @@ PC_PCPlot_server <- function(id,pc_args){
 
     #--- Generates and arranges partition coefficient plots
     PCPlots <- shiny::reactive({
-      plot2 <- plotPCs(sol()[[2]], pars(),logscale())
-      gridExtra::grid.arrange(grobs = plot2, nrow = 3, top = "Calculated Tissue Partition Coefficients")})
+      plotPCs(sol()[[2]], pars(),logscale())})
 
     #--- Outputs partition coefficient plot
     output$PCPlot <- shiny::renderPlot({
@@ -83,6 +82,6 @@ PC_PCPlot_server <- function(id,pc_args){
     output$downloadPCplots <- shiny::downloadHandler(
       filename = function() {paste("PCPlot", Sys.Date(), ".jpg", sep="")},
       content = function(file){
-        ggplot2::ggsave(file, plot = PCPlots(), height = 12, width = 18, dpi = 1200)})
+        ggplot2::ggsave(file, plot = PCPlots(), height = 12, width = 18, dpi = 300)})
   })
 }

@@ -79,7 +79,7 @@ BER_Plot_server <- function(id,ivive_args){
       output$downloadBERplot <- shiny::downloadHandler(
         filename = function() {paste("BERplot", Sys.Date(), ".jpg", sep="")},
         content = function(file){
-          ggplot2::ggsave(file, plot = BERplt(), height = 12, width = 14, dpi = 1200)})
+          ggplot2::ggsave(file, plot = BERplt(), height = 12, width = 14, dpi = 300)})
     }
     else{
       output$BERPlotCaption <- shiny::renderText({

@@ -160,7 +160,7 @@ ADME_IndPlt_server <- function(id,adme_args){
             shiny::incProgress(1/(num_ADMEplots()+1), detail = paste("Generating plot file for chemical", i))
 
             f <- paste("Compound_", i, ".jpg", sep="")
-            ggplot2::ggsave(f, plot = plots[[i]], height = 12, width = 16, dpi = 1200)
+            ggplot2::ggsave(f, plot = plots[[i]], height = 12, width = 16, dpi = 300)
             savedfiles <- append(savedfiles, f)
           }
 

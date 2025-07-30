@@ -82,6 +82,6 @@ SS_ConcPlot_server <- function(id,ss_args){
     output$downloadSSplot <- shiny::downloadHandler(
       filename = function() {paste("SSplot", Sys.Date(), ".jpg", sep="")},
       content = function(file){
-        ggplot2::ggsave(file, plot = SSplt(), height = 12, width = 14, dpi = 1200)})
+        ggplot2::ggsave(file, plot = SSplt(), height = 12, width = 14, dpi = 300)})
   })
 }

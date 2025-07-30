@@ -57,9 +57,6 @@ PC_EVPlot_server <- function(id,pc_args){
     #--- Generates elimination/volume of distribution plots
     ElimVdistPlots <- shiny::reactive({
       plotPar(sol()[[1]],pars(),logscale())})
-    # ElimVdistPlots <- shiny::reactive({
-    #   plot1 <- plotPar(sol()[[1]],pars(),logscale())
-    #   gridExtra::grid.arrange(grobs = plot1, nrow = 2)})
 
     #--- Outputs elimination/volume of distribution plots
     output$ParPlot <- shiny::renderPlot({
@@ -83,7 +80,7 @@ PC_EVPlot_server <- function(id,pc_args){
     output$downloadParplots <- shiny::downloadHandler(
       filename = function() {paste("ParPlot", Sys.Date(), ".jpg", sep="")},
       content = function(file){
-        ggplot2::ggsave(file, plot = ElimVdistPlots(), height = 12, width = 18, dpi = 1200)})
+        ggplot2::ggsave(file, plot = ElimVdistPlots(), height = 12, width = 18, dpi = 300)})
 
   })
 }

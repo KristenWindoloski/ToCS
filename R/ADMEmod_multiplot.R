@@ -102,6 +102,6 @@ ADME_MultPlt_server <- function(id, adme_args){
     output$downloadADME1plots <- shiny::downloadHandler(
       filename = function() {paste("ADMEplots", Sys.Date(), ".jpg", sep="")},
       content = function(file){
-        ggplot2::ggsave(file, plot = allplt_out()[[1]], height = 12, width = 16, dpi = 1200)})
+        ggplot2::ggsave(file, plot = allplt_out()[[1]], height = 12, width = 16, dpi = 300)})
   })
 }
