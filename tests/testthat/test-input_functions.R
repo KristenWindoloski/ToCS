@@ -132,7 +132,11 @@ test_that("getPiped() produces the list of compounds to display in the GUI",{
                     "122-39-4, Diphenylamine")
 
   # --- TEST
+  # --- Attach the 'the' environment to add chem.physical_and_invitro.data data frame to path
   attach(the)
+
+  # --- Detach the attached 'the' environment
+  on.exit(detach(the))
 
   expect_true(is.null(getPiped(NULL,NULL,"Choose from all available chemicals")))
   expect_equal(getPiped(CASnums,"NULL","Choose from all available chemicals"), OutList)
@@ -140,6 +144,4 @@ test_that("getPiped() produces the list of compounds to display in the GUI",{
   expect_true(is.null(getPiped(NULL,NULL,"Choose from only food relevant chemicals")))
   expect_equal(getPiped(CASnumsFood,"NULL","Choose from only food relevant chemicals"), OutListFood)
   expect_equal(getPiped(CASnumsFood,"Honda1","Choose from only food relevant chemicals"), OutListFood)
-
-  detach(the)
 })

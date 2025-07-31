@@ -56,7 +56,11 @@ test_that("CompoundList() produces a data frame of selected compounds", {
 
   # --- TEST
 
+  # --- Attach the 'the' environment to add chem.physical_and_invitro.data data frame to path
   attach(the)
+
+  # --- Detach the attached 'the' environment
+  on.exit(detach(the))
 
   #just preloadcomps
   expect_equal(CompoundList(PreloadedComps,NULL),df_PConly)
@@ -66,8 +70,6 @@ test_that("CompoundList() produces a data frame of selected compounds", {
 
   #preload and upload comps
   expect_equal(CompoundList(PreloadedComps,UploadedComps),df_PCUC)
-
-  detach(the)
 })
 
 

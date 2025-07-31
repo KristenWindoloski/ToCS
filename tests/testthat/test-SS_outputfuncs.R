@@ -69,7 +69,12 @@ test_that("CalcAnalyticCss() produces a steady state concentration",{
   pars[["model"]] <- "3compartmentss"
   pars[["output_concSS"]] <- "plasma"
 
+  # --- Attach the 'the' environment to add chem.physical_and_invitro.data data frame to path
   attach(the)
+
+  # --- Detach the attached 'the' environment
+  on.exit(detach(the))
+
   expect_gt(CalcAnalyticCss(pars,4),0)
 
   pars[["spec"]] <- "Human"
@@ -87,7 +92,6 @@ test_that("CalcAnalyticCss() produces a steady state concentration",{
   pars[["output_concSS"]] <- "tissue"
   pars[["tissueSS"]] <- "brain"
   expect_gt(CalcAnalyticCss(pars,3),0)
-  detach(the)
 })
 
 test_that("CalcCssDay() produces the relevant info when Css is reached",{
@@ -95,7 +99,12 @@ test_that("CalcCssDay() produces the relevant info when Css is reached",{
   # --- CREATE SAMPLE DATA
   pars <- Generate_Pars()
 
+  # --- Attach the 'the' environment to add chem.physical_and_invitro.data data frame to path
   attach(the)
+
+  # --- Detach the attached 'the' environment
+  on.exit(detach(the))
+
   # --- TEST
   pars[["spec"]] <- "Rat"
   pars[["model"]] <- "1compartment"
@@ -119,7 +128,6 @@ test_that("CalcCssDay() produces the relevant info when Css is reached",{
   expect_gt(out[[2]],0)
   expect_gt(out[[3]],0)
   expect_gt(out[[4]],0)
-  detach(the)
 })
 
 test_that("StorePars_SS() outputs a data frame of parameters used in the simulation",{
@@ -154,13 +162,17 @@ test_that("StorePars_SS() outputs a data frame of parameters used in the simulat
   out <-cbind(out,chemdata)
 
   # --- TEST
+  # --- Attach the 'the' environment to add chem.physical_and_invitro.data data frame to path
   attach(the)
+
+  # --- Detach the attached 'the' environment
+  on.exit(detach(the))
+
   SS_pars_out <- StorePars_SS(pars)
   expect_equal(SS_pars_out,out)
   expect_equal(SS_pars_out$chem.name[1],SS_pars_out$Compound[1])
   expect_equal(SS_pars_out$chem.name[2],SS_pars_out$Compound[2])
   expect_equal(SS_pars_out$chem.name[3],SS_pars_out$Compound[3])
   expect_equal(SS_pars_out$chem.name[4],SS_pars_out$Compound[4])
-  detach(the)
 })
 

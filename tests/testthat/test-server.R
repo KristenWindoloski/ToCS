@@ -8,6 +8,9 @@
 ##########################################################################
 
 test_that("getData() reactive in app server returns whether a file with compound info has been uploaded",{
+
+  test_file_path <- testthat::test_path("tests/testthat/4SampleChems.csv")
+
   shiny::testServer(run_ToCS(),exp = {
 
     # VALUE IF NO FILE WITH COMPOUNDS IS UPLOADED
@@ -15,12 +18,11 @@ test_that("getData() reactive in app server returns whether a file with compound
     expect_false(getData())
 
     # --- VALUE IF FILE IS UPLOADED
-    session$setInputs(file1 = data.frame(name = "4SampleChems.csv",
-                                         size = 1.58,
-                                         type = "text//csv",
-                                         datapath = "C:/Users/Kristen.Windoloski/OneDrive - FDA/httk Project/ToCS/tests/testthat/4SampleChems.csv"))
+    session$setInputs(file1 = list(datapath=test_file_path))
     expect_true(getData())
   })
+
+
 })
 
 
@@ -29,6 +31,8 @@ test_that("getData() reactive in app server returns whether a file with compound
 ##########################################################################
 
 test_that("CompLst() reactive outputs a list of compound names",{
+
+  test_file_path <- testthat::test_path("4SampleChems.csv")
 
   shiny::testServer(run_ToCS(),exp = {
 
@@ -49,71 +53,51 @@ test_that("CompLst() reactive outputs a list of compound names",{
     expect_equal(CompLst(),out)
 
     #--- TEST 2 (ONLY UPLOADED - Concentration-time profiles)
-    UploadedComps <- data.frame(name = "4SampleChems.csv",
-                                size = 1.58,
-                                type = "text/csv",
-                                datapath = "C:/Users/Kristen.Windoloski/OneDrive - FDA/httk Project/ToCS/tests/testthat/4SampleChems.csv")
-
     session$setInputs(func = "Concentration-time profiles",
                       spec = "Human",
                       defaulttoHuman = "Yes",
                       model = "pbtk",
                       insilicopars = "No, do not load in silico parameters",
                       httkPreloadComps = NULL,
-                      file1 = UploadedComps,
+                      file1 = list(datapath=test_file_path),
                       HondaIVIVE = NULL)
 
     out <- data.frame(Selected_Compounds = c("Chem1","Chem2","Chem3","Chem4"))
     expect_equal(CompLst(),out)
 
     #--- TEST 3 (ONLY UPLOADED - IVIVE, Honda=NULL)
-    UploadedComps <- data.frame(name = "4SampleChems.csv",
-                                size = 1.58,
-                                type = "text/csv",
-                                datapath = "C:/Users/Kristen.Windoloski/OneDrive - FDA/httk Project/ToCS/tests/testthat/4SampleChems.csv")
-
     session$setInputs(func = "In vitro in vivo extrapolation (IVIVE)",
                       spec = "Human",
                       defaulttoHuman = "Yes",
                       model = "pbtk",
                       insilicopars = "No, do not load in silico parameters",
                       httkPreloadComps = NULL,
-                      file1 = UploadedComps,
+                      file1 = list(datapath=test_file_path),
                       HondaIVIVE = NULL)
 
     out <- data.frame(Selected_Compounds = c("Chem1","Chem2","Chem3","Chem4"))
     expect_equal(CompLst(),out)
 
     #--- TEST 4 (ONLY UPLOADED - IVIVE, Honda=Honda1)
-    UploadedComps <- data.frame(name = "4SampleChems.csv",
-                                size = 1.58,
-                                type = "text/csv",
-                                datapath = "C:/Users/Kristen.Windoloski/OneDrive - FDA/httk Project/ToCS/tests/testthat/4SampleChems.csv")
-
     session$setInputs(func = "In vitro in vivo extrapolation (IVIVE)",
                       spec = "Human",
                       defaulttoHuman = "Yes",
                       model = "pbtk",
                       insilicopars = "No, do not load in silico parameters",
                       httkPreloadComps = NULL,
-                      file1 = UploadedComps,
+                      file1 = list(datapath=test_file_path),
                       HondaIVIVE = "Honda1")
 
     expect_error(CompLst())
 
     #--- TEST 5 (ONLY UPLOADED - IVIVE, Honda=Honda2)
-    UploadedComps <- data.frame(name = "4SampleChems.csv",
-                                size = 1.58,
-                                type = "text/csv",
-                                datapath = "C:/Users/Kristen.Windoloski/OneDrive - FDA/httk Project/ToCS/tests/testthat/4SampleChems.csv")
-
     session$setInputs(func = "In vitro in vivo extrapolation (IVIVE)",
                       spec = "Human",
                       defaulttoHuman = "Yes",
                       model = "pbtk",
                       insilicopars = "No, do not load in silico parameters",
                       httkPreloadComps = NULL,
-                      file1 = UploadedComps,
+                      file1 = list(datapath=test_file_path),
                       HondaIVIVE = "Honda2")
 
     out <- data.frame(Selected_Compounds = c("Chem1","Chem2","Chem3","Chem4"))
@@ -130,7 +114,7 @@ test_that("CompLst() reactive outputs a list of compound names",{
                                            "90-43-7, 2-phenylphenol",
                                            "1007-28-9, 6-desisopropylatrazine",
                                            "71751-41-2, Abamectin"),
-                      file1 = UploadedComps)
+                      file1 = list(datapath=test_file_path))
 
     out <- data.frame(Selected_Compounds = c("2,4-d","2-phenylphenol","6-desisopropylatrazine","Abamectin",
                                              "Chem1","Chem2","Chem3","Chem4"))
@@ -161,10 +145,10 @@ test_that("CompLst() reactive outputs a list of compound names",{
 #                   file1 = NULL)
 #
 #   attach(the)
+#   on.exit(detach(the))
 #   out <- data.frame(Selected_Compounds = c("2,4-d","2-phenylphenol","6-desisopropylatrazine","Abamectin"))
 #   new_output <- as.data.frame(rvest::read_html(output$comptext) %>% rvest::html_table(fill=TRUE))
 #   expect_equal(new_output,out)
-#   detach(the)
 #   })
 # })
 

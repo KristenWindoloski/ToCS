@@ -29,15 +29,17 @@ test_that("CalcElimRate() produces the elimination rate",{
   # --- CREATE SAMPLE DATA
   pars <- Generate_Pars()
 
+  # --- Attach the 'the' environment to add chem.physical_and_invitro.data data frame to path
   attach(the)
+
+  # --- Detach the attached 'the' environment
+  on.exit(detach(the))
 
   # --- TEST
   testthat::expect_gt(CalcElimRate(pars,1),0)
 
   pars[["spec"]] <- "Rat"
   testthat::expect_gt(CalcElimRate(pars,2),0)
-
-  detach(the)
 })
 
 test_that("CalcVdist() produces the volume of distribution",{
@@ -45,14 +47,16 @@ test_that("CalcVdist() produces the volume of distribution",{
   # --- CREATE SAMPLE DATA
   pars <- Generate_Pars()
 
+  # --- Attach the 'the' environment to add chem.physical_and_invitro.data data frame to path
   attach(the)
+
+  # --- Detach the attached 'the' environment
+  on.exit(detach(the))
   # --- TEST
   testthat::expect_gt(CalcVdist(pars,1),0)
 
   pars[["spec"]] <- "Rat"
   testthat::expect_gt(CalcVdist(pars,2),0)
-
-  detach(the)
 })
 
 test_that("CalcHalfLife() produces the half-life",{
@@ -61,12 +65,16 @@ test_that("CalcHalfLife() produces the half-life",{
   pars <- Generate_Pars()
 
   # --- TEST
+  # --- Attach the 'the' environment to add chem.physical_and_invitro.data data frame to path
   attach(the)
+
+  # --- Detach the attached 'the' environment
+  on.exit(detach(the))
+
   testthat::expect_gt(CalcHalfLife(pars,1),0)
 
   pars[["spec"]] <- "Rat"
   testthat::expect_gt(CalcHalfLife(pars,2),0)
-  detach(the)
 })
 
 test_that("CalcClearance() produces the total plasma clearance",{
@@ -75,12 +83,16 @@ test_that("CalcClearance() produces the total plasma clearance",{
   pars <- Generate_Pars()
 
   # --- TEST
+  # --- Attach the 'the' environment to add chem.physical_and_invitro.data data frame to path
   attach(the)
+
+  # --- Detach the attached 'the' environment
+  on.exit(detach(the))
+
   testthat::expect_gt(CalcClearance(pars,1),0)
 
   pars[["spec"]] <- "Rat"
   testthat::expect_gt(CalcClearance(pars,2),0)
-  detach(the)
 })
 
 test_that("CalcPCs() produces all partition coefficients",{
@@ -89,12 +101,16 @@ test_that("CalcPCs() produces all partition coefficients",{
   pars <- Generate_Pars()
 
   # --- TEST
+  # --- Attach the 'the' environment to add chem.physical_and_invitro.data data frame to path
   attach(the)
+
+  # --- Detach the attached 'the' environment
+  on.exit(detach(the))
+
   testthat::expect_true(all(CalcPCs(pars,1)>0))
 
   pars[["spec"]] <- "Rat"
   testthat::expect_true(all(CalcPCs(pars,2)>0))
-  detach(the)
 })
 
 test_that("StorePars_PC() outputs a data frame of parameters used in the simulation",{
@@ -118,7 +134,11 @@ test_that("StorePars_PC() outputs a data frame of parameters used in the simulat
   out <-cbind(out,chemdata)
 
   # --- TEST
+  # --- Attach the 'the' environment to add chem.physical_and_invitro.data data frame to path
   attach(the)
+
+  # --- Detach the attached 'the' environment
+  on.exit(detach(the))
 
   PC_sol_out <- StorePars_PC(pars)
   testthat::expect_equal(PC_sol_out,out)
@@ -126,6 +146,4 @@ test_that("StorePars_PC() outputs a data frame of parameters used in the simulat
   testthat::expect_equal(PC_sol_out$chem.name[2],PC_sol_out$Compound[2])
   testthat::expect_equal(PC_sol_out$chem.name[3],PC_sol_out$Compound[3])
   testthat::expect_equal(PC_sol_out$chem.name[4],PC_sol_out$Compound[4])
-
-  detach(the)
 })
