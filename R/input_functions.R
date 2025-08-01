@@ -139,7 +139,8 @@ selectInput_Function <- function(id,
                              "Steady state concentrations",
                              "In vitro in vivo extrapolation (IVIVE)",
                              "Parameter calculations"),
-              selected = choice_default)
+              selected = choice_default,
+              width = "100%")
 }
 
 
@@ -159,7 +160,8 @@ selectInput_Species <- function(id,
 
   shiny::selectInput(id, label = "Select the species to analyze.",
               choices = list("Select", "Dog", "Human", "Mouse", "Rabbit", "Rat"),
-              selected = choice_default)
+              selected = choice_default,
+              width = "100%")
 }
 
 
@@ -181,7 +183,8 @@ selectInput_DefaultToHuman <- function(id,
               label = "Do you want to use human in vitro data if in vitro data for
                       the selected species is missing?",
               choices = list("Yes", "No"),
-              selected = choice_default)
+              selected = choice_default,
+              width = "100%")
 }
 
 
@@ -209,7 +212,8 @@ selectInput_InSilicoPars <- function(id,
               choices = list("Select",
                              "Yes, load in silico parameters",
                              "No, do not load in silico parameters"),
-              selected = choice_default)
+              selected = choice_default,
+              width = "100%")
 }
 
 ################################################################################
@@ -232,7 +236,8 @@ selectInput_CompPreference <- function(id,
                      label = "Select the types of compounds you want to simulate.",
                      choices = list("Choose from all available chemicals",
                                     "Choose from only food relevant chemicals"),
-                     selected = choice_default)
+                     selected = choice_default,
+                     width = "100%")
 }
 
 
@@ -299,7 +304,8 @@ PreloadCompsInput <- function(func,species,defaulthuman,insilico,model,honda,com
                           You may select multiple.",
                 choices = choice_list,
                 selected = '',
-                multiple = TRUE)
+                multiple = TRUE,
+                width = "100%")
     }
 }
 
@@ -554,7 +560,8 @@ fileInput_UploadedComps <- function(id){
                     Physical-Chemical Data File Folder' under the 'Instructions' card
                     for file formatting instructions.",
             multiple = FALSE,
-            accept = c(".csv"))
+            accept = c(".csv"),
+            width = "100%")
 }
 
 
@@ -573,7 +580,8 @@ selectInput_DoseRoute <- function(id){
   shiny::selectInput(id,
               label = "Select the administration method of the compound(s).",
               choices = list("oral"),
-              selected = "oral")
+              selected = "oral",
+              width = "100%")
 }
 
 
@@ -597,7 +605,8 @@ numericInput_DailyDose <- function(id,
                value = value_default,
                min = 0,
                max = NA,
-               step = 1)
+               step = 1,
+               width = "100%")
 }
 
 
@@ -618,7 +627,8 @@ selectInput_ADMEdoseunits <- function(id,
   shiny::selectInput(id,
               label = "Select the units of the administered dose(s).",
               choices = list("mg/kg", "mg", "umol"),
-              selected = choice_default)
+              selected = choice_default,
+              width = "100%")
 }
 
 
@@ -639,7 +649,8 @@ selectInput_NumDoses <- function(id,
   shiny::selectInput(id,
               label = "Select the dosing frequency.",
               choices = list("Select", "Single Dose", "Multiple Doses"),
-              selected = choice_default)
+              selected = choice_default,
+              width = "100%")
 }
 
 
@@ -662,7 +673,8 @@ numericInput_InitialDose <- function(id,
                value = value_default,
                min = 0,
                max = NA,
-               step = 0.01)
+               step = 0.01,
+               width = "100%")
 }
 
 
@@ -684,7 +696,8 @@ selectInput_MultipleDosesQ <- function(id,
               label = "Are equal doses given evenly across a 24 hour period?
                       For example, 1 mg/kg BW every 8 hours.",
               choices = list("Select", "Yes", "No"),
-              selected = choice_default)
+              selected = choice_default,
+              width = "100%")
 }
 
 
@@ -709,7 +722,8 @@ numericInput_MultiDoseAmount <- function(id,
                value = value_default,
                min = 0,
                max = NA,
-               step = 1)
+               step = 1,
+               width = "100%")
 }
 
 
@@ -733,7 +747,8 @@ sliderInput_MultiDoseTime <- function(id,
               min = 0,
               max = 24,
               value = value_default,
-              step = 0.5)
+              step = 0.5,
+              width = "100%")
 }
 
 
@@ -758,7 +773,8 @@ textInput_DoseMatrix <- function(id,
                     time1, time2, dose1, dose2, etc. For example, if at 0, 0.5,
                     and 2 days the doses of 1, 3, and 4 mg/kg/BW were given,
                     respectively, enter 0, 0.5, 2, 1, 3, 4 in the box.",
-            value = value_default)
+            value = value_default,
+            width = "100%")
 }
 
 
@@ -807,13 +823,15 @@ Model_Input <- function(func,spec, choice_default = "Select"){
       shiny::selectInput("model",
                          label = label_txt,
                          choices = list("Schmitt"),
-                         selected = "Schmitt")
+                         selected = "Schmitt",
+                         width = "100%")
     }
     else{
       shiny::selectInput("model",
                          label = label_txt,
                          choices = choice_lst,
-                         selected = choice_default)
+                         selected = choice_default,
+                         width = "100%")
     }
   }
 }
@@ -838,7 +856,8 @@ numericInput_SimTime <- function(id,
                value = value_default,
                min = 1,
                max = NA,
-               step = 1)
+               step = 1,
+               width = "100%")
 }
 
 
@@ -862,7 +881,8 @@ textInput_OutputTimes <- function(id,
                     blank if no specific times are needed. Enter a comma-separated
                     list, such as 0, 1, 2, ... signifying output 0, 1, and 2 days
                     after dosing begins.",
-          value = value_default)
+          value = value_default,
+          width = "100%")
 }
 
 
@@ -888,7 +908,8 @@ selectInput_ODEmethod <- function(id,
                                     "euler", "rk4", "ode23", "ode45", "radau",
                                     "bdf", "bdf_d", "adams","impAdams","impAdams_d",
                                     "iteration"),
-                     selected = choice_default)
+                     selected = choice_default,
+                     width = "100%")
 
 }
 
@@ -913,7 +934,8 @@ numericInput_SolSteps <- function(id,
                value = value_default,
                min = 1,
                max = NA,
-               step = 1)
+               step = 1,
+               width = "100%")
 }
 
 
@@ -938,7 +960,8 @@ sliderInput_RTol <- function(id,
               min = -20,
               max = -1,
               value = value_default,
-              step = 1)
+              step = 1,
+              width = "100%")
 }
 
 
@@ -963,7 +986,8 @@ sliderInput_ATol <- function(id,
               min = -20,
               max = -1,
               value = value_default,
-              step = 1)
+              step = 1,
+              width = "100%")
 }
 
 
@@ -987,7 +1011,8 @@ selectInput_InitialCondCustom <- function(id,
                       in the compartment when the simulation begins)?",
               choices = list("No, keep the default amounts (default)",
                              "Yes, enter my own initial amounts"),
-              selected = choice_default)
+              selected = choice_default,
+              width = "100%")
 }
 
 
@@ -1068,7 +1093,8 @@ numericInput_ICvalue <- function(id, compartment, value_default = 0){
                  value = value_default,
                  min = 0,
                  max = NA,
-                 step = 1)
+                 step = 1,
+                 width = "100%")
   }
   else if(compartment == 'fetal AUC'){
     shiny::numericInput(id,
@@ -1077,7 +1103,8 @@ numericInput_ICvalue <- function(id, compartment, value_default = 0){
                  value = value_default,
                  min = 0,
                  max = NA,
-                 step = 1)
+                 step = 1,
+                 width = "100%")
   }
   else if(compartment == 'metabolized'){
     shiny::numericInput(id,
@@ -1086,7 +1113,8 @@ numericInput_ICvalue <- function(id, compartment, value_default = 0){
                  value = value_default,
                  min = 0,
                  max = NA,
-                 step = 1)
+                 step = 1,
+                 width = "100%")
   }
   else{
     shiny::numericInput(id,
@@ -1095,7 +1123,8 @@ numericInput_ICvalue <- function(id, compartment, value_default = 0){
                  value = value_default,
                  min = 0,
                  max = NA,
-                 step = 1)
+                 step = 1,
+                 width = "100%")
   }
 }
 
@@ -1122,7 +1151,8 @@ numericInput_CacoDefault <- function(id,
                value = value_default,
                min = 0,
                max = NA,
-               step = 0.1)
+               step = 0.1,
+               width = "100%")
 }
 
 
@@ -1150,7 +1180,8 @@ selectInput_Fabs <- function(id,
                       bioavailability data is unavailable.",
             choices = list("Use the Caco2.Pab value selected above (default)",
                            "Do not use the Caco2.Pab value selected above"),
-            selected = choice_default)
+            selected = choice_default,
+            width = "100%")
 }
 
 
@@ -1178,7 +1209,8 @@ selectInput_Fgut <- function(id,
                       bioavailability data is unavailable.",
             choices = list("Use the Caco2.Pab value selected above (default)",
                            "Do not use the Caco2.Pab value selected above"),
-            selected = choice_default)
+            selected = choice_default,
+            width = "100%")
 }
 
 
@@ -1202,7 +1234,8 @@ selectInput_Overwrite <- function(id,
                       (if available).",
             choices = list("Do not overwrite in vivo values (default)",
                            "Overwrite in vivo values"),
-            selected = choice_default)
+            selected = choice_default,
+            width = "100%")
 }
 
 
@@ -1227,7 +1260,8 @@ selectInput_Keep100 <- function(id,
                       parameter settings above).",
             choices = list("Do not keep Fabs and Fgut at 100% availability (default)",
                            "Keep Fabs and Fgut at 100% availability"),
-            selected = choice_default)
+            selected = choice_default,
+            width = "100%")
 }
 
 
@@ -1248,7 +1282,8 @@ selectInput_SSoutunits <- function(id,
   shiny::selectInput(id,
               label = "Select the output concentration units.",
               choices = list("uM", "mg/L"),
-              selected = choice_default)
+              selected = choice_default,
+              width = "100%")
 }
 
 
@@ -1269,7 +1304,8 @@ selectInput_OutConc <- function(id,
   shiny::selectInput(id,
               label = "Select the output concentration type.",
               choices = list("blood", "plasma"),
-              selected = choice_default)
+              selected = choice_default,
+              width = "100%")
 }
 
 
@@ -1293,7 +1329,8 @@ selectInput_Tissue <- function(id,
               choices = list("NULL", "adipose", "bone", "brain", "gut", "heart",
                              "kidney", "liver", "lung", "muscle", "skin",
                              "spleen", "rest"),
-              selected = choice_default)
+              selected = choice_default,
+              width = "100%")
 }
 
 
@@ -1317,7 +1354,8 @@ selectInput_rb2p <- function(id,
                       using the hematocrit, fraction unbound in presence of
                       plasma proteins, and red blood cell partition coefficient.",
               choices = list("Recalculate", "Do not recalculate (default)"),
-              selected = choice_default)
+              selected = choice_default,
+              width = "100%")
 }
 
 
@@ -1340,7 +1378,8 @@ selectInput_RestrictClear <- function(id,
                       liver clearance.",
               choices = list("Yes, include protein binding (default)",
                              "No, do not include protein binding"),
-              selected = choice_default)
+              selected = choice_default,
+              width = "100%")
 }
 
 
@@ -1363,7 +1402,8 @@ selectInput_AdjFub <- function(id,
                       in presence of plasma proteins for lipid binding.",
               choices = list("Yes, adjust the fraction of unbound plasma (default)",
                              "No, do not adjust the fraction of unbound plasma"),
-              selected = choice_default)
+              selected = choice_default,
+              width = "100%")
 }
 
 
@@ -1388,7 +1428,8 @@ numericInput_MinFub <- function(id,
                value = value_default,
                min = 0,
                max = 1,
-               step = 0.0001)
+               step = 0.0001,
+               width = "100%")
 }
 
 
@@ -1412,7 +1453,8 @@ selectInput_Regression <- function(id,
                       partition coefficients.",
             choices = list("Use regressions (default)",
                            "Do not use regressions"),
-            selected = choice_default)
+            selected = choice_default,
+            width = "100%")
 }
 
 
@@ -1438,7 +1480,8 @@ numericInput_ClintPval <- function(id,
                value = value_default,
                min = 0,
                max = 1,
-               step = 0.01)
+               step = 0.01,
+               width = "100%")
 }
 
 
@@ -1463,7 +1506,8 @@ numericInput_Alpha <- function(id,
                value = value_default,
                min = 0,
                max = NA,
-               step = 0.001)
+               step = 0.001,
+               width = "100%")
 }
 
 
@@ -1485,7 +1529,8 @@ fileInput_BioactiveConc <- function(id){
             for all selected compounds. Download the 'Bioactivity Data File Folder'
             under the 'Instructions' card for file formatting instructions.",
             multiple = FALSE,
-            accept = c(".csv"))
+            accept = c(".csv"),
+            width = "100%")
 }
 
 
@@ -1509,7 +1554,8 @@ selectInput_Bioactive <- function(id,
                       bioactive in vivo.",
               choices = list("Total chemical concentration (default)",
                              "Unbound (free) plasma concentration"),
-              selected = choice_default)
+              selected = choice_default,
+              width = "100%")
 }
 
 
@@ -1534,7 +1580,8 @@ numericInput_Samples <- function(id,
                value = value_default,
                min = 1,
                max = NA,
-               step = 100)
+               step = 100,
+               width = "100%")
 
 }
 
@@ -1559,7 +1606,8 @@ selectInput_ReturnSamps <- function(id,
                       dose (OED) samples for each compound or a selected quantile.",
             choices = list("Select", "Only return a specified dose quantile (default)",
                            "Return all OED samples (will also return the 5th dose quantile)"),
-            selected = choice_default)
+            selected = choice_default,
+            width = "100%")
 }
 
 
@@ -1585,7 +1633,8 @@ numericInput_Quantile <- function(id,
                value = value_default,
                min = 0,
                max = 1,
-               step = 0.05)
+               step = 0.05,
+               width = "100%")
 }
 
 
@@ -1608,7 +1657,8 @@ selectInput_IVIVEoutunits <- function(id,
               label = "Select the dose output units from either mg/kg BW/day
                       (mgpkgpday) (default) or umol/kg BW/day (umolpkgpday).",
               choices = list("mgpkgpday", "umolpkgpday"),
-              selected = choice_default)
+              selected = choice_default,
+              width = "100%")
 }
 
 
@@ -1638,7 +1688,8 @@ selectInput_HondaCond <- function(id,
                              "Honda2",
                              "Honda3",
                              "Honda4"),
-              selected = choice_default)
+              selected = choice_default,
+              width = "100%")
 }
 
 
@@ -1664,7 +1715,8 @@ numericInput_FSBf <- function(id,
                value = value_default,
                min = 0,
                max = 1,
-               step = 0.05)
+               step = 0.05,
+               width = "100%")
 
 }
 
@@ -1687,7 +1739,8 @@ fileInput_ExposureData <- function(id){
                    Download the 'Exposure Data File Folder' under the 'Instructions' card
                    for file formatting instructions.",
                    multiple = FALSE,
-                   accept = c(".csv"))
+                   accept = c(".csv"),
+                   width = "100%")
 }
 
 
@@ -1705,5 +1758,6 @@ fileInput_ExposureData <- function(id){
 checkboxInput_Log <- function(id){
   shiny::checkboxInput(id,
                 label = "Check the box to display plots with a log10 scale y-axis.",
-                value = FALSE)
+                value = FALSE,
+                width = "100%")
 }

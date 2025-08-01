@@ -40,7 +40,8 @@ GP_Output <- function(ui_pars = list()){
 
   if (length(ui_pars) == 0){
     bslib::card(bslib::card_header("OUTPUT"),
-                selectInput_Function(id = "func"))
+                selectInput_Function(id = "func")
+                )
   }
   else{
     bslib::card(bslib::card_header("OUTPUT"),
@@ -163,7 +164,7 @@ MS_Model <- function(ui_pars){
 
   if (length(ui_pars) == 0){
     bslib::card(bslib::card_header("MODEL"),
-              shiny::conditionalPanel(condition = "input.func != 'Select'",
+                shiny::conditionalPanel(condition = "input.func != 'Select'",
                                       shiny::uiOutput("Model")),
               shiny::conditionalPanel(condition = "input.spec == 'Human' || (input.spec != 'Human' && input.spec != 'Select' && input.defaulttoHuman == 'Yes')",
                                       selectInput_InSilicoPars("insilicopars")),
@@ -172,7 +173,9 @@ MS_Model <- function(ui_pars){
               shiny::conditionalPanel(condition = "input.func == 'In vitro in vivo extrapolation (IVIVE)'",
                                       selectInput_ReturnSamps("returnsamples"),
                                       shiny::conditionalPanel(condition = "input.returnsamples == 'Only return a specified dose quantile (default)'",
-                                                              numericInput_Quantile("quantile"))))
+                                                              numericInput_Quantile("quantile")))
+              )
+
   }
   else{
     bslib::card(bslib::card_header("MODEL"),
