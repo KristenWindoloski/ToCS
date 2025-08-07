@@ -38,13 +38,13 @@ ParNames <- function(){
 Instructions_GenPars <- function(){
   htmltools::tagList(shiny::helpText("Fill out the prompts on each of the above tabs moving left to right. Then,
                      click the 'Run Simulation' tab to run the simulation or reset all selections."),
-                     shiny::helpText("ToCS provides four toxicokinetic (TK) outputs:
-                                     1) Concentration-time profiles, which returns chemical concentrations in bodily compartments over time,
-                                     2) Steady state (SS) concentrations, which returns SS concentrations in bodily compartments from an oral infusion,
-                                     3) In vitro in vivo extrapolation (IVIVE), which returns oral equivalent doses to in vitro bioactive concentrations,
-                                     4) Parameter calculations, which returns elimination rates, volumes of distribution, tissue to unbound plasma
-                                     partition coefficients, half-lifes, and total plasma clearances."),
-                     shiny::helpText("This application uses the U.S. EPA's R package 'httk'. For more information on the ToCS application and 'httk', please
+                     shiny::helpText("ToCS provides four outputs:
+                                     1) Concentration-time profiles (returns chemical concentrations in body compartments over time),
+                                     2) Steady state (SS) concentration (returns SS concentrations in body compartments from an oral infusion),
+                                     3) In vitro to in vivo extrapolation (IVIVE) (returns oral equivalent doses to in vitro bioactive concentrations),
+                                     4) Parameter calculations (returns elimination rates, volumes of distribution, tissue to unbound plasma
+                                     partition coefficients, half-lives, and total plasma clearances)."),
+                     shiny::helpText("This application uses the U.S. EPA's R package 'httk'. For more information on ToCS and 'httk', please
                                      refer to the following links."),
                      shiny::tags$a(href = "https://github.com/KristenWindoloski/ToCS/tree/main/vignettes","Vignettes (ToCS tutorials)",
                                    style = "font-size: 15px",
@@ -693,8 +693,7 @@ numericInput_InitialDose <- function(id,
 selectInput_MultipleDosesQ <- function(id,
                                        choice_default = "Select"){
   shiny::selectInput(id,
-              label = "Are equal doses given evenly across a 24 hour period?
-                      For example, 1 mg/kg BW every 8 hours.",
+              label = "Are equal doses given evenly across a 24 hour period (i.e. 1 mg/kg BW every 8 hours)?",
               choices = list("Select", "Yes", "No"),
               selected = choice_default,
               width = "100%")

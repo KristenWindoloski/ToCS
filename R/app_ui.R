@@ -23,7 +23,6 @@
 app_ui <- function(ui_pars=list()){
 
     ui <- bslib::page_navbar(title = "Toxicokinetic Chemical Simulator (ToCS)",
-                             shinyjs::useShinyjs(),
 
                              ##########################################################################
                              # GENERAL PARAMETERS TAB
