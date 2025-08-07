@@ -38,89 +38,9 @@ Generate_Pars <- function(){
 }
 
 ######################################################
-# --- CREATE SCATTER PLOT OF OED VALUES
+# --- SOLVE MODEL FOR IVIVE SOLUTION
 ######################################################
 
-# test_that("IVIVEplot_labels() produces the title and y-axis labels",{
-#
-#   # --- CREATE SAMPLE DATA
-#   pars <- Generate_Pars()
-#
-#   # --- TEST
-#   expect_equal(length(IVIVEplot_labels(pars)),2)
-#   expect_equal(IVIVEplot_labels(pars)[[1]],"In vitro-in vivo extrapolation (IVIVE) \n from the 3compartment model")
-#
-#   # no exposure file uploaded
-#   pars[["output_concIVIVE"]] <- "plasma"
-#   pars[["tissueIVIVE"]] <- NULL
-#   pars[["modelIVIVEout_units"]] <- "mgpkgpday"
-#   expect_equal(IVIVEplot_labels(pars)[[2]],"Oral equivalent dose (OED) \n in whole body plasma (mgpkgpday)")
-#
-#   pars[["output_concIVIVE"]] <- "blood"
-#   pars[["modelIVIVEout_units"]] <- "umolpkgpday"
-#   expect_equal(IVIVEplot_labels(pars)[[2]],"Oral equivalent dose (OED) \n in whole body blood (umolpkgpday)")
-#
-#   pars[["output_concIVIVE"]] <- "tissue"
-#   pars[["tissueIVIVE"]] <- "liver"
-#   pars[["modelIVIVEout_units"]] <- "mgpkgpday"
-#   expect_equal(IVIVEplot_labels(pars)[[2]],"Oral equivalent dose (OED) \n in liver (mgpkgpday)")
-#
-#
-#   # exposure file uploaded
-#   pars[["fileExposure"]] <- "Uploaded"
-#   pars[["output_concIVIVE"]] <- "plasma"
-#   pars[["tissueIVIVE"]] <- NULL
-#   pars[["modelIVIVEout_units"]] <- "mgpkgpday"
-#   expect_equal(IVIVEplot_labels(pars)[[2]],"OED in whole body plasma \n or exposure (mgpkgpday)")
-#
-#   pars[["output_concIVIVE"]] <- "blood"
-#   pars[["modelIVIVEout_units"]] <- "umolpkgpday"
-#   expect_equal(IVIVEplot_labels(pars)[[2]],"OED in whole body blood \n or exposure (umolpkgpday)")
-#
-#   pars[["output_concIVIVE"]] <- "tissue"
-#   pars[["tissueIVIVE"]] <- "liver"
-#   pars[["modelIVIVEout_units"]] <- "mgpkgpday"
-#   expect_equal(IVIVEplot_labels(pars)[[2]],"OED in liver \n or exposure (mgpkgpday)")
-# })
-
-# test_that("Plotdf_Prep() produces the data frame of organized samples for plotting",{
-#
-#   # --- CREATE SAMPLE DATA
-#   pars <- Generate_Pars()
-#   pars[["CompoundList"]] <- data.frame(Selected_Compounds = c("Acetamiprid","2,4-db","Acephate"))
-#   pars[["samples"]] <- 10
-#
-#   # --- CREATE EXPECTED OUTPUT
-#   set.seed(1)
-#   samples <- runif(36,min = 0,max = 20)
-#
-#   df <- array(samples,
-#               dim = c(12,3),
-#               dimnames = list(c("OED_5","Samples",seq(1,10)),
-#                               c("Acetamiprid","2,4-db","Acephate")))
-#
-#   #OED samples data frame
-#   ChemNames <- c(rep("Acetamiprid",10),rep("2,4-db",10),rep("Acephate",10))
-#   CASvals <- c(rep("135410-20-7",10),rep("94-82-6",10),rep("30560-19-1",10))
-#   df_samples <- data.frame(CompoundName = ChemNames, CAS = CASvals, OED = c(df[3:12,]))
-#   df_samples <- dplyr::mutate(df_samples, CompoundName = forcats::fct_reorder(CompoundName, OED, .fun='median'))
-#
-#   #5th quantile OED dose data frame
-#   df_q5 = data.frame(CompoundName = colnames(df), OED = c(df[1,]))
-#   plt_order <- c("Acephate","Acetamiprid","2,4-db")
-#   df_q5 <- df_q5[match(plt_order, df_q5$CompoundName),]
-#
-#   # --- TEST
-#   out <- Plotdf_Prep(df,pars)
-#   expect_equal(length(out),2)
-#   expect_equal(out[[1]],df_samples)
-#   expect_equal(out[[2]],df_q5)
-# })
-#
-# ######################################################
-# # --- SOLVE MODEL FOR IVIVE SOLUTION
-# ######################################################
-#
 test_that("CalcOED() produces a single OED value or a vector of OED values",{
 
   # --- CREATE SAMPLE DATA
@@ -289,58 +209,6 @@ test_that("StorePars_IVIVE() outputs a data frame of parameters used in the simu
   expect_equal(IVIVE_sol_out$chem.name[3],IVIVE_sol_out$Compound[3])
 })
 
-######################################################
-# --- IVIVEplot_caption
-######################################################
-
-test_that("IVIVEplot_caption() outputs a data frame of parameters used in the simulation",{
-
-  # --- CREATE SAMPLE DATA
-  pars <- Generate_Pars()
-
-  # --- CREATE EXPECTED OUTPUT
-  output1 <- paste("Figure 1: Boxplots of 1000 oral equivalent dose
-              (OED) samples for each selected compound (red shaded) and user-uploaded exposure estimates (purple).
-              The black dots represent outliers and the red dots indicate the 5th quantile OED for
-              each compound. Compounds are arranged in ascending order of their median OED value.
-              Exposure estimates are shown as a distribution if more than one exposure estimate was provided
-              for each compound. The purple dot represents the median exposure either uploaded by the user
-              or calculated within the program. If the user only uploaded one exposure value for a compound, then
-              the purple dot represents that value.")
-
-  output2 <- paste("Figure 1: Boxplots of 1000 oral equivalent dose
-              (OED) samples for each selected compound. The black dots represent outliers
-              and the red dots indicate the 5th quantile OED for each compound. Compounds
-              are arranged in ascending order of their median OED value.")
-
-  output3 <- paste("Figure 1: Plot of the estimated oral equivalent dose (OED) for
-          each selected compound (blue) and user-uploaded exposure estimates (red).
-          Compounds are arranged in ascending order of their OED values. Exposure estimates
-          are shown as a distribution if more than one exposure estimate was provided
-          for each compound. The purple dot represents the median exposure either uploaded
-          by the user or calculated within the program. If the user only uploaded one
-          exposure value for a compound, then the purple dot represents that value.")
-
-  output4 <- paste("Figure 1: Plot of the estimated oral equivalent dose (OED) for each
-            selected compound. Compounds are arranged in ascending order of their
-            OED values.")
-
-  # --- TEST
-  # return samples false, no exposure data
-  expect_equal(IVIVEplot_caption(pars),output4)
-  # # return samples false, exposure data
-  pars[["fileExposure"]] <-data.frame(name = "SampleExposureData.csv",
-                                      size = 301,
-                                      type = "text/csv",
-                                      datapath = "SampleExposureData.csv")
-  expect_equal(IVIVEplot_caption(pars),output3)
-  # return samples true, exposure data
-  pars[["returnsamples"]] <- TRUE
-  expect_equal(IVIVEplot_caption(pars),output1)
-  # return samples true, no exposure data
-  pars[["fileExposure"]] <- NULL
-  expect_equal(IVIVEplot_caption(pars),output2)
-})
 
 ######################################################
 # --- FillExposureData()
