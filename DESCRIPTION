@@ -2,7 +2,7 @@ Package: ToCS
 Title: Toxicokinetic Chemical Simulator
 Version: 0.0.0.9000
 Authors@R: 
-    person("Kristen", "Leonard", , "kawindoloski@gmail.com", role = c("aut", "cre"))
+    person("Kristen", "Windoloski", , "kawindoloski@gmail.com", role = c("aut", "cre"))
 Description: A graphical user interface that utilizes the EPA's high-throughput 
             toxicokinetics 'httk' R package to generate toxicokinetic ADME simulations, 
             steady state concentrations, and common toxicokinetic (TK) parameters as well 
@@ -35,7 +35,6 @@ Imports:
     purrr,
     scales,
     shiny,
-    shinyscreenshot,
     shinyvalidate,
     stats,
     tidytext,
