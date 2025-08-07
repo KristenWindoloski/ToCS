@@ -30,14 +30,15 @@ Imports:
     ggplot2,
     gridExtra,
     htmltools,
-    httk (>= 2.6.1),
+    httk (>= 2.7.0),
     magrittr,
     purrr,
     scales,
     shiny,
-    shinyjs,
+    shinyscreenshot,
     shinyvalidate,
     stats,
+    tidytext,
     utils
 Suggests: 
     kableExtra,
