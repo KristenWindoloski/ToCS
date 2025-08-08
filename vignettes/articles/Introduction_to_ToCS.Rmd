@@ -1,7 +1,7 @@
 ---
 title: "Introduction to the ToCS App"
-author: "Kristen Leonard"
-date: "May 30, 2025"
+author: "Kristen Windoloski"
+date: "August 8, 2025"
 ---
 ---
 
@@ -30,7 +30,7 @@ While another popular GUI that utilizes httk has been created (Integrated Chemic
 - Provides estimates of TK parameters not only including half-lives but also total plasma clearances, volumes of distribution, elimination rates, and partition coefficients
 - Estimates the number of days it takes for compounds to reach plasma steady state
 - Allows for further customization of simulations beyond basic model parameters
-- Utilizes the most recent httk version (2.6.1)
+- Utilizes the most recent httk version (2.7.0)
 - Allows for non-uniform chemical exposure (dosing), which can be beneficial for users interested in food chemicals
 - Offers simulations for dog, rabbit, and mouse species in addition to human and rats
 - Includes the option to include in silico-generated parameters within httk if in vitro hepatic clearance, fraction unbound in plasma, and/or caco-2 membrane permeability data is missing
@@ -60,7 +60,7 @@ The module selected above then determines the available user selections in the r
 
 <br/><br/>
 
-![The opening interface to the ToCS app.](../../man/figures/GUI_Introduction_GenParsPage.png){width="100%"}
+![The opening interface to the ToCS app.](../../man/figures/intro_genpars.png){width="100%"}
 
 <br/><br/>
 
@@ -77,9 +77,9 @@ This tab (shown in the image below) has different selections depending on the ou
 - pbtk
   - A physiologically based model with the following compartments: gut lumen, gut, liver, lung, kidney, arterial and venous blood, and rest of body
 - fetal_pbtk
-  - An extension of the pbtk model to include adipose, thyroid, and placenta compartments as well as an entire fetus model
+  - An extension of the pbtk model to include adipose, thyroid, and placenta compartments as well as an entire fetus model that captures pregnancy dynamics from 13-40 weeks of pregnancy
 - full_pregnancy
-  - An extension of the fetal_pbtk model to include the conceptus stage of pregnancy so that the entire pregnancy is captured (piecewise model)
+  - An extension of the fetal_pbtk model to include the conceptus stage of pregnancy so that the entire pregnancy is captured (0-40 weeks) (piecewise model).
 
 *The rest of body compartment is a collective term lumping all remaining body tissues together.*
 
@@ -88,7 +88,7 @@ For a more in depth look at each model, the user should review the httk document
 Once all selections have been made for this tab, move on to the *Compound Selection* tab.
 <br/><br/>
 
-![A sample view of the Model Specifications tab.](../../man/figures/GUI_Introduction_ModelSpecPage.png){width="100%"}
+![A sample view of the Model Specifications tab.](../../man/figures/intro_modelspec.png){width="100%"}
 
 <br/><br/>
 
@@ -98,7 +98,7 @@ The layout for this tab (shown in the image below) primarily looks the same for 
 
 <br/><br/>
 
-![A sample view of the Compound Selection tab.](../../man/figures/GUI_Introduction_CompoundSelectPage.png){width="100%"}
+![A sample view of the Compound Selection tab.](../../man/figures/intro_compselect1.png){width="100%"}
 
 <br/><br/>
 
@@ -135,7 +135,7 @@ Once the user has either selected compounds under the *Preloaded Compounds* card
 
 <br/><br/>
 
-![A second sample view of the Compound Selection tab once all compounds are chosen for simulation.](../../man/figures/GUI_Introduction_CompoundSelectPage2.png){width="100%"}
+![A second sample view of the Compound Selection tab once all compounds are chosen for simulation.](../../man/figures/intro_compselect2.png){width="100%"}
 
 <br/><br/>
 
@@ -145,7 +145,7 @@ Users may customize any available drop downs, sliders, or text boxes on this tab
 
 <br/><br/>
 
-![A sample view of the Advanced Parameters tab.](../../man/figures/GUI_Introduction_AdvancedParsPage.png){width="100%"}
+![A sample view of the Advanced Parameters tab.](../../man/figures/intro_advpars.png){width="100%"}
 
 <br/><br/>
 
@@ -155,7 +155,7 @@ This is the final tab and the one where the user gets to view the output of thei
 
 <br/><br/>
 
-![A sample view of the Run Simulation tab prior to simulation results being generated.](../../man/figures/GUI_Introduction_RunSimPage.png){width="100%"}
+![A sample view of the Run Simulation tab after the simulation is run, with the first tab open.](../../man/figures/intro_runsim2.png){width="100%"}
 
 <br/><br/>
 
@@ -165,7 +165,7 @@ Also in the *Run Simulation* tab is a *Reset Session* button under the *Actions*
 
 <br/><br/>
 
-![A second sample view of the Run Simulation tab with all output tabs closed.](../../man/figures/GUI_Introduction_RunSimPage2.png){width="100%"}
+![A second sample view of the Run Simulation tab with all output tabs closed.](../../man/figures/intro_runsim1.png){width="100%"}
 
 <br/><br/>
 

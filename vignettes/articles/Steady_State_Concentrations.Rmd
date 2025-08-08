@@ -1,7 +1,7 @@
 ---
 title: "Steady State Concentration Simulation Examples"
-author: "Kristen Leonard"
-date: "May 30, 2025"
+author: "Kristen Windoloski"
+date: "August 8, 2025"
 ---
 
 ```{r, include = FALSE}
@@ -24,7 +24,7 @@ This vignette provides two examples that use the ToCS app to generate steady sta
 
 <br/><br/>
 
-![The opening interface to the ToCS app for example 1.](../../man/figures/GUI_Introduction_GenParsPage.png){width="100%"}
+![The opening interface to the ToCS app for example 1.](../../man/figures/intro_genpars.png){width="100%"}
 
 <br/><br/>
 
@@ -38,7 +38,7 @@ Under the *Output* card, we select *Steady state concentrations* since that is t
 
 <br/><br/>
 
-![The completed General Parameters tab for example 1.](../../man/figures/GUI_SS_GenParsEx1.png){width="100%"}
+![The completed General Parameters tab for example 1.](../../man/figures/ss_genpars_ex1.png){width="100%"}
 
 <br/><br/>
 
@@ -48,7 +48,7 @@ Under the *Dosing* card, we leave the total daily dose as its default value of 1
 
 <br/><br/>
 
-![The completed model specifications tab for example 1.](../../man/figures/GUI_SS_ModelSpecEx1.png){width="100%"}
+![The completed model specifications tab for example 1.](../../man/figures/ss_modelspec_ex1.png){width="100%"}
 
 <br/><br/>
 
@@ -74,7 +74,7 @@ Note that if we selected *No* on the previous *Model Specifications* tab for usi
 
 <br/><br/>
 
-![The completed compound selection tab for example 1.](../../man/figures/GUI_SS_CompSelectionEx1.png){width="100%"}
+![The completed compound selection tab for example 1.](../../man/figures/ss_compselect_ex1.png){width="100%"}
 
 <br/><br/>
 
@@ -84,7 +84,7 @@ Since we want to output steady state concentrations for whole body plasma, we le
 
 <br/><br/>
 
-![The edited Advanced Parameters tab for example 1.](../../man/figures/GUI_SS_AdvParsEx1.png){width="100%"}
+![The edited Advanced Parameters tab for example 1.](../../man/figures/ss_advpars_ex1.png){width="100%"}
 
 <br/><br/>
 
@@ -94,7 +94,7 @@ Now that we've completed all selections and the compounds we selected appear und
 
 <br/><br/>
 
-![The completed compound selection tab for example 1 showing all selected compounds.](../../man/figures/GUI_SS_RunSimEx1_1.png){width="100%"}
+![The run simulation tab ready for simulation for example 1.](../../man/figures/ss_runsim_ex1_1.png){width="100%"}
 
 <br/><br/>
 
@@ -102,7 +102,7 @@ The image below shows what the *Run Simulation* tab should look like once the si
 
 <br/><br/>
 
-![The run simulation tab with the steady state concentration plot results for example 1.](../../man/figures/GUI_SS_RunSimEx1_2.png){width="100%"}
+![The run simulation tab with the steady state concentration plot results for example 1.](../../man/figures/ss_runsim_ex1_2.png){width="100%"}
 
 <br/><br/>
 
@@ -110,7 +110,7 @@ If the user wants to see the steady state concentrations plot with a log10 y-axi
 
 <br/><br/>
 
-![The run simulation tab with the steady state concentration plot results with log10 y-scale for example 1.](../../man/figures/GUI_SS_RunSimEx1_3.png){width="100%"}
+![The run simulation tab with the steady state concentration plot results with log10 y-scale for example 1.](../../man/figures/ss_runsim_ex1_3.png){width="100%"}
 
 <br/><br/>
 
@@ -118,7 +118,7 @@ The second drop down tab contains a table with the numerical values of the stead
 
 <br/><br/>
 
-![The run simulation tab with the steady state concentrations table results for example 1.](../../man/figures/GUI_SS_RunSimEx1_4.png){width="100%"}
+![The run simulation tab with the steady state concentrations table results for example 1.](../../man/figures/ss_runsim_ex1_4.png){width="100%"}
 
 <br/><br/>
 
@@ -126,7 +126,7 @@ The final drop down tab under the *Results* card contains a table of steady stat
 
 <br/><br/>
 
-![The run simulation tab with the days to steady state table results for example 1.](../../man/figures/GUI_SS_RunSimEx1_5.png){width="100%"}
+![The run simulation tab with the days to steady state table results for example 1.](../../man/figures/ss_runsim_ex1_5.png){width="100%"}
 
 <br/><br/>
 
@@ -134,7 +134,7 @@ If the user wanted to run a new simulation, we suggest clicking the *Reset Sessi
 
 ## Example 2
 
-In this example, let's say we want to generate human steady state blood concentrations in the liver for a constant daily dose of 2 mg/kg BW using the 1compartment model without in silico generated parameters for hepatic clearance, fraction unbound in plasma, and caco-2 permeability. Suppose we want to generate these concentrations for the following compounds: Valproic Acid (CAS: 99-66-1), Endosulfan (CAS: 115-29-7), Abamectin (CAS: 71751-41-2), Titanium Dioxide (CAS: 13463-67-7), and Advantame (CAS: 714229-20-6).
+In this example, let's say we want to generate human steady state blood concentrations in the liver for a constant daily dose of 2 mg/kg BW using the 1compartment model without in silico generated parameters for hepatic clearance, fraction unbound in plasma, and caco-2 permeability. Suppose we want to generate these concentrations for the following compounds: Valproic Acid (CAS: 99-66-1), Endosulfan (CAS: 115-29-7), Abamectin (CAS: 71751-41-2), and two fictional chemicals (so we can practice uploading chemicals via a CSV file to the dashboard).
 
 ### General Parameters Tab
 
@@ -142,7 +142,7 @@ We select the same parameters for each of the drop downs on the *General Paramet
 
 <br/><br/>
 
-![The completed general parameters tab for example 2.](../../man/figures/GUI_SS_GenParsEx1.png){width="100%"}
+![The completed general parameters tab for example 2.](../../man/figures/ss_genpars_ex1.png){width="100%"}
 
 <br/><br/>
 
@@ -152,21 +152,21 @@ Under the *Dosing* card, we enter *2* into the text box for the 2 mg/kg BW dose.
 
 <br/><br/>
 
-![The completed model specifications tab for example 2.](../../man/figures/GUI_SS_ModelSpecEx2.png){width="100%"}
+![The completed model specifications tab for example 2.](../../man/figures/ss_modelspec_ex2.png){width="100%"}
 
 <br/><br/>
 
 ### Compound Selection Tab
 
-We keep the first drop menu in the *Preloaded Compounds* card on *Choose from all available chemicals* and then in the second drop down menu, we search for all five compounds but only three (valproic acid, endosulfan, and abamectin) are available. The remaining two, titanium dioxide and advantame, will have to be uploaded under the *Uploaded Compounds* card. Therefore, we upload the chemical information for titanium dioxide and advantame by copying the SampleCSV file in the *Uploaded Compound File Folder* under the *Instructions* card and entering the appropriate chemical information for each compound. See the *Introduction to ToCS* vignette for more information on upload instructions. For the purpose of this example, we use fake chemical data and upload the following csv file by clicking *Browse* under the *Uploaded Compounds* card.
+We keep the first drop menu in the *Preloaded Compounds* card on *Choose from all available chemicals* and then in the second drop down menu, we search for all five compounds but only three (valproic acid, endosulfan, and abamectin) are available. The remaining two, Chemical1 and Chemical2, will have to be uploaded under the *Uploaded Compounds* card. Therefore, we upload the chemical information for the two chemicals by copying the SampleCSV file in the *Uploaded Compound File Folder* under the *Instructions* card and entering the appropriate chemical information for each compound. See the *Introduction to ToCS* vignette for more information on upload instructions. For the purpose of this example, we use fictional chemical data and upload the following csv file by clicking *Browse* under the *Uploaded Compounds* card.
 
 <br/><br/>
 
 ```{r echo = FALSE, results='asis'}
 library(knitr)
 library(kableExtra)
-SampleChemsToUpload <- read.csv("CSVs/CSV_SSvignette.csv")
-kable(SampleChemsToUpload, caption = "A csv file with chemical information for titanium dioxide and advantame. Data other than the chemical identifiers and molecular weight (MW) are fictional.") %>%    kable_styling() %>%
+SampleChemsToUpload <- read.csv("CSVs/CSV_vignettes.csv")
+kable(SampleChemsToUpload, caption = "A csv file with information for two fictional chemicals.") %>%    kable_styling() %>%
   scroll_box(width = "100%")
 ```
 
@@ -176,7 +176,7 @@ Once we have the three compounds selected under the *Preloaded Compounds* card a
 
 <br/><br/>
 
-![The completed compound selection tab for example 2.](../../man/figures/GUI_SS_CompSelectionEx2.png){width="100%"}
+![The completed compound selection tab for example 2.](../../man/figures/ss_compselect_ex2.png){width="100%"}
 
 <br/><br/>
 
@@ -186,7 +186,7 @@ Since we want the steady state blood concentrations in the liver, we customize t
 
 <br/><br/>
 
-![The completed advanced parameters tab for example 2.](../../man/figures/GUI_SS_AdvParsEx2.png){width="100%"}
+![The completed advanced parameters tab for example 2.](../../man/figures/ss_advpars_ex2.png){width="100%"}
 
 <br/><br/>
 
@@ -196,7 +196,7 @@ Now that all user selections have been made and all selected compounds appear un
 
 <br/><br/>
 
-![The steady state concentration plot with a linear axis for example 2.](../../man/figures/GUI_SS_RunSimEx2_2.png){width="100%"}
+![The steady state concentration plot with a linear axis for example 2.](../../man/figures/ss_runsim_ex2_1.png){width="100%"}
 
 <br/><br/>
 
@@ -204,7 +204,7 @@ Now, given that the outputted plot doesn't provide much visual information since
 
 <br/><br/>
 
-![The steady state concentration plot with a log10 y-axis for example 2.](../../man/figures/GUI_SS_RunSimEx2_3.png){width="100%"}
+![The steady state concentration plot with a log10 y-axis for example 2.](../../man/figures/ss_runsim_ex2_2.png){width="100%"}
 
 <br/><br/>
 
@@ -212,7 +212,7 @@ The second drop down tab under the *Results* card shows a table of the steady st
 
 <br/><br/>
 
-![The steady state concentrations table for example 2.](../../man/figures/GUI_SS_RunSimEx2_4.png){width="100%"}
+![The steady state concentrations table for example 2.](../../man/figures/ss_runsim_ex2_3.png){width="100%"}
 
 <br/><br/>
 
@@ -220,7 +220,7 @@ The final tab under the *Results* card shows steady state characteristics for ea
 
 <br/><br/>
 
-![The days to steady state table for example 2.](../../man/figures/GUI_SS_RunSimEx2_5.png){width="100%"}
+![The days to steady state table for example 2.](../../man/figures/ss_runsim_ex2_4.png){width="100%"}
 
 <br/><br/>
 
