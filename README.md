@@ -3,10 +3,10 @@
 
 ## Description
 
-ToCS is an in-development R package and web application that serves as a
-graphical user interface (GUI) for high-throughput simulation of
-chemical toxicokinetics (TK) and in vitro in vivo extrapolation (IVIVE).
-The GUI builds upon the EPA’s httk R package
+ToCS is an R package and web application that serves as a graphical user
+interface (GUI) for high-throughput simulation of chemical
+toxicokinetics (TK) and in vitro in vivo extrapolation (IVIVE). The GUI
+builds upon the EPA’s httk R package
 (<https://cran.r-project.org/web/packages/httk/index.html>,
 <https://www.jstatsoft.org/article/view/v079i04>), which utilizes
 general mathematical models to make high-throughput toxicokinetic
@@ -58,7 +58,7 @@ this GUI, ToCS is unique in that it:
   steady state
 - Allows for further customization of simulations beyond basic model
   parameters
-- Utilizes the most recent httk version (2.6.1)
+- Utilizes the most recent httk version (2.7.0)
 - Allows for non-uniform chemical exposure (dosing), which can be
   beneficial for users interested in food chemicals
 - Offers simulations for dog, rabbit, and mouse species in addition to
@@ -83,84 +83,51 @@ chemicals.
 
 ## Getting Started
 
-There are several ways that users can access the ToCS GUI. If the user
-selects options 1) or 3), then the user will also need to have the free
-statistical computing language, R, installed on their computer
+There are two ways that users can access the ToCS GUI. If the user
+selects option 2, then they will also need to have the free statistical
+computing language, R, installed on their computer
 (<https://www.r-project.org/>). Although optional, users may also want
 to install RStudio (<https://posit.co/download/rstudio-desktop/>) as a
 more user-friendly programming environment for R code. The following are
 the ways that the user can access the ToCS GUI:
 
-1)  By downloading all of the files from the ToCS GitHub page and
-    loading it as an R project into R or R Studio
-    - Go to <https://github.com/KristenWindoloski/ToCS> and click the
-      green *Code* button. If the user is familar with Git, then they
-      can clone the ToCS Git repository to their local computer.
-      Otherwise, the user should click *Download Zip*. Wherever the user
-      saves the folder, double click on the *ToCS_main* folder. Inside
-      this folder is a folder called *ToCS-main*. Move this inner folder
-      to a desired location (desktop, Documents, etc.).
-
+1.  Using the online application
+    (<https://pub-connect.foodsafetyrisk.org/tocs>)
+2.  Through R as an R package:
     - Open R or RStudio.
 
-    - The ToCS package uses 15 other packages (listed under the
-      DESCRIPTION file), which will need to be installed on the user’s
-      local computer. To install package *X* listed under *Depends* or
-      *Imports* in the DESCRIPTION file, type the following into the R
-      command line (console)
+    - Install the ‘remotes’ package in R if not already available by
+      typing the following into the R command line:
 
       ``` r
-      install.packages("X")
+      install.packages("remotes")
       ```
 
-    - Open the ToCS project folder by clicking *File -\> Open Project*.
-      Then search for the *ToCS-main* folder that was extracted from the
-      downloaded zip file. Select *ToCS-main*. This opens the ToCS
-      project in R.
-
-    - Next, load all files in the project directory into R by pressing
-      Ctrl+Shift+L or typing the following into the R command line
-      (console)
+    - Then, use the ‘remotes’ package function ‘install_github()’ to
+      install ToCS by typing the following into the R command line:
 
       ``` r
-      devtools::load_all(.)
+      remotes::install_github("KristenWindoloski/ToCS")
       ```
 
-    - Then to open the GUI, type the following into the R command line
-      (console)
+    - The above command may install additional packages into your R
+      environment if you are missing any of the dependent packages in
+      ToCS. Once this installation is complete, then type the following
+      into the R command line to open the ToCS interface:
 
       ``` r
-      run_ToCS()
+      ToCS::run_ToCS()
       ```
 
-<!-- -->
-
-2.  Using the online application (currently unavailable)
-3.  Through R as an R package:
-    - Open R or RStudio.
-
-    - Type the following into the R command line:
-
-      ``` r
-      install.packages("ToCS")
-      ```
-
-    - Then, type the following into the R command line:
-
-      ``` r
-      library(ToCS)
-      run_ToCS()
-      ```
-
-Any of the three methods above (if available) should result in the ToCS
-interface appearing. If the user successfully opens the app, their
-screen should look like the image below.
+Either of these two methods above will result in the ToCS interface
+appearing. If the user successfully opens the app, their screen should
+look like the image below.
 
 <br/><br/>
 
 <figure>
-<img src="man/figures/GUI_Introduction_GenParsPage.png"
-style="width:100.0%" alt="The opening interface to the ToCS app." />
+<img src="man/figures/intro_genpars.png" style="width:100.0%"
+alt="The opening interface to the ToCS app." />
 <figcaption aria-hidden="true">The opening interface to the ToCS
 app.</figcaption>
 </figure>
@@ -199,7 +166,7 @@ first tab should look like the page below.
 <br/><br/>
 
 <figure>
-<img src="man/figures/GUI_CTP_GenParsPage.png" style="width:100.0%"
+<img src="man/figures/ctp_genpars_ex1.png" style="width:100.0%"
 alt="A completed opening interface to the ToCS app." />
 <figcaption aria-hidden="true">A completed opening interface to the ToCS
 app.</figcaption>
@@ -227,7 +194,7 @@ like the image below, so we can proceed to the *Compound Selection* tab.
 <br/><br/>
 
 <figure>
-<img src="man/figures/GUI_CTP_ModelSpecEx1.png" style="width:100.0%"
+<img src="man/figures/ctp_modelspec_ex1.png" style="width:100.0%"
 alt="The completed model specifications tab for the pbtk model with a single oral dose of 5 mg/kg." />
 <figcaption aria-hidden="true">The completed model specifications tab
 for the pbtk model with a single oral dose of 5 mg/kg.</figcaption>
@@ -249,8 +216,7 @@ for a compound by either its CAS number or chemical name.
 <br/><br/>
 
 <figure>
-<img src="man/figures/GUI_Introduction_CompoundSelectPage.png"
-style="width:100.0%"
+<img src="man/figures/intro_compselect1.png" style="width:100.0%"
 alt="The compound selection tab’s list of available preloaded compounds based on previous user selections." />
 <figcaption aria-hidden="true">The compound selection tab’s list of
 available preloaded compounds based on previous user
@@ -269,8 +235,7 @@ image below and then we proceed to the next tab.
 <br/><br/>
 
 <figure>
-<img src="man/figures/GUI_CTP_CompoundSelectEx1_2.png"
-style="width:100.0%"
+<img src="man/figures/ctp_compselect_ex1.png" style="width:100.0%"
 alt="The completed compound selection card for example 1." />
 <figcaption aria-hidden="true">The completed compound selection card for
 example 1.</figcaption>
@@ -295,7 +260,7 @@ simulate, the results may take several seconds to populate.
 <br/><br/>
 
 <figure>
-<img src="man/figures/GUI_CTP_RunSimEx1_1.png" style="width:100.0%"
+<img src="man/figures/ctp_runsim_ex1_1.png" style="width:100.0%"
 alt="The run simulations tab appearance before the “Run Simulation” button under the Actions card is clicked." />
 <figcaption aria-hidden="true">The run simulations tab appearance before
 the “Run Simulation” button under the <em>Actions</em> card is
@@ -315,7 +280,7 @@ by clicking *Download Figure 1*.
 <br/><br/>
 
 <figure>
-<img src="man/figures/GUI_CTP_RunSimEx1_2.png" style="width:100.0%"
+<img src="man/figures/ctp_runsim_ex1_2.png" style="width:100.0%"
 alt="The multi-curve plot output and download option for example 1." />
 <figcaption aria-hidden="true">The multi-curve plot output and download
 option for example 1.</figcaption>
@@ -332,7 +297,7 @@ the very last plot in this tab.
 <br/><br/>
 
 <figure>
-<img src="man/figures/GUI_CTP_RunSimEx1_3.png" style="width:100.0%"
+<img src="man/figures/ctp_runsim_ex1_3.png" style="width:100.0%"
 alt="The individual plots output and download option for example 1." />
 <figcaption aria-hidden="true">The individual plots output and download
 option for example 1.</figcaption>
@@ -344,33 +309,20 @@ The third drop down in the *Results* card allows the user to download
 the time course simulation data that was used to generate the plots in
 the two drop downs above. The user can also download all of the inputted
 simulation parameters as well as the chemical data used in the
-simulations. The interface with these two download buttons in shown
-below.
+simulations. Opening the bottom drop down in the *Results* card shows a
+toxicokinetic summary including the Tmax (time to maximal
+concentration), Cmax (maximal concentration), and AUC (area under the
+curve) of all simulated compounds within each model compartment. The
+table is available for download if the user clicks *Download Table 1*.
+See the image below for the final two drop downs.
 
 <br/><br/>
 
 <figure>
-<img src="man/figures/GUI_CTP_RunSimEx1_4.png" style="width:100.0%"
-alt="The simulation data download feature for example 1." />
-<figcaption aria-hidden="true">The simulation data download feature for
-example 1.</figcaption>
-</figure>
-
-<br/><br/>
-
-Opening the bottom drop down in the *Results* card shows a toxicokinetic
-summary including the Tmax (time to maximal concentration), Cmax
-(maximal concentration), and AUC (area under the curve) of all simulated
-compounds within each model compartment. The table is available for
-download if the user clicks *Download Table 1*.
-
-<br/><br/>
-
-<figure>
-<img src="man/figures/GUI_CTP_RunSimEx1_5.png" style="width:100.0%"
-alt="The toxicokinetic (TK) summary drop down table for example 1." />
-<figcaption aria-hidden="true">The toxicokinetic (TK) summary drop down
-table for example 1.</figcaption>
+<img src="man/figures/ctp_runsim_ex1_4.png" style="width:100.0%"
+alt="The simulation data download feature and toxicokinetic (TK) summary drop down table for example 1." />
+<figcaption aria-hidden="true">The simulation data download feature and
+toxicokinetic (TK) summary drop down table for example 1.</figcaption>
 </figure>
 
 <br/><br/>
