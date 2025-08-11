@@ -1,7 +1,7 @@
 ---
 title: "Parameter Calculations Examples"
 author: "Kristen Windoloski"
-date: "August 8, 2025"
+date: "August 11, 2025"
 ---
 
 ```{r, include = FALSE}
@@ -182,11 +182,11 @@ As with the previous example, we select *Parameter calculations* for the first d
 
 ### Model Specifications Tab
 
-Our selections on this page are the same as example 1. The first drop down menu under the *Model* card is selected as 'Schmitt', and in the second drop down menu, we select *No* to not include chemical options with in silico generated parameters in place of in vitro data. The *Model Specifications* tab should look like the image below.
+Here, we only see one drop down menu under the *Model* card, which is selected as 'Schmitt'. The *Model Specifications* tab should look like the image below.
 
 <br/><br/>
 
-![The completed model specifications tab for example 2.](../../man/figures/pc_modelspec_ex1.png){width="100%"}
+![The completed model specifications tab for example 2.](../../man/figures/pc_modelspec_ex2.png){width="100%"}
 
 <br/><br/>
 
