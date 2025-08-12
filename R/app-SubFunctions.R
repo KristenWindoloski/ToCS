@@ -165,7 +165,7 @@ MS_Model <- function(ui_pars){
   if (length(ui_pars) == 0){
     bslib::card(bslib::card_header("MODEL"),
                 shiny::conditionalPanel(condition = "input.func != 'Select'",
-                                      shiny::uiOutput("Model")),
+                                        shiny::uiOutput("Model")),
               shiny::conditionalPanel(condition = "input.spec == 'Human' || (input.spec != 'Human' && input.spec != 'Select' && input.defaulttoHuman == 'Yes')",
                                       selectInput_InSilicoPars("insilicopars")),
               shiny::conditionalPanel(condition = "input.func == 'Concentration-time profiles' && (input.model != 'full_pregnancy' && input.model != 'Select')",
@@ -180,8 +180,9 @@ MS_Model <- function(ui_pars){
   else{
     bslib::card(bslib::card_header("MODEL"),
                 shiny::conditionalPanel(condition = "input.func != 'Select'",
-                                        shiny::uiOutput("Model"),
-                                        selectInput_InSilicoPars("insilicopars", choice_default = ui_pars[["selectInput_InSilicoPars"]])),
+                                        shiny::uiOutput("Model")),
+                shiny::conditionalPanel(condition = "input.spec == 'Human' || (input.spec != 'Human' && input.spec != 'Select' && input.defaulttoHuman == 'Yes')",
+                                        selectInput_InSilicoPars("insilicopars")),
                 shiny::conditionalPanel(condition = "input.func == 'Concentration-time profiles' && (input.model != 'full_pregnancy' && input.model != 'Select')",
                                         numericInput_SimTime("simtime", value_default = ui_pars[["numericInput_SimTime"]])),
                 shiny::conditionalPanel(condition = "input.func == 'In vitro in vivo extrapolation (IVIVE)'",
@@ -209,7 +210,7 @@ MS_Model <- function(ui_pars){
 #'
 CS_Instructions <- function(){
   bslib::card(bslib::card_header("INSTRUCTIONS"),
-              shiny::conditionalPanel(condition = "input.httkPreloadComps == '' && output.fileUploaded == false && input.model != 'Select' && input.insilicopars != 'Select'",
+              shiny::conditionalPanel(condition = "input.httkPreloadComps == '' && output.fileUploaded == false && input.model != 'Select'",
                                       Instructions_CompSelect_Part1()),
               Instructions_CompSelect_Part2(),
               shiny::tags$a("Uploaded Physical-Chemical Data File Folder", href="UploadedPhysicalChemicalDataFileFolder.zip"),
@@ -621,7 +622,7 @@ RS_Results <- function(){
 #'
 PreloadComps_UI <- function(func,spec,defaulthuman,model,insilicopars,honda,comptype){
 
-  if (spec != "Select" && func != "Select" && insilicopars != "Select" && model != "Select" && defaulthuman != "Select"){
+  if (spec != "Select" && func != "Select" && model != "Select" && defaulthuman != "Select"){
     if (func == "In vitro in vivo extrapolation (IVIVE)" && honda == "Honda1"){
       htmltools::tagList(numericInput_FSBf("FSBf"),
                          PreloadCompsInput(func,spec,defaulthuman,insilicopars,model,honda,comptype))
@@ -790,7 +791,7 @@ UpdateInputs <- function(input,session){
 UpdateFunc <- function(session){
 
     shiny::updateSelectInput(session = session, inputId = 'model', selected = "Select")
-    shiny::updateSelectInput(session = session, inputId = 'insilicopars', selected = "Select")
+    shiny::updateSelectInput(session = session, inputId = 'insilicopars', selected = "No, do not load in silico parameters")
     shiny::updateSelectInput(session = session, inputId = 'httkPreloadComps', selected = "")
 }
 
@@ -881,7 +882,6 @@ InputRules_Children <- function(iv_common,iv_adme,iv_ss,iv_ivive,iv_pc,input,ic_
   iv_common$add_rule("spec", shinyvalidate::sv_not_equal("Select"))
   iv_common$add_rule("defaulttoHuman", shinyvalidate::sv_not_equal("Select"))
   iv_common$add_rule("model", shinyvalidate::sv_not_equal("Select"))
-  iv_common$add_rule("insilicopars", shinyvalidate::sv_not_equal("Select"))
   iv_common$add_rule("httkPreloadComps", not_null,input)
   iv_common$add_rule("file1",UploadComps_Check,input)
 

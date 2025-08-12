@@ -203,16 +203,15 @@ selectInput_DefaultToHuman <- function(id,
 #' @noRd
 #'
 selectInput_InSilicoPars <- function(id,
-                                     choice_default = "Select"){
+                                     choice_default = "No, do not load in silico parameters"){
   shiny::selectInput(id,
               label = "Select whether to use in silico generated parameters for
                       compounds with missing in vitro data. These parameters will
                       not overwrite existing in vitro data, and it will expand
                       the number of compounds available.",
-              choices = list("Select",
-                             "Yes, load in silico parameters",
-                             "No, do not load in silico parameters"),
-              selected = choice_default,
+              choices = list("No, do not load in silico parameters",
+                             "Yes, load in silico parameters"),
+              selected = "No, do not load in silico parameters",
               width = "100%")
 }
 

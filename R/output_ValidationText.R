@@ -70,9 +70,6 @@ validate_text_Common <- function(pars){
   if (pars[["model"]] == 'Select'){
     shiny::validate(shiny::need(pars[["model"]] != 'Select',message = paste("")))
   }
-  if (pars[["insilicopars"]] == 'Select'){
-    shiny::validate(shiny::need(pars[["insilicopars"]] != 'Select',message = paste("")))
-  }
   if (is.null(c(pars[["httkPreloadComps"]],pars[["file1"]]))){
     shiny::validate(shiny::need(!is.null(c(pars[["httkPreloadComps"]],pars[["file1"]])),message = paste("")))
   }
