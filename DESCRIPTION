@@ -28,7 +28,6 @@ Imports:
     DT,
     forcats,
     ggplot2,
-    gridExtra,
     htmltools,
     httk (>= 2.7.0),
     magrittr,
