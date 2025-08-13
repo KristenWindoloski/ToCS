@@ -305,7 +305,7 @@ StorePars_PC <- function(pars){
 plotPar <- function(soldata,pars,logscale){
 
   # --- Declare variables (avoids 'no visible binding for global variable' note in R CMD check)
-  CompoundName <- EliminationRate <- VolumeOfDistribution <- HalfLife <- TotalClearance <- NULL
+  CompoundName <- EliminationRate <- VolumeOfDistribution <- HalfLife <- TotalClearance <- Parameter <- Value <- NULL
 
   n <- nrow(soldata)
 
@@ -408,7 +408,7 @@ plotPar <- function(soldata,pars,logscale){
 plotPCs <- function(soldata,pars,logscale){
 
   # --- Declare variables (avoids 'no visible binding for global variable' note in R CMD check)
-  CompoundName <- NULL
+  CompoundName <- Parameter <- Value <- NULL
 
   # --- Create empty list to be filled with number of plots (each plot will have multiple curves on it)
   n <- nrow(soldata)
