@@ -326,6 +326,32 @@ validate_text_IVIVE <- function(pars){
     }
 
     # --- CHECK FOR MISSING REQUIRED DATA
+    # Mismatch in data between selected chemicals and chemicals uploaded
+
+    UploadedComps <- c()
+    if (!is.null(pars[["file1"]])){
+      UploadedComps <- utils::read.csv(pars[["file1"]]$datapath)
+      UploadedComps <- UploadedComps$Compound
+    }
+
+    PreloadedComps <- c()
+    if (!is.null(pars[["httkPreloadComps"]])){
+      for (i in 1:length(pars[["httkPreloadComps"]])) {
+        PreloadedComps[i] <- strsplit(sub(" ", ";", pars[["httkPreloadComps"]][i]), ";")[[1]][2]
+      }
+    }
+
+    allcomps <- unique(c(PreloadedComps,UploadedComps))
+
+    # Compounds in bioactivity data file not selected in Preloaded or Uploaded Compounds
+    if (length(setdiff(file_df$ChemicalName,allcomps)) != 0){
+      shiny::validate(shiny::need(length(setdiff(file_df$ChemicalName,allcomps)) == 0,message = paste("")))
+    }
+
+    # Compounds selected in Preloaded or Uploaded Compounds that are not in bioactivity data file
+    if (length(setdiff(allcomps,file_df$ChemicalName)) != 0){
+      shiny::validate(shiny::need(length(setdiff(allcomps,file_df$ChemicalName)) == 0,message = paste("")))
+    }
     if (anyNA(file_df)){
       shiny::validate(shiny::need(!anyNA(file_df),message = paste("")))
     }
@@ -377,6 +403,35 @@ validate_text_IVIVE <- function(pars){
     }
 
     # --- CHECK FOR MISSING REQUIRED DATA
+    # Mismatch in data between selected chemicals and chemicals uploaded
+
+    UploadedComps <- c()
+    if (!is.null(pars[["file1"]])){
+      UploadedComps <- utils::read.csv(pars[["file1"]]$datapath)
+      UploadedComps <- UploadedComps$Compound
+    }
+
+    PreloadedComps <- c()
+    if (!is.null(pars[["httkPreloadComps"]])){
+      for (i in 1:length(pars[["httkPreloadComps"]])) {
+        PreloadedComps[i] <- strsplit(sub(" ", ";", pars[["httkPreloadComps"]][i]), ";")[[1]][2]
+      }
+    }
+
+    allcomps <- unique(c(PreloadedComps,UploadedComps))
+
+    # Compounds in exposure data file not selected in Preloaded or Uploaded Compounds
+    if (length(setdiff(file_df$ChemicalName,allcomps)) != 0){
+      shiny::validate(shiny::need(length(setdiff(file_df$ChemicalName,allcomps)) == 0,
+                                  message = paste("")))
+    }
+
+    # Compounds selected in Preloaded or Uploaded Compounds that are not in exposure data file
+    if (length(setdiff(allcomps,file_df$ChemicalName)) != 0){
+      shiny::validate(shiny::need(length(setdiff(allcomps,file_df$ChemicalName)) == 0,
+                                  message = paste("")))
+    }
+
     vec <- c(file_df$ChemicalName,file_df$CAS)
     if (anyNA(vec)){
       shiny::validate(shiny::need(!anyNA(vec),message = paste("")))

@@ -518,6 +518,37 @@ BioUpload_Check <- function(value,input){
     }
 
     # --- CHECK FOR MISSING REQUIRED DATA
+    # Mismatch in data between selected chemicals and chemicals uploaded
+
+    UploadedComps <- c()
+    if (!is.null(input$file1)){
+      UploadedComps <- utils::read.csv(input$file1$datapath)
+      UploadedComps <- UploadedComps$Compound
+    }
+
+    PreloadedComps <- c()
+    if (!is.null(input$httkPreloadComps)){
+      for (i in 1:length(input$httkPreloadComps)) {
+        PreloadedComps[i] <- strsplit(sub(" ", ";", input$httkPreloadComps[i]), ";")[[1]][2]
+      }
+    }
+
+    allcomps <- unique(c(PreloadedComps,UploadedComps))
+
+    # Compounds in bioactivity data file not selected in Preloaded or Uploaded Compounds
+    if (length(setdiff(file_df$ChemicalName,allcomps)) != 0){
+      return("Error: Bioactivity data uploaded for compounds other than those selected
+             for simulation. Remove those rows in the bioactivity data file
+             or add those compounds to the list to simulate.")
+    }
+
+    # Compounds selected in Preloaded or Uploaded Compounds that are not in bioactivity data file
+    if (length(setdiff(allcomps,file_df$ChemicalName)) != 0){
+      return("Error: Compounds selected for simulation are missing data in the
+             bioactivity data file. Remove those compounds from the simulation
+             or add their bioactivity data to the data file.")
+    }
+
     if (anyNA(file_df)){
       return("Error: Check the uploaded file for missing values.")
     }
@@ -601,11 +632,44 @@ ExposureUpload_Check <- function(value,input){
     }
 
     # --- CHECK FOR MISSING REQUIRED DATA
+    # Mismatch in data between selected chemicals and chemicals uploaded
+
+    UploadedComps <- c()
+    if (!is.null(input$file1)){
+      UploadedComps <- utils::read.csv(input$file1$datapath)
+      UploadedComps <- UploadedComps$Compound
+    }
+
+    PreloadedComps <- c()
+    if (!is.null(input$httkPreloadComps)){
+      for (i in 1:length(input$httkPreloadComps)) {
+        PreloadedComps[i] <- strsplit(sub(" ", ";", input$httkPreloadComps[i]), ";")[[1]][2]
+      }
+    }
+
+    allcomps <- unique(c(PreloadedComps,UploadedComps))
+
+    # Compounds in exposure data file not selected in Preloaded or Uploaded Compounds
+    if (length(setdiff(file_df$ChemicalName,allcomps)) != 0){
+      return("Error: Exposure data uploaded for compounds other than those selected
+             for simulation. Remove those rows in the exposure data file
+             or add those compounds to the list to simulate.")
+    }
+
+    # Compounds selected in Preloaded or Uploaded Compounds that are not in exposure data file
+    if (length(setdiff(allcomps,file_df$ChemicalName)) != 0){
+      return("Error: Compounds selected for simulation are missing data in the
+             exposure data file. Remove those compounds from the simulation
+             or add their exposure data to the data file.")
+    }
+
+    # Missing chem names or CAS numbers
     if (anyNA(c(file_df$ChemicalName,file_df$CAS))){
       return("Error: Check the uploaded file for missing values in the
              'ChemicalName' and 'CAS' columns.")
     }
 
+    # Missing minimal exposure data
     exp_df <- file_df[,3:5]
     NAindicies <- which(is.na(exp_df), arr.ind = TRUE)
     if (nrow(NAindicies) != 0){
