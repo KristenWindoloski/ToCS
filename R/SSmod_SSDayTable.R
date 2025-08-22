@@ -62,10 +62,11 @@ SS_DayTable_server <- function(id, ss_args){
       paste("Table 2: Table of steady state (SS) characteristics. CssDay represents
             the number of days it takes for the model to reach the analytical plasma SS
             concentration or the fractional change of daily SS plasma concentration
-            is below the set threshold, AvgConc represents the average plasma concentration (uM)
-            on the final day of the simulation, RatioAvgAnalytical represents the
-            fraction of the analytical SS plasma concentration reached on CssDay, and
-            MaxConc is the maximum plasma concentration (uM) of the simulation.", sep = "")})
+            is below the set threshold, AvgConc represents the average plasma concentration (",
+            pars()[["modelSSout_units"]], ") on the final day of the simulation, RatioAvgAnalytical
+            represents the fraction of the analytical SS plasma concentration reached on CssDay, and
+            MaxConc is the maximum plasma concentration (", pars()[["modelSSout_units"]],
+            ") of the simulation.", sep = "")})
 
     #--- Creates download button
     output$downloadSSDaytable_cond <- shiny::renderUI({
