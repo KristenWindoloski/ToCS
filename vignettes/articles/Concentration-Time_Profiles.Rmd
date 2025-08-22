@@ -1,7 +1,7 @@
 ---
 title: "Concentration-Time Profile Simulation Examples"
 author: "Kristen Windoloski"
-date: "August 8, 2025"
+date: "August 22, 2025"
 ---
 
 ```{r, include = FALSE}
@@ -35,7 +35,7 @@ Before jumping into several examples, we define the output states that users wil
   - Agutlumen = Amount of chemical in the gut lumen
   - Ccompartment = Plasma concentration of chemical in main absorption compartment
   - Ametabolized = Amount of chemical metabolized by the main compartment
-  - AUC = Area under the curve of the plasma concentration
+  - AUC = Area under the curve of the Ccompartment compartment
 - 3compartment
   - Aintestine = Amount of chemical in the intestine
   - Cliver =  Concentration of chemical in the liver
@@ -43,7 +43,7 @@ Before jumping into several examples, we define the output states that users wil
   - Cplasma = Concentration of chemical in the plasma
   - Atubules = Amount of chemical excreted by the systemic compartment through the tubules
   - Ametabolized = Amount of chemical metabolized by the liver
-  - AUC = Area under the curve of plasma concentration
+  - AUC = Area under the curve of the Csyscomp compartment
 - pbtk
   - Agutlumen = Amount of chemical in the gut lumen
   - Cgut = Concentration of chemical in the gut
@@ -56,12 +56,12 @@ Before jumping into several examples, we define the output states that users wil
   - Cplasma = Concentration of chemical in plasma
   - Atubules = Amount of chemical excreted by the kidney through the tubules
   - Ametabolized = Amount of chemical metabolized by the liver
-  - AUC = Area under the curve of plasma concentration
+  - AUC = Area under the curve of the Cplasma compartment
 - fetal_pbtk
   - All outputs in the pbtk model for maternal concentrations and amounts plus:
   - Cadipose = Concentration of chemical in adipose tissue
   - Rblood2plasma = Dynamic maternal ratio of blood to plasma (unitless)
-  - fAUC = Fetal area under the curve of the fetal plasma concentration
+  - fAUC = Area under the curve of the Cfplasma compartment
   - Cplacenta = Concentration of chemical in placenta
   - Cfliver = Concentration of chemical in fetal liver
   - Cfven = Concentration of chemical in fetal veins
