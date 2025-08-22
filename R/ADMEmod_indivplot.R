@@ -123,19 +123,19 @@ ADME_IndPlt_server <- function(id,adme_args){
       if (model() == "full_pregnancy"){
         paste("Figure 2: Plots of the time course predictions for each individual compound. The y-axis represents the chemical amount (A = amount (umol))
               or concentration (C = concentration (uM)) in the selected model's compartments (subplot). The AUC subplot shows the
-            area under the curve of the ", AUCoutput, " Y-labels that contain 'conceptus' represent the conceptus amount
+            area under the curve (uM*days) of the ", AUCoutput, " Y-labels that contain 'conceptus' represent the conceptus amount
             or concentration. Y-labels that contain an 'f' represent respective fetal compartments. The model transitions
             from conceptus to fetal on day 91.")
       }
       else if (model() == "fetal_pbtk"){
         paste("Figure 2: Plots of the time course predictions for each individual compound. The y-axis represents the chemical amount (A = amount (umol))
               or concentration (C = concentration (uM)) in the selected model's compartments (subplot). The AUC subplot shows the
-            area under the curve of the ", AUCoutput, " Y-labels that contain an 'f' represent respective fetal compartments.")
+            area under the curve (uM*days) of the ", AUCoutput, " Y-labels that contain an 'f' represent respective fetal compartments.")
       }
       else{
         paste("Figure 2: Plots of the time course predictions for each individual compound. The y-axis represents the chemical amount (A = amount (umol))
               or concentration (C = concentration (uM)) in the selected model's compartments (subplot). The AUC subplot shows the
-            area under the curve of the ", AUCoutput)
+            area under the curve (uM*days) of the ", AUCoutput)
       }
       })
 

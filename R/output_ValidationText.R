@@ -24,13 +24,13 @@ caption_text <- function(func,model){
   if (func == "ADME"){
 
     if (model == 'pbtk' || model == 'fetal_pbtk' || model == "full_pregnancy"){
-      AUCoutput <- "venous plasma concentration."
+      AUCoutput <- "Cplasma compartment."
     }
     else if (model == '3compartment') {
-      AUCoutput <- "Csyscomp (aggregated remaining tissues - ART) plasma concentration."
+      AUCoutput <- "Csyscomp compartment."
     }
     else if (model == '1compartment') {
-      AUCoutput <- "Ccompartment (aggregated remaining tissues - ART) plasma concentration."
+      AUCoutput <- "Ccompartment compartment."
     }
   }
 
