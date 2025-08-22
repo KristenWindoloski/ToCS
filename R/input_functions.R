@@ -1628,7 +1628,7 @@ selectInput_IVIVEoutunits <- function(id,
   shiny::selectInput(id,
               label = "Select the dose output units from either mg/kg BW/day
                       (mgpkgpday) (default) or umol/kg BW/day (umolpkgpday).",
-              choices = list("mgpkgpday", "umolpkgpday"),
+              choices = list("mgpkgpday"),
               selected = choice_default,
               width = "100%")
 }
