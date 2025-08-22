@@ -22,7 +22,6 @@ Generate_Pars <- function(){
                solversteps = 4,
                rtol = 1e-08,
                atol = 1e-08,
-               rb2p = FALSE,
                restrict_clear = TRUE,
                adj_fub = TRUE,
                min_fub = 1e-4,

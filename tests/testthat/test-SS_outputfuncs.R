@@ -17,7 +17,6 @@ Generate_Pars <- function(){
                output_concSS = "plasma",
                tissueSS = NULL,
                dailydose = 1,
-               rb2p = FALSE,
                restrict_clear = TRUE,
                adj_fub = TRUE,
                min_fub = 1e-4,

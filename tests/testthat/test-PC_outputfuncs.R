@@ -9,7 +9,6 @@ Generate_Pars <- function(){
                                                                 "Alachlor","Aldicarb","Ametryn","Amitraz","Atrazine")),
                spec = "Human",
                model = "3compartment",
-               rb2p = FALSE,
                restrict_clear = TRUE,
                adj_fub = TRUE,
                min_fub = 1e-4,
