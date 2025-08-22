@@ -158,14 +158,6 @@ UpdatePars <- function(pars){
     pars[["bioactiveIVIVE"]] <- TRUE
   }
 
-  # --- RBLOOD2PLASMA
-  if (pars[["rb2p"]] == "Recalculate"){
-    pars[["rb2p"]] <- TRUE
-  }
-  else{
-    pars[["rb2p"]] <- FALSE
-  }
-
   # --- RESTRICTIVE CLEARANCE
   if (pars[["restrict_clear"]] == "Yes, include protein binding (default)"){
     pars[["restrict_clear"]] <- TRUE

@@ -15,7 +15,7 @@ ParNames <- function(){
   ModelSpecifPars <- c("doseroute","doseunits","dosenum","initdose","multdose","mult_doseamount","mult_dosetime","multdose_odd","dailydose",
                        "model","simtime","BioactiveFile","returnsamples","quantile")
   ModelConditionPars <- c("init_cond_opts",unlist(names_ICs()[[1]]),"samples","bioactiveIVIVE",
-                          "Clint_Pval","AlphaPar","rb2p","restrict_clear","adj_fub","min_fub","regression")
+                          "Clint_Pval","AlphaPar","restrict_clear","adj_fub","min_fub","regression")
   ModelSolverPars <- c("odemethod","solversteps","rtol","atol")
   BioavailPars <- c("caco2default","caco_fabs","caco_fgut","caco_overwriteinvivo","caco_keep100")
   OutputSpecifPars <- c("returntimes","modelSSout_units","output_concSS","tissueSS","modelIVIVEout_units","output_concIVIVE","tissueIVIVE","fileExposure")
@@ -429,7 +429,6 @@ loadInSilicoPars <- function(func,species,model,defaulthuman){
 #' animal species is selected
 #'
 #' @return A vector of CASRNs for compounds that are available to simulate in ToCS
-#' @import httk
 #' @noRd
 #'
 #'
@@ -1327,31 +1326,6 @@ selectInput_Tissue <- function(id,
               choices = list("NULL", "adipose", "bone", "brain", "gut", "heart",
                              "kidney", "liver", "lung", "muscle", "skin",
                              "spleen", "rest"),
-              selected = choice_default,
-              width = "100%")
-}
-
-
-################################################################################
-################################################################################
-
-#' Generates a drop down list where the user selects its ratio of blood to plasma
-#' preferences for the specified model. The current function is called by AP_ModelConditions().
-#'
-#' @param id Shiny identifier name
-#' @param choice_default Default drop down selection option
-#'
-#' @return A drop down list
-#' @noRd
-#'
-selectInput_rb2p <- function(id,
-                             choice_default = "Do not recalculate (default)"){
-  shiny::selectInput(id,
-              label = "Select whether to recalculate the chemical concentration
-                      blood to plasma ratio from its in vitro or estimated value
-                      using the hematocrit, fraction unbound in presence of
-                      plasma proteins, and red blood cell partition coefficient.",
-              choices = list("Recalculate", "Do not recalculate (default)"),
               selected = choice_default,
               width = "100%")
 }

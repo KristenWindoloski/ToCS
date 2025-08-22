@@ -293,7 +293,7 @@ CS_UploadedData <- function(){
 #' This function outputs the user interface for the 'Model Conditions' card on the
 #' 'Advanced Parameters' tab of the GUI. The current function is called by app_ui(),
 #' and calls selectInput_InitialCondCustom(), numericInput_ICvalue(),
-#' selectInput_rb2p(), numericInput_Samples(), selectInput_Bioactive(),
+#' numericInput_Samples(), selectInput_Bioactive(),
 #' numericInput_ClintPval(), numericInput_Alpha(), numericInput_MinFub(),
 #' selectInput_RestrictClear(), selectInput_AdjFub(), and selectInput_Regression().
 #'
@@ -317,8 +317,7 @@ AP_ModelConditions <- function(ic_names,ic_comps,ui_pars){
                                       shiny::conditionalPanel(condition = "input.init_cond_opts == 'Yes, enter my own initial amounts' && input.model == 'pbtk'",
                                                               purrr::map2(the$ic_names[[3]],the$ic_comps[[3]], numericInput_ICvalue)),
                                       shiny::conditionalPanel(condition = "input.init_cond_opts == 'Yes, enter my own initial amounts' && input.model == 'fetal_pbtk'",
-                                                              purrr::map2(the$ic_names[[4]],the$ic_comps[[4]], numericInput_ICvalue)),
-                                      selectInput_rb2p("rb2p")),
+                                                              purrr::map2(the$ic_names[[4]],the$ic_comps[[4]], numericInput_ICvalue))),
               shiny::conditionalPanel(condition = "input.func == 'In vitro in vivo extrapolation (IVIVE)'",
                                       numericInput_Samples("samples"),
                                       shiny::conditionalPanel(condition = "input.HondaIVIVE == 'NULL' && input.output_concIVIVE == 'plasma' && input.tissueIVIVE == 'NULL'",
@@ -348,8 +347,7 @@ AP_ModelConditions <- function(ic_names,ic_comps,ui_pars){
                                         shiny::conditionalPanel(condition = "input.init_cond_opts == 'Yes, enter my own initial amounts' && input.model == 'pbtk'",
                                                                 purrr::map2(the$ic_names[[3]],the$ic_comps[[3]], numericInput_ICvalue)),
                                         shiny::conditionalPanel(condition = "input.init_cond_opts == 'Yes, enter my own initial amounts' && input.model == 'fetal_pbtk'",
-                                                                purrr::map2(the$ic_names[[4]],the$ic_comps[[4]], numericInput_ICvalue)),
-                                        selectInput_rb2p("rb2p", choice_default = ui_pars[["selectInput_rb2p"]])),
+                                                                purrr::map2(the$ic_names[[4]],the$ic_comps[[4]], numericInput_ICvalue))),
                 shiny::conditionalPanel(condition = "input.func == 'In vitro in vivo extrapolation (IVIVE)'",
                                         numericInput_Samples("samples", value_default = ui_pars[["numericInput_Samples"]]),
                                         shiny::conditionalPanel(condition = "input.HondaIVIVE == 'NULL' && input.output_concIVIVE == 'plasma' && input.tissueIVIVE == 'NULL'",
