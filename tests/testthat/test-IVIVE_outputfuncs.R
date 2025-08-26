@@ -29,7 +29,6 @@ Generate_Pars <- function(){
                samples = 1000,
                bioactiveIVIVE = FALSE,
                Clint_Pval = 0.05,
-               AlphaPar = 0.001,
                modelIVIVEout_units = "mgpkgpday",
                output_concIVIVE = "plasma",
                tissueIVIVE = NULL,

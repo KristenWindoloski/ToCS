@@ -15,7 +15,6 @@ Generate_Pars <- function(){
                defaulttoHuman = TRUE,
                regression = TRUE,
                Clint_Pval = 0.05,
-               AlphaPar = 0.001,
                logscale = FALSE)
 }
 
@@ -125,8 +124,7 @@ test_that("StorePars_PC() outputs a data frame of parameters used in the simulat
                     adjusted.Funbound.plasma = pars[["adj_fub"]],
                     regression = pars[["regression"]],
                     clint.pvalue.threshold = pars[["Clint_Pval"]],
-                    minimum.Funbound.plasma = pars[["min_fub"]],
-                    alpha = pars[["AlphaPar"]])
+                    minimum.Funbound.plasma = pars[["min_fub"]])
 
   chemdata <- httk::chem.physical_and_invitro.data[httk::chem.physical_and_invitro.data$Compound %in% pars[["CompoundList"]][,1],]
   chemdata <- chemdata[order(match(chemdata$Compound,out$chem.name)),]
