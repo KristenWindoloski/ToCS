@@ -15,7 +15,7 @@ ParNames <- function(){
   ModelSpecifPars <- c("doseroute","doseunits","dosenum","initdose","multdose","mult_doseamount","mult_dosetime","multdose_odd","dailydose",
                        "model","simtime","BioactiveFile","returnsamples","quantile")
   ModelConditionPars <- c("init_cond_opts",unlist(names_ICs()[[1]]),"samples","bioactiveIVIVE",
-                          "Clint_Pval","AlphaPar","restrict_clear","adj_fub","min_fub","regression")
+                          "Clint_Pval","restrict_clear","adj_fub","min_fub","regression")
   ModelSolverPars <- c("odemethod","solversteps","rtol","atol")
   BioavailPars <- c("caco2default","caco_fabs","caco_fgut","caco_overwriteinvivo","caco_keep100")
   OutputSpecifPars <- c("returntimes","modelSSout_units","output_concSS","tissueSS","modelIVIVEout_units","output_concIVIVE","tissueIVIVE","fileExposure")
@@ -1453,32 +1453,6 @@ numericInput_ClintPval <- function(id,
                min = 0,
                max = 1,
                step = 0.01,
-               width = "100%")
-}
-
-
-################################################################################
-################################################################################
-
-#' Generates a numeric input box where the user selects their preference on the
-#' ratio of distribution coefficient for totally charges species and that of the
-#' neutral form. The current function is called by AP_ModelConditions().
-#'
-#' @param id Shiny identifier name
-#' @param value_default Default value
-#'
-#' @return A numeric input box
-#' @noRd
-#'
-numericInput_Alpha <- function(id,
-                               value_default = 0.001){
-  shiny::numericInput(id,
-               label = "Enter the Ratio of Distribution coefficient D of totally
-                        charged species and that of the neutral form.",
-               value = value_default,
-               min = 0,
-               max = NA,
-               step = 0.001,
                width = "100%")
 }
 

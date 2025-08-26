@@ -294,7 +294,7 @@ CS_UploadedData <- function(){
 #' 'Advanced Parameters' tab of the GUI. The current function is called by app_ui(),
 #' and calls selectInput_InitialCondCustom(), numericInput_ICvalue(),
 #' numericInput_Samples(), selectInput_Bioactive(),
-#' numericInput_ClintPval(), numericInput_Alpha(), numericInput_MinFub(),
+#' numericInput_ClintPval(), numericInput_MinFub(),
 #' selectInput_RestrictClear(), selectInput_AdjFub(), and selectInput_Regression().
 #'
 #' @param ic_names A vector of the compartment identifier name used by httk
@@ -322,8 +322,6 @@ AP_ModelConditions <- function(ic_names,ic_comps,ui_pars){
                                       numericInput_Samples("samples"),
                                       shiny::conditionalPanel(condition = "input.HondaIVIVE == 'NULL' && input.output_concIVIVE == 'plasma' && input.tissueIVIVE == 'NULL'",
                                                               selectInput_Bioactive("bioactiveIVIVE"))),
-              shiny::conditionalPanel(condition = "input.func == 'Parameter calculations'",
-                                      numericInput_Alpha("AlphaPar")),
               shiny::conditionalPanel(condition = "(input.func == 'In vitro in vivo extrapolation (IVIVE)' && input.HondaIVIVE == 'NULL') ||
                                                                                  (input.func != 'In vitro in vivo extrapolation (IVIVE)' && input.model != 'full_pregnancy')",
                                       selectInput_RestrictClear("restrict_clear")),
@@ -352,8 +350,6 @@ AP_ModelConditions <- function(ic_names,ic_comps,ui_pars){
                                         numericInput_Samples("samples", value_default = ui_pars[["numericInput_Samples"]]),
                                         shiny::conditionalPanel(condition = "input.HondaIVIVE == 'NULL' && input.output_concIVIVE == 'plasma' && input.tissueIVIVE == 'NULL'",
                                                                 selectInput_Bioactive("bioactiveIVIVE", choice_default = ui_pars[["selectInput_Bioactive"]]))),
-                shiny::conditionalPanel(condition = "input.func == 'Parameter calculations'",
-                                        numericInput_Alpha("AlphaPar", value_default = ui_pars[["numericInput_Alpha"]])),
                 shiny::conditionalPanel(condition = "(input.func == 'In vitro in vivo extrapolation (IVIVE)' && input.HondaIVIVE == 'NULL') ||
                                                                                  (input.func != 'In vitro in vivo extrapolation (IVIVE)' && input.model != 'full_pregnancy')",
                                         selectInput_RestrictClear("restrict_clear", choice_default = ui_pars[["selectInput_RestrictClear"]])),
@@ -911,7 +907,6 @@ InputRules_Children <- function(iv_common,iv_adme,iv_ss,iv_ivive,iv_pc,input,ic_
 
 
   iv_pc$add_rule("Clint_Pval",shinyvalidate::sv_required())
-  iv_pc$add_rule("AlphaPar",shinyvalidate::sv_required())
   iv_pc$add_rule("min_fub",shinyvalidate::sv_required())
 }
 

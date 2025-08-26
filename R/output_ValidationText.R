@@ -494,9 +494,6 @@ validate_text_PC <- function(pars){
   if (is.na(pars[["Clint_Pval"]])){
     shiny::validate(shiny::need(!is.na(pars[["Clint_Pval"]]),message = paste("")))
   }
-  if (is.na(pars[["AlphaPar"]])){
-    shiny::validate(shiny::need(!is.na(pars[["AlphaPar"]]),message = paste("")))
-  }
   if (is.na(pars[["min_fub"]])){
     shiny::validate(shiny::need(!is.na(pars[["min_fub"]]),message = paste("")))
   }

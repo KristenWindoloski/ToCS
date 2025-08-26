@@ -100,7 +100,6 @@ CalcElimRate <- function(pars,i){
                                           regression = pars[["regression"]],
                                           restrictive.clearance = pars[["restrict_clear"]],
                                           clint.pvalue.threshold = pars[["Clint_Pval"]],
-                                          alpha = pars[["AlphaPar"]],
                                           Caco2.options = list(Caco2.Pab.default = pars[["caco2default"]],
                                                                Caco2.Fabs = pars[["caco_fabs"]],
                                                                Caco2.Fgut = pars[["caco_fgut"]],
@@ -132,8 +131,7 @@ CalcVdist <- function(pars,i){
                           species = pars[["spec"]],
                           adjusted.Funbound.plasma = pars[["adj_fub"]],
                           regression = pars[["regression"]],
-                          minimum.Funbound.plasma = pars[["min_fub"]],
-                          alpha = pars[["AlphaPar"]])
+                          minimum.Funbound.plasma = pars[["min_fub"]])
 }
 
 ################################################################################
@@ -163,7 +161,6 @@ CalcHalfLife <- function(pars,i){
                              regression = pars[["regression"]],
                              restrictive.clearance = pars[["restrict_clear"]],
                              clint.pvalue.threshold = pars[["Clint_Pval"]],
-                             alpha = pars[["AlphaPar"]],
                              Caco2.options = list(Caco2.Pab.default = pars[["caco2default"]],
                                                   Caco2.Fabs = pars[["caco_fabs"]],
                                                   Caco2.Fgut = pars[["caco_fgut"]],
@@ -229,7 +226,6 @@ CalcPCs <- function(pars,i){
   out <- httk::predict_partitioning_schmitt(chem.name = pars[["CompoundList"]][i,1],
                                             default.to.human = pars[["defaulttoHuman"]],
                                             species = pars[["spec"]],
-                                            alpha = pars[["AlphaPar"]],
                                             adjusted.Funbound.plasma = pars[["adj_fub"]],
                                             regression = pars[["regression"]],
                                             minimum.Funbound.plasma = pars[["min_fub"]])
@@ -266,8 +262,7 @@ StorePars_PC <- function(pars){
                         adjusted.Funbound.plasma = pars[["adj_fub"]],
                         regression = pars[["regression"]],
                         clint.pvalue.threshold = pars[["Clint_Pval"]],
-                        minimum.Funbound.plasma = pars[["min_fub"]],
-                        alpha = pars[["AlphaPar"]])
+                        minimum.Funbound.plasma = pars[["min_fub"]])
 
   chemdf <- the$chem.physical_and_invitro.data
   chemdata <- chemdf[chemdf$Compound %in% pars[["CompoundList"]][,1],]
