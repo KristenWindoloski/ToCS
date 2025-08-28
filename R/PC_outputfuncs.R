@@ -131,7 +131,14 @@ CalcVdist <- function(pars,i){
                           species = pars[["spec"]],
                           adjusted.Funbound.plasma = pars[["adj_fub"]],
                           regression = pars[["regression"]],
-                          minimum.Funbound.plasma = pars[["min_fub"]])
+                          minimum.Funbound.plasma = pars[["min_fub"]],
+                          restrictive.clearance = pars[["restrict_clear"]],
+                          clint.pvalue.threshold = pars[["Clint_Pval"]],
+                          Caco2.options = list(Caco2.Pab.default = pars[["caco2default"]],
+                                               Caco2.Fabs = pars[["caco_fabs"]],
+                                               Caco2.Fgut = pars[["caco_fgut"]],
+                                               overwrite.invivo = pars[["caco_overwriteinvivo"]],
+                                               keepit100 = pars[["caco_keep100"]]))
 }
 
 ################################################################################

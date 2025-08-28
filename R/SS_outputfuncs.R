@@ -108,6 +108,7 @@ CalcAnalyticCss <- function(pars,i){
                            restrictive.clearance = pars[["restrict_clear"]],
                            bioactive.free.invivo = pars[["bioactiveIVIVE"]],
                            suppress.messages = TRUE,
+                           clint.pvalue.threshold = pars[["Clint_Pval"]],
                            Caco2.options = list(Caco2.Pab.default = pars[["caco2default"]],
                                                 Caco2.Fabs = pars[["caco_fabs"]],
                                                 Caco2.Fgut = pars[["caco_fgut"]],
@@ -116,8 +117,7 @@ CalcAnalyticCss <- function(pars,i){
                            parameterize.args.list = list(default.to.human = pars[["defaulttoHuman"]],
                                                          adjusted.Funbound.plasma = pars[["adj_fub"]],
                                                          minimum.Funbound.plasma = pars[["min_fub"]],
-                                                         regression = pars[["regression"]],
-                                                         clint.pvalue.threshold = pars[["Clint_Pval"]]))
+                                                         regression = pars[["regression"]]))
 }
 
 ################################################################################
