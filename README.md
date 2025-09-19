@@ -1,5 +1,5 @@
 
-# ToCS
+# ToCS <a href="https://kristenwindoloski.github.io/ToCS/"><img src="man/figures/logo.png" align="right" height="139" alt="ToCS website" /></a>
 
 ## Description
 
