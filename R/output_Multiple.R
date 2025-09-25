@@ -59,11 +59,15 @@ CompoundList <- function(preload_comp, uploaded_comps){
     # Add uploaded compound data to httk data frame of compound data
     n <- nrow(upload_df)
 
-    chem.physical_and_invitro.data <- httk::chem.physical_and_invitro.data
+    chem.physical_and_invitro.data <- the$chem.physical_and_invitro.data
 
     for (i in 1:n) {
+
+      print(i)
       compounds_file[i,3] <- httk::CAS.checksum(compounds_file[i,2])
+
       if (compounds_file[i,2] %in% chem.physical_and_invitro.data$CAS){
+
         index <- which(chem.physical_and_invitro.data$CAS == compounds_file[i,2])
         chem.physical_and_invitro.data[index,] <- compounds_file[i,]
       }
