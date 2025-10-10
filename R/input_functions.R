@@ -46,11 +46,10 @@ Instructions_GenPars <- function(){
                                      partition coefficients, half-lives, and total plasma clearances)."),
                      shiny::helpText("This application uses the U.S. EPA's R package 'httk'. For more information on ToCS and 'httk', please
                                      refer to the following links."),
-                     HTML("<p><a href='https://github.com/KristenWindoloski/ToCS/tree/main/vignettes'>Vignettes (ToCS tutorials)</a></p>"),
+                     # HTML("<a href='https://github.com/KristenWindoloski/ToCS/tree/main/vignettes'>Vignettes (ToCS tutorials)</a>"),
                      shiny::tags$a(href = "https://github.com/KristenWindoloski/ToCS/tree/main/vignettes",
                                    "Vignettes (ToCS tutorials)",
-                                   style = "font-size: 15px",
-                                   target="_blank"),
+                                   style = "font-size: 15px"),
                      shiny::tags$a(href = "https://github.com/KristenWindoloski/ToCS/issues",
                                    "Report ToCS issues/suggestions",
                                    style = "font-size: 15px",
