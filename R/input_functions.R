@@ -49,19 +49,19 @@ Instructions_GenPars <- function(){
                      shiny::tags$a(href = "https://github.com/KristenWindoloski/ToCS/tree/main/vignettes",
                                    "Vignettes (ToCS tutorials)",
                                    style = "font-size: 15px",
-                                   onclick = "window.open(this.href,'_blank'); return false"),
+                                   target="_blank"),
                      shiny::tags$a(href = "https://github.com/KristenWindoloski/ToCS/issues",
                                    "Report ToCS issues/suggestions",
                                    style = "font-size: 15px",
-                                   onclick = "window.open(this.href,'_blank'); return false"),
+                                   target="_blank"),
                      shiny::tags$a(href="https://doi.org/10.18637/jss.v079.i04",
                                    "httk publication",
                                    style = "font-size: 15px",
-                                   onclick = "window.open(this.href,'_blank'); return false"),
+                                   target="_blank"),
                      shiny::tags$a(href="https://cran.r-project.org/web/packages/httk",
                                    "httk CRAN webpage",
                                    style = "font-size: 15px",
-                                   onclick = "window.open(this.href,'_blank'); return false"))
+                                   target="_blank"))
 }
 
 ################################################################################

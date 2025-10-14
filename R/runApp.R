@@ -2,6 +2,8 @@
 # RUN THE TOCS APP
 ########################
 
+
+
 #' Use this function to run the ToCS App
 #'
 #' @description
@@ -17,20 +19,16 @@
 #'
 run_ToCS <- function(ui_pars = list()){
 
-  if (exists("chem.physical_and_invitro.data",envir = .GlobalEnv)){
-    shiny::stopApp()
-    print("Please rename your global environment variable 'chem.physical_and_invitro.data'. Then, run ToCS again.")
+  # Force the shiny app to open in the browser - ensures links in interface work
+  options(shiny.launch.browser = TRUE)
+
+  if (interactive()){
+    shiny::runApp(list(ui = ToCS::app_ui(ui_pars),
+                       server = ToCS::app_server))
   }
   else{
-    if (interactive()){
-      # shiny::runApp(appDir = applocal)
-      shiny::runApp(list(ui = ToCS::app_ui(ui_pars),
-                         server = ToCS::app_server))
-      }
-    else{
-      applocal <- system.file("app",package = "ToCS")
-      shiny::shinyAppDir(appDir = applocal)
-    }
+    applocal <- system.file("app",package = "ToCS")
+    shiny::shinyAppDir(appDir = applocal)
   }
 }
 
