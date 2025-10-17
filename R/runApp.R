@@ -27,14 +27,10 @@ run_ToCS <- function(ui_pars = list()){
   shiny::addResourcePath(prefix = "ZipFiles",
                          directoryPath = system.file("www",package = "ToCS"))
 
-  # if (interactive()){
+  # Run the shiny app using the UI and server functions
+  # Constructed this way to pass UI pars through to make testing faster
     shiny::runApp(list(ui = ToCS::app_ui(ui_pars),
                        server = ToCS::app_server))
-  # }
-  # else{
-  #   applocal <- system.file("app",package = "ToCS")
-  #   shiny::shinyAppDir(appDir = applocal)
-  # }
 }
 
 #' Run the ToCS app
