@@ -213,10 +213,13 @@ CS_Instructions <- function(){
               shiny::conditionalPanel(condition = "input.httkPreloadComps == '' && output.fileUploaded == false && input.model != 'Select'",
                                       Instructions_CompSelect_Part1()),
               Instructions_CompSelect_Part2(),
-              shiny::tags$a("Uploaded Physical-Chemical Data File Folder", href="UploadedPhysicalChemicalDataFileFolder.zip"),
+              shiny::tags$a("Uploaded Physical-Chemical Data File Folder",
+                            href="ZipFiles/UploadedPhysicalChemicalDataFileFolder.zip"),
               shiny::conditionalPanel(condition = "input.func == 'In vitro in vivo extrapolation (IVIVE)'",
-                                      shiny::tags$a("Bioactivity Data File Folder", href="BioactivityDataFileFolder.zip"),
-                                      shiny::tags$a("Exposure Data File Folder", href="ExposureDataFileFolder.zip"))
+                                      shiny::tags$a("Bioactivity Data File Folder",
+                                                    href="ZipFiles/BioactivityDataFileFolder.zip"),
+                                      shiny::tags$a("Exposure Data File Folder",
+                                                    href="ZipFiles/ExposureDataFileFolder.zip"))
               )
 }
 

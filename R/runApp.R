@@ -22,14 +22,19 @@ run_ToCS <- function(ui_pars = list()){
   # Force the shiny app to open in the browser - ensures links in interface work
   options(shiny.launch.browser = TRUE)
 
-  if (interactive()){
+  # Force the shiny app to see the contents (downloadable folders) in the www
+  # folder in inst/www/
+  shiny::addResourcePath(prefix = "ZipFiles",
+                         directoryPath = system.file("www",package = "ToCS"))
+
+  # if (interactive()){
     shiny::runApp(list(ui = ToCS::app_ui(ui_pars),
                        server = ToCS::app_server))
-  }
-  else{
-    applocal <- system.file("app",package = "ToCS")
-    shiny::shinyAppDir(appDir = applocal)
-  }
+  # }
+  # else{
+  #   applocal <- system.file("app",package = "ToCS")
+  #   shiny::shinyAppDir(appDir = applocal)
+  # }
 }
 
 #' Run the ToCS app
