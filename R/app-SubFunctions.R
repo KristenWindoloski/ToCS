@@ -244,19 +244,19 @@ CS_PreloadedCompounds <- function(ui_pars){
 
   if (length(ui_pars) == 0){
     bslib::card(bslib::card_header("PRELOADED COMPOUNDS"),
-                shiny::conditionalPanel(condition = "input.func !== 'Select' && input.spec != 'Select' && input.defaultoHuman != 'Select'",
-                                        shiny::conditionalPanel(condition = "input.func == 'In vitro in vivo extrapolation (IVIVE)'",
-                                                                selectInput_HondaCond("HondaIVIVE")),
-                                        selectInput_CompPreference("CompType"),
-                                        shiny::uiOutput("PreloadedComps")))
+                shiny::conditionalPanel(condition = "input.func == 'In vitro in vivo extrapolation (IVIVE)'",
+                                        selectInput_HondaCond("HondaIVIVE")),
+                selectInput_CompPreference("CompType"),
+                shiny::uiOutput("PreloadedComps"))
   }
   else{
     bslib::card(bslib::card_header("PRELOADED COMPOUNDS"),
-                shiny::conditionalPanel(condition = "input.func !== 'Select' && input.spec != 'Select' && input.defaultoHuman != 'Select'",
-                                        shiny::conditionalPanel(condition = "input.func == 'In vitro in vivo extrapolation (IVIVE)'",
-                                                                selectInput_HondaCond("HondaIVIVE", choice_default = ui_pars[["selectInput_HondaCond"]])),
-                                        selectInput_CompPreference("CompType", choice_default = ui_pars[["selectInput_CompPreference"]]),
-                                        shiny::uiOutput("PreloadedComps")))
+                shiny::conditionalPanel(condition = "input.func == 'In vitro in vivo extrapolation (IVIVE)'",
+                                        selectInput_HondaCond("HondaIVIVE",
+                                                              choice_default = ui_pars[["selectInput_HondaCond"]])),
+                                        selectInput_CompPreference("CompType",
+                                                                   choice_default = ui_pars[["selectInput_CompPreference"]]),
+                                        shiny::uiOutput("PreloadedComps"))
   }
 }
 
@@ -619,7 +619,16 @@ RS_Results <- function(){
 #'
 PreloadComps_UI <- function(func,spec,defaulthuman,model,insilicopars,honda,comptype){
 
-  if (spec != "Select" && func != "Select" && model != "Select" && defaulthuman != "Select"){
+  if(is.null(model) || spec == "Select" || func == "Select" || model == "Select" || defaulthuman == "Select"){
+
+    shiny::showModal(shiny::modalDialog(title = "Missing Parameters",
+                                        "Click the 'Dismiss' button and return
+                                        to the 'General Parameters' and 'Model
+                                        Specifications' tabs to select any missing
+                                        parameters. Then return to this tab."))
+  }
+  else if (spec != "Select" && func != "Select" && model != "Select" && defaulthuman != "Select"){
+
     if (func == "In vitro in vivo extrapolation (IVIVE)" && honda == "Honda1"){
       htmltools::tagList(numericInput_FSBf("FSBf"),
                          PreloadCompsInput(func,spec,defaulthuman,insilicopars,model,honda,comptype))
@@ -627,11 +636,6 @@ PreloadComps_UI <- function(func,spec,defaulthuman,model,insilicopars,honda,comp
     else {
       PreloadCompsInput(func,spec,defaulthuman,insilicopars,model,honda,comptype)
     }
-  }
-  else{
-    shiny::showModal(shiny::modalDialog(title = "Missing Parameters",
-                                        "Click the 'Dismiss' button and return to the 'General Parameters' and 'Model Specifications'
-                                        tabs to select any missing parameters. Then return to this tab."))
   }
 }
 
