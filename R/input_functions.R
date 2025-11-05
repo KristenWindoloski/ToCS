@@ -349,7 +349,7 @@ loadInSilicoPars <- function(func,species,model,defaulthuman){
                         shiny::incProgress(1/5, detail = paste("Loading in silico parameter set", 1))
                         assign("chem.physical_and_invitro.data",
                                httk::add_chemtable(httk::sipes2017,
-                                                   current.table=the$chem.physical_and_invitro.data,
+                                                   current.table=the$chemdata,
                                                    data.list=list(CAS='CAS',
                                                                   Funbound.plasma = 'Human.Funbound.plasma',
                                                                   Clint = 'Human.Clint'),
@@ -362,7 +362,7 @@ loadInSilicoPars <- function(func,species,model,defaulthuman){
                         shiny::incProgress(1/5, detail = paste("Loading in silico parameter set", 2))
                         assign("chem.physical_and_invitro.data",
                                httk::add_chemtable(httk::pradeep2020,
-                                                   current.table=the$chem.physical_and_invitro.data,
+                                                   current.table=the$chemdata,
                                                    data.list=list(CAS = 'CASRN',
                                                                   DTXSID='DTXSID',
                                                                   Funbound.plasma = 'Consensus (SVM,RF)',
@@ -382,7 +382,7 @@ loadInSilicoPars <- function(func,species,model,defaulthuman){
 
                         assign("chem.physical_and_invitro.data",
                                httk::add_chemtable(tmp_dawson2021,
-                                                   current.table=the$chem.physical_and_invitro.data,
+                                                   current.table=the$chemdata,
                                                    data.list=list(CAS='CASRN',
                                                                   Funbound.plasma = 'QSAR_Fup',
                                                                   Clint = 'QSAR_Clint'),
@@ -400,7 +400,7 @@ loadInSilicoPars <- function(func,species,model,defaulthuman){
                         tmp_honda2023 <- subset(httk::honda2023.qspr, Pab.Pred.AD == 1)
                         assign("chem.physical_and_invitro.data",
                                httk::add_chemtable(tmp_honda2023,
-                                                   current.table=the$chem.physical_and_invitro.data,
+                                                   current.table=the$chemdata,
                                                    data.list=list(DTXSID='DTXSID',
                                                                   CAS="CAS",
                                                                   Caco2.Pab="Pab.Quant.Pred"),
@@ -453,20 +453,16 @@ getCASnums <- function(func,species,model,defaulttohuman){
     model <- "fetal_pbtk"
   }
 
-  # --- Attach the 'the' environment to add chem.physical_and_invitro.data data frame to path
-  attach(the)
-
-  # --- Detach the attached 'the' environment
-  on.exit(detach(the))
-
   CASnums <- httk::get_cheminfo(species = species,
                                 model = model,
-                                default.to.human = defaulttohuman)
+                                default.to.human = defaulttohuman,
+                                chemdata = httk::chem.physical_and_invitro.data)
 
   if (func == "Parameter calculations" || (func == "Steady state concentrations" && model == "1compartment")){
     CASnums_3compss <- httk::get_cheminfo(species = species,
                                           model = "3compartmentss",
-                                          default.to.human = defaulttohuman)
+                                          default.to.human = defaulttohuman,
+                                          chemdata = httk::chem.physical_and_invitro.data)
     CASnums <- intersect(CASnums,CASnums_3compss)
   }
 

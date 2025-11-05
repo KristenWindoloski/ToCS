@@ -26,12 +26,6 @@
 #'
 SS_sol <- function(pars){
 
-  # --- Attach the 'the' environment to add chem.physical_and_invitro.data data frame to path
-  attach(the)
-
-  # --- Detach the attached 'the' environment
-  on.exit(detach(the))
-
   # --- Declare variables (avoids 'no visible binding for global variable' note in R CMD check)
   SteadyState <- CssDay <- NULL
 
@@ -117,7 +111,8 @@ CalcAnalyticCss <- function(pars,i){
                            parameterize.args.list = list(default.to.human = pars[["defaulttoHuman"]],
                                                          adjusted.Funbound.plasma = pars[["adj_fub"]],
                                                          minimum.Funbound.plasma = pars[["min_fub"]],
-                                                         regression = pars[["regression"]]))
+                                                         regression = pars[["regression"]]),
+                           chemdata = the$chemdata)
 }
 
 ################################################################################
@@ -159,7 +154,8 @@ CalcCssDay <- function(pars,i){
                                                                            Caco2.Fabs = pars[["caco_fabs"]],
                                                                            Caco2.Fgut = pars[["caco_fgut"]],
                                                                            overwrite.invivo = pars[["caco_overwriteinvivo"]],
-                                                                           keepit100 = pars[["caco_keep100"]])))
+                                                                           keepit100 = pars[["caco_keep100"]])),
+                        chemdata = the$chemdata)
 }
 
 ################################################################################
@@ -209,7 +205,7 @@ StorePars_SS <- function(pars){
                     minimum.Funbound.plasma = pars[["min_fub"]],
                     regression = pars[["regression"]])
 
-  chemdf <- the$chem.physical_and_invitro.data
+  chemdf <- the$chemdata
   chemdata <- chemdf[chemdf$Compound %in% pars[["CompoundList"]][,1],]
   chemdata <- chemdata[order(match(chemdata$Compound,out$chem.name)),]
   out <-cbind(out,chemdata)

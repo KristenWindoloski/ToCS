@@ -25,19 +25,13 @@
 #'
 IVIVEsol <- function(pars){
 
-  # --- Attach the 'the' environment to add chem.physical_and_invitro.data data frame to path
-  attach(the)
-
-  # --- Detach the attached 'the' environment
-  on.exit(detach(the))
-
   # --- PROCESS BIOACTIVE CONCENTRATIONS FILE
   file <- pars[["BioactiveFile"]]
   bioactive <- utils::read.csv(file$datapath)
 
   # --- REARRANGE ROWS OF BIOACTIVE FILE TO BE IN SAME ORDER AS COMPOUNDS FILE
     # --- CONVERT BIOACTIVE CONCENTRATION IF HONDA1 IS SELECTED
-  chemdf <- the$chem.physical_and_invitro.data
+  chemdf <- the$chemdata
   df <- chemdf[chemdf$Compound %in% pars[["CompoundList"]][,1],]
   df <- df[match(pars[["CompoundList"]][,1], df$Compound),]
   bioactive_conc <- bioactive[match(df$CAS, bioactive$CAS),]
@@ -113,6 +107,7 @@ CalcOED <- function(i,pars,bioactive_df){
                                   IVIVE = pars[["HondaIVIVE"]],
                                   model = pars[["model"]],
                                   samples = pars[["samples"]],
+                                  chemdata = the$chemdata,
                                   Caco2.options = list(Caco2.Pab.default = pars[["caco2default"]],
                                                        Caco2.Fabs = pars[["caco_fabs"]],
                                                        Caco2.Fgut = pars[["caco_fgut"]],
@@ -175,7 +170,8 @@ ConvertBioactive <- function(pars,bioactive_df){
 
     arm_out <- httk::armitage_eval(casrn.vector = bioactive_df[,2],
                                    this.FBSf = pars[["FSBf"]],
-                                   nomconc.vector = bioactive_df[,3])
+                                   nomconc.vector = bioactive_df[,3],
+                                   chemdata = the$chemdata)
 
     bioactive_conc <- data.frame(ChemicalName = pars[["CompoundList"]][,1],
                                  CAS = arm_out$casrn,
@@ -248,7 +244,7 @@ StorePars_IVIVE <- function(pars,bioactive_df){
                         minimum.Funbound.plasma = pars[["min_fub"]],
                         regression = pars[["regression"]])
 
-  chemdf <- the$chem.physical_and_invitro.data
+  chemdf <- the$chemdata
   chemdata <- chemdf[chemdf$Compound %in% pars[["CompoundList"]][,1],]
   chemdata <- chemdata[order(match(chemdata$Compound,pars_df$chem.name)),]
   pars_df <-cbind(pars_df,chemdata)
@@ -746,7 +742,7 @@ Plotdf_Prep <- function(df,pars){
   ChemNames <- c()
   CASvalues <- c()
   OEDvalues <- c()
-  chem.physical_and_invitro.data <- the$chem.physical_and_invitro.data
+  chem.physical_and_invitro.data <- the$chemdata
 
   for (i in 1:n) {
     ChemNames <- append(ChemNames, rep(cnames[i], m))
@@ -845,7 +841,7 @@ PrepExposureData <- function(pars){
   exposuredata <- utils::read.csv(fileExposure$datapath)
 
   # --- REARRANGE ROWS OF EXPOSURE DATA FILE TO BE IN SAME ORDER AS COMPOUNDS FILE
-  chemdf <- the$chem.physical_and_invitro.data
+  chemdf <- the$chemdata
   df <- chemdf[chemdf$Compound %in% pars[["CompoundList"]][,1],]
   df <- df[match(pars[["CompoundList"]][,1], df$Compound),]
   exposuredata <- exposuredata[match(df$CAS, exposuredata$CAS),]

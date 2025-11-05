@@ -24,12 +24,6 @@
 #'
 Parsol <- function(pars){
 
-  # --- Attach the 'the' environment to add chem.physical_and_invitro.data data frame to path
-  attach(the)
-
-  # --- Detach the attached 'the' environment
-  on.exit(detach(the))
-
   # --- Get number of compounds
   n <- nrow(pars[["CompoundList"]])
 
@@ -104,7 +98,8 @@ CalcElimRate <- function(pars,i){
                                                                Caco2.Fabs = pars[["caco_fabs"]],
                                                                Caco2.Fgut = pars[["caco_fgut"]],
                                                                overwrite.invivo = pars[["caco_overwriteinvivo"]],
-                                                               keepit100 = pars[["caco_keep100"]]))
+                                                               keepit100 = pars[["caco_keep100"]]),
+                                          chemdata = the$chemdata)
 }
 
 ################################################################################
@@ -138,7 +133,8 @@ CalcVdist <- function(pars,i){
                                                Caco2.Fabs = pars[["caco_fabs"]],
                                                Caco2.Fgut = pars[["caco_fgut"]],
                                                overwrite.invivo = pars[["caco_overwriteinvivo"]],
-                                               keepit100 = pars[["caco_keep100"]]))
+                                               keepit100 = pars[["caco_keep100"]]),
+                          chemdata = the$chemdata)
 }
 
 ################################################################################
@@ -172,7 +168,8 @@ CalcHalfLife <- function(pars,i){
                                                   Caco2.Fabs = pars[["caco_fabs"]],
                                                   Caco2.Fgut = pars[["caco_fgut"]],
                                                   overwrite.invivo = pars[["caco_overwriteinvivo"]],
-                                                  keepit100 = pars[["caco_keep100"]]))
+                                                  keepit100 = pars[["caco_keep100"]]),
+                             chemdata = the$chemdata)
 }
 
 ################################################################################
@@ -206,7 +203,8 @@ CalcClearance <- function(pars,i){
                                                               Caco2.Fabs = pars[["caco_fabs"]],
                                                               Caco2.Fgut = pars[["caco_fgut"]],
                                                               overwrite.invivo = pars[["caco_overwriteinvivo"]],
-                                                              keepit100 = pars[["caco_keep100"]]))
+                                                              keepit100 = pars[["caco_keep100"]]),
+                                         chemdata = the$chemdata)
 }
 
 ################################################################################
@@ -235,7 +233,8 @@ CalcPCs <- function(pars,i){
                                             species = pars[["spec"]],
                                             adjusted.Funbound.plasma = pars[["adj_fub"]],
                                             regression = pars[["regression"]],
-                                            minimum.Funbound.plasma = pars[["min_fub"]])
+                                            minimum.Funbound.plasma = pars[["min_fub"]],
+                                            chemdata = the$chemdata)
 }
 
 ################################################################################
@@ -271,7 +270,7 @@ StorePars_PC <- function(pars){
                         clint.pvalue.threshold = pars[["Clint_Pval"]],
                         minimum.Funbound.plasma = pars[["min_fub"]])
 
-  chemdf <- the$chem.physical_and_invitro.data
+  chemdf <- the$chemdata
   chemdata <- chemdf[chemdf$Compound %in% pars[["CompoundList"]][,1],]
   chemdata <- chemdata[order(match(chemdata$Compound,pars_df$chem.name)),]
   pars_df <-cbind(pars_df,chemdata)

@@ -289,12 +289,6 @@ TKsummary <- function(modsol) {
 #'
 modsol <- function(pars){
 
-  # --- Attach the 'the' environment to add chem.physical_and_invitro.data data frame to path
-  attach(the)
-
-  # --- Detach the attached 'the' environment
-  on.exit(detach(the))
-
   # Get row, column, and page dimensions for arrays used to store solutions
   n <- nrow(pars[["CompoundList"]])
 
@@ -366,7 +360,8 @@ Run_ADME_Model <- function(i,pars){
     out <- httk::solve_full_pregnancy(chem.name = pars[["CompoundList"]][i,1],
                                       dose = pars[["dosinginfo"]][[1]],
                                       daily.dose = pars[["dosinginfo"]][[3]],
-                                      doses.per.day = pars[["dosinginfo"]][[2]])
+                                      doses.per.day = pars[["dosinginfo"]][[2]],
+                                      chemdata = the$chemdata)
   }
   else{
 
@@ -394,7 +389,8 @@ Run_ADME_Model <- function(i,pars){
                                                                              Caco2.Fabs = pars[["caco_fabs"]],
                                                                              Caco2.Fgut = pars[["caco_fgut"]],
                                                                              overwrite.invivo = pars[["caco_overwriteinvivo"]],
-                                                                             keepit100 = pars[["caco_keep100"]])))
+                                                                             keepit100 = pars[["caco_keep100"]])),
+                           chemdata = the$chemdata)
 
   }
 
@@ -620,7 +616,7 @@ Dosing_Output <- function(pars){
 #'
 Bind_Chem_Data <- function(pars,pars_df){
 
-  chemdf <- the$chem.physical_and_invitro.data
+  chemdf <- the$chemdata
 
   # --- Combine parameter and chemical data into one data frame
   chemdata <- chemdf[chemdf$Compound %in% pars[["CompoundList"]][,1],]
