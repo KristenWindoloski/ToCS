@@ -29,7 +29,6 @@ Imports:
     forcats,
     ggplot2,
     htmltools,
-    httk (== 2.7.0),
     magrittr,
     purrr,
     scales,
@@ -44,3 +43,4 @@ Suggests:
     rvest,
     testthat
 LazyData: true
+Remotes: github::KristenWindoloski/CompTox-ExpoCast-httk, subdir = httk
