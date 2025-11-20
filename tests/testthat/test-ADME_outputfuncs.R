@@ -54,6 +54,7 @@ solve_httk <- function(i,pars){
                     restrictive.clearance = pars[["restrict_clear"]],
                     adjusted.Funbound.plasma = pars[["adj_fub"]],
                     minimum.Funbound.plasma = pars[["min_fub"]],
+                    chemdata = httk::chem.physical_and_invitro.data,
                     parameterize.arg.list = list(default.to.human = pars[["defaulttoHuman"]],
                                                  regression = pars[["regression"]],
                                                  Caco2.options = list(Caco2.Pab.default = pars[["caco2default"]],
@@ -69,7 +70,8 @@ solve_httk_pregnancy <- function(i,pars){
   httk::solve_full_pregnancy(chem.name = pars[["CompoundList"]][i,1],
                              dose = pars[["dosinginfo"]][[1]],
                              daily.dose = pars[["dosinginfo"]][[3]],
-                             doses.per.day = pars[["dosinginfo"]][[2]])
+                             doses.per.day = pars[["dosinginfo"]][[2]],
+                             chemdata = httk::chem.physical_and_invitro.data)
 }
 
 ########################################################
@@ -78,11 +80,11 @@ solve_httk_pregnancy <- function(i,pars){
 
 test_that("TKsummary() produces a table of simulation summary statistics ",{
 
-  # --- Attach the 'the' environment to add chem.physical_and_invitro.data data frame to path
-  attach(the)
-
-  # --- Detach the attached 'the' environment
-  on.exit(detach(the))
+  # # --- Attach the 'the' environment to add chem.physical_and_invitro.data data frame to path
+  # attach(the)
+  #
+  # # --- Detach the attached 'the' environment
+  # on.exit(detach(the))
 
   # --- CREATE INPUT
   sol <- httk::solve_model(chem.name="Ibuprofen",
@@ -93,7 +95,8 @@ test_that("TKsummary() produces a table of simulation summary statistics ",{
                      dosing=list(initial.dose = 1,
                                  doses.per.day=NULL,
                                  dosing.matrix = NULL,
-                                 daily.dose = NULL))
+                                 daily.dose = NULL),
+                     chemdata = httk::chem.physical_and_invitro.data)
 
   # --- Check that Tmax was calculated
   expect_gte(TKsummary(sol)[1,1],0)
@@ -125,12 +128,6 @@ test_that("Run_ADME_Model() produces output for single dosing",{
   # --- CREATE EXPECTED OUTPUT
   pars <- Generate_Pars()
 
-  # --- Attach the 'the' environment to add chem.physical_and_invitro.data data frame to path
-  attach(the)
-
-  # --- Detach the attached 'the' environment
-  on.exit(detach(the))
-
   # --- CREATE INPUT
   sol <- solve_httk(1,pars)
   out <- sol[,1:5]
@@ -151,12 +148,6 @@ test_that("Run_ADME_Model() produces a solution output for daily dosing ",{
                                daily.dose=1,
                                dosing.matrix=NULL,
                                forcings = NULL)
-
-  # --- Attach the 'the' environment to add chem.physical_and_invitro.data data frame to path
-  attach(the)
-
-  # --- Detach the attached 'the' environment
-  on.exit(detach(the))
 
   # --- CREATE INPUT
   sol <- solve_httk(1,pars)
@@ -181,12 +172,6 @@ test_that("Run_ADME_Model() produces a solution output for a dosing matrix",{
                                                     dimnames = list(c(),c("time","dose"))),
                                forcings = NULL)
 
-  # --- Attach the 'the' environment to add chem.physical_and_invitro.data data frame to path
-  attach(the)
-
-  # --- Detach the attached 'the' environment
-  on.exit(detach(the))
-
   # --- CREATE INPUT
   sol <- solve_httk(1,pars)
   out <- sol[,1:5]
@@ -204,12 +189,6 @@ test_that("Run_ADME_Model() produces a solution output for the 1comp model",{
   pars <- Generate_Pars()
   pars[["model"]] <- "1compartment"
   pars[["initvals"]] <- setNames(rep(0,4),c("Agutlumen","Acompartment","Ametabolized","AUC"))
-
-  # --- Attach the 'the' environment to add chem.physical_and_invitro.data data frame to path
-  attach(the)
-
-  # --- Detach the attached 'the' environment
-  on.exit(detach(the))
 
   # --- CREATE INPUT
   sol <- solve_httk(1,pars)
@@ -230,12 +209,6 @@ test_that("Run_ADME_Model() produces a solution output for the 3comp model",{
   pars[["initvals"]] <- stats::setNames(rep(0,7),
                                         c("Aintestine","Aportven","Aliver","Asyscomp","Ametabolized","Atubules","AUC"))
 
-  # --- Attach the 'the' environment to add chem.physical_and_invitro.data data frame to path
-  attach(the)
-
-  # --- Detach the attached 'the' environment
-  on.exit(detach(the))
-
   # --- CREATE INPUT
   sol <- solve_httk(1,pars)
   out <- sol[,1:8]
@@ -253,12 +226,6 @@ test_that("Run_ADME_Model() produces a solution output for the pbtk model",{
   pars[["model"]] <- "pbtk"
   pars[["initvals"]] <- stats::setNames(rep(0,11),
                                         c("Agutlumen","Agut","Aliver","Aven","Alung","Aart","Arest","Akidney","Atubules","Ametabolized","AUC"))
-
-  # --- Attach the 'the' environment to add chem.physical_and_invitro.data data frame to path
-  attach(the)
-
-  # --- Detach the attached 'the' environment
-  on.exit(detach(the))
 
   # --- CREATE INPUT
   sol <- solve_httk(1,pars)
@@ -284,12 +251,6 @@ test_that("Run_ADME_Model() produces a solution output for the fetal_pbtk model"
                                           "Afart", "Afrest", "Afthyroid", "Afkidney", "Afbrain"))
   pars[["returntimes"]] <- seq(91,101,1)
 
-  # --- Attach the 'the' environment to add chem.physical_and_invitro.data data frame to path
-  attach(the)
-
-  # --- Detach the attached 'the' environment
-  on.exit(detach(the))
-
   # --- CREATE INPUT
   sol <- solve_httk(1,pars)
   out <- sol[,1:29]
@@ -303,12 +264,6 @@ test_that("Run_ADME_Model() produces a solution output for the full_pregnancy mo
   # --- CREATE EXPECTED OUTPUT
   pars <- Generate_Pars()
   pars[["model"]] <- "full_pregnancy"
-
-  # --- Attach the 'the' environment to add chem.physical_and_invitro.data data frame to path
-  attach(the)
-
-  # --- Detach the attached 'the' environment
-  on.exit(detach(the))
 
   # --- TEST (current,target)
   out1 <- solve_httk_pregnancy(1,pars)
@@ -333,12 +288,6 @@ test_that("AssignArrayNames() returns a list of 2 arrays",{
 
   # --- CREATE INPUT
   pars <- Generate_Pars()
-
-  # --- Attach the 'the' environment to add chem.physical_and_invitro.data data frame to path
-  attach(the)
-
-  # --- Detach the attached 'the' environment
-  on.exit(detach(the))
 
   modsol1 <- solve_httk(1,pars)[,1:5]
   sol <- array(data = rep(0,nrow(modsol1)*5*2),
@@ -372,12 +321,6 @@ test_that("AssignArrayNames() returns a list of 2 arrays",{
 ########################################################
 
 test_that("Rearr_TKSumArray() returns a matrix of TK summary statistics",{
-
-  # --- Attach the 'the' environment to add chem.physical_and_invitro.data data frame to path
-  attach(the)
-
-  # --- Detach the attached 'the' environment
-  on.exit(detach(the))
 
   # --- CREATE INPUT
   pars <- Generate_Pars()

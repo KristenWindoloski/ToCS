@@ -469,6 +469,7 @@ getCASnums <- function(func,species,model,defaulttohuman){
   if (!is.null(CASnums)){
       chem.data <- the$chem.physical_and_invitro.data
       df <- chem.data[chem.data$CAS %in% CASnums,]
+      print(df)
       df <- magrittr::`%>%`(df,dplyr::filter(!grepl(CAS,pattern = "CAS"),
                                              !grepl(CAS,pattern = "cas"),
                                              grepl(CAS.Checksum, pattern = "TRUE")))

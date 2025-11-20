@@ -48,12 +48,6 @@ test_that("CalcOED() produces a single OED value or a vector of OED values",{
   bioactive <- pars[["BioactiveFile"]]
   bioactive_conc <- bioactive[match(pars[["CompoundList"]][,1], bioactive$ChemicalName),]
 
-  # --- Attach the 'the' environment to add chem.physical_and_invitro.data data frame to path
-  attach(the)
-
-  # --- Detach the attached 'the' environment
-  on.exit(detach(the))
-
   # --- CREATE EXPECTED OUTPUT
   OED <- CalcOED(1,pars,bioactive_conc)
 
@@ -135,16 +129,11 @@ test_that("ConvertBioactive() produces the desired bioactive concentration",{
   bioactive <- pars[["BioactiveFile"]][1:3,]
   bioactive_conc <- bioactive[match(pars[["CompoundList"]][,1], bioactive$ChemicalName),]
 
-  # --- CREATE EXPECTED OUTPUT
-  # --- Attach the 'the' environment to add chem.physical_and_invitro.data data frame to path
-  attach(the)
-
-  # --- Detach the attached 'the' environment
-  on.exit(detach(the))
-
   converted_bc <- httk::armitage_eval(casrn.vector = bioactive_conc[,2],
                                 this.FBSf = pars[["FSBf"]],
-                                nomconc.vector = bioactive_conc[,3])
+                                nomconc.vector = bioactive_conc[,3],
+                                chemdata = httk::chem.physical_and_invitro.data)
+
   BC_convert_df <- bioactive_conc
   BC_convert_df[,3] <- converted_bc$cfree.invitro
 
@@ -152,6 +141,7 @@ test_that("ConvertBioactive() produces the desired bioactive concentration",{
   expect_equal(ConvertBioactive(pars,bioactive_conc),bioactive_conc)
 
   pars[["HondaIVIVE"]] <- "Honda1"
+  print(ConvertBioactive(pars,bioactive_conc))
   expect_equal(ConvertBioactive(pars,bioactive_conc),BC_convert_df)
 
   pars[["HondaIVIVE"]] <- "Honda3"
@@ -194,12 +184,6 @@ test_that("StorePars_IVIVE() outputs a data frame of parameters used in the simu
   out <-cbind(out,chemdata)
 
   # --- TEST
-  # --- Attach the 'the' environment to add chem.physical_and_invitro.data data frame to path
-  attach(the)
-
-  # --- Detach the attached 'the' environment
-  on.exit(detach(the))
-
   IVIVE_sol_out <- StorePars_IVIVE(pars,bioactive_conc)
   expect_equal(IVIVE_sol_out,out)
   expect_equal(IVIVE_sol_out$chem.name[1],IVIVE_sol_out$Compound[1])
@@ -253,12 +237,6 @@ test_that("PrepExposureData() return a data frame with no missing values",{
                             Median = c(4.014,43.67,17.96),
                             Lower = c(NA,16.38,26.94),
                             maxval = c(4.014,43.67,26.94))
-
-  # --- Attach the 'the' environment to add chem.physical_and_invitro.data data frame to path
-  attach(the)
-
-  # --- Detach the attached 'the' environment
-  on.exit(detach(the))
 
   # --- TEST
   # mgpkgpday units

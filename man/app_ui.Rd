@@ -4,7 +4,11 @@
 \alias{app_ui}
 \title{Not to be called directly by the user - app ui function}
 \usage{
-app_ui()
+app_ui(ui_pars = list())
+}
+\arguments{
+\item{ui_pars}{A list only used to alter the default arguments of the GUI when
+opened to run the vignette examples quicker. The list contains each user-selection.}
 }
 \value{
 User interface

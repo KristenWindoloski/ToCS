@@ -4,7 +4,12 @@
 \alias{run_ToCS}
 \title{Use this function to run the ToCS App}
 \usage{
-run_ToCS()
+run_ToCS(ui_pars = list())
+}
+\arguments{
+\item{ui_pars}{A list with the default selections for each ui element (drop down,
+numeric input, text box, and file upload). Default is null, but this is used
+for easier generation of vignette images.}
 }
 \value{
 A popup window with the ToCS user interface
@@ -12,10 +17,4 @@ A popup window with the ToCS user interface
 \description{
 This is the primary function to run the ToCS app once the ToCS package is
 loaded into R. A window should open after typing 'run_ToCS' into the console.
-}
-\examples{
-# Open the ToCS interface
-run_ToCS()
-
-
 }
