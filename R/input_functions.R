@@ -467,9 +467,8 @@ getCASnums <- function(func,species,model,defaulttohuman){
   }
 
   if (!is.null(CASnums)){
-      chem.data <- the$chem.physical_and_invitro.data
+      chem.data <- the$chemdata
       df <- chem.data[chem.data$CAS %in% CASnums,]
-      print(df)
       df <- magrittr::`%>%`(df,dplyr::filter(!grepl(CAS,pattern = "CAS"),
                                              !grepl(CAS,pattern = "cas"),
                                              grepl(CAS.Checksum, pattern = "TRUE")))
@@ -522,7 +521,7 @@ getPiped <- function(CASnums,honda,comptype){
       CASnums <- CASnums[CASnums %in% FoodCAS]
     }
 
-    chemdata <- the$chem.physical_and_invitro.data
+    chemdata <- the$chemdata
 
     if (honda == "Honda1"){
       chemlist <- magrittr::`%>%`(chemdata, dplyr::filter(CAS %in% CASnums,
