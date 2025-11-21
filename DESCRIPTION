@@ -44,4 +44,4 @@ Suggests:
     rvest,
     testthat
 LazyData: true
-Remotes: github::KristenWindoloski/CompTox-ExpoCast-httk/subdir=httk
+Remotes: github::KristenWindoloski/CompTox-ExpoCast-httk/httk
