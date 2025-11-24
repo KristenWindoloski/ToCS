@@ -274,10 +274,10 @@ selectInput_CompPreference <- function(id,
 #'
 PreloadCompsInput <- function(func,species,defaulthuman,insilico,model,honda,comptype){
 
-  # --- Reset the chem.physical_and_invitro.data table in case any
+  # --- Reset the chemdata table in case any
   # --- in silico loaded parameters or uploaded chemicals/parameters
   # --- were in the environment
-  httk::reset_httk(target.env = the)
+  the$chemdata <- httk::chem.physical_and_invitro.data
 
   # --- Load in in silico fup, clint, and caco2 if selected
   # --- Get CAS numbers for all compounds with enough data to run simulations
@@ -347,7 +347,7 @@ loadInSilicoPars <- function(func,species,model,defaulthuman){
 
                         # --- Load Sipes2017 parameters
                         shiny::incProgress(1/5, detail = paste("Loading in silico parameter set", 1))
-                        assign("chem.physical_and_invitro.data",
+                        assign("chemdata",
                                httk::add_chemtable(httk::sipes2017,
                                                    current.table=the$chemdata,
                                                    data.list=list(CAS='CAS',
@@ -355,12 +355,13 @@ loadInSilicoPars <- function(func,species,model,defaulthuman){
                                                                   Clint = 'Human.Clint'),
                                                    reference = 'Sipes 2017',
                                                    species= 'Human',
-                                                   overwrite=FALSE),
+                                                   overwrite=FALSE,
+                                                   suppress.messages = TRUE),
                                envir = the)
 
                         # --- Load Pradeep2020 parameters
                         shiny::incProgress(1/5, detail = paste("Loading in silico parameter set", 2))
-                        assign("chem.physical_and_invitro.data",
+                        assign("chemdata",
                                httk::add_chemtable(httk::pradeep2020,
                                                    current.table=the$chemdata,
                                                    data.list=list(CAS = 'CASRN',
@@ -369,7 +370,8 @@ loadInSilicoPars <- function(func,species,model,defaulthuman){
                                                                   Clint = 'pred_clint_rf'),
                                                    reference = 'Pradeep 2020',
                                                    species= 'Human',
-                                                   overwrite=FALSE),
+                                                   overwrite=FALSE,
+                                                   suppress.messages = TRUE),
                                envir=the)
 
                         # --- Load Dawson2021 parameters
@@ -380,7 +382,7 @@ loadInSilicoPars <- function(func,species,model,defaulthuman){
                         tmp_dawson2021 <- as.data.frame(magrittr::`%>%`(df1,dplyr::select(`CASRN`,`QSAR_Clint`,`QSAR_Fup`)))
 
 
-                        assign("chem.physical_and_invitro.data",
+                        assign("chemdata",
                                httk::add_chemtable(tmp_dawson2021,
                                                    current.table=the$chemdata,
                                                    data.list=list(CAS='CASRN',
@@ -388,7 +390,8 @@ loadInSilicoPars <- function(func,species,model,defaulthuman){
                                                                   Clint = 'QSAR_Clint'),
                                                    reference = 'Dawson 2021',
                                                    species= 'Human',
-                                                   overwrite=FALSE),
+                                                   overwrite=FALSE,
+                                                   suppress.messages = TRUE),
                                envir=the)
 
                         shiny::incProgress(1/5, detail = paste("Loading in silico parameter set", 4))
@@ -398,7 +401,7 @@ loadInSilicoPars <- function(func,species,model,defaulthuman){
 
                         # --- Load Honda2023 parameters
                         tmp_honda2023 <- subset(httk::honda2023.qspr, Pab.Pred.AD == 1)
-                        assign("chem.physical_and_invitro.data",
+                        assign("chemdata",
                                httk::add_chemtable(tmp_honda2023,
                                                    current.table=the$chemdata,
                                                    data.list=list(DTXSID='DTXSID',
@@ -406,11 +409,13 @@ loadInSilicoPars <- function(func,species,model,defaulthuman){
                                                                   Caco2.Pab="Pab.Quant.Pred"),
                                                    reference = 'HondaUnpublished',
                                                    species="Human",
-                                                   overwrite=FALSE),
+                                                   overwrite=FALSE,
+                                                   suppress.messages = TRUE),
                                envir=the)
 
                         shiny::incProgress(1/5, detail = paste("All in silico parameter sets loaded"))
                       })
+
   return(CASnums)
 }
 
@@ -456,13 +461,13 @@ getCASnums <- function(func,species,model,defaulttohuman){
   CASnums <- httk::get_cheminfo(species = species,
                                 model = model,
                                 default.to.human = defaulttohuman,
-                                chemdata = httk::chem.physical_and_invitro.data)
+                                chemdata = the$chemdata)
 
   if (func == "Parameter calculations" || (func == "Steady state concentrations" && model == "1compartment")){
     CASnums_3compss <- httk::get_cheminfo(species = species,
                                           model = "3compartmentss",
                                           default.to.human = defaulttohuman,
-                                          chemdata = httk::chem.physical_and_invitro.data)
+                                          chemdata = the$chemdata)
     CASnums <- intersect(CASnums,CASnums_3compss)
   }
 

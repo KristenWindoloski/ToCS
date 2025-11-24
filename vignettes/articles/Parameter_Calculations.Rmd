@@ -1,7 +1,7 @@
 ---
 title: "Parameter Calculations Examples"
 author: "Kristen Windoloski"
-date: "August 29, 2025"
+date: "November 24, 2025"
 ---
 
 ```{r, include = FALSE}
@@ -210,7 +210,7 @@ Then, since there are no additional compounds we want to simulate, we advance to
 
 ### Advanced Parameters Tab
 
-In this example, we decide to change some of the default values of the advanced parameters under the *Model Conditions* card. Under the second drop down box, suppose that we want to not include protein binding when accounting for liver clearance. Therefore, we select *No, do not include protein binding*. Then, suppose we do not want to adjust the fraction unbound in the presence of plasma proteins for lipid binding. Therefore, we select *No, do not adjust the fraction of unbound plasma* for the third drop down. Finally, suppose that we want to lower the p-value threshold for the in vitro intrinsic hepatic clearance rate. Thus, we set the fifth box to *0.01* instead of *0.05*. The completed *Advanced Parameters* tab should look like the image below.
+In this example, we decide to change some of the default values of the advanced parameters under the *Model Conditions* card. Under the first drop down box, suppose that we want to not include protein binding when accounting for liver clearance. Therefore, we select *No, do not include protein binding*. Then, suppose we do not want to adjust the fraction unbound in the presence of plasma proteins for lipid binding. Therefore, we select *No, do not adjust the fraction of unbound plasma* for the second drop down. Finally, suppose that we want to lower the p-value threshold for the in vitro intrinsic hepatic clearance rate. Thus, we set the fourth box to *0.01* instead of *0.05*. The completed *Advanced Parameters* tab should look like the image below.
 
 <br/><br/>
 
