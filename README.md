@@ -92,7 +92,7 @@ more user-friendly programming environment for R code. The following are
 the ways that the user can access the ToCS GUI:
 
 1.  Using the online application
-    (<https://pub-connect.foodsafetyrisk.org/tocs>)
+    (<https://pub-connect.foodsafetyrisk.org/tocs1>)
 2.  Through R as an R package:
     - Open R or RStudio.
 
