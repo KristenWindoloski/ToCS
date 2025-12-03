@@ -13,7 +13,7 @@ Description: A graphical user interface that utilizes the EPA's high-throughput
             any outputted plots, tables, or input data. The app also contains
             several features aimed at users interested in evaluating the 
             toxicokinetics of food-related chemicals.
-License: GPL (>= 3)
+License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
